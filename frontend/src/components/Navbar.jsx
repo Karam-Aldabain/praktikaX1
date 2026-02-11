@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./navbar.css";
+import "./Navbar.css";
 
 const COLORS = {
   accent: "#C51F5D",
