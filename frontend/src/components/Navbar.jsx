@@ -769,11 +769,6 @@ export default function Navbar({ dir = "ltr" }) {
                               </a>
                             </div>
                           ) : null}
-
-                          <a className="px-accPromo" href={group.promo.href} onClick={onNavLink}>
-                            <span className="px-accPromoTitle">{group.promo.title}</span>
-                            <span className="px-accPromoCta">{group.promo.cta} →</span>
-                          </a>
                         </div>
                       )}
                     </div>
@@ -797,6 +792,7 @@ export default function Navbar({ dir = "ltr" }) {
     </header>
   );
 }
+
 
 
 
