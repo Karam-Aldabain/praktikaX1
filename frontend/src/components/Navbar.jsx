@@ -10,151 +10,243 @@ const COLORS = {
 
 const NAV = [
   {
-    id: "programs",
-    label: "Programs",
-    description: "Pick the best path for your goals",
+    id: "individuals",
+    label: "For Individuals",
+    description: "Designed for learners, graduates, and professionals seeking structured career growth",
     align: "start",
     columns: [
       {
-        title: "For Individuals",
+        title: "Learner Segments",
         items: [
-          { label: "Industry Internships", href: "/programs/internships", desc: "Real projects inside companies" },
-          { label: "Bootcamps & Career Tracks", href: "/programs/bootcamps", desc: "Intensive job-ready training" },
-          { label: "Courses & Workshops", href: "/programs/courses-workshops", desc: "Practical skills with experts" },
+          {
+            label: "Students & Graduates",
+            href: "/for-individuals/students-graduates",
+            desc: "Industry-integrated internships, career tracks, and portfolio-based learning experiences",
+          },
+          {
+            label: "Women in Tech",
+            href: "/for-individuals/women-in-tech",
+            desc: "Targeted programs supporting female talent in technology, AI, and innovation careers",
+          },
+          {
+            label: "AI for Real-World Careers",
+            href: "/for-individuals/ai-across-industries",
+            desc: "Practical AI applications across business, healthcare, engineering, data, marketing, and beyond",
+          },
         ],
       },
       {
-        title: "For Teams",
+        title: "Growth Paths",
         items: [
-          { label: "Custom Training", href: "/programs/custom-training", desc: "Tailored programs for organizations" },
-          { label: "Co-Hosted Programs", href: "/programs/co-hosted", desc: "Build a program with partners" },
-          { label: "1:1 Career Mentorship", href: "/programs/mentorship", desc: "Guided sessions for your next step" },
+          {
+            label: "Career Tracks & Bootcamps",
+            href: "/for-individuals/career-tracks-bootcamps",
+            desc: "Structured learning pathways aligned with market demand",
+          },
+          {
+            label: "1-to-1 Career Mentorship",
+            href: "/for-individuals/mentorship",
+            desc: "Direct access to industry experts and university professors",
+          },
+          {
+            label: "Trend Lab",
+            href: "/for-individuals/trend-lab",
+            desc: "Emerging tools, market shifts, and high-demand skill insights",
+          },
         ],
       },
     ],
     promo: {
-      eyebrow: "Start fast",
-      title: "Find your best-fit program",
-      text: "Explore what works for you in minutes.",
-      href: "/programs",
-      cta: "Explore Programs",
+      eyebrow: "Individuals",
+      title: "Build your career path",
+      text: "Modern programs focused on practical growth and measurable outcomes.",
+      href: "/for-individuals",
+      cta: "Explore Individual Paths",
     },
   },
   {
-    id: "for-you",
-    label: "For You",
-    description: "Built for different audiences and needs",
+    id: "organizations",
+    label: "For Organizations",
+    description: "Built for institutions shaping the workforce of tomorrow",
     align: "start",
     columns: [
       {
-        title: "People",
+        title: "Institution Types",
         items: [
-          { label: "Students & Graduates", href: "/for-you/students", desc: "Get experience and confidence" },
-          { label: "Universities & Educators", href: "/for-you/universities", desc: "Bridge education with industry" },
+          {
+            label: "Universities & Educators",
+            href: "/for-organizations/universities-educators",
+            desc: "Co-hosted industry programs integrated into academic structures",
+          },
+          {
+            label: "Companies & Corporations",
+            href: "/for-organizations/companies-corporations",
+            desc: "Talent pipeline development, co-designed internships, workforce upskilling",
+          },
+          {
+            label: "Governments & Public Sector",
+            href: "/for-organizations/governments-public-sector",
+            desc: "National workforce readiness initiatives aligned with economic strategy",
+          },
+          {
+            label: "Schools & Early Talent Programs",
+            href: "/for-organizations/schools-early-talent-programs",
+            desc: "Career exposure programs for high school students and children of employees",
+          },
         ],
       },
       {
-        title: "Organizations",
+        title: "Strategic Solutions",
         items: [
-          { label: "Companies & Organizations", href: "/for-you/companies", desc: "Engage talent and hiring outcomes" },
-          { label: "Public Sector & NGOs", href: "/for-you/public-ngo", desc: "Impact programs with measurable results" },
+          {
+            label: "AI for Organizations",
+            href: "/for-organizations/ai",
+            desc: "Applied AI frameworks tailored to industry sectors and institutional needs",
+          },
+          {
+            label: "Partnerships",
+            href: "/for-organizations/partnerships",
+            desc: "Strategic alliances with universities, corporations, and innovation ecosystems",
+          },
+          {
+            label: "Innovation & Workforce Tools",
+            href: "/for-organizations/innovation-workforce-tools",
+            desc: "Market-aligned frameworks and future-ready talent models",
+          },
         ],
       },
     ],
     promo: {
-      eyebrow: "Made for you",
-      title: "Choose your audience",
-      text: "Clear pages per audience—no clutter.",
-      href: "/for-you",
-      cta: "View Audiences",
+      eyebrow: "Organizations",
+      title: "Scale workforce impact",
+      text: "Programs and frameworks built for institutional and talent growth.",
+      href: "/for-organizations",
+      cta: "Explore Organization Solutions",
     },
   },
   {
-    id: "outcomes",
-    label: "Outcomes",
-    description: "What you get after the experience",
-    align: "start",
-    columns: [
-      {
-        title: "The Experience",
-        items: [
-          { label: "Real Projects", href: "/outcomes/real-projects", desc: "Work on real-world challenges" },
-          { label: "Global Exposure", href: "/outcomes/global-exposure", desc: "Cross-border collaboration & networks" },
-        ],
-      },
-      {
-        title: "Proof & Results",
-        items: [
-          { label: "Career Outcomes", href: "/outcomes/career-outcomes", desc: "Outcomes aligned to hiring needs" },
-          { label: "Success Stories & Testimonials", href: "/outcomes/stories", desc: "Stories and feedback from the community" },
-        ],
-      },
-    ],
-    promo: {
-      eyebrow: "See the impact",
-      title: "Stories that prove it",
-      text: "Real examples of growth and results.",
-      href: "/outcomes/stories",
-      cta: "Read Stories",
-    },
-  },
-  {
-    id: "community",
-    label: "Community & Partnerships",
-    description: "Join as an expert, partner, or collaborator",
+    id: "insights",
+    label: "Insights",
+    description: "Thought leadership, value-driven content, and industry intelligence",
     align: "end",
     columns: [
       {
-        title: "Community",
+        title: "Thought Leadership",
         items: [
-          { label: "Expert Network (Volunteer)", href: "/community/experts", desc: "Volunteer or join the expert network" },
-          { label: "Educational & Career Events", href: "/community/events", desc: "Events, meetups, and opportunities" },
+          {
+            label: "Value",
+            href: "/insights/value",
+            desc: "Real impact stories, measurable outcomes, and professional transformation journeys",
+          },
+          {
+            label: "Real Projects",
+            href: "/insights/real-projects",
+            desc: "Case-based learning examples and industry collaborations",
+          },
+          {
+            label: "Global Exposure",
+            href: "/insights/global-exposure",
+            desc: "International collaborations and cross-border project visibility",
+          },
         ],
       },
       {
-        title: "Partnerships",
+        title: "Results & Proof",
         items: [
-          { label: "Hiring Initiatives", href: "/community/hiring", desc: "Connect companies with talent" },
-          { label: "Partnership Hub", href: "/partnerships", desc: "Universities, Industry, Alliances, Affiliate, Co-Host" },
+          {
+            label: "Career Outcomes",
+            href: "/insights/career-outcomes",
+            desc: "Data-driven results: placements, promotions, and professional growth",
+          },
+          {
+            label: "Success Stories",
+            href: "/insights/success-stories",
+            desc: "Graduate journeys from learning to leadership",
+          },
+          {
+            label: "Feedback & Testimonials",
+            href: "/insights/feedback-testimonials",
+            desc: "Voices from institutions, mentors, and professionals",
+          },
         ],
       },
     ],
     promo: {
-      eyebrow: "Partner smart",
-      title: "Become a partner",
-      text: "University, industry, alliances, or co-hosted programs.",
-      href: "/partnerships",
-      cta: "Explore Partnerships",
+      eyebrow: "Insights",
+      title: "Track real impact",
+      text: "Leadership content, project signals, and measurable career results.",
+      href: "/insights",
+      cta: "Explore Insights",
     },
   },
   {
     id: "about",
     label: "About",
-    description: "Learn more about PraktikaX",
+    description: "Who we are. How we work. Why it matters",
     align: "end",
     columns: [
       {
-        title: "PraktikaX",
+        title: "Core",
         items: [
-          { label: "Mission & Vision", href: "/about/mission", desc: "Why we exist and what we build" },
-          { label: "Our Model (How We Work)", href: "/about/model", desc: "From design to real outcomes" },
-          { label: "Team & Experts", href: "/about/team", desc: "The people behind the experience" },
+          {
+            label: "Our Mission & Vision",
+            href: "/about/mission-vision",
+            desc: "Building structured systems that close the education-to-industry gap",
+          },
+          {
+            label: "Our Model (How We Work)",
+            href: "/about/model",
+            desc: "A system-based approach combining projects, mentorship, and measurable outcomes",
+          },
+          {
+            label: "Our European Network",
+            href: "/about/european-network",
+            desc: "Academic and industry partnerships aligned with European education standards",
+          },
+          {
+            label: "Ecosystem",
+            href: "/about/ecosystem",
+            desc: "A connected environment integrating experts, institutions, and industry",
+          },
         ],
       },
       {
-        title: "Connect",
+        title: "Under Ecosystem",
         items: [
-          { label: "European Network", href: "/about/european-network", desc: "Our footprint across Europe" },
-          { label: "Contact", href: "/contact", desc: "Reach out and we’ll respond quickly" },
+          {
+            label: "Global Expert Network",
+            href: "/about/ecosystem/global-expert-network",
+            desc: "Cross-sector mentors and specialists",
+          },
+          {
+            label: "Industry Engagements",
+            href: "/about/ecosystem/industry-engagements",
+            desc: "Collaboration with companies and sector partners",
+          },
+          {
+            label: "Educational & Career Events",
+            href: "/about/ecosystem/events",
+            desc: "Programs and events connecting learning to opportunity",
+          },
+          {
+            label: "Hiring Initiatives",
+            href: "/about/ecosystem/hiring-initiatives",
+            desc: "Structured pathways from learning to employment",
+          },
+          {
+            label: "Become an Expert",
+            href: "/about/ecosystem/become-an-expert",
+            desc: "Join the network as a mentor or contributor",
+          },
         ],
       },
     ],
     promo: {
-      eyebrow: "Less noise",
-      title: "Fewer pages, more clarity",
-      text: "A structure that gets users where they need—fast.",
+      eyebrow: "About",
+      title: "Understand the model",
+      text: "See the system and network behind measurable outcomes.",
       href: "/about",
-      cta: "Learn More",
+      cta: "Explore About",
     },
   },
 ];
@@ -181,6 +273,32 @@ function SearchIcon() {
   );
 }
 
+function ThemeIcon({ theme }) {
+  return theme === "dark" ? (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10-10 1.4-1.4M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ) : (
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 1 0 9.8 9.8Z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function MenuIcon({ open }) {
   return open ? (
     <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
@@ -197,6 +315,7 @@ export default function Navbar({ dir = "ltr" }) {
   const [openId, setOpenId] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [theme, setTheme] = useState("light");
   const navRef = useRef(null);
   const closeTimer = useRef(null);
 
@@ -207,6 +326,26 @@ export default function Navbar({ dir = "ltr" }) {
     onChange();
     mq.addEventListener?.("change", onChange);
     return () => mq.removeEventListener?.("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const getTheme = () => {
+      const saved = window.localStorage.getItem("px_theme");
+      if (saved === "light" || saved === "dark") return saved;
+      const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
+      return mq?.matches ? "dark" : "light";
+    };
+
+    const syncTheme = () => setTheme(getTheme());
+    syncTheme();
+
+    window.addEventListener("storage", syncTheme);
+    window.addEventListener("px-theme-change", syncTheme);
+    return () => {
+      window.removeEventListener("storage", syncTheme);
+      window.removeEventListener("px-theme-change", syncTheme);
+    };
   }, []);
 
   useEffect(() => {
@@ -251,6 +390,15 @@ export default function Navbar({ dir = "ltr" }) {
     setMobileOpen(false);
   }
 
+  function toggleTheme() {
+    setTheme((t) => {
+      const next = t === "dark" ? "light" : "dark";
+      window.localStorage.setItem("px_theme", next);
+      window.dispatchEvent(new Event("px-theme-change"));
+      return next;
+    });
+  }
+
   return (
     <header
       className="px-header"
@@ -266,8 +414,7 @@ export default function Navbar({ dir = "ltr" }) {
         <div className="px-container">
           {/* LEFT: Brand */}
           <a className="px-brand" href="/" onClick={onNavLink} aria-label="PraktikaX Home">
-            <span className="px-brandMark">Praktika</span>
-            <span className="px-brandX">X</span>
+            <img className="px-brandLogo" src="/logo-praktikax.png" alt="PraktikaX logo" />
           </a>
 
           {/* CENTER: Desktop nav (perfectly centered) */}
@@ -342,6 +489,17 @@ export default function Navbar({ dir = "ltr" }) {
           {/* RIGHT: Actions pinned to the far right */}
           <div className="px-right">
             <div className="px-actions">
+              <button
+                className="px-themeBtn"
+                type="button"
+                onClick={toggleTheme}
+                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                aria-pressed={theme === "dark"}
+              >
+                <ThemeIcon theme={theme} />
+                <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+              </button>
+
               <a className="px-iconBtn" href="/search" aria-label="Search">
                 <SearchIcon />
               </a>
@@ -361,10 +519,21 @@ export default function Navbar({ dir = "ltr" }) {
         {mobileOpen && (
           <div className="px-mobilePanel">
             <div className="px-mobileInner">
-              <div className="px-mobileActions">
-                <a className="px-cta mobile" href="/portal" onClick={onNavLink}>
-                  Login / Portal
-                </a>
+            <div className="px-mobileActions">
+              <button
+                className="px-themeBtn mobile"
+                type="button"
+                onClick={toggleTheme}
+                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                aria-pressed={theme === "dark"}
+              >
+                <ThemeIcon theme={theme} />
+                <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+              </button>
+
+              <a className="px-cta mobile" href="/portal" onClick={onNavLink}>
+                Login / Portal
+              </a>
                 <a className="px-iconBtn mobile" href="/search" aria-label="Search">
                   <SearchIcon />
                 </a>
@@ -429,3 +598,4 @@ export default function Navbar({ dir = "ltr" }) {
     </header>
   );
 }
+
