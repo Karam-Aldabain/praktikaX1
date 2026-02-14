@@ -1,4 +1,4 @@
-ï»¿import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -11,8 +11,8 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  Sun,
-  Moon,
+
+
   Sparkles,
   Users,
   GraduationCap,
@@ -22,6 +22,7 @@ import {
   Trophy,
   Linkedin,
 } from "lucide-react";
+import { useLocalTheme } from "../hooks/use-local-theme";
 
 /* -----------------------------------------------------------
    CONFIG
@@ -185,22 +186,22 @@ const ABOUT_COPY = {
 
 const HOW_IT_WORKS = [
   {
-    icon: "??",
+    icon: "",
     title: "Apply & Get Matched",
-    desc: "Submit your application and weâ€™ll match you with opportunities aligned with your goals.",
+    desc: "Submit your application and we’ll match you with opportunities aligned with your goals.",
   },
   {
-    icon: "??",
+    icon: "",
     title: "Start Your Project",
     desc: "Work on real-world projects with expert guidance and mentoring.",
   },
   {
-    icon: "??",
+    icon: "",
     title: "Build Your Portfolio",
     desc: "Create portfolio-ready outputs that hiring teams can validate.",
   },
   {
-    icon: "??",
+    icon: "",
     title: "Launch Your Career",
     desc: "Use proof of work + network to land roles or accelerate your path.",
   },
@@ -229,39 +230,6 @@ function smoothScrollTo(id) {
   const el = document.getElementById(id);
   if (!el) return;
   el.scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function useSystemThemeDefault() {
-  const [pref, setPref] = useState("light");
-  useEffect(() => {
-    const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
-    if (!mq) return;
-    const apply = () => setPref(mq.matches ? "dark" : "light");
-    apply();
-    mq.addEventListener?.("change", apply);
-    return () => mq.removeEventListener?.("change", apply);
-  }, []);
-  return pref;
-}
-
-function useLocalTheme() {
-  const system = useSystemThemeDefault();
-  const [theme, setTheme] = useState("light");
-
-  useEffect(() => {
-    const saved = window.localStorage.getItem("px_theme");
-    setTheme(saved || system);
-  }, [system]);
-
-  const toggle = useCallback(() => {
-    setTheme((t) => {
-      const next = t === "dark" ? "light" : "dark";
-      window.localStorage.setItem("px_theme", next);
-      return next;
-    });
-  }, []);
-
-  return { theme, toggle };
 }
 
 /* -----------------------------------------------------------
@@ -322,7 +290,7 @@ function PrimaryBtn({ children, className = "", ...props }) {
   return (
     <a
       className={[
-        "inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold",
+        "inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold sm:px-7 sm:py-3.5",
         "text-white shadow-[0_18px_45px_rgba(197,31,93,0.28)] hover:brightness-110",
         "bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))]",
         className,
@@ -338,7 +306,7 @@ function GhostBtn({ children, className = "", ...props }) {
   return (
     <a
       className={[
-        "inline-flex items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold",
+        "inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold sm:px-7 sm:py-3.5",
         "border border-[color:var(--border)] bg-[color:var(--chipBg)] text-[color:var(--text)] backdrop-blur",
         "shadow-[inset_0_1px_0_rgba(255,255,255,0.35)]",
         "hover:bg-[color:var(--card)]",
@@ -359,7 +327,7 @@ function SectionTitle({ kicker, title, accentWord, subtitle }) {
           <Pill>{kicker}</Pill>
         </div>
       ) : null}
-      <h2 className="text-4xl font-semibold tracking-tight text-[color:var(--text)] md:text-5xl">
+      <h2 className="text-3xl font-semibold tracking-tight text-[color:var(--text)] sm:text-4xl md:text-5xl">
         {title} <span className="text-[color:var(--accent)]">{accentWord}</span>
       </h2>
       <p className="mx-auto mt-3 max-w-2xl text-base font-medium text-[color:var(--muted)] md:text-lg">
@@ -377,7 +345,7 @@ function Header({ eyebrow, title, subtitle }) {
           <Pill>{eyebrow}</Pill>
         </div>
       ) : null}
-      <h2 className="text-4xl font-semibold tracking-tight text-[color:var(--text)] md:text-5xl">
+      <h2 className="text-3xl font-semibold tracking-tight text-[color:var(--text)] sm:text-4xl md:text-5xl">
         {title}
       </h2>
       <p className="mx-auto mt-3 max-w-2xl text-base font-medium text-[color:var(--muted)] md:text-lg">
@@ -695,7 +663,7 @@ function LogoStrip({ theme }) {
       // slightly smaller on 2nd row like the screenshot
       fontSize: rowIndex === 0 ? "15px" : "14px",
       lineHeight: 1,
-      // â€œprintedâ€ effect on paper
+      // “printed” effect on paper
       textShadow: isDark
         ? "0 1px 0 rgba(0,0,0,0.35)"
         : "0 1px 0 rgba(255,255,255,0.55)",
@@ -857,14 +825,14 @@ function PlacementBanner({ theme }) {
         />
 
         <div className="relative text-xs font-semibold text-white/75">
-          Balanced structure Â· strong visuals Â· portfolio-ready proof
+          Balanced structure · strong visuals · portfolio-ready proof
         </div>
         <div className="relative mt-3 text-3xl font-semibold text-white md:text-4xl">
           <span className="text-white">2000+</span> successful placements powered
           by portfolio-ready
         </div>
         <div className="relative mx-auto mt-3 max-w-3xl text-sm font-medium text-white/75">
-          Real projects + mentor feedback + measurable outcomes â€” designed to
+          Real projects + mentor feedback + measurable outcomes — designed to
           match hiring expectations.
         </div>
       </div>
@@ -1014,7 +982,7 @@ function ExpertCard({ person }) {
 
 export default function LandingPage() {
   const reduce = useReducedMotion();
-  const { theme, toggle } = useLocalTheme();
+  const { theme } = useLocalTheme();
 
   const { scrollYProgress, scrollY } = useScroll();
   const progress = useSpring(scrollYProgress, {
@@ -1031,16 +999,16 @@ export default function LandingPage() {
     () => [
       {
         quote:
-          "â€œThe projects felt real, the feedback was sharp, and the outcomes were measurable.â€",
+          "“The projects felt real, the feedback was sharp, and the outcomes were measurable.”",
         name: "Alex Morgan",
-        role: "Program Participant Â· Technology Track",
+        role: "Program Participant · Technology Track",
         avatar: "",
       },
       {
         quote:
-          "â€œThis ecosystem makes hiring simpler because candidates come with proven work.â€",
+          "“This ecosystem makes hiring simpler because candidates come with proven work.”",
         name: "Leila Hassan",
-        role: "Talent Partner Â· Industry Partner",
+        role: "Talent Partner · Industry Partner",
         avatar: "",
       },
     ],
@@ -1174,54 +1142,32 @@ export default function LandingPage() {
         style={{ scaleX: progress, background: "var(--accent)" }}
       />
 
-      {/* HEADER */}
+            {/* HEADER */}
       <header className="mx-auto max-w-6xl px-4 pt-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span
-              className="h-2.5 w-2.5 rounded-full"
-              style={{ background: "var(--accent)" }}
-            />
-            <span className="text-sm font-semibold text-[color:var(--text)]">
-              PraktikaX
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={toggle}
-              className="inline-flex items-center gap-2 rounded-full border border-[color:var(--border)] bg-[color:var(--chipBg)] px-4 py-2 text-xs font-semibold text-[color:var(--text)] backdrop-blur hover:bg-[color:var(--card)]"
-              aria-label="Toggle theme"
+        <div className="flex flex-wrap items-center justify-end gap-3">
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="#contact"
+              onClick={(e) => (e.preventDefault(), smoothScrollTo("contact"))}
+              className="text-sm font-medium text-[color:var(--muted)] hover:text-[color:var(--text)]"
             >
-              {isDark ? <Sun size={14} /> : <Moon size={14} />}
-              {isDark ? "Light" : "Dark"}
-            </button>
-
-            <div className="hidden md:flex items-center gap-3">
-              <a
-                href="#contact"
-                onClick={(e) => (e.preventDefault(), smoothScrollTo("contact"))}
-                className="text-sm font-medium text-[color:var(--muted)] hover:text-[color:var(--text)]"
-              >
-                Contact
-              </a>
-              <a
-                href="#method"
-                onClick={(e) => (e.preventDefault(), smoothScrollTo("method"))}
-                className="text-sm font-medium text-[color:var(--muted)] hover:text-[color:var(--text)]"
-              >
-                Method
-              </a>
-            </div>
+              Contact
+            </a>
+            <a
+              href="#method"
+              onClick={(e) => (e.preventDefault(), smoothScrollTo("method"))}
+              className="text-sm font-medium text-[color:var(--muted)] hover:text-[color:var(--text)]"
+            >
+              Method
+            </a>
           </div>
         </div>
       </header>
 
       <main className="pb-16">
         {/* HERO */}
-        <section className="mx-auto max-w-6xl px-4 pt-6">
-          <GlassCard className="relative overflow-hidden p-6 md:p-10">
+        <section className="mx-auto max-w-6xl px-4 pt-4 sm:pt-6">
+          <GlassCard className="relative overflow-hidden p-4 sm:p-6 md:p-10">
             <motion.div
               className="absolute inset-0 opacity-[0.12]"
               style={{
@@ -1258,7 +1204,7 @@ export default function LandingPage() {
               <CircuitOverlay opacity={0.10} />
             )}
 
-            <div className="pointer-events-none absolute right-[16%] top-[-40%] h-[200%] w-[14px] rotate-[18deg] rounded-full bg-[linear-gradient(180deg,rgba(36,52,71,0.70),rgba(60,200,255,0.14))] opacity-60" />
+            <div className="pointer-events-none absolute right-[16%] top-[-40%] hidden h-[200%] w-[14px] rotate-[18deg] rounded-full bg-[linear-gradient(180deg,rgba(36,52,71,0.70),rgba(60,200,255,0.14))] opacity-60 sm:block" />
 
             <div className="relative grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
               <div>
@@ -1266,7 +1212,7 @@ export default function LandingPage() {
                   Up to 25% off!
                 </span>
 
-                <h1 className="mt-6 text-5xl font-light tracking-tight text-[color:var(--text)] md:text-6xl">
+                <h1 className="mt-6 text-4xl font-light tracking-tight text-[color:var(--text)] sm:text-5xl md:text-6xl">
                   Build proof<span className="text-[color:var(--accent)]">.</span>
                   <br />
                   <span className="font-semibold text-[color:var(--accent)]">
@@ -1275,8 +1221,8 @@ export default function LandingPage() {
                   .
                 </h1>
 
-                <p className="mt-4 max-w-[58ch] text-base font-medium leading-relaxed text-[color:var(--muted)]">
-                  Real projects, mentor feedback, and portfolio-ready outcomes â€”
+                <p className="mt-4 max-w-[58ch] text-sm font-medium leading-relaxed text-[color:var(--muted)] sm:text-base">
+                  Real projects, mentor feedback, and portfolio-ready outcomes —
                   built for students who want results.
                 </p>
 
@@ -1295,7 +1241,7 @@ export default function LandingPage() {
                         backdropFilter: "blur(10px)",
                       }}
                     >
-                      <span className="text-base">??</span>
+                      <span className="text-base">Track</span>
                       <select
                         defaultValue="software"
                         className="w-full appearance-none bg-transparent text-base font-semibold text-[color:var(--text)] outline-none"
@@ -1313,23 +1259,23 @@ export default function LandingPage() {
                     <PrimaryBtn
                       href="#method"
                       onClick={(e) => (e.preventDefault(), smoothScrollTo("method"))}
-                      className="md:px-8 md:py-4 md:text-base"
+                      className="w-full md:w-auto md:px-8 md:py-4 md:text-base"
                     >
                       Get started
                     </PrimaryBtn>
                   </div>
 
                   <div className="mt-4 flex flex-wrap gap-3">
-                    <Chip variant="green">? Verified outcomes</Chip>
-                    <Chip variant="blue">?? Real projects</Chip>
-                    <Chip variant="pink">?? Mentor feedback</Chip>
+                    <Chip variant="green">Verified outcomes</Chip>
+                    <Chip variant="blue">Real projects</Chip>
+                    <Chip variant="pink">Mentor feedback</Chip>
                   </div>
 
                   <div className="mt-6">
                     <GhostBtn
                       href="#contact"
                       onClick={(e) => (e.preventDefault(), smoothScrollTo("contact"))}
-                      className="gap-2 md:text-base md:px-8 md:py-4"
+                      className="w-full gap-2 md:w-auto md:text-base md:px-8 md:py-4"
                     >
                       Become a Partner <ArrowRight size={16} />
                     </GhostBtn>
@@ -1359,7 +1305,7 @@ export default function LandingPage() {
                 boxShadow: "0 30px 120px rgba(0,0,0,0.35)",
               }}
             >
-              <div className="p-10">
+              <div className="p-6 sm:p-8 md:p-10">
                 <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
                   <StatTile variant="pink" value="500+" label="Active Projects" />
                   <StatTile variant="navy" value="50+" label="Partner Companies" />
@@ -1374,7 +1320,7 @@ export default function LandingPage() {
             </div>
           ) : (
             <div className="mt-10">
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="grid grid-cols-1 gap-5 sm:gap-6 md:grid-cols-3">
                 <StatTile variant="pink" value="500+" label="Active Projects" />
                 <StatTile variant="navy" value="50+" label="Partner Companies" />
                 <StatTile
@@ -1589,7 +1535,7 @@ export default function LandingPage() {
           <GlassCard className="overflow-hidden p-8 md:p-10">
             <div className="grid gap-10 md:grid-cols-[1.1fr_.9fr] md:items-center">
               <div>
-                <h2 className="text-4xl font-semibold text-[color:var(--text)]">
+                <h2 className="text-3xl font-semibold text-[color:var(--text)] sm:text-4xl">
                   {ABOUT_COPY.title}
                 </h2>
 
@@ -1603,7 +1549,7 @@ export default function LandingPage() {
                   {ABOUT_COPY.p3}
                 </p>
 
-                <div className="mt-10 grid grid-cols-3 gap-6">
+                <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-6">
                   <div>
                     <div
                       className="text-4xl font-semibold"
@@ -1647,7 +1593,7 @@ export default function LandingPage() {
                 <img
                   src={IMAGES.about}
                   alt="About Praktix"
-                  className="h-[420px] w-full object-cover"
+                  className="h-[260px] w-full object-cover sm:h-[420px]"
                 />
               </div>
             </div>
@@ -1656,7 +1602,7 @@ export default function LandingPage() {
 
         <section className="mx-auto max-w-6xl px-4 pt-16" id="contact">
           <div
-            className="relative overflow-hidden rounded-[30px] border p-10"
+            className="relative overflow-hidden rounded-[30px] border p-6 sm:p-10"
             style={{
               background: "var(--contactBg)",
               borderColor: "var(--contactBorder)",
@@ -1678,12 +1624,12 @@ export default function LandingPage() {
             />
 
             <div className="relative max-w-3xl">
-              <h2 className="text-4xl font-semibold text-[color:var(--text)]">
-                Ready to Get Started?
+              <h2 className="text-3xl font-semibold text-[color:var(--text)] sm:text-4xl">
+                Ready to Get Started
               </h2>
 
               <p className="mt-3 text-base font-medium leading-relaxed text-[color:var(--muted)]">
-                Letâ€™s talk partnerships, programs, and how PraktikaX can help
+                Let’s talk partnerships, programs, and how we can help
                 your students or hiring pipeline.
               </p>
 
@@ -1692,7 +1638,7 @@ export default function LandingPage() {
                   href="/contact"
                   className="inline-flex items-center justify-center rounded-full bg-[color:var(--accent)] px-7 py-3 text-sm font-semibold text-white shadow-[0_18px_45px_rgba(197,31,93,0.28)] hover:brightness-110"
                 >
-                  Contact Us <span className="ml-2">?</span>
+                  Contact Us
                 </a>
 
                 <a
@@ -1715,13 +1661,17 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-10 pb-10 text-center text-sm font-medium text-[color:var(--muted)]">
-            Â© {new Date().getFullYear()} PraktikaX
+            © {new Date().getFullYear()}
           </div>
         </section>
       </main>
     </div>
   );
 }
+
+
+
+
 
 
 

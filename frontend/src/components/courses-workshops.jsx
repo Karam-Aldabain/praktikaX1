@@ -54,7 +54,7 @@ function DarkPanel({ children, className }) {
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-[36px] text-white",
+        "relative overflow-hidden rounded-[24px] text-white sm:rounded-[36px]",
         "shadow-[0_28px_90px_rgba(0,0,0,0.35)]",
         "border border-white/10",
         "bg-[color:var(--navy)]",
@@ -241,7 +241,7 @@ function GlassCard({ children, className }) {
 function SectionHeader({ title, subtitle }) {
   return (
     <div className="max-w-3xl">
-      <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl">{title}</h2>
+      <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">{title}</h2>
       {subtitle ? <p className="mt-4 text-base font-semibold text-white/65">{subtitle}</p> : null}
     </div>
   );
@@ -338,17 +338,17 @@ export default function CoursesWorkshopsPage() {
       {/* top progress bar */}
       <motion.div className="fixed left-0 top-0 z-[80] h-[3px] w-full origin-left bg-[color:var(--accent)]" style={{ scaleX: topBar }} />
 
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10">
         {/* ---------------- HERO (top-left screenshot) ---------------- */}
         <section id="top">
-          <DarkPanel className="p-8 md:p-12">
+          <DarkPanel className="p-5 sm:p-8 md:p-12">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
               {/* left */}
               <div className="lg:col-span-7">
                 <Reveal>
                   <Chip>Expert led Learning Experiences</Chip>
 
-                  <h1 className="mt-7 text-5xl font-extrabold leading-[1.02] tracking-tight md:text-6xl">
+                  <h1 className="mt-7 text-3xl font-extrabold leading-[1.02] tracking-tight sm:text-5xl md:text-6xl">
                     <span className="block text-white">Transform Your</span>
                     <span className="block">
                       <span className="text-[color:var(--accent)]">Team</span>{" "}
@@ -421,13 +421,13 @@ export default function CoursesWorkshopsPage() {
 
         {/* ---------------- DELIVERY OPTIONS (top-right screenshot) ---------------- */}
         <section id="delivery-1" className="mt-10">
-          <DarkPanel className="p-8 md:p-12">
+          <DarkPanel className="p-5 sm:p-8 md:p-12">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
               <div className="lg:col-span-7">
                 <Reveal>
                   <Chip>Expert led Learning Experiences</Chip>
 
-                  <h2 className="mt-7 text-4xl font-extrabold tracking-tight md:text-5xl">
+                  <h2 className="mt-7 text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
                     Delivery options that feel <span className="text-[color:var(--accent)]">premium</span>
                   </h2>
 
@@ -459,11 +459,11 @@ export default function CoursesWorkshopsPage() {
 
         {/* ---------------- DELIVERY OPTIONS (middle-right screenshot) ---------------- */}
         <section id="delivery-2" className="mt-10">
-          <DarkPanel className="p-8 md:p-12">
+          <DarkPanel className="p-5 sm:p-8 md:p-12">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
               <div className="lg:col-span-7">
                 <Reveal>
-                  <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl">
+                  <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
                     Delivery options that feel <span className="text-[color:var(--accent)]">premium</span>
                   </h2>
                   <p className="mt-4 max-w-xl text-base font-semibold text-white/65">
@@ -481,7 +481,7 @@ export default function CoursesWorkshopsPage() {
                 <Reveal>
                   <div className="relative">
                     {/* floating tip bubble */}
-                    <div className="absolute -top-6 right-0 max-w-[360px] rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/70 backdrop-blur-md">
+                    <div className="hidden sm:block absolute -top-6 right-0 max-w-[360px] rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/70 backdrop-blur-md">
                       <span className="inline-flex items-center gap-2">
                         <span className="grid h-5 w-5 place-items-center rounded-full bg-[rgba(197,31,93,0.22)] border border-[rgba(197,31,93,0.35)]">
                           <Sparkles className="h-3 w-3 text-[color:var(--accent)]" />
@@ -490,7 +490,16 @@ export default function CoursesWorkshopsPage() {
                       </span>
                     </div>
 
-                    <div className="mt-10 grid grid-cols-2 gap-4">
+                    <div className="mb-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs font-semibold text-white/70 sm:hidden">
+                      <span className="inline-flex items-center gap-2">
+                        <span className="grid h-5 w-5 place-items-center rounded-full bg-[rgba(197,31,93,0.22)] border border-[rgba(197,31,93,0.35)]">
+                          <Sparkles className="h-3 w-3 text-[color:var(--accent)]" />
+                        </span>
+                        Pick a format type with it to choose an integrated experience.
+                      </span>
+                    </div>
+
+                    <div className="mt-6 grid grid-cols-1 gap-4 sm:mt-10 sm:grid-cols-2">
                       <GlassCard className="p-6">
                         <div className="grid h-12 w-12 place-items-center rounded-2xl border border-white/10 bg-white/5">
                           <Users className="h-6 w-6 text-[color:var(--accent)]" />
@@ -526,7 +535,7 @@ export default function CoursesWorkshopsPage() {
 
         {/* ---------------- WHAT WE OFFER (bottom-left screenshot) ---------------- */}
         <section id="offer" className="mt-10">
-          <DarkPanel className="p-8 md:p-12">
+          <DarkPanel className="p-5 sm:p-8 md:p-12">
             <Reveal>
               <SectionHeader
                 title={<span>What we offer</span>}
@@ -562,11 +571,11 @@ export default function CoursesWorkshopsPage() {
 
         {/* ---------------- SIX PILLARS (bottom-right screenshot) ---------------- */}
         <section id="why" className="mt-10">
-          <DarkPanel className="p-8 md:p-12">
+          <DarkPanel className="p-5 sm:p-8 md:p-12">
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
               <div className="lg:col-span-6">
                 <Reveal>
-                  <h2 className="text-4xl font-extrabold tracking-tight md:text-5xl">
+                  <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
                     Six pillars of <span className="text-[color:var(--accent)]">excellence</span>
                   </h2>
                   <p className="mt-4 max-w-xl text-base font-semibold text-white/65">
@@ -595,7 +604,7 @@ export default function CoursesWorkshopsPage() {
 
         {/* ---------------- REQUEST (kept from your original) ---------------- */}
         <section id="request" className="mt-10 pb-14">
-          <DarkPanel className="p-8 md:p-12">
+          <DarkPanel className="p-5 sm:p-8 md:p-12">
             <Reveal>
               <SectionHeader
                 title={

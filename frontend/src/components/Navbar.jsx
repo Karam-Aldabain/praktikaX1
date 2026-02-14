@@ -1,4 +1,37 @@
 import React, { useEffect, useRef, useState } from "react";
+import {
+  Backpack,
+  BadgeCheck,
+  BarChart3,
+  Bot,
+  Briefcase,
+  Building2,
+  CalendarDays,
+  ChevronRight as ChevronRightIcon,
+  Cpu,
+  FlaskConical,
+  Factory,
+  Globe,
+  GraduationCap,
+  Handshake,
+  Landmark,
+  Map,
+  MessageSquareQuote,
+  Network,
+  Route,
+  School,
+  Sparkles,
+  Target,
+  TrendingUp,
+  Trophy,
+  UserPlus,
+  UserRound,
+  Users,
+  UsersRound,
+  Workflow,
+  Wrench,
+} from "lucide-react";
+import { useLocalTheme } from "../hooks/use-local-theme";
 import "./Navbar.css";
 
 const COLORS = {
@@ -107,6 +140,13 @@ const NAV = [
             label: "Partnerships",
             href: "/for-organizations/partnerships",
             desc: "Strategic alliances with universities, corporations, and innovation ecosystems",
+            children: [
+              { label: "University Partnerships", href: "/for-organizations/partnerships/university" },
+              { label: "Industry Partners", href: "/for-organizations/partnerships/industry" },
+              { label: "Affiliate Network", href: "/for-organizations/partnerships/affiliate-network" },
+              { label: "Become a Co-Host", href: "/for-organizations/partnerships/co-host" },
+              { label: "Strategic Alliances", href: "/for-organizations/partnerships/strategic-alliances" },
+            ],
           },
           {
             label: "Innovation & Workforce Tools",
@@ -207,6 +247,13 @@ const NAV = [
             label: "Ecosystem",
             href: "/about/ecosystem",
             desc: "A connected environment integrating experts, institutions, and industry",
+            children: [
+              { label: "Volunteer as an Expert", href: "/about/ecosystem/volunteer-as-expert" },
+              { label: "Hiring Initiatives", href: "/about/ecosystem/hiring-initiatives" },
+              { label: "Educational & Career Events", href: "/about/ecosystem/events" },
+              { label: "Global Expert Network", href: "/about/ecosystem/global-expert-network" },
+              { label: "Industry Engagements", href: "/about/ecosystem/industry-engagements" },
+            ],
           },
         ],
       },
@@ -311,13 +358,61 @@ function MenuIcon({ open }) {
   );
 }
 
+const ICONS_BY_TITLE = {
+  "Students & Graduates": GraduationCap,
+  "Women in Tech": Users,
+  "AI for Real-World Careers": Cpu,
+  "Career Tracks & Bootcamps": Route,
+  "1-to-1 Career Mentorship": UserRound,
+  "Trend Lab": TrendingUp,
+  "Universities & Educators": School,
+  "Companies & Corporations": Building2,
+  "Governments & Public Sector": Landmark,
+  "Schools & Early Talent Programs": Backpack,
+  "AI for Organizations": Bot,
+  Partnerships: Handshake,
+  "Innovation & Workforce Tools": Wrench,
+  Value: BadgeCheck,
+  "Real Projects": Briefcase,
+  "Global Exposure": Globe,
+  "Career Outcomes": BarChart3,
+  "Success Stories": Trophy,
+  "Feedback & Testimonials": MessageSquareQuote,
+  "Our Mission & Vision": Target,
+  "Our Model (How We Work)": Workflow,
+  "Our European Network": Map,
+  Ecosystem: Network,
+  "Global Expert Network": UsersRound,
+  "Industry Engagements": Factory,
+  "Educational & Career Events": CalendarDays,
+  "Hiring Initiatives": UserPlus,
+  "Become an Expert": Sparkles,
+  "University Partnerships": School,
+  "Industry Partners": Building2,
+  "Affiliate Network": UsersRound,
+  "Become a Co-Host": Handshake,
+  "Strategic Alliances": Network,
+  "Volunteer as an Expert": UserPlus,
+};
+
+function ItemIcon({ title, active = false, className = "" }) {
+  const Icon = ICONS_BY_TITLE[title];
+  return (
+    <span className={`px-itemIcon ${active ? "active" : ""} ${className}`}>
+      {Icon ? <Icon size={18} strokeWidth={1.8} /> : <span className="px-itemIconFallback" />}
+    </span>
+  );
+}
+
 export default function Navbar({ dir = "ltr" }) {
   const [openId, setOpenId] = useState(null);
+  const [previewByGroup, setPreviewByGroup] = useState({});
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [theme, setTheme] = useState("light");
+  const { theme, toggle: toggleTheme } = useLocalTheme();
   const navRef = useRef(null);
   const closeTimer = useRef(null);
+  const previewTimer = useRef(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -326,26 +421,6 @@ export default function Navbar({ dir = "ltr" }) {
     onChange();
     mq.addEventListener?.("change", onChange);
     return () => mq.removeEventListener?.("change", onChange);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const getTheme = () => {
-      const saved = window.localStorage.getItem("px_theme");
-      if (saved === "light" || saved === "dark") return saved;
-      const mq = window.matchMedia?.("(prefers-color-scheme: dark)");
-      return mq?.matches ? "dark" : "light";
-    };
-
-    const syncTheme = () => setTheme(getTheme());
-    syncTheme();
-
-    window.addEventListener("storage", syncTheme);
-    window.addEventListener("px-theme-change", syncTheme);
-    return () => {
-      window.removeEventListener("storage", syncTheme);
-      window.removeEventListener("px-theme-change", syncTheme);
-    };
   }, []);
 
   useEffect(() => {
@@ -380,6 +455,13 @@ export default function Navbar({ dir = "ltr" }) {
     closeTimer.current = window.setTimeout(() => setOpenId(null), 140);
   }
 
+  function clearPreviewTimer() {
+    if (previewTimer.current) {
+      window.clearTimeout(previewTimer.current);
+      previewTimer.current = null;
+    }
+  }
+
   function toggleMobile() {
     setMobileOpen((v) => !v);
     setOpenId(null);
@@ -390,13 +472,38 @@ export default function Navbar({ dir = "ltr" }) {
     setMobileOpen(false);
   }
 
-  function toggleTheme() {
-    setTheme((t) => {
-      const next = t === "dark" ? "light" : "dark";
-      window.localStorage.setItem("px_theme", next);
-      window.dispatchEvent(new Event("px-theme-change"));
-      return next;
-    });
+  function setPreview(groupId, item, category) {
+    setPreviewByGroup((prev) => ({
+      ...prev,
+      [groupId]: {
+        title: item.label,
+        text: item.desc,
+        category,
+        href: item.href,
+        iconTitle: item.label,
+        children: item.children || [],
+      },
+    }));
+  }
+
+  function setPreviewWithIntent(groupId, item, category) {
+    clearPreviewTimer();
+    previewTimer.current = window.setTimeout(() => {
+      setPreview(groupId, item, category);
+      previewTimer.current = null;
+    }, 120);
+  }
+
+  function toPreview(item, category) {
+    if (!item) return null;
+    return {
+      title: item.label,
+      text: item.desc,
+      category,
+      href: item.href,
+      iconTitle: item.label,
+      children: item.children || [],
+    };
   }
 
   return (
@@ -414,13 +521,16 @@ export default function Navbar({ dir = "ltr" }) {
         <div className="px-container">
           {/* LEFT: Brand */}
           <a className="px-brand" href="/" onClick={onNavLink} aria-label="PraktikaX Home">
-            <img className="px-brandLogo" src="/logo-praktikax.png" alt="PraktikaX logo" />
+            <img className="px-brandLogo" src="/logo-praktikax.jpg" alt="PraktikaX logo" />
           </a>
 
           {/* CENTER: Desktop nav (perfectly centered) */}
           <div className="px-center" onPointerLeave={() => !isMobile && scheduleClose()}>
             {NAV.map((group) => {
               const open = openId === group.id;
+              const defaultItem = group.columns?.[0]?.items?.[0];
+              const defaultCategory = group.columns?.[0]?.title || group.label;
+              const activePreview = previewByGroup[group.id] || toPreview(defaultItem, defaultCategory);
 
               return (
                 <div
@@ -446,11 +556,13 @@ export default function Navbar({ dir = "ltr" }) {
                       role="menu"
                       aria-label={group.label}
                       onPointerEnter={() => !isMobile && openMenu(group.id)}
-                      onPointerLeave={() => !isMobile && scheduleClose()}
+                      onPointerLeave={() => {
+                        if (!isMobile) scheduleClose();
+                        clearPreviewTimer();
+                      }}
                     >
                       <div className="px-megaTop">
                         <div className="px-megaTitle">{group.label}</div>
-                        <div className="px-megaDesc">{group.description}</div>
                       </div>
 
                       <div className="px-megaGrid">
@@ -461,9 +573,19 @@ export default function Navbar({ dir = "ltr" }) {
                               <ul className="px-colList">
                                 {col.items.map((it) => (
                                   <li key={it.href}>
-                                    <a className="px-linkCard" href={it.href} onClick={onNavLink}>
-                                      <div className="px-linkLabel">{it.label}</div>
-                                      <div className="px-linkDesc">{it.desc}</div>
+                                    <a
+                                      className={`px-linkCard ${activePreview?.href === it.href ? "active" : ""}`}
+                                      href={it.href}
+                                      onClick={onNavLink}
+                                      onMouseEnter={() => setPreviewWithIntent(group.id, it, col.title)}
+                                      onMouseLeave={clearPreviewTimer}
+                                      onFocus={() => setPreview(group.id, it, col.title)}
+                                    >
+                                      <div className="px-linkHead">
+                                        <ItemIcon title={it.label} active={activePreview?.href === it.href} />
+                                        <div className="px-linkLabel">{it.label}</div>
+                                        <ChevronRightIcon className="px-linkArrow" size={18} strokeWidth={2} />
+                                      </div>
                                     </a>
                                   </li>
                                 ))}
@@ -472,11 +594,57 @@ export default function Navbar({ dir = "ltr" }) {
                           ))}
                         </div>
 
-                        <a className="px-promo" href={group.promo.href} onClick={onNavLink}>
-                          <div className="px-promoEyebrow">{group.promo.eyebrow}</div>
-                          <div className="px-promoTitle">{group.promo.title}</div>
-                          <div className="px-promoText">{group.promo.text}</div>
-                          <div className="px-promoCta">{group.promo.cta} →</div>
+                                                <a
+                          className="px-promo"
+                          href={activePreview?.href || "#"}
+                          onClick={(e) => {
+                            if (!activePreview?.href) {
+                              e.preventDefault();
+                              return;
+                            }
+                            onNavLink();
+                          }}
+                        >
+                          <div
+                            className="px-promoBody"
+                            key={`${group.id}-${activePreview?.href || "empty"}`}
+                          >
+                            {activePreview ? (
+                              <>
+                                <div className="px-promoEyebrow">{activePreview.category}</div>
+                                <ItemIcon title={activePreview.iconTitle} active className="promo" />
+                                <div className="px-promoTitle">{activePreview.title}</div>
+                                <div className="px-promoText">{activePreview.text}</div>
+                                {activePreview.children?.length ? (
+                                  <div className="px-promoSubList">
+                                    {activePreview.children.map((sub, subIdx) => (
+                                      <a
+                                        key={sub.href}
+                                        className="px-promoSubLink"
+                                        href={sub.href}
+                                        onClick={onNavLink}
+                                        style={{ animationDelay: `${subIdx * 0.04}s` }}
+                                      >
+                                        <ItemIcon title={sub.label} className="sub" />
+                                        <span>{sub.label}</span>
+                                        <span className="px-promoSubArrow">→</span>
+                                      </a>
+                                    ))}
+                                  </div>
+                                ) : null}
+                                <div className="px-promoCta">Open this page -&gt;</div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="px-promoEyebrow">{group.label}</div>
+                                <div className="px-promoTitle">Hover an item</div>
+                                <div className="px-promoText">
+                                  Move over an item card to preview its details in this panel.
+                                </div>
+                                <div className="px-promoCta">Preview panel</div>
+                              </>
+                            )}
+                          </div>
                         </a>
                       </div>
                     </div>
@@ -562,8 +730,8 @@ export default function Navbar({ dir = "ltr" }) {
                                 {col.items.map((it) => (
                                   <li key={it.href}>
                                     <a className="px-accLink" href={it.href} onClick={onNavLink}>
-                                      {it.label}
-                                      <span className="px-accHint">{it.desc}</span>
+                                      <ItemIcon title={it.label} className="mobile" />
+                                      <span>{it.label}</span>
                                     </a>
                                   </li>
                                 ))}
@@ -598,4 +766,6 @@ export default function Navbar({ dir = "ltr" }) {
     </header>
   );
 }
+
+
 
