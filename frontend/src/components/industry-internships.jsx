@@ -1,4 +1,4 @@
-﻿import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -55,7 +55,7 @@ const IMAGES = {
 const SOLUTIONS = [
   {
     title: "Real-World Projects",
-    desc: "Industry-driven challenges guided by professionals — built for proof, not theory.",
+    desc: "Industry-driven challenges guided by professionals � built for proof, not theory.",
     img: IMAGES.solution1,
     tag1: "Outcome-based",
     tag2: "Hiring-ready",
@@ -76,7 +76,7 @@ const SOLUTIONS = [
   },
   {
     title: "University-Integrated",
-    desc: "Programs aligned with curricula and capstones — easy adoption for institutions.",
+    desc: "Programs aligned with curricula and capstones � easy adoption for institutions.",
     img: IMAGES.solution4,
     tag1: "Curriculum fit",
     tag2: "Scalable",
@@ -92,22 +92,22 @@ const SOLUTIONS = [
 
 const HOW_IT_WORKS = [
   {
-    icon: "📝",
+    icon: "??",
     title: "Apply & Get Matched",
-    desc: "Submit your application and we’ll match you with opportunities aligned with your goals.",
+    desc: "Submit your application and we�ll match you with opportunities aligned with your goals.",
   },
   {
-    icon: "🧪",
+    icon: "??",
     title: "Start Your Project",
     desc: "Work on real-world projects with expert guidance and mentoring.",
   },
   {
-    icon: "🧰",
+    icon: "??",
     title: "Build Your Portfolio",
     desc: "Create portfolio-ready outputs that hiring teams can validate.",
   },
   {
-    icon: "🚀",
+    icon: "??",
     title: "Launch Your Career",
     desc: "Use proof of work + network to land roles or accelerate your path.",
   },
@@ -183,7 +183,7 @@ const BENEFITS = [
   { icon: Users, title: "Professional Network", desc: "Connect with mentors, peers, and hiring teams across Europe and the GCC." },
   { icon: GraduationCap, title: "Skill Development", desc: "Hands-on work with modern tools and standards used by real teams." },
   { icon: Zap, title: "Career Acceleration", desc: "Move faster with real proof of work and verified outcomes." },
-  { icon: Handshake, title: "Mentorship Support", desc: "Guidance from people who’ve hired, led teams, and shipped work." },
+  { icon: Handshake, title: "Mentorship Support", desc: "Guidance from people who�ve hired, led teams, and shipped work." },
   { icon: LineChart, title: "Growth Opportunities", desc: "Pathways built around measurable achievement." },
   { icon: Trophy, title: "Recognition", desc: "Earn certifications and credibility with institutions and partners." },
 ];
@@ -398,7 +398,7 @@ function NavBar({ activeId }) {
             className="h-3 w-3 rounded-full"
             style={{ background: "var(--accent)", boxShadow: "0 0 0 6px rgba(197,31,93,.12)" }}
           />
-          <span className="font-extrabold tracking-tight text-[var(--primary)]">PraktikaX</span>
+          <span className="font-extrabold tracking-tight text-[var(--primary)]">Praktix</span>
         </button>
 
         <nav className="hidden items-center gap-1 md:flex">
@@ -559,7 +559,7 @@ function Testimonials() {
             </div>
 
             <div className="mt-3 text-lg font-extrabold leading-snug text-black/85">
-              “{TESTIMONIALS[index].quote}”
+              �{TESTIMONIALS[index].quote}�
             </div>
 
             <div className="mt-5 flex items-center gap-3">
@@ -571,7 +571,7 @@ function Testimonials() {
               <div>
                 <div className="font-extrabold text-black/85">{TESTIMONIALS[index].name}</div>
                 <div className="text-sm font-bold text-black/60">
-                  {TESTIMONIALS[index].role} · {TESTIMONIALS[index].org}
+                  {TESTIMONIALS[index].role} � {TESTIMONIALS[index].org}
                 </div>
               </div>
             </div>
@@ -639,7 +639,7 @@ function FAQ() {
                 ].join(" ")}
                 aria-hidden="true"
               >
-                ▾
+                ?
               </span>
             </button>
 
@@ -743,14 +743,14 @@ export default function LandingPage() {
                 </h1>
 
                 <p className="mt-3 max-w-[56ch] text-sm font-bold leading-relaxed text-black/60 sm:text-base">
-                  Real projects, mentor feedback, and portfolio-ready outcomes — built for students who want results.
+                  Real projects, mentor feedback, and portfolio-ready outcomes � built for students who want results.
                 </p>
 
                 <div className="mt-6">
                   <div className="mb-2 text-xs font-extrabold text-black/60">Select your track</div>
                   <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
                     <div className="flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-3 shadow-sm">
-                      <span className="text-base">🎯</span>
+                      <span className="text-base">??</span>
                       <select
                         defaultValue="software"
                         className="w-full appearance-none bg-transparent text-sm font-extrabold text-black/80 outline-none"
@@ -760,7 +760,7 @@ export default function LandingPage() {
                         <option value="cyber">Cybersecurity</option>
                         <option value="product">Product</option>
                       </select>
-                      <span className="text-sm font-extrabold text-black/45">▾</span>
+                      <span className="text-sm font-extrabold text-black/45">?</span>
                     </div>
 
                     <a
@@ -773,7 +773,7 @@ export default function LandingPage() {
                   </div>
 
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {["✅ Verified outcomes", "🧩 Real projects", "🤝 Mentor feedback"].map((t) => (
+                    {["? Verified outcomes", "?? Real projects", "?? Mentor feedback"].map((t) => (
                       <span
                         key={t}
                         className="rounded-full border border-black/10 bg-white/65 px-3 py-2 text-xs font-extrabold text-black/65"
@@ -855,7 +855,7 @@ export default function LandingPage() {
         {/* Method */}
         <section id="method" className="mx-auto max-w-6xl px-4 py-14">
           <SectionHeading
-            eyebrow="The PraktikaX Method"
+            eyebrow="The Praktix Method"
             title="A system built for real outcomes"
             subtitle="Three pillars that turn learning into proof of work."
             center
@@ -1073,7 +1073,7 @@ export default function LandingPage() {
                   rel="noreferrer"
                   className="inline-flex items-center justify-between rounded-2xl border border-black/10 bg-white/65 px-4 py-3 text-sm font-extrabold text-black/80 hover:border-[rgba(197,31,93,.35)]"
                 >
-                  LinkedIn <span className="text-black/60">↗</span>
+                  LinkedIn <span className="text-black/60">?</span>
                 </a>
               </div>
             </div>
@@ -1096,7 +1096,7 @@ export default function LandingPage() {
           <div className="mx-auto max-w-6xl px-4">
             <SectionHeading
               eyebrow="Frequently asked questions"
-              title="Answers based on how PraktikaX works"
+              title="Answers based on how Praktix works"
               subtitle="Built directly from your solution pillars (no new data invented)."
               center
             />
@@ -1117,7 +1117,7 @@ export default function LandingPage() {
                     Ready to Get Started?
                   </h3>
                   <p className="mt-3 text-sm font-bold leading-relaxed text-black/60 sm:text-base">
-                    Let’s talk partnerships, programs, and how PraktikaX can help your students or hiring pipeline.
+                    Let�s talk partnerships, programs, and how Praktix can help your students or hiring pipeline.
                   </p>
 
                   <div className="mt-5 flex flex-wrap items-center gap-3">
@@ -1125,7 +1125,7 @@ export default function LandingPage() {
                       href="/contact"
                       className="inline-flex items-center gap-2 rounded-2xl bg-[var(--accent)] px-5 py-3 text-sm font-extrabold text-white shadow-[0_18px_45px_rgba(197,31,93,.20)] hover:brightness-110"
                     >
-                      Contact Us <span aria-hidden>→</span>
+                      Contact Us <span aria-hidden>?</span>
                     </a>
                     <a
                       href="mailto:info@praktix.eu"
@@ -1150,3 +1150,4 @@ export default function LandingPage() {
     </div>
   );
 }
+

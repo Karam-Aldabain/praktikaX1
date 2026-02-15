@@ -1,5 +1,5 @@
 /* =========================================================
-   PraktikaX — upgraded, light-first, scroll-bg transitions,
+   Praktix — upgraded, light-first, scroll-bg transitions,
    hero matches screenshot 5 layout style.
    Uses your palette only:
    --accent --primary --deep --sand
@@ -1244,3 +1244,4 @@ html { scroll-behavior: smooth; }
   .lp-floatCard{ animation: none !important; }
   .lp-heroBlobs .blob{ animation: none !important; }
 }
+

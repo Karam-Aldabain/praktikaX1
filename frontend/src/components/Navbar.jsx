@@ -490,8 +490,8 @@ export default function Navbar({ dir = "ltr" }) {
       <nav className="px-nav" ref={navRef} aria-label="Primary">
         <div className="px-container">
           {/* LEFT: Brand */}
-          <a className="px-brand" href="/" onClick={onNavLink} aria-label="PraktikaX Home">
-            <img className="px-brandLogo" src="/logo-praktikax.jpg" alt="PraktikaX logo" />
+          <a className="px-brand" href="/" onClick={onNavLink} aria-label="Praktix Home">
+            <img className="px-brandLogo" src="/navbar-logo.png" alt="Praktix logo" />
           </a>
 
           {/* CENTER: Desktop nav (perfectly centered) */}
@@ -635,7 +635,6 @@ export default function Navbar({ dir = "ltr" }) {
                 aria-pressed={theme === "dark"}
               >
                 <ThemeIcon theme={theme} />
-                <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
               </button>
 
               <a className="px-iconBtn" href="/search" aria-label="Search">
@@ -666,7 +665,6 @@ export default function Navbar({ dir = "ltr" }) {
                 aria-pressed={theme === "dark"}
               >
                 <ThemeIcon theme={theme} />
-                <span>{theme === "dark" ? "Light mode" : "Dark mode"}</span>
               </button>
 
               <a className="px-cta mobile" href="/portal" onClick={onNavLink}>
@@ -752,7 +750,7 @@ export default function Navbar({ dir = "ltr" }) {
                 </a>
                 <span className="px-dot">•</span>
                 <a className="px-mutedLink" href="/about" onClick={onNavLink}>
-                  About PraktikaX
+                  About Praktix
                 </a>
               </div>
             </div>
@@ -762,6 +760,7 @@ export default function Navbar({ dir = "ltr" }) {
     </header>
   );
 }
+
 
 
 

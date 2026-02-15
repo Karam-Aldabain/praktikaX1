@@ -1,4 +1,4 @@
-ï»¿import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 /**
  * Screenshot-match layout:
@@ -20,12 +20,12 @@ export default function ImpressumPage() {
       {
         id: "tmg",
         label:
-          "Information in accordance with Â§ 5 TMG (German Telemedia Act)",
+          "Information in accordance with § 5 TMG (German Telemedia Act)",
       },
       { id: "service-provider", label: "Service Provider" },
       {
         id: "rstv",
-        label: "Responsible for Content according to Â§ 55 Abs. 2 RStV",
+        label: "Responsible for Content according to § 55 Abs. 2 RStV",
       },
       { id: "disclaimer", label: "Disclaimer" },
     ],
@@ -108,19 +108,19 @@ export default function ImpressumPage() {
           {/* TMG panel with nested provider board (matches screenshot structure) */}
           <CreamPanel
             id="tmg"
-            title="Information in accordance with Â§ 5 TMG (German Telemedia Act)"
+            title="Information in accordance with § 5 TMG (German Telemedia Act)"
           >
             <ProviderBoard
               id="service-provider"
-              name="PraktikaX"
-              sub="Operated by HOPn UG (haftungsbeschrÃ¤nkt)"
+              name="Praktix"
+              sub="Operated by HOPn UG (haftungsbeschränkt)"
             />
           </CreamPanel>
 
           {/* Responsible person (kept, styled to match) */}
           <CreamPanel
             id="rstv"
-            title="Responsible for Content according to Â§ 55 Abs. 2 RStV"
+            title="Responsible for Content according to § 55 Abs. 2 RStV"
           >
             <div className="ixInsetNote">
               <div className="ixInsetIcon">
@@ -286,7 +286,7 @@ function ProviderBoard({ id, name, sub }) {
           <ProviderRow
             icon={<IconGlobe />}
             label="Website:"
-            value="www.praktikax.com"
+            value="www.Praktix.com"
             tone="slate"
             last
           />
@@ -1034,4 +1034,5 @@ body{
   .ixH1{ font-size: 38px; }
 }
 `;
+
 

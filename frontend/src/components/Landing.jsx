@@ -873,6 +873,8 @@ function ExpertCard({ person }) {
           className="absolute inset-0 overflow-hidden rounded-[30px] border border-[color:var(--border)]"
           style={{
             backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            transform: "translateZ(0.1px)",
             boxShadow: "var(--shadow-md)",
           }}
         >
@@ -898,56 +900,60 @@ function ExpertCard({ person }) {
 
         {/* BACK */}
         <div
-          className="absolute inset-0 rounded-[30px] border border-white/10 p-9"
+          className="absolute inset-0 rounded-[30px] border border-white/10 p-6 sm:p-7"
           style={{
             transform: "rotateY(180deg)",
             backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
             background: `linear-gradient(180deg, ${BACK_TOP}, ${BACK_BOTTOM})`,
             boxShadow: "var(--shadow-md)",
           }}
         >
-          <div className="flex h-full flex-col items-center justify-center text-center">
+          <div className="flex h-full flex-col items-center text-center">
             {/* portrait circle with orange ring */}
             <div
-              className="h-[108px] w-[108px] overflow-hidden rounded-full"
+              className="relative h-24 w-24 shrink-0 rounded-full p-[4px] sm:h-28 sm:w-28"
               style={{
-                border: `5px solid ${ORANGE}`,
+                backgroundColor: ORANGE,
                 boxShadow: "0 20px 60px rgba(0,0,0,0.35)",
               }}
             >
-              <img
-                src={person.img}
-                alt={person.name}
-                className="h-full w-full object-cover"
-                loading="lazy"
-              />
+              <div className="h-full w-full overflow-hidden rounded-full">
+                <img
+                  src={person.img}
+                  alt={person.name}
+                  className="h-full w-full rounded-full object-cover"
+                  style={{ objectPosition: "50% 28%" }}
+                  loading="lazy"
+                />
+              </div>
             </div>
 
-            <div className="mt-6 text-3xl font-semibold text-white">
+            <div className="mt-4 text-2xl font-semibold leading-tight text-white sm:text-3xl">
               {person.name}
             </div>
 
             <div
-              className="mt-2 text-base font-semibold"
+              className="mt-2 text-sm font-semibold sm:text-base"
               style={{ color: ORANGE }}
             >
               {person.role}
             </div>
 
             {person.org ? (
-              <div className="mt-6 text-sm font-semibold text-white/80">
+              <div className="mt-4 text-sm font-semibold text-white/80">
                 {person.org}
               </div>
             ) : null}
 
             {person.focus ? (
-              <div className="mt-3 text-sm font-medium text-white/70">
+              <div className="mt-2 text-sm font-medium leading-snug text-white/70">
                 Focus: {person.focus}
               </div>
             ) : null}
 
             {person.experience ? (
-              <div className="mt-3 text-sm font-medium text-white/70">
+              <div className="mt-2 text-sm font-medium text-white/70">
                 {person.experience}
               </div>
             ) : null}
@@ -958,7 +964,7 @@ function ExpertCard({ person }) {
                 href={person.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="mt-7 inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold"
+                className="mt-auto inline-flex items-center gap-2 rounded-full px-5 py-2 text-sm font-semibold"
                 style={{
                   border: `1px solid rgba(255,106,0,0.45)`,
                   color: ORANGE,
@@ -1420,7 +1426,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+        <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6" id="stories">
           <Header
             eyebrow="SUCCESS STORIES"
             title="Real stories from our interns and partners"

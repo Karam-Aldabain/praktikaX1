@@ -1037,7 +1037,7 @@ export default function CustomTrainingPage() {
           eyebrow="Why Choose Our Programs"
           title={
             <span>
-              Experience the <span className="text-[#C51F5D]">PraktikaX</span> advantage
+              Experience the <span className="text-[#C51F5D]">Praktix</span> advantage
             </span>
           }
           subtitle="A premium learning experience that is measurable, adoptable, and scalable."
@@ -1160,7 +1160,7 @@ export default function CustomTrainingPage() {
             <div className="max-w-2xl">
               <h3 className="text-3xl font-semibold tracking-tight text-[#E2E2D2] md:text-4xl">Ready to get started?</h3>
               <p className="mt-3 text-base leading-relaxed text-[#E2E2D2]/75">
-                Let’s talk partnerships, programs, and how PraktikaX can help your students or hiring pipeline.
+                Let’s talk partnerships, programs, and how Praktix can help your students or hiring pipeline.
               </p>
 
               <div className="mt-6 flex items-center gap-3">
@@ -1348,3 +1348,4 @@ function SelectField({ label, placeholder, options }) {
     </label>
   );
 }
+

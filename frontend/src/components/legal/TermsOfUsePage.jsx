@@ -1,14 +1,14 @@
-﻿import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 /**
- * Terms of Use — screenshot-inspired layout (based on your Impressum code)
+ * Terms of Use � screenshot-inspired layout (based on your Impressum code)
  *
- * ✅ Balanced dark + cream (NOT too dark, NOT too light)
- * ✅ Scrollable structured layout
- * ✅ Section anchor navigation (two cards: dark + light like screenshot)
- * ✅ Acceptance implied by use (highlighted callout)
- * ✅ CMS editable hooks (data-cms-*)
- * ✅ Icons + subtle motion (CSS keyframes + hover + accordion)
+ * ? Balanced dark + cream (NOT too dark, NOT too light)
+ * ? Scrollable structured layout
+ * ? Section anchor navigation (two cards: dark + light like screenshot)
+ * ? Acceptance implied by use (highlighted callout)
+ * ? CMS editable hooks (data-cms-*)
+ * ? Icons + subtle motion (CSS keyframes + hover + accordion)
  *
  * Palette (yours):
  *  - Pink:  #C51F5D
@@ -18,7 +18,7 @@
  */
 
 export default function TermsOfUsePage({
-  brandName = "PraktikaX",
+  brandName = "Praktix",
   effectiveDate = "[Insert Date]",
   legalEmail = "[Insert Official Legal Email]",
 }) {
@@ -327,7 +327,7 @@ export default function TermsOfUsePage({
                     title: "Acceptance implied by use",
                     icon: <IconSpark />,
                     content:
-                      `By continuing to access or use ${brandName}, you confirm you’ve read and accepted these Terms.`,
+                      `By continuing to access or use ${brandName}, you confirm you�ve read and accepted these Terms.`,
                   },
                   {
                     title: "No guarantee of outcomes",
@@ -348,7 +348,7 @@ export default function TermsOfUsePage({
 
           {/* Footer */}
           <div className="tuFooter">
-            <div className="tuFooterLeft">© {new Date().getFullYear()} {brandName} • Legal</div>
+            <div className="tuFooterLeft">� {new Date().getFullYear()} {brandName} � Legal</div>
             <button className="tuBackTop" onClick={() => scrollTo("top")} type="button">
               <span className="tuBackTopIcon" aria-hidden="true">
                 <IconUp />
@@ -1251,3 +1251,4 @@ body{
   }
 }
 `;
+

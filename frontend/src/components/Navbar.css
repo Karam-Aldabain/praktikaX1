@@ -47,9 +47,9 @@
 
 .px-brandLogo {
   display: block;
-  height: 58px;
+  height: 84px;
   width: auto;
-  max-width: 220px;
+  max-width: 340px;
   object-fit: contain;
   background: transparent;
   border: 0;
@@ -139,6 +139,7 @@
 
 .px-themeBtn {
   height: 40px;
+  width: 40px;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--px-deep) 14%, transparent);
   background: color-mix(in srgb, white 66%, var(--px-sand));
@@ -146,10 +147,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 0 14px;
-  font-size: 12px;
-  font-weight: 700;
+  gap: 0;
+  padding: 0;
   backdrop-filter: blur(8px);
   cursor: pointer;
   transition: background .15s ease, border-color .15s ease;
@@ -469,7 +468,7 @@
   flex-wrap: wrap;
   margin-bottom: 10px;
 }
-.px-themeBtn.mobile { height: 44px; padding: 0 14px; flex: 1 1 170px; }
+.px-themeBtn.mobile { width: 44px; height: 44px; padding: 0; flex: 0 0 auto; }
 .px-cta.mobile { flex: 1 1 170px; text-align: center; }
 .px-iconBtn.mobile { width: 44px; height: 44px; }
 
@@ -614,8 +613,8 @@
   }
 
   .px-brandLogo {
-    height: 44px;
-    max-width: 156px;
+    height: 62px;
+    max-width: 250px;
   }
 
   .px-container {
@@ -658,8 +657,8 @@
 
 @media (max-width: 480px) {
   .px-brandLogo {
-    height: 40px;
-    max-width: 140px;
+    height: 56px;
+    max-width: 220px;
   }
 
   .px-mobileBtn {
@@ -698,7 +697,6 @@
     gap: 8px;
   }
 
-  .px-themeBtn.mobile,
   .px-cta.mobile {
     flex: 1 1 100%;
   }

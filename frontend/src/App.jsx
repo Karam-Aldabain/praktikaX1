@@ -14,22 +14,24 @@ import "./App.css";
 
 export default function App() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Navbar />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/industry-internships" element={<IndustryInternshipsPage />} />
-        <Route path="/custom-training" element={<CustomTrainingPage />} />
-        <Route path="/programs/bootcamps" element={<BootcampPage />} />
-        <Route path="/bootcamp" element={<BootcampPage />} />
-        <Route path="/programs/courses-workshops" element={<CoursesWorkshopsPage />} />
-        <Route path="/courses-workshops" element={<CoursesWorkshopsPage />} />
-        <Route path="/impressum" element={<ImpressumPage />} />
-        <Route path="/terms-of-use" element={<TermsOfUsePage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-      </Routes>
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/industry-internships" element={<IndustryInternshipsPage />} />
+          <Route path="/custom-training" element={<CustomTrainingPage />} />
+          <Route path="/programs/bootcamps" element={<BootcampPage />} />
+          <Route path="/bootcamp" element={<BootcampPage />} />
+          <Route path="/programs/courses-workshops" element={<CoursesWorkshopsPage />} />
+          <Route path="/courses-workshops" element={<CoursesWorkshopsPage />} />
+          <Route path="/impressum" element={<ImpressumPage />} />
+          <Route path="/terms-of-use" element={<TermsOfUsePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        </Routes>
+      </main>
       <SiteFooter />
       <CookieBanner />
-    </>
+    </div>
   );
 }

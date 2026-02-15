@@ -98,7 +98,7 @@ export default function PrivacyPolicyPage() {
 
           <CreamPanel id="controller" title="Data Controller">
             <div className="ppInfoCard">
-              <div className="ppInfoTitle">PraktikaX</div>
+              <div className="ppInfoTitle">Praktix</div>
               <div className="ppInfoMuted">Operated by HOPn UG (haftungsbeschraenkt)</div>
               <div className="ppInfoMuted">[Insert Full Legal Address]</div>
               <div className="ppInfoMuted">Email: [Insert Legal Email]</div>
@@ -689,3 +689,4 @@ const styles = `
   .ppTitle{ font-size: 38px; }
 }
 `;
+

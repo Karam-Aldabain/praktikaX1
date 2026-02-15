@@ -13,7 +13,7 @@ export default function LegalLayout({ title, children }) {
       document.head.appendChild(robots);
     }
 
-    document.title = `${title} | PraktikaX`;
+    document.title = `${title} | Praktix`;
     robots.setAttribute("content", "noindex, nofollow");
 
     return () => {
@@ -37,4 +37,5 @@ export default function LegalLayout({ title, children }) {
     </main>
   );
 }
+
 
