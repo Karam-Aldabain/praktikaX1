@@ -1125,6 +1125,17 @@ export default function CustomTrainingPage() {
                   />
                 </label>
 
+                <label className="mt-5 flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-[#E2E2D2]/90">
+                  <input type="checkbox" required className="mt-1 h-4 w-4 accent-[#C51F5D]" />
+                  <span>
+                    I agree to the{" "}
+                    <a href="/privacy-policy" className="font-extrabold text-[#C51F5D] underline underline-offset-2">
+                      Privacy Policy
+                    </a>
+                    .
+                  </span>
+                </label>
+
                 <div className="mt-6 relative">
                   <ConfettiBurst fireKey={confettiKey + 2000} />
                   <MagneticButton type="submit" variant="primary" className="w-full py-4 text-base" icon={false}>

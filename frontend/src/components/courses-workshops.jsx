@@ -647,6 +647,17 @@ export default function CoursesWorkshopsPage() {
                     <div className="mt-2 text-right text-xs font-semibold text-white/45">{details.length}/2000</div>
                   </div>
 
+                  <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/85">
+                    <input type="checkbox" required className="mt-1 h-4 w-4 accent-[color:var(--accent)]" />
+                    <span>
+                      I agree to the{" "}
+                      <a href="/privacy-policy" className="font-extrabold text-[color:var(--accent)] underline underline-offset-2">
+                        Privacy Policy
+                      </a>
+                      .
+                    </span>
+                  </label>
+
                   <button
                     type="submit"
                     className={cn(

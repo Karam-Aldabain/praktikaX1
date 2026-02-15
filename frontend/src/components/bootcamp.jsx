@@ -1237,6 +1237,17 @@ export default function BootcampPage () {
                   <div className="mt-2 text-right text-xs text-[#E2E2D2]/55">{whyCount}/2000 characters</div>
                 </div>
 
+                <label className="mt-4 flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-[#E2E2D2]/90">
+                  <input type="checkbox" required className="mt-1 h-4 w-4 accent-[#C51F5D]" />
+                  <span>
+                    I agree to the{" "}
+                    <a href="/privacy-policy" className="font-extrabold text-[#C51F5D] underline underline-offset-2">
+                      Privacy Policy
+                    </a>
+                    .
+                  </span>
+                </label>
+
                 <div className="mt-6 relative">
                   <ConfettiBurst fireKey={confettiKey + 2000} />
                   <motion.button

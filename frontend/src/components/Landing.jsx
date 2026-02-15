@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+ï»¿import React, { useMemo, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -188,7 +188,7 @@ const HOW_IT_WORKS = [
   {
     icon: "",
     title: "Apply & Get Matched",
-    desc: "Submit your application and we’ll match you with opportunities aligned with your goals.",
+    desc: "Submit your application and we will match you with opportunities aligned with your goals.",
   },
   {
     icon: "",
@@ -663,7 +663,7 @@ function LogoStrip({ theme }) {
       // slightly smaller on 2nd row like the screenshot
       fontSize: rowIndex === 0 ? "15px" : "14px",
       lineHeight: 1,
-      // “printed” effect on paper
+      // printed effect on paper
       textShadow: isDark
         ? "0 1px 0 rgba(0,0,0,0.35)"
         : "0 1px 0 rgba(255,255,255,0.55)",
@@ -825,14 +825,14 @@ function PlacementBanner({ theme }) {
         />
 
         <div className="relative text-xs font-semibold text-white/75">
-          Balanced structure · strong visuals · portfolio-ready proof
+          Balanced structure  strong visuals  portfolio-ready proof
         </div>
         <div className="relative mt-3 text-3xl font-semibold text-white md:text-4xl">
           <span className="text-white">2000+</span> successful placements powered
           by portfolio-ready
         </div>
         <div className="relative mx-auto mt-3 max-w-3xl text-sm font-medium text-white/75">
-          Real projects + mentor feedback + measurable outcomes — designed to
+          Real projects + mentor feedback + measurable outcomes  designed to
           match hiring expectations.
         </div>
       </div>
@@ -999,16 +999,16 @@ export default function LandingPage() {
     () => [
       {
         quote:
-          "“The projects felt real, the feedback was sharp, and the outcomes were measurable.”",
+          "The projects felt real, the feedback was sharp, and the outcomes were measurable.",
         name: "Alex Morgan",
-        role: "Program Participant · Technology Track",
+        role: "Program Participant  Technology Track",
         avatar: "",
       },
       {
         quote:
-          "“This ecosystem makes hiring simpler because candidates come with proven work.”",
+          "This ecosystem makes hiring simpler because candidates come with proven work.",
         name: "Leila Hassan",
-        role: "Talent Partner · Industry Partner",
+        role: "Talent Partner Industry Partner",
         avatar: "",
       },
     ],
@@ -1222,7 +1222,7 @@ export default function LandingPage() {
                 </h1>
 
                 <p className="mt-4 max-w-[58ch] text-sm font-medium leading-relaxed text-[color:var(--muted)] sm:text-base">
-                  Real projects, mentor feedback, and portfolio-ready outcomes —
+                  Real projects, mentor feedback, and portfolio-ready outcomes 
                   built for students who want results.
                 </p>
 
@@ -1291,7 +1291,7 @@ export default function LandingPage() {
         {/* METHOD / STATS */}
         <section className="mx-auto max-w-6xl px-4 pt-14" id="method">
           <SectionTitle
-            title="A system built for"
+           title="A system built for"
             accentWord="real outcomes"
             subtitle="Three pillars that turn learning into proof of work."
           />
@@ -1629,7 +1629,7 @@ export default function LandingPage() {
               </h2>
 
               <p className="mt-3 text-base font-medium leading-relaxed text-[color:var(--muted)]">
-                Let’s talk partnerships, programs, and how we can help
+                Let's talk partnerships, programs, and how we can help
                 your students or hiring pipeline.
               </p>
 
@@ -1661,7 +1661,7 @@ export default function LandingPage() {
           </div>
 
           <div className="mt-10 pb-10 text-center text-sm font-medium text-[color:var(--muted)]">
-            © {new Date().getFullYear()}
+             {new Date().getFullYear()}
           </div>
         </section>
       </main>

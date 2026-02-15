@@ -248,42 +248,12 @@ const NAV = [
             href: "/about/ecosystem",
             desc: "A connected environment integrating experts, institutions, and industry",
             children: [
-              { label: "Volunteer as an Expert", href: "/about/ecosystem/volunteer-as-expert" },
-              { label: "Hiring Initiatives", href: "/about/ecosystem/hiring-initiatives" },
-              { label: "Educational & Career Events", href: "/about/ecosystem/events" },
               { label: "Global Expert Network", href: "/about/ecosystem/global-expert-network" },
               { label: "Industry Engagements", href: "/about/ecosystem/industry-engagements" },
+              { label: "Educational & Career Events", href: "/about/ecosystem/events" },
+              { label: "Hiring Initiatives", href: "/about/ecosystem/hiring-initiatives" },
+              { label: "Become an Expert", href: "/about/ecosystem/become-an-expert" },
             ],
-          },
-        ],
-      },
-      {
-        title: "Under Ecosystem",
-        items: [
-          {
-            label: "Global Expert Network",
-            href: "/about/ecosystem/global-expert-network",
-            desc: "Cross-sector mentors and specialists",
-          },
-          {
-            label: "Industry Engagements",
-            href: "/about/ecosystem/industry-engagements",
-            desc: "Collaboration with companies and sector partners",
-          },
-          {
-            label: "Educational & Career Events",
-            href: "/about/ecosystem/events",
-            desc: "Programs and events connecting learning to opportunity",
-          },
-          {
-            label: "Hiring Initiatives",
-            href: "/about/ecosystem/hiring-initiatives",
-            desc: "Structured pathways from learning to employment",
-          },
-          {
-            label: "Become an Expert",
-            href: "/about/ecosystem/become-an-expert",
-            desc: "Join the network as a mentor or contributor",
           },
         ],
       },
