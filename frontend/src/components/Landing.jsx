@@ -63,6 +63,7 @@ const SOLUTIONS = [
     img: IMAGES.solution1,
     tag1: "Career start",
     tag2: "Industry-ready",
+    href: "/students-graduates",
   },
   {
     title: "AI for Real-World Careers",
@@ -792,12 +793,16 @@ function PillarCard({ theme, item }) {
     <motion.div
       className={[
         "group relative overflow-hidden rounded-[22px] border border-[color:var(--border)] bg-[color:var(--card)] transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75",
+        item.href ? "cursor-pointer" : "",
         "shadow-[0_18px_70px_rgba(0,0,0,0.12)]",
       ].join(" ")}
       whileHover={reduce ? undefined : { y: -8, scale: 1.01 }}
       whileTap={reduce ? undefined : { scale: 0.99 }}
       transition={SPRING}
     >
+      {item.href ? (
+        <a href={item.href} className="absolute inset-0 z-10" aria-label={item.title} />
+      ) : null}
       <div className="relative h-52 overflow-hidden">
         <motion.img
           src={item.img}

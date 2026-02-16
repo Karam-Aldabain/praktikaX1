@@ -53,7 +53,7 @@ const NAV = [
         items: [
           {
             label: "Students & Graduates",
-            href: "/for-individuals/students-graduates",
+            href: "/students-graduates",
             desc: "Industry-integrated internships, career tracks, and portfolio-based learning experiences",
           },
           {
