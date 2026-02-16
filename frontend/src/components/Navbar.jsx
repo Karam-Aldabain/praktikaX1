@@ -458,7 +458,7 @@ export default function Navbar({ dir = "ltr" }) {
           {/* LEFT: Brand */}
           <a className="px-brand" href="/" onClick={onNavLink} aria-label="Praktix Home">
             <img
-              className="px-brandLogo"
+              className={`px-brandLogo ${theme === "dark" ? "darkAsset" : ""}`}
               src={brandLogoSrc}
               alt="Praktix logo"
             />

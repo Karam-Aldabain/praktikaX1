@@ -269,6 +269,63 @@ function smoothScrollTo(id) {
   el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+// -----------------------------------------------------------
+// MOTION SYSTEM (shared across the page)
+// -----------------------------------------------------------
+const EASE_OUT = [0.16, 1, 0.3, 1];
+
+const SPRING = {
+  type: "spring",
+  stiffness: 220,
+  damping: 24,
+  mass: 0.7,
+};
+
+const VARIANTS = {
+  section: {
+    hidden: {},
+    show: {
+      transition: { staggerChildren: 0.09, delayChildren: 0.06 },
+    },
+  },
+  fadeUp: {
+    hidden: { opacity: 0, y: 18, filter: "blur(6px)" },
+    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.55, ease: EASE_OUT } },
+  },
+  fade: {
+    hidden: { opacity: 0 },
+    show: { opacity: 1, transition: { duration: 0.5, ease: EASE_OUT } },
+  },
+  scaleIn: {
+    hidden: { opacity: 0, scale: 0.96, filter: "blur(6px)" },
+    show: { opacity: 1, scale: 1, filter: "blur(0px)", transition: { duration: 0.55, ease: EASE_OUT } },
+  },
+};
+
+function MotionSection({ className = "", children, amount = 0.22, once = true }) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div
+      className={className}
+      variants={reduce ? undefined : VARIANTS.section}
+      initial={reduce ? undefined : "hidden"}
+      whileInView={reduce ? undefined : "show"}
+      viewport={{ once, amount }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function MotionItem({ className = "", children, variant = "fadeUp" }) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.div className={className} variants={reduce ? undefined : VARIANTS[variant]}>
+      {children}
+    </motion.div>
+  );
+}
+
 /* -----------------------------------------------------------
    PRIMITIVES (theme-aware)
 ----------------------------------------------------------- */
@@ -324,8 +381,12 @@ function Chip({ variant = "green", children }) {
 }
 
 function PrimaryBtn({ children, className = "", ...props }) {
+  const reduce = useReducedMotion();
   return (
-    <a
+    <motion.a
+      whileHover={reduce ? undefined : { y: -2 }}
+      whileTap={reduce ? undefined : { scale: 0.98 }}
+      transition={SPRING}
       className={[
         "inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold sm:px-7 sm:py-3.5",
         "text-white shadow-[0_18px_45px_rgba(197,31,93,0.28)] hover:brightness-110",
@@ -334,8 +395,17 @@ function PrimaryBtn({ children, className = "", ...props }) {
       ].join(" ")}
       {...props}
     >
-      {children}
-    </a>
+      <span className="inline-flex items-center gap-2">
+        {children}
+        <motion.span
+          aria-hidden="true"
+          initial={false}
+          animate={reduce ? undefined : { x: 0 }}
+          whileHover={reduce ? undefined : { x: 4 }}
+          transition={{ duration: 0.18, ease: EASE_OUT }}
+        />
+      </span>
+    </motion.a>
   );
 }
 
@@ -414,7 +484,7 @@ function SuccessStories({ items }) {
         {railItems.map((story, idx) => (
           <article
             key={`${story.name}-${idx}`}
-            className="relative w-[320px] shrink-0 overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-[var(--shadow-md)] backdrop-blur sm:w-[360px]"
+            className="group relative w-[320px] shrink-0 overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-[var(--shadow-md)] backdrop-blur transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75 sm:w-[360px]"
           >
             <div className="absolute left-0 top-0 h-full w-1.5 bg-[color:var(--accent)]" />
             <div className="ml-2 text-base font-bold leading-relaxed text-[color:var(--text)]">
@@ -717,18 +787,24 @@ function LogoStrip({ theme }) {
 
 function PillarCard({ theme, item }) {
   const isDark = theme === "dark";
+  const reduce = useReducedMotion();
   return (
-    <div
+    <motion.div
       className={[
-        "overflow-hidden rounded-[22px] border border-[color:var(--border)] bg-[color:var(--card)]",
+        "group relative overflow-hidden rounded-[22px] border border-[color:var(--border)] bg-[color:var(--card)] transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75",
         "shadow-[0_18px_70px_rgba(0,0,0,0.12)]",
       ].join(" ")}
+      whileHover={reduce ? undefined : { y: -8, scale: 1.01 }}
+      whileTap={reduce ? undefined : { scale: 0.99 }}
+      transition={SPRING}
     >
       <div className="relative h-52 overflow-hidden">
-        <img
+        <motion.img
           src={item.img}
           alt={item.title}
           className="h-full w-full object-cover"
+          whileHover={reduce ? undefined : { scale: 1.06 }}
+          transition={{ duration: 0.7, ease: EASE_OUT }}
         />
         {isDark ? (
           <div className="absolute inset-0 bg-gradient-to-t from-[rgba(11,18,32,0.72)] via-[rgba(11,18,32,0.12)] to-transparent" />
@@ -771,7 +847,7 @@ function PillarCard({ theme, item }) {
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -817,6 +893,7 @@ function PlacementBanner({ theme }) {
 
 function ExpertCard({ person }) {
   const [flipped, setFlipped] = useState(false);
+  const reduce = useReducedMotion();
 
   const toggle = () => setFlipped((v) => !v);
 
@@ -831,8 +908,8 @@ function ExpertCard({ person }) {
         style={{ transformStyle: "preserve-3d" }}
         animate={{ rotateY: flipped ? 180 : 0 }}
         transition={{ type: "spring", stiffness: 180, damping: 18 }}
-        onHoverStart={() => setFlipped(true)}
-        onHoverEnd={() => setFlipped(false)}
+        whileHover={reduce ? undefined : { y: -8, rotateX: 1.5, rotateY: flipped ? 180 : -2 }}
+        whileTap={reduce ? undefined : { scale: 0.99 }}
         onClick={toggle}
         role="button"
         tabIndex={0}
@@ -1242,6 +1319,23 @@ export default function LandingPage() {
               }}
             />
 
+            {!reduce && (
+              <>
+                <motion.div
+                  className="pointer-events-none absolute -left-24 -top-20 h-72 w-72 rounded-full"
+                  style={{ background: "radial-gradient(circle, rgba(197,31,93,0.18), transparent 60%)" }}
+                  animate={{ y: [0, 18, 0], x: [0, 10, 0] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <motion.div
+                  className="pointer-events-none absolute -right-28 top-10 h-80 w-80 rounded-full"
+                  style={{ background: "radial-gradient(circle, rgba(60,200,255,0.16), transparent 60%)" }}
+                  animate={{ y: [0, -16, 0], x: [0, -12, 0] }}
+                  transition={{ duration: 9.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </>
+            )}
+
             {/* ? less white overlay in light mode (so it stays paper, not bright) */}
             <div
               className="absolute inset-0"
@@ -1273,7 +1367,7 @@ export default function LandingPage() {
               <div>
                 <h1 className="mt-2 text-4xl font-light tracking-tight text-[color:var(--text)] sm:text-5xl md:text-6xl">
                   <span>Real </span>
-                  <span className="inline-block min-w-[11.5ch]">
+                  <span className="inline-block">
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={heroWords[heroWordIndex]}
@@ -1297,7 +1391,6 @@ export default function LandingPage() {
                       </motion.span>
                     </AnimatePresence>
                   </span>
-                  <span>.</span>
                 </h1>
 
                 <p className="mt-5 max-w-[58ch] text-base font-medium leading-relaxed text-[color:var(--muted)] sm:text-lg">
@@ -1316,12 +1409,16 @@ export default function LandingPage() {
 
         {/* METHOD / STATS */}
         <section className="mx-auto max-w-6xl px-4 pt-14" id="method">
+          <MotionSection>
+          <MotionItem>
           <SectionTitle
            title="A system built for"
             accentWord="real outcomes"
             subtitle="Three pillars that turn learning into proof of work."
           />
+          </MotionItem>
 
+          <MotionItem variant="scaleIn">
           {isDark ? (
             <div
               className="mt-10 overflow-hidden rounded-[44px] border border-white/10"
@@ -1358,7 +1455,9 @@ export default function LandingPage() {
               <LogoStrip theme={theme} />
             </div>
           )}
+          </MotionItem>
 
+          <MotionItem>
           <motion.div
             className="mt-8 mb-2 flex justify-center"
             initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
@@ -1392,18 +1491,26 @@ export default function LandingPage() {
               </span>
             </div>
           </motion.div>
+          </MotionItem>
 
+          <MotionItem>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {SOLUTIONS.map((s) => (
               <PillarCard key={s.title} theme={theme} item={s} />
             ))}
           </div>
+          </MotionItem>
 
+          <MotionItem variant="scaleIn">
           <PlacementBanner theme={theme} />
+          </MotionItem>
+          </MotionSection>
         </section>
 
         {/* TOOLS */}
         <section className="mx-auto max-w-6xl px-4 pt-16" id="tools">
+          <MotionSection>
+          <MotionItem>
           <motion.div
             className="mb-6 flex justify-center"
             initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
@@ -1437,13 +1544,17 @@ export default function LandingPage() {
               </span>
             </div>
           </motion.div>
+          </MotionItem>
 
+          <MotionItem>
           <SectionTitle
             title="Everything needed to build confidence"
             accentWord="and credibility"
             subtitle="Balanced structure + strong visuals, without changing your data."
           />
+          </MotionItem>
 
+          <MotionItem variant="scaleIn">
           <div className="relative mt-10">
             <button
               type="button"
@@ -1466,23 +1577,29 @@ export default function LandingPage() {
             <div
               className="overflow-hidden px-10"
             >
-              <div
-                className="flex transition-transform duration-500 ease-out"
-                style={{ transform: `translateX(-${(orgIndex * 100) / orgVisible}%)` }}
+              <motion.div
+                className="flex"
+                animate={{ x: `-${(orgIndex * 100) / orgVisible}%` }}
+                transition={SPRING}
               >
                 {BENEFITS.map((b) => {
                   const Icon = b.icon;
                   return (
                     <div key={b.title} className="shrink-0 px-2" style={{ flex: `0 0 ${100 / orgVisible}%` }}>
-                      <div
-                        className="h-full overflow-hidden rounded-[22px] border border-[color:var(--border)] bg-[color:var(--card)]"
+                      <motion.div
+                        className="group relative h-full overflow-hidden rounded-[22px] border border-[color:var(--border)] bg-[color:var(--card)] transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75"
                         style={{ boxShadow: "var(--shadow-md)" }}
+                        whileHover={reduce ? undefined : { y: -8, scale: 1.01 }}
+                        whileTap={reduce ? undefined : { scale: 0.99 }}
+                        transition={SPRING}
                       >
                         <div className="relative h-56 overflow-hidden">
-                          <img
+                          <motion.img
                             src={b.img}
                             alt={b.title}
                             className="h-full w-full object-cover"
+                            whileHover={reduce ? undefined : { scale: 1.06 }}
+                            transition={{ duration: 0.7, ease: EASE_OUT }}
                           />
                           {isDark ? (
                             <div className="absolute inset-0 bg-gradient-to-t from-[rgba(11,18,32,0.70)] via-[rgba(11,18,32,0.10)] to-transparent" />
@@ -1533,16 +1650,20 @@ export default function LandingPage() {
                             </span>
                           </div>
                         </div>
-                      </div>
+                      </motion.div>
                     </div>
                   );
                 })}
-              </div>
+              </motion.div>
             </div>
           </div>
+          </MotionItem>
+          </MotionSection>
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6" id="stories">
+          <MotionSection>
+          <MotionItem>
           <motion.div
             className="mb-6 flex justify-center"
             initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
@@ -1576,15 +1697,23 @@ export default function LandingPage() {
               </span>
             </div>
           </motion.div>
+          </MotionItem>
 
+          <MotionItem>
           <Header
             title="Real stories from our interns and partners"
             subtitle="Outcomes that hiring teams can validate."
           />
+          </MotionItem>
+          <MotionItem variant="scaleIn">
           <SuccessStories items={SUCCESS_STORIES} />
+          </MotionItem>
+          </MotionSection>
         </section>
 
         <section className="mx-auto max-w-6xl px-4 pt-16" id="experts">
+          <MotionSection>
+          <MotionItem>
           <motion.div
             className="mb-6 flex justify-center"
             initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
@@ -1618,7 +1747,9 @@ export default function LandingPage() {
               </span>
             </div>
           </motion.div>
+          </MotionItem>
 
+          <MotionItem variant="scaleIn">
           <div className="relative mt-10">
             <button
               type="button"
@@ -1639,28 +1770,35 @@ export default function LandingPage() {
             </button>
 
             <div className="overflow-hidden px-10">
-              <div
-                className="flex transition-transform duration-500 ease-out"
-                style={{ transform: `translateX(-${(expertIndex * 100) / expertVisible}%)` }}
+              <motion.div
+                className="flex"
+                animate={{ x: `-${(expertIndex * 100) / expertVisible}%` }}
+                transition={SPRING}
               >
                 {EXPERTS.map((p) => (
                   <div key={p.name} className="shrink-0 px-2" style={{ flex: `0 0 ${100 / expertVisible}%` }}>
                     <ExpertCard person={p} />
                   </div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
+          </MotionItem>
+          </MotionSection>
         </section>
 
         {/* JOURNEY */}
         <section className="mx-auto max-w-6xl px-4 pt-16" id="journey">
+          <MotionSection>
+          <MotionItem>
           <SectionTitle
             title="A clear path from application"
             accentWord="to outcomes"
             subtitle="Simple steps. Strong guidance. Real artifacts."
           />
+          </MotionItem>
 
+          <MotionItem>
           <div className="mt-10 grid gap-6">
             {HOW_IT_WORKS.map((s, idx) => (
               <div
@@ -1724,7 +1862,9 @@ export default function LandingPage() {
               </div>
             ))}
           </div>
+          </MotionItem>
 
+          <MotionItem variant="scaleIn">
           <div className="mt-8 flex justify-center">
             <PrimaryBtn
               href="#contact"
@@ -1734,9 +1874,13 @@ export default function LandingPage() {
               Get started <ArrowRight size={18} />
             </PrimaryBtn>
           </div>
+          </MotionItem>
+          </MotionSection>
         </section>
 
         <section className="mx-auto max-w-6xl px-4 pt-16" id="about">
+          <MotionSection>
+          <MotionItem variant="scaleIn">
           <GlassCard className="overflow-hidden p-8 md:p-10">
             <div className="grid gap-10 md:grid-cols-[1.1fr_.9fr] md:items-center">
               <div>
@@ -1803,9 +1947,13 @@ export default function LandingPage() {
               </div>
             </div>
           </GlassCard>
+          </MotionItem>
+          </MotionSection>
         </section>
 
         <section className="mx-auto max-w-6xl px-4 pt-16" id="contact">
+          <MotionSection>
+          <MotionItem variant="scaleIn">
           <div
             className="relative overflow-hidden rounded-[30px] border p-6 sm:p-10"
             style={{
@@ -1848,6 +1996,8 @@ export default function LandingPage() {
               </div>
             </div>
           </div>
+          </MotionItem>
+          </MotionSection>
         </section>
       </main>
     </div>
