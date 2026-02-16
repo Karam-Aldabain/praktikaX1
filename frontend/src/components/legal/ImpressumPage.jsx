@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useLocalTheme } from "../../hooks/use-local-theme";
 
 /**
  * Screenshot-match layout:
@@ -15,17 +16,18 @@ import React, { useEffect, useMemo, useState } from "react";
  */
 
 export default function ImpressumPage() {
+  const { theme } = useLocalTheme();
   const sections = useMemo(
     () => [
       {
         id: "tmg",
         label:
-          "Information in accordance with � 5 TMG (German Telemedia Act)",
+          "Information in accordance with Ãƒâ€šÃ‚Â§ 5 TMG (German Telemedia Act)",
       },
       { id: "service-provider", label: "Service Provider" },
       {
         id: "rstv",
-        label: "Responsible for Content according to � 55 Abs. 2 RStV",
+        label: "Responsible for Content according to Ãƒâ€šÃ‚Â§ 55 Abs. 2 RStV",
       },
       { id: "disclaimer", label: "Disclaimer" },
     ],
@@ -63,8 +65,9 @@ export default function ImpressumPage() {
   };
 
   return (
-    <div className="ixRoot">
+    <div className="ixRoot" data-theme-mode={theme}>
       <style>{styles}</style>
+      <style>{theme === "light" ? IX_LIGHT_OVERRIDES : ""}</style>
 
       {/* BACKDROP (screenshot-like) */}
       <div className="ixBg" aria-hidden="true">
@@ -108,19 +111,19 @@ export default function ImpressumPage() {
           {/* TMG panel with nested provider board (matches screenshot structure) */}
           <CreamPanel
             id="tmg"
-            title="Information in accordance with � 5 TMG (German Telemedia Act)"
+            title="Information in accordance with Ãƒâ€šÃ‚Â§ 5 TMG (German Telemedia Act)"
           >
             <ProviderBoard
               id="service-provider"
               name="Praktix"
-              sub="Operated by HOPn UG (haftungsbeschr�nkt)"
+              sub="Operated by HOPn UG (haftungsbeschrÃƒÆ’Ã‚Â¤nkt)"
             />
           </CreamPanel>
 
           {/* Responsible person (kept, styled to match) */}
           <CreamPanel
             id="rstv"
-            title="Responsible for Content according to � 55 Abs. 2 RStV"
+            title="Responsible for Content according to Ãƒâ€šÃ‚Â§ 55 Abs. 2 RStV"
           >
             <div className="ixInsetNote">
               <div className="ixInsetIcon">
@@ -1036,3 +1039,23 @@ body{
 `;
 
 
+
+const IX_LIGHT_OVERRIDES = `
+.ixRoot[data-theme-mode="light"] .ixBg{
+  background: linear-gradient(180deg, #f4f7fb 0%, #edf2f8 55%, #f5f8fc 100%);
+}
+.ixRoot[data-theme-mode="light"] .ixH1,
+.ixRoot[data-theme-mode="light"] .ixDarkShellTitle,
+.ixRoot[data-theme-mode="light"] .ixProviderTopTitle,
+.ixRoot[data-theme-mode="light"] .ixDarkAccTitle,
+.ixRoot[data-theme-mode="light"] .ixDarkAccPanelInner{
+  color: rgba(20,29,38,.9);
+}
+.ixRoot[data-theme-mode="light"] .ixNavCard.dark,
+.ixRoot[data-theme-mode="light"] .ixDarkShell,
+.ixRoot[data-theme-mode="light"] .ixDarkAccItem,
+.ixRoot[data-theme-mode="light"] .ixProviderBoard{
+  background: linear-gradient(180deg, rgba(233,239,247,.96), rgba(218,227,238,.96));
+  border-color: rgba(36,52,71,.14);
+}
+`;

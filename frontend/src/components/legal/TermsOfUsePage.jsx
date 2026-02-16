@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useLocalTheme } from "../../hooks/use-local-theme";
 
 /**
- * Terms of Use � screenshot-inspired layout (based on your Impressum code)
+ * Terms of Use Ã¢â‚¬â€ screenshot-inspired layout (based on your Impressum code)
  *
  * ? Balanced dark + cream (NOT too dark, NOT too light)
  * ? Scrollable structured layout
@@ -22,6 +23,7 @@ export default function TermsOfUsePage({
   effectiveDate = "[Insert Date]",
   legalEmail = "[Insert Official Legal Email]",
 }) {
+  const { theme } = useLocalTheme();
   const sections = useMemo(
     () => [
       { id: "intro", label: "Terms of Use Overview" },
@@ -71,8 +73,9 @@ export default function TermsOfUsePage({
   };
 
   return (
-    <div className="tuRoot">
+    <div className="tuRoot" data-theme-mode={theme}>
       <style>{styles}</style>
+      <style>{theme === "light" ? TU_LIGHT_OVERRIDES : ""}</style>
 
       {/* BACKDROP (balanced) */}
       <div className="tuBg" aria-hidden="true">
@@ -179,7 +182,7 @@ export default function TermsOfUsePage({
           {/* 2. Eligibility */}
           <CreamPanel id="eligibility" title="2. Eligibility" cmsKey="terms.eligibility">
             <div className="tuText" data-cms-field="terms.eligibility.content">
-              Users must be at least <b>16 years old</b> to access services independently. Users under 18 may
+              Users must be at least <b>12 years old</b> to access services independently. Users under 18 may
               require parental or institutional consent.
             </div>
           </CreamPanel>
@@ -327,7 +330,7 @@ export default function TermsOfUsePage({
                     title: "Acceptance implied by use",
                     icon: <IconSpark />,
                     content:
-                      `By continuing to access or use ${brandName}, you confirm you�ve read and accepted these Terms.`,
+                      `By continuing to access or use ${brandName}, you confirm youÃ¢â‚¬â„¢ve read and accepted these Terms.`,
                   },
                   {
                     title: "No guarantee of outcomes",
@@ -348,7 +351,7 @@ export default function TermsOfUsePage({
 
           {/* Footer */}
           <div className="tuFooter">
-            <div className="tuFooterLeft">� {new Date().getFullYear()} {brandName} � Legal</div>
+            <div className="tuFooterLeft">Ã‚Â© {new Date().getFullYear()} {brandName} Ã¢â‚¬Â¢ Legal</div>
             <button className="tuBackTop" onClick={() => scrollTo("top")} type="button">
               <span className="tuBackTopIcon" aria-hidden="true">
                 <IconUp />
@@ -1252,3 +1255,25 @@ body{
 }
 `;
 
+
+
+const TU_LIGHT_OVERRIDES = `
+.tuRoot[data-theme-mode="light"] .tuBg{
+  background: linear-gradient(180deg, #f4f7fb 0%, #edf2f8 55%, #f5f8fc 100%);
+}
+.tuRoot[data-theme-mode="light"] .tuH1,
+.tuRoot[data-theme-mode="light"] .tuDarkShellTitle,
+.tuRoot[data-theme-mode="light"] .tuBoardTopTitle,
+.tuRoot[data-theme-mode="light"] .tuDarkAccTitle,
+.tuRoot[data-theme-mode="light"] .tuDarkAccPanelInner,
+.tuRoot[data-theme-mode="light"] .tuFooterLeft{
+  color: rgba(20,29,38,.9);
+}
+.tuRoot[data-theme-mode="light"] .tuNavCard.dark,
+.tuRoot[data-theme-mode="light"] .tuDarkShell,
+.tuRoot[data-theme-mode="light"] .tuDarkAccItem,
+.tuRoot[data-theme-mode="light"] .tuBoard{
+  background: linear-gradient(180deg, rgba(233,239,247,.96), rgba(218,227,238,.96));
+  border-color: rgba(36,52,71,.14);
+}
+`;

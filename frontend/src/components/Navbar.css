@@ -701,3 +701,123 @@
     flex: 1 1 100%;
   }
 }
+
+/* Theme: Dark */
+.px-header.dark .px-nav {
+  background: linear-gradient(
+    180deg,
+    rgba(20, 29, 38, 0.94) 0%,
+    rgba(20, 29, 38, 0.90) 100%
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.px-header.dark .px-brandLogo {
+  filter: brightness(2.2) contrast(1.45) saturate(1.12) drop-shadow(0 2px 12px rgba(0,0,0,0.35));
+}
+
+.px-header.dark .px-trigger {
+  color: rgba(226, 226, 210, 0.92);
+}
+
+.px-header.dark .px-trigger:hover,
+.px-header.dark .px-trigger:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.px-header.dark .px-trigger.active {
+  background: rgba(197, 31, 93, 0.22);
+  color: #e2e2d2;
+}
+
+.px-header.dark .px-iconBtn,
+.px-header.dark .px-themeBtn,
+.px-header.dark .px-mobileBtn {
+  color: #e2e2d2;
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.px-header.dark .px-iconBtn:hover,
+.px-header.dark .px-themeBtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.px-header.dark .px-cta:hover {
+  background: #243447;
+}
+
+.px-header.dark .px-mega {
+  background: linear-gradient(
+    180deg,
+    rgba(20, 29, 38, 0.98) 0%,
+    rgba(36, 52, 71, 0.96) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.px-header.dark .px-megaTop {
+  border-bottom-color: rgba(255, 255, 255, 0.10);
+}
+
+.px-header.dark .px-megaTitle {
+  color: rgba(226, 226, 210, 0.95);
+}
+
+.px-header.dark .px-linkCard {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+.px-header.dark .px-linkCard:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.px-header.dark .px-linkLabel {
+  color: rgba(226, 226, 210, 0.94);
+}
+
+.px-header.dark .px-linkArrow {
+  color: rgba(226, 226, 210, 0.70);
+}
+
+.px-header.dark .px-itemIcon {
+  color: rgba(226, 226, 210, 0.85);
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.px-header.dark .px-mobilePanel {
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+  background: linear-gradient(
+    180deg,
+    rgba(20, 29, 38, 0.97) 0%,
+    rgba(20, 29, 38, 0.93) 100%
+  );
+}
+
+.px-header.dark .px-accItem {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.px-header.dark .px-accTrigger,
+.px-header.dark .px-mobileFooter {
+  color: rgba(226, 226, 210, 0.92);
+}
+
+.px-header.dark .px-accBody {
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.px-header.dark .px-accLink,
+.px-header.dark .px-accLinkBtn {
+  color: rgba(226, 226, 210, 0.90);
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.px-header.dark .px-mutedLink:hover {
+  color: #e2e2d2;
+}

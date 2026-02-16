@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { useLocalTheme } from "../../hooks/use-local-theme";
 
 export default function PrivacyPolicyPage() {
+  const { theme } = useLocalTheme();
   const sections = useMemo(
     () => [
       { id: "overview", label: "Overview" },
@@ -51,8 +53,9 @@ export default function PrivacyPolicyPage() {
   };
 
   return (
-    <div className="ppRoot">
+    <div className="ppRoot" data-theme-mode={theme}>
       <style>{styles}</style>
+      <style>{theme === "light" ? PP_LIGHT_OVERRIDES : ""}</style>
 
       <div className="ppBg" aria-hidden="true">
         <div className="ppNoise" />
@@ -92,7 +95,8 @@ export default function PrivacyPolicyPage() {
             <p className="ppText">
               We process personal data in accordance with the General Data Protection Regulation (GDPR)
               and applicable data protection laws. This policy explains what data we collect, why we
-              collect it, and the rights you have over your data.
+              collect it, and the rights you have over your data. Users must be at least 12 years old
+              to use our services independently; users under 18 may require parental or institutional consent.
             </p>
           </CreamPanel>
 
@@ -690,3 +694,24 @@ const styles = `
 }
 `;
 
+
+
+const PP_LIGHT_OVERRIDES = `
+.ppRoot[data-theme-mode="light"] .ppBg{
+  background: linear-gradient(180deg, #f4f7fb 0%, #edf2f8 55%, #f5f8fc 100%);
+}
+.ppRoot[data-theme-mode="light"] .ppTitle,
+.ppRoot[data-theme-mode="light"] .ppSubtitle,
+.ppRoot[data-theme-mode="light"] .ppDarkShellTitle,
+.ppRoot[data-theme-mode="light"] .ppAccBtn,
+.ppRoot[data-theme-mode="light"] .ppAccPanelInner{
+  color: rgba(20,29,38,.9);
+}
+.ppRoot[data-theme-mode="light"] .ppNavCard.dark,
+.ppRoot[data-theme-mode="light"] .ppDarkShell,
+.ppRoot[data-theme-mode="light"] .ppAccItem,
+.ppRoot[data-theme-mode="light"] .ppInfoBoard{
+  background: linear-gradient(180deg, rgba(233,239,247,.96), rgba(218,227,238,.96));
+  border-color: rgba(36,52,71,.14);
+}
+`;

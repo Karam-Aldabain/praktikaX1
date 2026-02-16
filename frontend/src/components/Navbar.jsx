@@ -478,7 +478,7 @@ export default function Navbar({ dir = "ltr" }) {
 
   return (
     <header
-      className="px-header"
+      className={`px-header ${theme === "dark" ? "dark" : "light"}`}
       style={{
         ["--px-accent"]: COLORS.accent,
         ["--px-primary"]: COLORS.primary,
@@ -491,7 +491,11 @@ export default function Navbar({ dir = "ltr" }) {
         <div className="px-container">
           {/* LEFT: Brand */}
           <a className="px-brand" href="/" onClick={onNavLink} aria-label="Praktix Home">
-            <img className="px-brandLogo" src="/navbar-logo.png" alt="Praktix logo" />
+            <img
+              className="px-brandLogo"
+              src="/navbar-logo.png"
+              alt="Praktix logo"
+            />
           </a>
 
           {/* CENTER: Desktop nav (perfectly centered) */}
