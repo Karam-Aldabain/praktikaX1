@@ -1,6 +1,5 @@
 ﻿import React, { useMemo, useState } from "react";
 import {
-  AnimatePresence,
   motion,
   useReducedMotion,
   useScroll,
@@ -11,15 +10,11 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-
-
-  Sparkles,
   Users,
   GraduationCap,
   Zap,
   Handshake,
   LineChart,
-  Trophy,
   Linkedin,
 } from "lucide-react";
 import { useLocalTheme } from "../hooks/use-local-theme";
@@ -65,21 +60,28 @@ const IMAGES = {
 
 const SOLUTIONS = [
   {
-    title: "Real-World Projects",
-    desc: "Work on industry-driven challenges guided by professionals.",
+    title: "Students & Graduates",
+    desc: "Career-focused pathways designed for students and fresh graduates entering the job market.",
     img: IMAGES.solution1,
-    tag1: "Outcome-based",
-    tag2: "Hiring-ready",
+    tag1: "Career start",
+    tag2: "Industry-ready",
   },
   {
-    title: "Expert-Led Training",
-    desc: "Learn directly from industry experts and academic leaders.",
+    title: "AI for Real-World Careers",
+    desc: "Practical AI learning applied to real business, engineering, and cross-functional use cases.",
     img: IMAGES.solution2,
-    tag1: "Hands-on",
-    tag2: "Current stack",
+    tag1: "Applied AI",
+    tag2: "Real use-cases",
   },
   {
-    title: "Career Mentorship",
+    title: "Life Training",
+    desc: "Build communication, leadership, and workplace habits that support long-term professional growth.",
+    img: IMAGES.solution4,
+    tag1: "Soft skills",
+    tag2: "Professional growth",
+  },
+  {
+    title: "1-to-1 Career Mentorship",
     desc: "1-to-1 and group mentoring aligned with real career paths.",
     img: IMAGES.solution3,
     tag1: "1:1 feedback",
@@ -90,51 +92,43 @@ const SOLUTIONS = [
 const BENEFITS = [
   {
     icon: Users,
-    title: "Professional Network",
-    desc: "Connect with industry leaders, mentors, and fellow professionals across Europe and GCC.",
+    title: "Universities & Companies",
+    desc: "Co-designed learning and talent pipelines connecting universities with industry partners.",
     img: IMAGES.solution5,
-    tag1: "Connections",
-    tag2: "Hiring teams",
+    tag1: "Co-designed",
+    tag2: "Talent pipeline",
   },
   {
     icon: GraduationCap,
-    title: "Skill Development",
-    desc: "Gain hands-on experience with cutting-edge tools and methodologies used by top companies.",
+    title: "Schools & Early Talent Programs",
+    desc: "Early exposure programs that build future-ready skills for students and young talent.",
     img: IMAGES.solution2,
-    tag1: "Hands-on",
-    tag2: "Real standards",
+    tag1: "Early talent",
+    tag2: "Future-ready",
   },
   {
     icon: Zap,
-    title: "Career Acceleration",
-    desc: "Fast-track your career with verified credentials and real project experience.",
+    title: "AI for Organizations",
+    desc: "Applied AI initiatives that improve operations, learning systems, and decision workflows.",
     img: IMAGES.solution4,
-    tag1: "Fast-track",
-    tag2: "Verified proof",
+    tag1: "Applied AI",
+    tag2: "Operational impact",
   },
   {
     icon: Handshake,
-    title: "Mentorship Support",
-    desc: "Get personalized guidance from experienced professionals in your field.",
+    title: "Partnerships",
+    desc: "Strategic collaborations with institutions, companies, and ecosystems to scale outcomes.",
     img: IMAGES.solution3,
-    tag1: "Mentorship",
-    tag2: "Personalized",
+    tag1: "Strategic",
+    tag2: "Long-term",
   },
   {
     icon: LineChart,
-    title: "Growth Opportunities",
-    desc: "Access exclusive job opportunities and career advancement pathways.",
+    title: "Innovation & Workforce Tools",
+    desc: "Frameworks and tools for workforce planning, capability mapping, and innovation delivery.",
     img: "/growth.avif",
-    tag1: "Opportunities",
-    tag2: "Career growth",
-  },
-  {
-    icon: Trophy,
-    title: "Recognition",
-    desc: "Earn certifications and recognition from leading universities and companies.",
-    img: "/recognition.png",
-    tag1: "Certificates",
-    tag2: "Recognition",
+    tag1: "Innovation",
+    tag2: "Workforce tools",
   },
 ];
 
@@ -174,6 +168,51 @@ const EXPERTS = [
     experience: "12+ years consulting",
     linkedin: "https://www.linkedin.com/",
     img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    name: "Sofia Martinez",
+    role: "Data Science Lead",
+    org: "AI Labs Europe",
+    focus: "Machine Learning, MLOps",
+    experience: "9+ years in data and AI",
+    linkedin: "https://www.linkedin.com/",
+    img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    name: "Daniel Foster",
+    role: "Cybersecurity Architect",
+    org: "SecureNet Group",
+    focus: "Cloud Security, Risk",
+    experience: "11+ years in security",
+    linkedin: "https://www.linkedin.com/",
+    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    name: "Noura Haddad",
+    role: "UX Research Director",
+    org: "DesignWorks",
+    focus: "Product Research, UX Strategy",
+    experience: "10+ years in product design",
+    linkedin: "https://www.linkedin.com/",
+    img: "https://images.unsplash.com/photo-1542382257-80dedb725088?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    name: "Lucas Moretti",
+    role: "Cloud Infrastructure Manager",
+    org: "Nimbus Systems",
+    focus: "DevOps, Platform Engineering",
+    experience: "8+ years in cloud operations",
+    linkedin: "https://www.linkedin.com/",
+    img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1200&q=80",
+  },
+  {
+    name: "Priya Raman",
+    role: "Digital Transformation Consultant",
+    org: "FutureScale Advisory",
+    focus: "Innovation Programs, Change",
+    experience: "13+ years in transformation",
+    linkedin: "https://www.linkedin.com/",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
 ];
 
@@ -357,11 +396,7 @@ function Header({ eyebrow, title, subtitle }) {
 
 function SuccessStories({ items }) {
   const reduce = useReducedMotion();
-  const [i, setI] = useState(0);
-  const active = items[i];
-
-  const prev = () => setI((v) => (v - 1 + items.length) % items.length);
-  const next = () => setI((v) => (v + 1) % items.length);
+  const railItems = [...items, ...items];
 
   const initials = (name = "") =>
     name
@@ -372,101 +407,43 @@ function SuccessStories({ items }) {
       .join("");
 
   return (
-    <div className="mt-10">
-      <div className="flex items-center justify-center gap-3">
-        <button
-          type="button"
-          onClick={prev}
-          className="grid h-12 w-12 place-items-center rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] backdrop-blur"
-          aria-label="Previous story"
-        >
-          <ChevronLeft className="h-5 w-5 text-[color:var(--text)]" />
-        </button>
-        <button
-          type="button"
-          onClick={next}
-          className="grid h-12 w-12 place-items-center rounded-2xl border border-[color:var(--border)] bg-[color:var(--card)] backdrop-blur"
-          aria-label="Next story"
-        >
-          <ChevronRight className="h-5 w-5 text-[color:var(--text)]" />
-        </button>
-      </div>
-
-      <div className="mt-8">
-        <div className="relative overflow-hidden rounded-[28px] border border-[color:var(--border)] bg-[color:var(--card)] shadow-[var(--shadow-md)] backdrop-blur">
-          <div className="absolute left-0 top-0 h-full w-2 bg-[color:var(--accent)]" />
-
-          <div className="absolute right-6 top-6 grid h-12 w-12 place-items-center rounded-2xl border border-[#C51F5D]/20 bg-[#C51F5D]/10">
-            <Sparkles className="h-5 w-5 text-[#C51F5D]" />
-          </div>
-
-          <div className="p-8 sm:p-10">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active.name}
-                initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduce ? { opacity: 1 } : { opacity: 0, y: -10 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-              >
-                <div className="text-balance text-2xl font-extrabold leading-snug text-[color:var(--text)] sm:text-3xl">
-                  {active.quote}
-                </div>
-
-                <div className="mt-8 flex items-center gap-4">
-                  {active.avatar ? (
-                    <img
-                      src={active.avatar}
-                      alt={active.name}
-                      className="h-14 w-14 rounded-full border border-[#C51F5D]/25 object-cover"
-                    />
-                  ) : (
-                    <div className="grid h-14 w-14 place-items-center rounded-full border border-[#C51F5D]/25 bg-[#C51F5D]/10 text-sm font-extrabold text-[#C51F5D]">
-                      {initials(active.name)}
-                    </div>
-                  )}
-
-                  <div>
-                    <div className="text-lg font-extrabold text-[color:var(--text)]">
-                      {active.name}
-                    </div>
-                    <div className="text-sm font-semibold text-[color:var(--muted)]">
-                      {active.role}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            <div className="mt-8 h-2 w-full overflow-hidden rounded-full bg-black/10">
-              <motion.div
-                className="h-full rounded-full bg-[#C51F5D]"
-                initial={{ width: 0 }}
-                animate={{ width: `${((i + 1) / items.length) * 100}%` }}
-                transition={{ type: "spring", stiffness: 140, damping: 18 }}
-              />
+    <div className="mt-10 overflow-hidden">
+      <motion.div
+        className="flex w-max gap-5 pr-5"
+        animate={reduce ? undefined : { x: ["0%", "-50%"] }}
+        transition={reduce ? undefined : { duration: 34, repeat: Infinity, ease: "linear" }}
+      >
+        {railItems.map((story, idx) => (
+          <article
+            key={`${story.name}-${idx}`}
+            className="relative w-[320px] shrink-0 overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-[var(--shadow-md)] backdrop-blur sm:w-[360px]"
+          >
+            <div className="absolute left-0 top-0 h-full w-1.5 bg-[color:var(--accent)]" />
+            <div className="ml-2 text-base font-bold leading-relaxed text-[color:var(--text)]">
+              {story.quote}
             </div>
-          </div>
-        </div>
 
-        <div className="mt-6 flex items-center justify-center gap-3">
-          {items.map((_, idx) => {
-            const on = idx === i;
-            return (
-              <button
-                key={idx}
-                type="button"
-                onClick={() => setI(idx)}
-                className={[
-                  "h-3 rounded-full transition",
-                  on ? "w-10 bg-[#C51F5D]" : "w-3 bg-black/25",
-                ].join(" ")}
-                aria-label={`Go to story ${idx + 1}`}
-              />
-            );
-          })}
-        </div>
-      </div>
+            <div className="ml-2 mt-6 flex items-center gap-3">
+              {story.avatar ? (
+                <img
+                  src={story.avatar}
+                  alt={story.name}
+                  className="h-12 w-12 rounded-full border border-[#C51F5D]/25 object-cover"
+                />
+              ) : (
+                <div className="grid h-12 w-12 place-items-center rounded-full border border-[#C51F5D]/25 bg-[#C51F5D]/10 text-xs font-extrabold text-[#C51F5D]">
+                  {initials(story.name)}
+                </div>
+              )}
+
+              <div>
+                <div className="text-sm font-extrabold text-[color:var(--text)]">{story.name}</div>
+                <div className="text-xs font-semibold text-[color:var(--muted)]">{story.role}</div>
+              </div>
+            </div>
+          </article>
+        ))}
+      </motion.div>
     </div>
   );
 }
@@ -760,11 +737,11 @@ function PillarCard({ theme, item }) {
         ) : null}
       </div>
 
-      <div className="p-6">
+      <div className="flex h-[280px] flex-col p-6">
         <div className="text-lg font-semibold text-[color:var(--text)]">
           {item.title}
         </div>
-        <div className="mt-3 text-sm font-medium leading-relaxed text-[color:var(--muted)]">
+        <div className="mt-3 flex-1 text-sm font-medium leading-relaxed text-[color:var(--muted)]">
           {item.desc}
         </div>
 
@@ -989,6 +966,10 @@ function ExpertCard({ person }) {
 export default function LandingPage() {
   const reduce = useReducedMotion();
   const { theme } = useLocalTheme();
+  const [orgIndex, setOrgIndex] = useState(0);
+  const [orgVisible, setOrgVisible] = useState(3);
+  const [expertIndex, setExpertIndex] = useState(0);
+  const [expertVisible, setExpertVisible] = useState(4);
 
   const { scrollYProgress, scrollY } = useScroll();
   const progress = useSpring(scrollYProgress, {
@@ -999,6 +980,48 @@ export default function LandingPage() {
 
   const heroBgY = useTransform(scrollY, [0, 900], [0, reduce ? 0 : 18]);
   const heroArtY = useTransform(scrollY, [0, 900], [0, reduce ? 0 : -10]);
+  React.useEffect(() => {
+    const onResize = () => {
+      const w = window.innerWidth;
+      if (w < 720) {
+        setOrgVisible(1);
+        setExpertVisible(1);
+      } else if (w < 1100) {
+        setOrgVisible(2);
+        setExpertVisible(2);
+      } else {
+        setOrgVisible(3);
+        setExpertVisible(4);
+      }
+    };
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const orgMaxStart = Math.max(0, BENEFITS.length - orgVisible);
+  React.useEffect(() => {
+    setOrgIndex((prev) => Math.min(prev, orgMaxStart));
+  }, [orgMaxStart]);
+
+  const goOrgLeft = () => {
+    setOrgIndex((prev) => (prev <= 0 ? orgMaxStart : prev - 1));
+  };
+  const goOrgRight = () => {
+    setOrgIndex((prev) => (prev >= orgMaxStart ? 0 : prev + 1));
+  };
+
+  const expertMaxStart = Math.max(0, EXPERTS.length - expertVisible);
+  React.useEffect(() => {
+    setExpertIndex((prev) => Math.min(prev, expertMaxStart));
+  }, [expertMaxStart]);
+
+  const goExpertLeft = () => {
+    setExpertIndex((prev) => (prev <= 0 ? expertMaxStart : prev - 1));
+  };
+  const goExpertRight = () => {
+    setExpertIndex((prev) => (prev >= expertMaxStart ? 0 : prev + 1));
+  };
 
   const isDark = theme === "dark";
   const SUCCESS_STORIES = useMemo(
@@ -1015,6 +1038,54 @@ export default function LandingPage() {
           "This ecosystem makes hiring simpler because candidates come with proven work.",
         name: "Leila Hassan",
         role: "Talent Partner Industry Partner",
+        avatar: "",
+      },
+      {
+        quote: "Mentor reviews helped me improve faster and present stronger work in interviews.",
+        name: "Omar Nasser",
+        role: "Software Engineering Intern",
+        avatar: "",
+      },
+      {
+        quote: "The structure made it easy to track progress from learning to portfolio output.",
+        name: "Maya Collins",
+        role: "Program Coordinator",
+        avatar: "",
+      },
+      {
+        quote: "We hired candidates directly from project cohorts because proof of work was clear.",
+        name: "Jonas Becker",
+        role: "Hiring Manager",
+        avatar: "",
+      },
+      {
+        quote: "The program connected academic concepts to practical team delivery in weeks.",
+        name: "Sara El-Khatib",
+        role: "Data Analyst Trainee",
+        avatar: "",
+      },
+      {
+        quote: "Our institution saw better engagement once real projects became the center of learning.",
+        name: "Henry Walsh",
+        role: "University Partner Lead",
+        avatar: "",
+      },
+      {
+        quote: "I moved from theory-only learning to a portfolio that actually opened job interviews.",
+        name: "Lina Petrova",
+        role: "Graduate Participant",
+        avatar: "",
+      },
+      {
+        quote: "The mentorship quality and weekly feedback loops were the strongest part for our teams.",
+        name: "Khaled Rahman",
+        role: "Program Supervisor",
+        avatar: "",
+      },
+      {
+        quote: "The outcomes were measurable, repeatable, and aligned with what employers ask for.",
+        name: "Noah Smith",
+        role: "Talent Development Manager",
         avatar: "",
       },
     ],
@@ -1148,31 +1219,9 @@ export default function LandingPage() {
         style={{ scaleX: progress, background: "var(--accent)" }}
       />
 
-            {/* HEADER */}
-      <header className="mx-auto max-w-6xl px-4 pt-6">
-        <div className="flex flex-wrap items-center justify-end gap-3">
-          <div className="hidden md:flex items-center gap-3">
-            <a
-              href="#contact"
-              onClick={(e) => (e.preventDefault(), smoothScrollTo("contact"))}
-              className="text-sm font-medium text-[color:var(--muted)] hover:text-[color:var(--text)]"
-            >
-              Contact
-            </a>
-            <a
-              href="#method"
-              onClick={(e) => (e.preventDefault(), smoothScrollTo("method"))}
-              className="text-sm font-medium text-[color:var(--muted)] hover:text-[color:var(--text)]"
-            >
-              Method
-            </a>
-          </div>
-        </div>
-      </header>
-
       <main className="pb-16">
         {/* HERO */}
-        <section className="mx-auto max-w-6xl px-4 pt-4 sm:pt-6">
+        <section className="mx-auto max-w-6xl px-4 pt-1 sm:pt-2">
           <GlassCard className="relative overflow-hidden p-4 sm:p-6 md:p-10">
             <motion.div
               className="absolute inset-0 opacity-[0.12]"
@@ -1339,7 +1388,41 @@ export default function LandingPage() {
             </div>
           )}
 
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <motion.div
+            className="mt-8 mb-2 flex justify-center"
+            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.45 }}
+            transition={{ duration: 0.38, ease: "easeOut" }}
+          >
+            <div
+              className="relative inline-flex items-center justify-center overflow-hidden rounded-full border px-7 py-3"
+              style={{
+                borderColor: isDark ? "rgba(255,255,255,0.18)" : "rgba(36,52,71,0.16)",
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(20,29,38,0.86), rgba(36,52,71,0.82))"
+                  : "linear-gradient(135deg, rgba(255,255,255,0.70), rgba(226,226,210,0.85))",
+                boxShadow: isDark
+                  ? "0 16px 46px rgba(0,0,0,0.30)"
+                  : "0 16px 46px rgba(15,23,42,0.12)",
+              }}
+            >
+              <motion.span
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(110deg, transparent 0%, rgba(197,31,93,0.10) 35%, rgba(197,31,93,0.20) 50%, rgba(36,52,71,0.10) 68%, transparent 100%)",
+                }}
+                animate={reduce ? undefined : { x: ["-55%", "55%"] }}
+                transition={reduce ? undefined : { duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <span className="relative text-base font-extrabold tracking-[0.08em] uppercase text-[color:var(--accent)] sm:text-lg">
+                For Individuals
+              </span>
+            </div>
+          </motion.div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {SOLUTIONS.map((s) => (
               <PillarCard key={s.title} theme={theme} item={s} />
             ))}
@@ -1350,85 +1433,180 @@ export default function LandingPage() {
 
         {/* TOOLS */}
         <section className="mx-auto max-w-6xl px-4 pt-16" id="tools">
+          <motion.div
+            className="mb-6 flex justify-center"
+            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.45 }}
+            transition={{ duration: 0.38, ease: "easeOut" }}
+          >
+            <div
+              className="relative inline-flex items-center justify-center overflow-hidden rounded-full border px-7 py-3"
+              style={{
+                borderColor: isDark ? "rgba(255,255,255,0.18)" : "rgba(36,52,71,0.16)",
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(20,29,38,0.86), rgba(36,52,71,0.82))"
+                  : "linear-gradient(135deg, rgba(255,255,255,0.70), rgba(226,226,210,0.85))",
+                boxShadow: isDark
+                  ? "0 16px 46px rgba(0,0,0,0.30)"
+                  : "0 16px 46px rgba(15,23,42,0.12)",
+              }}
+            >
+              <motion.span
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(110deg, transparent 0%, rgba(197,31,93,0.10) 35%, rgba(197,31,93,0.20) 50%, rgba(36,52,71,0.10) 68%, transparent 100%)",
+                }}
+                animate={reduce ? undefined : { x: ["-55%", "55%"] }}
+                transition={reduce ? undefined : { duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <span className="relative text-base font-extrabold tracking-[0.08em] uppercase text-[color:var(--accent)] sm:text-lg">
+                For Organizations
+              </span>
+            </div>
+          </motion.div>
+
           <SectionTitle
             title="Everything needed to build confidence"
             accentWord="and credibility"
             subtitle="Balanced structure + strong visuals, without changing your data."
           />
 
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {BENEFITS.map((b) => {
-              const Icon = b.icon;
-              return (
-                <div
-                  key={b.title}
-                  className="overflow-hidden rounded-[22px] border border-[color:var(--border)] bg-[color:var(--card)]"
-                  style={{ boxShadow: "var(--shadow-md)" }}
-                >
-                  <div className="relative h-56 overflow-hidden">
-                    <img
-                      src={b.img}
-                      alt={b.title}
-                      className="h-full w-full object-cover"
-                    />
-                    {isDark ? (
-                      <div className="absolute inset-0 bg-gradient-to-t from-[rgba(11,18,32,0.70)] via-[rgba(11,18,32,0.10)] to-transparent" />
-                    ) : null}
-                  </div>
+          <div className="relative mt-10">
+            <button
+              type="button"
+              onClick={goOrgLeft}
+              className="absolute -left-5 top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-3xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_16px_40px_rgba(197,31,93,0.34)] transition-transform duration-150 hover:-translate-y-[52%] hover:brightness-105 lg:-left-20"
+              aria-label="Scroll organizations cards left"
+            >
+              <ChevronLeft className="h-5 w-5 text-white" />
+            </button>
 
-                  <div className="p-6">
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[color:var(--border)] bg-[color:var(--chipBg)]">
-                        <Icon size={18} className="text-[color:var(--text)]" />
-                      </div>
-                      <div className="text-base font-semibold text-[color:var(--text)]">
-                        {b.title}
-                      </div>
-                    </div>
+            <button
+              type="button"
+              onClick={goOrgRight}
+              className="absolute -right-5 top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-3xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_16px_40px_rgba(197,31,93,0.34)] transition-transform duration-150 hover:-translate-y-[52%] hover:brightness-105 lg:-right-20"
+              aria-label="Scroll organizations cards right"
+            >
+              <ChevronRight className="h-5 w-5 text-white" />
+            </button>
 
-                    <div className="mt-3 text-sm font-medium leading-relaxed text-[color:var(--muted)]">
-                      {b.desc}
-                    </div>
-
-                    <div className="mt-5 flex gap-2">
-                      <span
-                        className="rounded-full px-4 py-2 text-xs font-semibold text-white"
-                        style={{
-                          background:
-                            "linear-gradient(135deg, rgba(197,31,93,1), rgba(165,22,78,1))",
-                        }}
+            <div
+              className="overflow-hidden px-10"
+            >
+              <div
+                className="flex transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${(orgIndex * 100) / orgVisible}%)` }}
+              >
+                {BENEFITS.map((b) => {
+                  const Icon = b.icon;
+                  return (
+                    <div key={b.title} className="shrink-0 px-2" style={{ flex: `0 0 ${100 / orgVisible}%` }}>
+                      <div
+                        className="h-full overflow-hidden rounded-[22px] border border-[color:var(--border)] bg-[color:var(--card)]"
+                        style={{ boxShadow: "var(--shadow-md)" }}
                       >
-                        {b.tag1}
-                      </span>
-                      <span
-                        className="rounded-full px-4 py-2 text-xs font-semibold"
-                        style={{
-                          background: isDark
-                            ? "rgba(255,255,255,0.10)"
-                            : "rgba(36,52,71,0.12)",
-                          color: isDark
-                            ? "rgba(255,255,255,0.85)"
-                            : "rgba(36,52,71,0.70)",
-                          border: `1px solid ${
-                            isDark
-                              ? "rgba(255,255,255,0.10)"
-                              : "rgba(15,23,42,0.10)"
-                          }`,
-                        }}
-                      >
-                        {b.tag2}
-                      </span>
+                        <div className="relative h-56 overflow-hidden">
+                          <img
+                            src={b.img}
+                            alt={b.title}
+                            className="h-full w-full object-cover"
+                          />
+                          {isDark ? (
+                            <div className="absolute inset-0 bg-gradient-to-t from-[rgba(11,18,32,0.70)] via-[rgba(11,18,32,0.10)] to-transparent" />
+                          ) : null}
+                        </div>
+
+                        <div className="flex h-[280px] flex-col p-6">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-[color:var(--border)] bg-[color:var(--chipBg)]">
+                              <Icon size={18} className="text-[color:var(--text)]" />
+                            </div>
+                            <div className="text-base font-semibold text-[color:var(--text)]">
+                              {b.title}
+                            </div>
+                          </div>
+
+                          <div className="mt-3 flex-1 text-sm font-medium leading-relaxed text-[color:var(--muted)]">
+                            {b.desc}
+                          </div>
+
+                          <div className="mt-5 flex gap-2">
+                            <span
+                              className="rounded-full px-4 py-2 text-xs font-semibold text-white"
+                              style={{
+                                background:
+                                  "linear-gradient(135deg, rgba(197,31,93,1), rgba(165,22,78,1))",
+                              }}
+                            >
+                              {b.tag1}
+                            </span>
+                            <span
+                              className="rounded-full px-4 py-2 text-xs font-semibold"
+                              style={{
+                                background: isDark
+                                  ? "rgba(255,255,255,0.10)"
+                                  : "rgba(36,52,71,0.12)",
+                                color: isDark
+                                  ? "rgba(255,255,255,0.85)"
+                                  : "rgba(36,52,71,0.70)",
+                                border: `1px solid ${
+                                  isDark
+                                    ? "rgba(255,255,255,0.10)"
+                                    : "rgba(15,23,42,0.10)"
+                                }`,
+                              }}
+                            >
+                              {b.tag2}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6" id="stories">
+          <motion.div
+            className="mb-6 flex justify-center"
+            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.45 }}
+            transition={{ duration: 0.38, ease: "easeOut" }}
+          >
+            <div
+              className="relative inline-flex items-center justify-center overflow-hidden rounded-full border px-7 py-3"
+              style={{
+                borderColor: isDark ? "rgba(255,255,255,0.18)" : "rgba(36,52,71,0.16)",
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(20,29,38,0.86), rgba(36,52,71,0.82))"
+                  : "linear-gradient(135deg, rgba(255,255,255,0.70), rgba(226,226,210,0.85))",
+                boxShadow: isDark
+                  ? "0 16px 46px rgba(0,0,0,0.30)"
+                  : "0 16px 46px rgba(15,23,42,0.12)",
+              }}
+            >
+              <motion.span
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(110deg, transparent 0%, rgba(197,31,93,0.10) 35%, rgba(197,31,93,0.20) 50%, rgba(36,52,71,0.10) 68%, transparent 100%)",
+                }}
+                animate={reduce ? undefined : { x: ["-55%", "55%"] }}
+                transition={reduce ? undefined : { duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <span className="relative text-base font-extrabold tracking-[0.08em] uppercase text-[color:var(--accent)] sm:text-lg">
+                Success Stories
+              </span>
+            </div>
+          </motion.div>
+
           <Header
-            eyebrow="SUCCESS STORIES"
             title="Real stories from our interns and partners"
             subtitle="Outcomes that hiring teams can validate."
           />
@@ -1436,17 +1614,71 @@ export default function LandingPage() {
         </section>
 
         <section className="mx-auto max-w-6xl px-4 pt-16" id="experts">
-          <SectionTitle
-            kicker="Our Experts"
-            title="Our"
-            accentWord="Experts"
-            subtitle="Meet the industry leaders guiding your journey"
-          />
+          <motion.div
+            className="mb-6 flex justify-center"
+            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.45 }}
+            transition={{ duration: 0.38, ease: "easeOut" }}
+          >
+            <div
+              className="relative inline-flex items-center justify-center overflow-hidden rounded-full border px-7 py-3"
+              style={{
+                borderColor: isDark ? "rgba(255,255,255,0.18)" : "rgba(36,52,71,0.16)",
+                background: isDark
+                  ? "linear-gradient(135deg, rgba(20,29,38,0.86), rgba(36,52,71,0.82))"
+                  : "linear-gradient(135deg, rgba(255,255,255,0.70), rgba(226,226,210,0.85))",
+                boxShadow: isDark
+                  ? "0 16px 46px rgba(0,0,0,0.30)"
+                  : "0 16px 46px rgba(15,23,42,0.12)",
+              }}
+            >
+              <motion.span
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(110deg, transparent 0%, rgba(197,31,93,0.10) 35%, rgba(197,31,93,0.20) 50%, rgba(36,52,71,0.10) 68%, transparent 100%)",
+                }}
+                animate={reduce ? undefined : { x: ["-55%", "55%"] }}
+                transition={reduce ? undefined : { duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <span className="relative text-base font-extrabold tracking-[0.08em] uppercase text-[color:var(--accent)] sm:text-lg">
+                Our Experts
+              </span>
+            </div>
+          </motion.div>
 
-          <div className="mt-10 grid gap-5 md:grid-cols-4">
-            {EXPERTS.map((p) => (
-              <ExpertCard key={p.name} person={p} />
-            ))}
+          <div className="relative mt-10">
+            <button
+              type="button"
+              onClick={goExpertLeft}
+              className="absolute -left-5 top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-3xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_16px_40px_rgba(197,31,93,0.34)] transition-transform duration-150 hover:-translate-y-[52%] hover:brightness-105 lg:-left-20"
+              aria-label="Scroll experts left"
+            >
+              <ChevronLeft className="h-5 w-5 text-white" />
+            </button>
+
+            <button
+              type="button"
+              onClick={goExpertRight}
+              className="absolute -right-5 top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-3xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_16px_40px_rgba(197,31,93,0.34)] transition-transform duration-150 hover:-translate-y-[52%] hover:brightness-105 lg:-right-20"
+              aria-label="Scroll experts right"
+            >
+              <ChevronRight className="h-5 w-5 text-white" />
+            </button>
+
+            <div className="overflow-hidden px-10">
+              <div
+                className="flex transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${(expertIndex * 100) / expertVisible}%)` }}
+              >
+                {EXPERTS.map((p) => (
+                  <div key={p.name} className="shrink-0 px-2" style={{ flex: `0 0 ${100 / expertVisible}%` }}>
+                    <ExpertCard person={p} />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1493,13 +1725,6 @@ export default function LandingPage() {
                       {s.desc}
                     </p>
 
-                    <a
-                      href="#contact"
-                      onClick={(e) => (e.preventDefault(), smoothScrollTo("contact"))}
-                      className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[color:var(--accent)]"
-                    >
-                      Talk to us <ArrowRight size={16} />
-                    </a>
                   </div>
 
                   <div
@@ -1646,28 +1871,8 @@ export default function LandingPage() {
                 >
                   Contact Us
                 </a>
-
-                <a
-                  href="mailto:info@praktix.eu"
-                  className="inline-flex items-center justify-center rounded-full px-7 py-3 text-sm font-semibold"
-                  style={{
-                    background: "var(--emailPillBg)",
-                    border: `1px solid var(--emailPillBorder)`,
-                    color: "var(--emailPillText)",
-                    boxShadow:
-                      theme === "dark"
-                        ? "inset 0 1px 0 rgba(255,255,255,0.06)"
-                        : "inset 0 1px 0 rgba(255,255,255,0.38)",
-                  }}
-                >
-                  info@praktix.eu
-                </a>
               </div>
             </div>
-          </div>
-
-          <div className="mt-10 pb-10 text-center text-sm font-medium text-[color:var(--muted)]">
-             {new Date().getFullYear()}
           </div>
         </section>
       </main>

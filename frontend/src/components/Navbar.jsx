@@ -57,11 +57,6 @@ const NAV = [
             desc: "Industry-integrated internships, career tracks, and portfolio-based learning experiences",
           },
           {
-            label: "Women in Tech",
-            href: "/for-individuals/women-in-tech",
-            desc: "Targeted programs supporting female talent in technology, AI, and innovation careers",
-          },
-          {
             label: "AI for Real-World Careers",
             href: "/for-individuals/ai-across-industries",
             desc: "Practical AI applications across business, healthcare, engineering, data, marketing, and beyond",
@@ -72,19 +67,14 @@ const NAV = [
         title: "Growth Paths",
         items: [
           {
-            label: "Career Tracks & Bootcamps",
-            href: "/for-individuals/career-tracks-bootcamps",
-            desc: "Structured learning pathways aligned with market demand",
+            label: "Life Training",
+            href: "/for-individuals/life-training",
+            desc: "Personal growth and practical life skills to support long-term career readiness",
           },
           {
             label: "1-to-1 Career Mentorship",
             href: "/for-individuals/mentorship",
             desc: "Direct access to industry experts and university professors",
-          },
-          {
-            label: "Trend Lab",
-            href: "/for-individuals/trend-lab",
-            desc: "Emerging tools, market shifts, and high-demand skill insights",
           },
         ],
       },
@@ -107,19 +97,9 @@ const NAV = [
         title: "Institution Types",
         items: [
           {
-            label: "Universities & Educators",
+            label: "Universities & Companies",
             href: "/for-organizations/universities-educators",
             desc: "Co-hosted industry programs integrated into academic structures",
-          },
-          {
-            label: "Companies & Corporations",
-            href: "/for-organizations/companies-corporations",
-            desc: "Talent pipeline development, co-designed internships, workforce upskilling",
-          },
-          {
-            label: "Governments & Public Sector",
-            href: "/for-organizations/governments-public-sector",
-            desc: "National workforce readiness initiatives aligned with economic strategy",
           },
           {
             label: "Schools & Early Talent Programs",
@@ -276,20 +256,6 @@ function Chevron({ open }) {
   );
 }
 
-function SearchIcon() {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Zm6.7-1.3L21 20.5"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 function ThemeIcon({ theme }) {
   return theme === "dark" ? (
     <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
@@ -333,11 +299,10 @@ const ICONS_BY_TITLE = {
   "Women in Tech": Users,
   "AI for Real-World Careers": Cpu,
   "Career Tracks & Bootcamps": Route,
+  "Life Training": FlaskConical,
   "1-to-1 Career Mentorship": UserRound,
   "Trend Lab": TrendingUp,
-  "Universities & Educators": School,
-  "Companies & Corporations": Building2,
-  "Governments & Public Sector": Landmark,
+  "Universities & Companies": School,
   "Schools & Early Talent Programs": Backpack,
   "AI for Organizations": Bot,
   Partnerships: Handshake,
@@ -585,7 +550,7 @@ export default function Navbar({ dir = "ltr" }) {
                           >
                             {activePreview ? (
                               <>
-                                <div className="px-promoEyebrow">{activePreview.category}</div>
+                                <div className="px-promoEyebrow">{group.label}</div>
                                 <ItemIcon title={activePreview.iconTitle} active className="promo" />
                                 <div className="px-promoTitle">{activePreview.title}</div>
                                 <div className="px-promoText">{activePreview.text}</div>
@@ -641,10 +606,6 @@ export default function Navbar({ dir = "ltr" }) {
                 <ThemeIcon theme={theme} />
               </button>
 
-              <a className="px-iconBtn" href="/search" aria-label="Search">
-                <SearchIcon />
-              </a>
-
               <a className="px-cta" href="/portal" onClick={onNavLink}>
                 Login / Portal
               </a>
@@ -674,9 +635,6 @@ export default function Navbar({ dir = "ltr" }) {
               <a className="px-cta mobile" href="/portal" onClick={onNavLink}>
                 Login / Portal
               </a>
-                <a className="px-iconBtn mobile" href="/search" aria-label="Search">
-                  <SearchIcon />
-                </a>
               </div>
 
               <div className="px-accordion">
@@ -721,7 +679,7 @@ export default function Navbar({ dir = "ltr" }) {
 
                           {activePreview ? (
                             <div className="px-accPreview">
-                              <div className="px-promoEyebrow">{activePreview.category}</div>
+                              <div className="px-promoEyebrow">{group.label}</div>
                               <ItemIcon title={activePreview.iconTitle} active className="promo" />
                               <div className="px-promoTitle">{activePreview.title}</div>
                               <div className="px-promoText">{activePreview.text}</div>

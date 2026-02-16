@@ -24,12 +24,12 @@
 .px-container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 14px clamp(18px, 3vw, 52px);
+  padding: 4px clamp(18px, 3vw, 52px);
 
   display: grid;
-  grid-template-columns: minmax(200px, 1fr) auto minmax(280px, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  gap: 14px;
+  gap: 18px;
 }
 
 /* Brand sits left but no longer hugging the edge */
@@ -47,7 +47,7 @@
 
 .px-brandLogo {
   display: block;
-  height: 84px;
+  height: 76px;
   width: auto;
   max-width: 340px;
   object-fit: contain;
@@ -350,17 +350,19 @@
   margin-top: 6px;
   padding: 10px 12px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
+  border: 1px solid color-mix(in srgb, var(--px-accent) 46%, transparent);
+  background: linear-gradient(135deg, rgba(197,31,93,1), rgba(165,22,78,1));
   font-weight: 900;
-  color: color-mix(in srgb, var(--px-accent) 74%, white);
+  color: #fff;
   width: fit-content;
-  transition: border-color .2s ease, background .2s ease;
+  box-shadow: 0 12px 30px color-mix(in srgb, var(--px-accent) 28%, transparent);
+  transition: transform .15s ease, filter .2s ease, box-shadow .2s ease;
 }
 
 .px-promo:hover .px-promoCta {
-  border-color: color-mix(in srgb, var(--px-accent) 35%, transparent);
-  background: color-mix(in srgb, var(--px-accent) 12%, transparent);
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 16px 36px color-mix(in srgb, var(--px-accent) 34%, transparent);
 }
 
 .px-promoSubList {
@@ -613,12 +615,12 @@
   }
 
   .px-brandLogo {
-    height: 62px;
+    height: 58px;
     max-width: 250px;
   }
 
   .px-container {
-    padding: 10px 14px;
+    padding: 4px 14px;
   }
 
   .px-mobileInner {
@@ -657,7 +659,7 @@
 
 @media (max-width: 480px) {
   .px-brandLogo {
-    height: 56px;
+    height: 52px;
     max-width: 220px;
   }
 

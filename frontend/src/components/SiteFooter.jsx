@@ -55,7 +55,7 @@ export default function SiteFooter() {
           <FooterLink href="/contact" dark={isDark}>Become a Partner</FooterLink>
           <FooterLink href="/contact" dark={isDark}>Become a Co-Host</FooterLink>
           <FooterLink href="/contact" accent dark={isDark}>
-            Speaker Applications
+            Become an Expert
           </FooterLink>
         </FooterCol>
 
@@ -63,7 +63,6 @@ export default function SiteFooter() {
           <h4 className="text-2xl font-extrabold leading-tight">Connect</h4>
           <div className="mt-3 flex flex-col gap-2.5">
             <FooterLink href="/contact" dark={isDark}>Contact Us</FooterLink>
-            <FooterLink href="/contact" dark={isDark}>Press</FooterLink>
             <FooterLink href="/contact" dark={isDark}>FAQ</FooterLink>
           </div>
         </div>
@@ -83,6 +82,9 @@ export default function SiteFooter() {
           <FooterLink href="/impressum" dark={isDark}>Impressum</FooterLink>
           <FooterLink href="/terms-of-use" dark={isDark}>Terms of Use</FooterLink>
           <FooterLink href="/privacy-policy" dark={isDark}>Privacy Policy</FooterLink>
+          <span className={["text-[15px] font-medium", isDark ? "text-[#E2E2D2]/65" : "text-[#243447]/65"].join(" ")}>
+            {new Date().getFullYear()}
+          </span>
         </div>
       </div>
     </footer>
@@ -113,15 +115,25 @@ function FooterLink({ href, children, accent = false, dark = false }) {
 }
 
 function SocialLink({ href, label, children, dark = false }) {
+  const brand = {
+    Facebook: { bg: "#1877F2", border: "#1877F2" },
+    Email: { bg: "#243447", border: "#243447" },
+    WhatsApp: { bg: "#25D366", border: "#25D366" },
+    LinkedIn: { bg: "#0A66C2", border: "#0A66C2" },
+    Instagram: { bg: "#E4405F", border: "#E4405F" },
+  }[label] || { bg: dark ? "#243447" : "#E2E2D2", border: dark ? "#3B4D63" : "#C9CCBF" };
+
   return (
     <a
       href={href}
       aria-label={label}
+      style={{
+        backgroundColor: brand.bg,
+        borderColor: brand.border,
+      }}
       className={[
-        "inline-flex h-10 w-10 items-center justify-center rounded-lg transition hover:border-[#C51F5D]/45 hover:text-[#C51F5D]",
-        dark
-          ? "border border-white/15 bg-[#243447]/35 text-[#E2E2D2]"
-          : "border border-black/10 bg-white/55 text-[#243447]",
+        "inline-flex h-10 w-10 items-center justify-center rounded-lg border text-white shadow-[0_8px_20px_rgba(20,29,38,0.18)] transition",
+        "hover:scale-[1.04] hover:brightness-105",
       ].join(" ")}
     >
       {children}
