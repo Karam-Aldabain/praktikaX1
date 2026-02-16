@@ -345,6 +345,7 @@ export default function Navbar({ dir = "ltr" }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { theme, toggle: toggleTheme } = useLocalTheme();
+  const brandLogoSrc = theme === "dark" ? "/navbar-logo-dark.png" : "/navbar-logo.png";
   const navRef = useRef(null);
   const closeTimer = useRef(null);
   const previewTimer = useRef(null);
@@ -458,7 +459,7 @@ export default function Navbar({ dir = "ltr" }) {
           <a className="px-brand" href="/" onClick={onNavLink} aria-label="Praktix Home">
             <img
               className="px-brandLogo"
-              src="/navbar-logo.png"
+              src={brandLogoSrc}
               alt="Praktix logo"
             />
           </a>

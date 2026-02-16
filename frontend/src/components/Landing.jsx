@@ -1,5 +1,6 @@
 ﻿import React, { useMemo, useState } from "react";
 import {
+  AnimatePresence,
   motion,
   useReducedMotion,
   useScroll,
@@ -44,14 +45,11 @@ const IMAGES = {
     "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2400&q=80",
   heroPortrait:
     "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80",
-  solution1:
-    "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
-  solution2:
-    "/skill.webp",
+  solution1: "/students.jpg",
+  solution2: "/adas.jpg",
   solution3:
     "/mentor.jpg",
-  solution4:
-   "career.png",
+  solution4: "/life.jpg",
   solution5:
     "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
   about:
@@ -102,7 +100,7 @@ const BENEFITS = [
     icon: GraduationCap,
     title: "Schools & Early Talent Programs",
     desc: "Early exposure programs that build future-ready skills for students and young talent.",
-    img: IMAGES.solution2,
+    img: "/schoold.webp",
     tag1: "Early talent",
     tag2: "Future-ready",
   },
@@ -110,7 +108,7 @@ const BENEFITS = [
     icon: Zap,
     title: "AI for Organizations",
     desc: "Applied AI initiatives that improve operations, learning systems, and decision workflows.",
-    img: IMAGES.solution4,
+    img: "/ai-for-or.webp",
     tag1: "Applied AI",
     tag2: "Operational impact",
   },
@@ -118,7 +116,7 @@ const BENEFITS = [
     icon: Handshake,
     title: "Partnerships",
     desc: "Strategic collaborations with institutions, companies, and ecosystems to scale outcomes.",
-    img: IMAGES.solution3,
+    img: "/partner.webp",
     tag1: "Strategic",
     tag2: "Long-term",
   },
@@ -980,6 +978,16 @@ export default function LandingPage() {
 
   const heroBgY = useTransform(scrollY, [0, 900], [0, reduce ? 0 : 18]);
   const heroArtY = useTransform(scrollY, [0, 900], [0, reduce ? 0 : -10]);
+  const heroWords = ["Experience", "Evaluation", "Outcomes"];
+  const [heroWordIndex, setHeroWordIndex] = useState(0);
+  React.useEffect(() => {
+    if (reduce) return;
+    const id = window.setInterval(() => {
+      setHeroWordIndex((prev) => (prev + 1) % heroWords.length);
+    }, 2300);
+    return () => window.clearInterval(id);
+  }, [reduce, heroWords.length]);
+
   React.useEffect(() => {
     const onResize = () => {
       const w = window.innerWidth;
@@ -1263,79 +1271,42 @@ export default function LandingPage() {
 
             <div className="relative grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
               <div>
-                <span className="inline-flex rounded-full bg-[linear-gradient(135deg,rgba(36,52,71,0.92),rgba(11,18,32,0.75))] px-4 py-2 text-xs font-semibold text-white shadow-sm">
-                  Up to 25% off!
-                </span>
-
-                <h1 className="mt-6 text-4xl font-light tracking-tight text-[color:var(--text)] sm:text-5xl md:text-6xl">
-                  Build proof<span className="text-[color:var(--accent)]">.</span>
-                  <br />
-                  <span className="font-semibold text-[color:var(--accent)]">
-                    Launch a real career
+                <h1 className="mt-2 text-4xl font-light tracking-tight text-[color:var(--text)] sm:text-5xl md:text-6xl">
+                  <span>Real </span>
+                  <span className="inline-block min-w-[11.5ch]">
+                    <AnimatePresence mode="wait">
+                      <motion.span
+                        key={heroWords[heroWordIndex]}
+                        className="inline-flex font-semibold text-[color:var(--accent)]"
+                        initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={reduce ? { opacity: 1 } : { opacity: 0, y: -14 }}
+                        transition={reduce ? { duration: 0 } : { duration: 0.28, ease: "easeOut" }}
+                      >
+                        {heroWords[heroWordIndex].split("").map((ch, idx) => (
+                          <motion.span
+                            key={`${heroWords[heroWordIndex]}-${idx}`}
+                            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={reduce ? { opacity: 1 } : { opacity: 0, y: -8 }}
+                            transition={reduce ? { duration: 0 } : { duration: 0.18, delay: idx * 0.018 }}
+                          >
+                            {ch}
+                          </motion.span>
+                        ))}
+                      </motion.span>
+                    </AnimatePresence>
                   </span>
-                  .
+                  <span>.</span>
                 </h1>
 
-                <p className="mt-4 max-w-[58ch] text-sm font-medium leading-relaxed text-[color:var(--muted)] sm:text-base">
-                  Real projects, mentor feedback, and portfolio-ready outcomes 
-                  built for students who want results.
+                <p className="mt-5 max-w-[58ch] text-base font-medium leading-relaxed text-[color:var(--muted)] sm:text-lg">
+                  Structured real-world experience designed to turn potential into measurable capability.
                 </p>
 
-                <div className="mt-6">
-                  <div className="mb-3 text-sm font-semibold text-[color:var(--muted)]">
-                    Select your track
-                  </div>
-
-                  <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
-                    <div
-                      className="flex items-center gap-3 rounded-full px-5 py-4"
-                      style={{
-                        border: "1px solid var(--border)",
-                        background: "var(--chipBg)",
-                        boxShadow: "0 14px 45px rgba(15,23,42,0.10)",
-                        backdropFilter: "blur(10px)",
-                      }}
-                    >
-                      <span className="text-base">Track</span>
-                      <select
-                        defaultValue="software"
-                        className="w-full appearance-none bg-transparent text-base font-semibold text-[color:var(--text)] outline-none"
-                      >
-                        <option value="software">Software Engineering</option>
-                        <option value="data">Data & AI</option>
-                        <option value="cyber">Cybersecurity</option>
-                        <option value="product">Product</option>
-                      </select>
-                      <span className="text-sm font-semibold text-[color:var(--muted)]">
-                        ?
-                      </span>
-                    </div>
-
-                    <PrimaryBtn
-                      href="#method"
-                      onClick={(e) => (e.preventDefault(), smoothScrollTo("method"))}
-                      className="w-full md:w-auto md:px-8 md:py-4 md:text-base"
-                    >
-                      Get started
-                    </PrimaryBtn>
-                  </div>
-
-                  <div className="mt-4 flex flex-wrap gap-3">
-                    <Chip variant="green">Verified outcomes</Chip>
-                    <Chip variant="blue">Real projects</Chip>
-                    <Chip variant="pink">Mentor feedback</Chip>
-                  </div>
-
-                  <div className="mt-6">
-                    <GhostBtn
-                      href="#contact"
-                      onClick={(e) => (e.preventDefault(), smoothScrollTo("contact"))}
-                      className="w-full gap-2 md:w-auto md:text-base md:px-8 md:py-4"
-                    >
-                      Become a Partner <ArrowRight size={16} />
-                    </GhostBtn>
-                  </div>
-                </div>
+                <p className="mt-4 text-sm font-semibold tracking-wide text-[color:var(--muted)] sm:text-base">
+                  Industry projects. Expert evaluation. Verified outcomes.
+                </p>
               </div>
 
               <HeroPortrait theme={theme} y={heroArtY} />
@@ -1736,13 +1707,16 @@ export default function LandingPage() {
                   >
                     <img
                       src={[
-                        IMAGES.solution1,
-                        IMAGES.solution2,
-                        IMAGES.solution3,
-                        IMAGES.solution4,
+                        "/apply.webp",
+                        "/projects.png",
+                        "/kkk.png",
+                        "/lunch.png",
                       ][idx]}
                       alt={s.title}
-                      className="h-[170px] w-full object-cover md:h-[190px]"
+                      className={[
+                        "h-[170px] w-full md:h-[190px]",
+                        idx === 2 ? "object-contain bg-white" : "object-cover",
+                      ].join(" ")}
                       loading="lazy"
                     />
                   </div>
