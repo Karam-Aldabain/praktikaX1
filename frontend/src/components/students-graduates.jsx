@@ -1,1959 +1,1987 @@
-// PraktixStudentsGraduates.jsx
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
+import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
+import {
+  ArrowRight,
+  BadgeCheck,
+  Briefcase,
+  Building2,
+  Calendar,
+  ChevronLeft,
+  ChevronRight,
+  ClipboardCheck,
+  Compass,
+  FileCheck2,
+  Flame,
+  Globe2,
+  GraduationCap,
+  LineChart,
+  MapPin,
+  Shield,
+  Sparkles,
+  Star,
+  Target,
+  Zap,
+  Laptop,
+  PenTool,
+  Megaphone,
+  Handshake,
+  ListChecks,
+  Rocket,
+  Wallet,
+  Boxes,
+  HeartPulse,
+} from "lucide-react";
 
-export default function PraktixStudentsGraduates() {
-  // ---------- Program data (UNCHANGED) ----------
-  const programData = useMemo(
-    () => ({
-      eng: [
-        {
-          title: "Software Engineering",
-          img: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.9 Industry Mentor Rating",
-          level: "Advanced",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Real Client Project · Portfolio Deployment · Expert Evaluation",
-          outcomes: "Typical roles: Frontend / Backend / Full-Stack Developer",
-        },
-        {
-          title: "Cloud & DevOps Engineering",
-          img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Industry Mentor Rating",
-          level: "Advanced",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Deployed Cloud System · DevOps Workflow Portfolio",
-          outcomes: "Typical roles: Cloud Engineer · DevOps Engineer · SRE",
-        },
-        {
-          title: "Data Analysis & BI",
-          img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.9 Mentor Evaluation Score",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Interactive Dashboard · Insight Report",
-          outcomes: "Typical roles: Data Analyst · BI Analyst · Insights Associate",
-        },
-        {
-          title: "Cybersecurity",
-          img: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.9 Industry Mentor Rating",
-          level: "Advanced",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Security Audit · Hardened System Framework",
-          outcomes: "Typical roles: Security Analyst · AppSec Associate · SOC",
-        },
-        {
-          title: "Mobile App Development",
-          img: "https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Mentor Rating",
-          level: "Advanced",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Functional Mobile Application · Deployment Demo",
-          outcomes: "Typical roles: Mobile Developer · App Engineer",
-        },
-        {
-          title: "Web Development",
-          img: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.7 Professional Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Live Website · CMS Deployment",
-          outcomes: "Typical roles: Web Developer · Frontend Engineer",
-        },
-        {
-          title: "AI & Machine Learning",
-          img: "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.9 AI Expert Rating",
-          level: "Advanced",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "AI-Powered Application · Model Performance Report",
-          outcomes: "Typical roles: ML Engineer · Applied AI Associate",
-        },
-        {
-          title: "Game Development",
-          img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.7 Industry Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Playable Demo · Game Prototype",
-          outcomes: "Typical roles: Game Developer · Gameplay Engineer",
-        },
-      ],
-      digital: [
-        {
-          title: "UI/UX Product Design",
-          img: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Expert Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "High-Fidelity Prototype · Design Case Study",
-          outcomes: "Typical roles: Product Designer · UX Designer · UI Designer",
-        },
-        {
-          title: "Digital Transformation",
-          img: "https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Mentor Evaluation Score",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Transformation Roadmap · Executive Presentation",
-          outcomes: "Typical roles: Digital Transformation Analyst · Ops Excellence",
-        },
-        {
-          title: "Digital Marketing",
-          img: "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Mentor Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Performance Campaign Report",
-          outcomes: "Typical roles: Performance Marketer · Growth Associate",
-        },
-        {
-          title: "Content Writing",
-          img: "https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.7 Editorial Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Published Portfolio Collection",
-          outcomes: "Typical roles: Content Writer · Copywriter · SEO Specialist",
-        },
-      ],
-      biz: [
-        {
-          title: "Business Development",
-          img: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Industry Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Expansion Strategy Report",
-          outcomes: "Typical roles: Business Development Associate",
-        },
-        {
-          title: "Business Consulting",
-          img: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Consulting Rating",
-          level: "Advanced",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Consulting Report + Executive Presentation",
-          outcomes: "Typical roles: Consulting Analyst · Strategy Associate",
-        },
-        {
-          title: "Project Management",
-          img: "https://images.unsplash.com/photo-1522071901873-411886a10004?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Professional Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Execution Plan · Project Documentation",
-          outcomes: "Typical roles: Project Coordinator · PM Associate",
-        },
-        {
-          title: "Entrepreneurship & Startup Building",
-          img: "https://images.unsplash.com/photo-1559136656-3dbf0fe8f6c3?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.9 Innovation Mentor Rating",
-          level: "Advanced",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Startup Prototype · Investor Pitch Deck",
-          outcomes: "Typical roles: Startup Operator · Founder Associate",
-        },
-        {
-          title: "Sales & Marketing",
-          img: "https://images.unsplash.com/photo-1556155092-490a1ba16284?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.7 Industry Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Sales Strategy Model",
-          outcomes: "Typical roles: Sales Associate · Revenue Ops",
-        },
-      ],
-      fin: [
-        {
-          title: "FinTech Engineering",
-          img: "https://images.unsplash.com/photo-1559526324-593bc073d938?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Financial Tech Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "FinTech Prototype · Financial Dashboard",
-          outcomes: "Typical roles: FinTech Analyst · Product Ops",
-        },
-        {
-          title: "Supply Chain Management",
-          img: "https://images.unsplash.com/photo-1586528116493-da8ae0b34f5b?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.7 Industry Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Operational Efficiency Report",
-          outcomes: "Typical roles: Supply Chain Analyst · Operations Associate",
-        },
-        {
-          title: "Digital Economics",
-          img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.7 Research Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Market Research Study",
-          outcomes: "Typical roles: Research Analyst · Market Analyst",
-        },
-        {
-          title: "Finance & Financial Modeling",
-          img: "https://images.unsplash.com/photo-1604594849809-dfedbc827105?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Financial Expert Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Financial Model + Analytical Report",
-          outcomes: "Typical roles: Financial Analyst · FP&A Associate",
-        },
-        {
-          title: "Digital Health Management",
-          img: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
-          rating: "4.8 Expert Rating",
-          level: "Professional",
-          meta: ["Verified Certificate", "3–4 Months", "4 Intakes / Year"],
-          deliverable: "Health Management Dashboard",
-          outcomes: "Typical roles: Health Ops Analyst · Digital Health Associate",
-        },
-      ],
-    }),
-    []
-  );
 
-  // ---------- Refs ----------
-  const sliderRef = useRef(null);
-  const heroVisualRef = useRef(null);
-  const impactCountersRef = useRef(null);
-  const floatApplyRef = useRef(null);
+const THEME = {
+  // Core background
+  deep: "#0B1220",
+  slate: "#1E2A3A",
+  sand: "#E9E7DF",
 
-  const applySectionRef = useRef(null);
-  const statusRef = useRef(null);
-  const yearWrapRef = useRef(null);
-  const catSelectRef = useRef(null);
-  const goalRef = useRef(null);
-  const formRef = useRef(null);
+  // Accent system (NOT pink-dominant)
+  accent: "#22D3EE", // cyan highlight
+  accent2: "#A78BFA", // violet
+  accent3: "#34D399", // green
+  accent4: "#F59E0B", // amber
 
-  // ---------- State ----------
-  const [activeCat, setActiveCat] = useState("eng");
-  const [fabVisible, setFabVisible] = useState(false);
-  const [successVisible, setSuccessVisible] = useState(false);
+  // Keep pink ONLY where you explicitly want it (scroll arrows)
+  pink: "#C91D67",
 
-  // ---------- Helpers ----------
-  const scrollToApply = (programTitle) => {
-    // Prefill category based on current tab
-    const map = {
-      eng: "Engineering & Technology",
-      digital: "Digital & Innovation",
-      biz: "Business & Strategy",
-      fin: "Finance & Economics",
-    };
+  // Stars / rating
+  star: "#F5D66B",
+};
 
-    if (catSelectRef.current) {
-      catSelectRef.current.value = map[activeCat] || catSelectRef.current.value;
-    }
+const DARK_SECTION_BG = "linear-gradient(90deg, #050B1F 0%, #071A3E 100%)";
+const ACCENT_RGB = "201,29,103";
+const accent = (a) => `rgba(${ACCENT_RGB}, ${a})`;
+const POWER_ICON_SHELL = {
+  background: "linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.07) 100%)",
+  border: "1px solid rgba(255,255,255,0.22)",
+  boxShadow: "0 10px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.20)",
+};
 
-    // Prefill career goal with program name (soft, editable)
-    if (goalRef.current && !goalRef.current.value.trim()) {
-      goalRef.current.value = `I want to build a portfolio and verified deliverables through the ${programTitle} track.`;
-    }
+function cx(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
-    if (applySectionRef.current) {
-      applySectionRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+const formWrapV = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: "easeOut", when: "beforeChildren", staggerChildren: 0.06 },
+  },
+};
 
-  const syncYear = () => {
-    const statusEl = statusRef.current;
-    const yearWrapEl = yearWrapRef.current;
-    if (!statusEl || !yearWrapEl) return;
-    yearWrapEl.style.display = statusEl.value === "student" ? "block" : "none";
-  };
+const fieldV = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
+};
 
-  // ---------- Effects (reveal, counters, scroll FAB, parallax) ----------
-  useEffect(() => {
-    // Reveal on scroll
-    const revealEls = Array.from(document.querySelectorAll(".reveal"));
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) e.target.classList.add("in");
-        });
-      },
-      { threshold: 0.12 }
-    );
-    revealEls.forEach((el) => io.observe(el));
-
-    return () => io.disconnect();
-  }, []);
+function useInViewOnce(threshold = 0.2) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
 
   useEffect(() => {
-    // Animated counters
-    const countersRoot = impactCountersRef.current;
-    if (!countersRoot) return;
+    const el = ref.current;
+    if (!el) return;
 
-    const counterEls = Array.from(countersRoot.querySelectorAll(".num"));
-    let countersDone = false;
-
-    const animateCounter = (el) => {
-      const target = Number(el.dataset.count || 0);
-      const suffix = el.dataset.suffix || "";
-      const duration = 1100;
-      const start = performance.now();
-
-      const tick = (now) => {
-        const t = Math.min(1, (now - start) / duration);
-        // easeOutCubic
-        const eased = 1 - Math.pow(1 - t, 3);
-        const val = Math.floor(eased * target);
-        el.textContent = val.toLocaleString() + suffix;
-        if (t < 1) requestAnimationFrame(tick);
-      };
-
-      requestAnimationFrame(tick);
-    };
-
-    const countersIO = new IntersectionObserver(
+    const obs = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting && !countersDone) {
-            countersDone = true;
-            counterEls.forEach(animateCounter);
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setInView(true);
+            obs.disconnect();
+            break;
           }
-        });
+        }
       },
-      { threshold: 0.25 }
+      { threshold }
     );
 
-    countersIO.observe(countersRoot);
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
 
-    return () => countersIO.disconnect();
-  }, []);
+  return { ref, inView };
+}
 
-  useEffect(() => {
-    // Floating Apply button show/hide on scroll
-    const onScroll = () => {
-      const y = window.scrollY || document.documentElement.scrollTop;
-      setFabVisible(y > 520);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+function AnimatedNumber({ value, suffix, durationMs = 900 }) {
+  const reduce = useReducedMotion();
+  const [n, setN] = useState(reduce ? value : 0);
 
   useEffect(() => {
-    // Subtle parallax for hero visual
-    const hv = heroVisualRef.current;
-    if (!hv) return;
+    if (reduce) {
+      setN(value);
+      return;
+    }
+    let raf = 0;
+    const start = performance.now();
+    const from = 0;
 
-    const onMove = (e) => {
-      const r = hv.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > window.innerHeight) return;
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = (e.clientY - r.top) / r.height - 0.5;
-      hv.style.transform = `translateY(${y * -2}px) translateX(${x * -2}px)`;
+    const tick = (t) => {
+      const p = Math.min(1, (t - start) / durationMs);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setN(Math.round(from + (value - from) * eased));
+      if (p < 1) raf = requestAnimationFrame(tick);
     };
 
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
-
-  useEffect(() => {
-    // Initial form behavior
-    syncYear();
-  }, []);
-
-  // ---------- UI ----------
-  const activePrograms = programData[activeCat] || [];
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value, durationMs, reduce]);
 
   return (
-    <>
-      <style>{`
-        /* Fonts (keeps UI identical without needing <link> tags in <head>) */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700&display=swap');
+    <span>
+      {n.toLocaleString()}
+      {suffix}
+    </span>
+  );
+}
 
-        :root{
-          --navy-1:#0B1E2D;
-          --navy-2:#0F2C45;
-          --ink:#06121B;
-          --white:#ffffff;
-          --muted:#A9C0D1;
-          --line: rgba(255,255,255,.12);
-          --mag-1:#ff2fb3;
-          --mag-2:#a855f7;
-          --mag-3:#22d3ee;
-          --card: rgba(255,255,255,.06);
-          --card2: rgba(255,255,255,.08);
-          --shadow: 0 20px 60px rgba(0,0,0,.35);
-          --shadow2: 0 18px 40px rgba(0,0,0,.28);
-          --radius: 18px;
-          --radius2: 26px;
-          --max: 1140px;
-        }
-        *{box-sizing:border-box}
-        html,body{height:100%}
-        body{
-          margin:0;
-          font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-          color: var(--white);
-          background:
-            radial-gradient(1200px 600px at 20% 10%, rgba(255,47,179,.16), transparent 55%),
-            radial-gradient(900px 600px at 90% 25%, rgba(34,211,238,.12), transparent 60%),
-            linear-gradient(135deg, var(--navy-1), var(--navy-2));
-          overflow-x:hidden;
-        }
-        /* --------- Layout helpers --------- */
-        .container{max-width:var(--max); margin:0 auto; padding:0 22px;}
-        .section{padding:88px 0;}
-        .row{display:flex; gap:34px;}
-        .col{flex:1; min-width:0;}
-        .center{display:flex; align-items:center; justify-content:center;}
-        .muted{color:var(--muted)}
-        .small{font-size:13px; letter-spacing:.2px;}
-        .eyebrow{display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,.03); backdrop-filter: blur(10px);}
-        .dot{width:8px; height:8px; border-radius:999px; background:linear-gradient(90deg,var(--mag-1),var(--mag-2),var(--mag-3)); box-shadow:0 0 0 4px rgba(255,47,179,.12)}
-        h1,h2,h3{font-family:Sora, Inter, sans-serif; margin:0}
-        h1{font-size: clamp(34px, 4.2vw, 56px); line-height:1.05; letter-spacing:-.6px;}
-        h2{font-size: clamp(26px, 3.0vw, 38px); line-height:1.15; letter-spacing:-.4px;}
-        h3{font-size: 18px; letter-spacing:-.2px;}
-        p{margin:0}
-        a{color:inherit; text-decoration:none}
+const iconStrongProps = {
+  strokeWidth: 2.4,
+};
 
-        /* --------- Top nav --------- */
-        .nav{
-          position:sticky; top:0; z-index:50;
-          background:linear-gradient(180deg, rgba(11,30,45,.78), rgba(11,30,45,.45));
-          backdrop-filter: blur(14px);
-          border-bottom:1px solid rgba(255,255,255,.08);
-        }
-        .nav-inner{ height:74px; display:flex; align-items:center; justify-content:space-between; }
-        .brand{display:flex; align-items:center; gap:10px; font-weight:700; letter-spacing:.2px;}
-        .logo{
-          width:34px; height:34px; border-radius:12px;
-          background: conic-gradient(from 225deg, var(--mag-1), var(--mag-2), var(--mag-3), var(--mag-1));
-          box-shadow: 0 10px 30px rgba(255,47,179,.18);
-          position:relative; overflow:hidden;
-        }
-        .logo:after{
-          content:""; position:absolute; inset:-40%;
-          background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 42%);
-          transform: rotate(12deg);
-          animation: shimmer 6.5s linear infinite;
-          opacity:.65;
-        }
-        @keyframes shimmer{
-          0%{transform: translateX(-22%) rotate(12deg)}
-          50%{transform: translateX(22%) rotate(12deg)}
-          100%{transform: translateX(-22%) rotate(12deg)}
-        }
-        .nav-links{display:flex; align-items:center; gap:18px; color:rgba(255,255,255,.86); font-weight:500}
-        .nav-links a{padding:10px 12px; border-radius:12px}
-        .nav-links a:hover{background:rgba(255,255,255,.05)}
-        .nav-cta{display:flex; align-items:center; gap:12px;}
+function IconBadge({ color, children }) {
+  return (
+    <span
+      className="inline-flex h-9 w-9 items-center justify-center rounded-2xl ring-1"
+      style={{
+        ...POWER_ICON_SHELL,
+      }}
+    >
+      <span style={{ color }}>{children}</span>
+    </span>
+  );
+}
 
-        /* --------- Buttons --------- */
-        .btn{
-          border:1px solid rgba(255,255,255,.18);
-          padding:12px 16px;
-          border-radius:14px;
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          gap:10px;
-          cursor:pointer;
-          font-weight:600;
-          transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
-          user-select:none;
-        }
-        .btn:focus{outline:none; box-shadow: 0 0 0 4px rgba(255,47,179,.22)}
-        .btn:hover{transform: translateY(-1px)}
-        .btn-primary{
-          border:none;
-          background: linear-gradient(90deg, var(--mag-1), var(--mag-2));
-          box-shadow: 0 16px 44px rgba(255,47,179,.24);
-        }
-        .btn-primary:hover{box-shadow: 0 18px 52px rgba(255,47,179,.30)}
-        .btn-ghost{
-          background: rgba(255,255,255,.03);
-          border-color: rgba(255,255,255,.22);
-        }
-        .btn-ghost:hover{background: rgba(255,255,255,.06)}
-        .btn-light{
-          background:#fff;
-          color: #0b1e2d;
-          border:none;
-          box-shadow: 0 16px 42px rgba(0,0,0,.26);
-        }
-        .icon{
-          width:18px; height:18px;
-          display:inline-block;
-          background: currentColor;
-          mask-size:contain;
-          mask-repeat:no-repeat;
-          mask-position:center;
-          opacity:.95;
-        }
-        .i-arrow{mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h12"/><path d="m13 5 7 7-7 7"/></svg>');}
-        .i-spark{mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M12 2l1.6 6.1L20 10l-6.4 1.9L12 18l-1.6-6.1L4 10l6.4-1.9L12 2z"/></svg>');}
-        .i-check{mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>');}
-        .i-bolt{mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="black"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>');}
-        .i-globe{mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>');}
-        .i-brief{mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 13h20"/></svg>');}
-        .i-hat{mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 4 2 10l10 6 10-6z"/><path d="M6 12v5c0 1 3 3 6 3s6-2 6-3v-5"/></svg>');}
-        .i-file{mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>');}
+function SectionTitle({ eyebrow, title, accent, subtitle, dark }) {
+  return (
+    <div className={cx("mx-auto max-w-5xl", dark ? "text-white" : "text-[#0B1220]")}>
+      {eyebrow ? (
+        <div
+          className={cx(
+            "inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-widest",
+            dark ? "bg-white/10 text-white/80 ring-1 ring-white/10" : "bg-[#0B1220]/5 text-[#0B1220]/70 ring-1 ring-[#0B1220]/10"
+          )}
+        >
+          <Sparkles className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} />
+          <span>{eyebrow}</span>
+        </div>
+      ) : null}
 
-        /* --------- Hero background animations (grid + light streak) --------- */
-        .hero{ position:relative; padding: 84px 0 58px; overflow:hidden; }
-        .grid-overlay{
-          position:absolute; inset:-1px;
-          background-image:
-            linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
-          background-size: 56px 56px;
-          opacity:.16;
-          mask-image: radial-gradient(circle at 35% 35%, rgba(0,0,0,1), rgba(0,0,0,.15) 55%, rgba(0,0,0,0) 78%);
-          animation: gridPan 14s linear infinite;
-          pointer-events:none;
-        }
-        @keyframes gridPan{
-          0%{background-position: 0 0, 0 0}
-          100%{background-position: 120px 60px, 120px 60px}
-        }
-        .streak{
-          position:absolute; inset:-60px -120px auto -120px; height:240px;
-          background: radial-gradient(closest-side, rgba(255,47,179,.22), transparent 70%);
-          filter: blur(8px);
-          transform: rotate(-10deg);
-          animation: streak 7.2s ease-in-out infinite;
-          opacity:.9;
-          pointer-events:none;
-        }
-        @keyframes streak{
-          0%{transform: translateX(-18%) rotate(-10deg); opacity:.55}
-          45%{transform: translateX(18%) rotate(-10deg); opacity:.95}
-          100%{transform: translateX(-18%) rotate(-10deg); opacity:.55}
-        }
+      <h2 className={cx("mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl", dark ? "text-white" : "text-[#0B1220]")}>
+        {title}{" "}
+        {accent ? (
+          <span
+            style={{
+              color: THEME.pink,
+            }}
+          >
+            {accent}
+          </span>
+        ) : null}
+      </h2>
 
-        /* --------- Hero layout --------- */
-        .hero-grid{ display:grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items:center; }
-        .hero p{font-size:16px; line-height:1.7; color: rgba(255,255,255,.78)}
-        .cta-row{display:flex; gap:14px; flex-wrap:wrap; margin-top:18px;}
-        .badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
-        .pill{
-          padding:8px 12px;
-          border-radius:999px;
-          border:1px solid rgba(255,255,255,.16);
-          background: rgba(255,255,255,.04);
-          backdrop-filter: blur(10px);
-          font-weight:600;
-          font-size:13px;
-          display:inline-flex;
-          align-items:center;
-          gap:8px;
-          position:relative;
-          overflow:hidden;
-        }
-        .pill:before{
-          content:"";
-          position:absolute; inset:-40%;
-          background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), transparent 44%);
-          transform: translateX(-30%);
-          animation: pillShine 4.8s ease-in-out infinite;
-          opacity:.8;
-          pointer-events:none;
-        }
-        @keyframes pillShine{
-          0%,100%{transform: translateX(-30%)}
-          50%{transform: translateX(30%)}
-        }
-        .hero-visual{
-          position:relative;
-          border-radius: var(--radius2);
-          overflow:hidden;
-          box-shadow: var(--shadow);
-          border:1px solid rgba(255,255,255,.12);
-          background: rgba(255,255,255,.04);
-          min-height: 420px;
-        }
-        .hero-visual img{
-          width:100%; height:100%;
-          object-fit:cover;
-          transform: scale(1.03);
-          filter: saturate(1.08) contrast(1.02);
-        }
-        .hero-visual:after{
-          content:"";
-          position:absolute; inset:0;
-          background: linear-gradient(180deg, rgba(11,30,45,.12), rgba(11,30,45,.72));
-          pointer-events:none;
-        }
+      {subtitle ? (
+        <p className={cx("mt-3 max-w-4xl text-balance text-base sm:text-lg", dark ? "text-white/70" : "text-[#0B1220]/70")}>
+          {subtitle}
+        </p>
+      ) : null}
+    </div>
+  );
+}
 
-        /* Floating UI elements */
-        .float-ui{ position:absolute; inset:0; pointer-events:none; }
-        .chip{
-          position:absolute;
-          background: rgba(255,255,255,.08);
-          border:1px solid rgba(255,255,255,.18);
-          border-radius: 16px;
-          padding:10px 12px;
-          backdrop-filter: blur(12px);
-          box-shadow: var(--shadow2);
-          display:flex;
-          align-items:center;
-          gap:10px;
-          font-weight:600;
-          color: rgba(255,255,255,.9);
-          transform: translateZ(0);
-          animation: float 6s ease-in-out infinite;
-        }
-        .chip .mini{font-size:12px; font-weight:600; color: rgba(255,255,255,.70)}
-        .chip .bar{
-          width:66px; height:8px;
-          border-radius:999px;
-          background: rgba(255,255,255,.12);
-          overflow:hidden;
-          position:relative;
-        }
-        .chip .bar:after{
-          content:""; position:absolute; inset:0;
-          background: linear-gradient(90deg, var(--mag-1), var(--mag-2), var(--mag-3));
-          transform: translateX(-35%);
-          animation: barMove 3.8s ease-in-out infinite;
-          opacity:.9;
-        }
-        @keyframes barMove{
-          0%,100%{transform: translateX(-35%)}
-          50%{transform: translateX(35%)}
-        }
-        @keyframes float{
-          0%,100%{transform: translateY(0)}
-          50%{transform: translateY(-10px)}
-        }
-        .chip.one{left:22px; top:26px; animation-delay:0s}
-        .chip.two{right:20px; top:80px; animation-delay:.4s}
-        .chip.three{left:30px; bottom:30px; animation-delay:.8s}
+function Pill({ label }) {
+  return (
+    <span
+      className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
+      style={{
+        background: "rgba(255,255,255,0.08)",
+        color: "rgba(255,255,255,0.84)",
+        border: "1px solid rgba(255,255,255,0.12)",
+      }}
+    >
+      {label}
+    </span>
+  );
+}
 
-        /* --------- Reveal animations --------- */
-        .reveal{opacity:0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease;}
-        .reveal.in{opacity:1; transform: translateY(0);}
+function GradientButton({ children, onClick, href, variant = "primary" }) {
+  const base =
+    "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
 
-        /* --------- Cards & surfaces --------- */
-        .surface{
-          border:1px solid rgba(255,255,255,.12);
-          background: var(--card);
-          border-radius: var(--radius2);
-          backdrop-filter: blur(14px);
-          box-shadow: var(--shadow2);
-        }
-        .surface.light{
-          background: rgba(255,255,255,.92);
-          color: #0b1e2d;
-          border-color: rgba(11,30,45,.10);
-          box-shadow: 0 20px 50px rgba(0,0,0,.10);
-        }
-        .surface.white{
-          background: #ffffff;
-          color: #0b1e2d;
-          border-color: rgba(11,30,45,.10);
-          box-shadow: 0 20px 50px rgba(0,0,0,.10);
-        }
+  const primary =
+    "text-white shadow-[0_12px_30px_rgba(34,211,238,0.18)] hover:translate-y-[-1px] active:translate-y-[0px]";
 
-        /* --------- Problem section --------- */
-        .problem{
-          background: #ffffff;
-          color: var(--ink);
-          padding: 86px 0;
-          position:relative;
-        }
-        .split-illus{
-          border-radius: var(--radius2);
-          overflow:hidden;
-          border:1px solid rgba(11,30,45,.10);
-          background: linear-gradient(90deg, #f4f7fb, #ffffff);
-          height: 300px;
-          position:relative;
-          box-shadow: 0 18px 40px rgba(0,0,0,.10);
-        }
-        .split-illus .half{
-          position:absolute; top:0; bottom:0; width:50%;
-          display:flex; align-items:center; justify-content:center;
-          padding:26px;
-        }
-        .split-illus .left{left:0; background: radial-gradient(500px 250px at 30% 40%, rgba(255,47,179,.18), transparent 60%)}
-        .split-illus .right{right:0; background: radial-gradient(600px 280px at 70% 40%, rgba(34,211,238,.18), transparent 60%)}
-        .scene{
-          width: 92%;
-          border-radius: 18px;
-          border:1px dashed rgba(11,30,45,.20);
-          background: rgba(255,255,255,.72);
-          padding:16px;
-          display:flex;
-          flex-direction:column;
-          gap:10px;
-        }
-        .scene-title{display:flex; gap:10px; align-items:center; font-weight:700}
-        .scene-title span{opacity:.75; font-weight:600}
-        .scene .line{height:10px; border-radius:999px; background: rgba(11,30,45,.10)}
-        .scene .line.w1{width:86%}
-        .scene .line.w2{width:72%}
-        .scene .line.w3{width:64%}
-        .divider{
-          width:2px;
-          position:absolute;
-          top:14px; bottom:14px;
-          left:50%;
-          background: linear-gradient(180deg, rgba(255,47,179,.8), rgba(34,211,238,.8));
-          box-shadow: 0 0 0 6px rgba(11,30,45,.05);
-          border-radius:999px;
-          transform: translateX(-50%);
-          animation: pulse 3.6s ease-in-out infinite;
-          opacity:.9;
-        }
-        @keyframes pulse{
-          0%,100%{opacity:.65}
-          50%{opacity:1}
-        }
+  const secondary = "bg-transparent text-white ring-1 ring-white/20 hover:bg-white/5";
 
-        /* --------- Impact section --------- */
-        .impact{padding: 86px 0; position:relative;}
-        .impact-grid{display:grid; grid-template-columns: repeat(4, 1fr); gap:14px; margin-top:26px;}
-        .stat{
-          padding:18px 18px 16px;
-          border-radius: 18px;
-          border:1px solid rgba(255,255,255,.14);
-          background: rgba(255,255,255,.04);
-          backdrop-filter: blur(12px);
-          transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-          position:relative;
-          overflow:hidden;
-        }
-        .stat:hover{
-          transform: translateY(-2px);
-          border-color: rgba(255,47,179,.35);
-          box-shadow: 0 18px 50px rgba(255,47,179,.10);
-        }
-        .stat:before{
-          content:"";
-          position:absolute; inset:-40%;
-          background: radial-gradient(circle at 30% 30%, rgba(255,47,179,.18), transparent 44%);
-          transform: translateX(-20%);
-          animation: statGlow 6s ease-in-out infinite;
-          pointer-events:none;
-        }
-        @keyframes statGlow{
-          0%,100%{transform: translateX(-20%)}
-          50%{transform: translateX(20%)}
-        }
-        .stat .num{font-family:Sora, Inter, sans-serif; font-size: 30px; letter-spacing:-.4px; font-weight:700;}
-        .stat .lbl{color: rgba(255,255,255,.72); font-weight:600; margin-top:6px; line-height:1.35;}
+  const stylePrimary = {
+    background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.82)} 55%, ${accent(0.60)} 120%)`,
+  };
 
-        /* --------- Timeline --------- */
-        .timeline{
-          padding: 24px 0 0;
-          display:grid;
-          grid-template-columns: repeat(4,1fr);
-          gap:16px;
-          margin-top:22px;
-        }
-        .step{
-          border:1px solid rgba(255,255,255,.12);
-          background: rgba(255,255,255,.04);
-          border-radius: 18px;
-          padding:18px;
-          position:relative;
-          overflow:hidden;
-          transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-          min-height: 138px;
-        }
-        .step:hover{
-          transform: translateY(-2px);
-          border-color: rgba(34,211,238,.35);
-          box-shadow: 0 18px 50px rgba(34,211,238,.08);
-        }
-        .step .badge{
-          width:40px; height:40px;
-          border-radius:14px;
-          display:flex; align-items:center; justify-content:center;
-          background: linear-gradient(135deg, rgba(255,47,179,.22), rgba(34,211,238,.16));
-          border:1px solid rgba(255,255,255,.16);
-          margin-bottom:12px;
-        }
-        .step .badge .icon{opacity:1}
-        .step .title{font-weight:700; margin-bottom:6px;}
-        .step .desc{color: rgba(255,255,255,.74); line-height:1.5; font-size:14px;}
-        .connector{
-          position:absolute;
-          left: calc(100% - 8px);
-          top: 50%;
-          width: 16px;
-          height: 2px;
-          background: linear-gradient(90deg, rgba(255,47,179,.8), rgba(34,211,238,.8));
-          opacity:.9;
-        }
-        .step:last-child .connector{display:none;}
+  const Comp = href ? "a" : "button";
+  const props = href ? { href } : { type: "button" };
 
-        /* --------- Programs section --------- */
-        .programs{
-          background:
-            radial-gradient(900px 420px at 20% 30%, rgba(255,47,179,.10), transparent 60%),
-            radial-gradient(900px 420px at 80% 30%, rgba(34,211,238,.10), transparent 60%);
-          padding: 86px 0;
-        }
-        .tabs{ display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
-        .tab{
-          padding:10px 12px;
-          border-radius: 14px;
-          border:1px solid rgba(255,255,255,.14);
-          background: rgba(255,255,255,.04);
-          font-weight:700;
-          cursor:pointer;
-          transition: transform .18s ease, border-color .18s ease, background .18s ease;
-          user-select:none;
-        }
-        .tab:hover{transform: translateY(-1px); background: rgba(255,255,255,.06)}
-        .tab.active{
-          border-color: rgba(255,47,179,.40);
-          background: linear-gradient(90deg, rgba(255,47,179,.18), rgba(34,211,238,.10));
-          box-shadow: 0 18px 45px rgba(255,47,179,.10);
-        }
-        .slider-shell{
-          margin-top:20px;
-          border-radius: var(--radius2);
-          border:1px solid rgba(255,255,255,.12);
-          background: rgba(255,255,255,.03);
-          overflow:hidden;
-          position:relative;
-        }
-        .slider-controls{
-          position:absolute;
-          inset: 14px 14px auto auto;
-          display:flex;
-          gap:10px;
-          z-index:2;
-        }
-        .iconbtn{
-          width:40px; height:40px;
-          border-radius:14px;
-          border:1px solid rgba(255,255,255,.16);
-          background: rgba(255,255,255,.05);
-          backdrop-filter: blur(12px);
-          cursor:pointer;
-          transition: transform .18s ease, background .18s ease, border-color .18s ease;
-          display:flex; align-items:center; justify-content:center;
-        }
-        .iconbtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.08); border-color: rgba(255,47,179,.30)}
-        .iconbtn:focus{outline:none; box-shadow: 0 0 0 4px rgba(255,47,179,.22)}
-        .slider{
-          display:flex;
-          gap:14px;
-          padding: 70px 14px 18px;
-          overflow-x:auto;
-          scroll-snap-type: x mandatory;
-          scroll-behavior:smooth;
-        }
-        .slider::-webkit-scrollbar{height:10px}
-        .slider::-webkit-scrollbar-thumb{background: rgba(255,255,255,.10); border-radius:999px}
+  return (
+    <Comp
+      {...props}
+      onClick={onClick}
+      className={cx(base, variant === "primary" ? primary : secondary)}
+      style={variant === "primary" ? stylePrimary : undefined}
+    >
+      {children}
+      <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+    </Comp>
+  );
+}
 
-        .program-card{
-          scroll-snap-align:start;
-          flex: 0 0 340px;
-          border-radius: 22px;
-          border:1px solid rgba(255,255,255,.14);
-          background: rgba(255,255,255,.04);
-          backdrop-filter: blur(12px);
-          overflow:hidden;
-          transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-          position:relative;
-        }
-        .program-card:hover{
-          transform: translateY(-3px);
-          border-color: rgba(255,47,179,.45);
-          box-shadow: 0 0 0 1px rgba(255,47,179,.18), 0 20px 60px rgba(255,47,179,.12);
-        }
-        .pc-img{ height: 170px; position:relative; overflow:hidden; }
-        .pc-img img{width:100%; height:100%; object-fit:cover; filter:saturate(1.08) contrast(1.02)}
-        .pc-img:after{ content:""; position:absolute; inset:0; background: linear-gradient(180deg, rgba(11,30,45,.05), rgba(11,30,45,.72)); pointer-events:none; }
-        .pc-body{padding:16px 16px 14px;}
-        .pc-title{font-family:Sora, Inter, sans-serif; font-size:18px; font-weight:700; letter-spacing:-.2px;}
-        .pc-sub{margin-top:6px; font-size:14px; color: rgba(255,255,255,.74); line-height:1.55}
-        .pc-meta{display:flex; flex-wrap:wrap; gap:8px; margin-top:12px;}
-        .tag{
-          font-size:12px;
-          padding:6px 10px;
-          border-radius:999px;
-          background: rgba(255,255,255,.06);
-          border:1px solid rgba(255,255,255,.12);
-          color: rgba(255,255,255,.82);
-          font-weight:700;
-        }
-        .pc-line{margin-top:12px; border-top:1px solid rgba(255,255,255,.10); padding-top:12px;}
-        .kv{display:flex; gap:10px; align-items:flex-start;}
-        .kv .k{min-width:88px; font-size:12px; color: rgba(255,255,255,.60); font-weight:700; text-transform:uppercase; letter-spacing:.3px;}
-        .kv .v{font-size:13px; color: rgba(255,255,255,.78); line-height:1.45; font-weight:600;}
-        .pc-actions{padding: 0 16px 16px;}
-        .btn-sm{padding:10px 12px; border-radius: 14px; width:100%;}
-        .glow-edge{
-          position:absolute; inset:-40%;
-          background:
-            radial-gradient(circle at 25% 30%, rgba(255,47,179,.28), transparent 52%),
-            radial-gradient(circle at 80% 20%, rgba(34,211,238,.18), transparent 56%);
-          filter: blur(18px);
-          opacity:.5;
-          pointer-events:none;
-          transition: opacity .18s ease;
-        }
-        .program-card:hover .glow-edge{opacity:.85}
-        .fadeSwap{ animation: fadeSwap .30s ease both; }
-        @keyframes fadeSwap{
-          from{opacity:0; transform: translateY(8px)}
-          to{opacity:1; transform: translateY(0)}
-        }
+function StarRow({ rating }) {
+  const full = Math.floor(rating);
+  const half = rating - full >= 0.5;
 
-        /* --------- Germany section --------- */
-        .germany{
-          background: #ffffff;
-          color: var(--ink);
-          padding: 86px 0;
-          position:relative;
-          overflow:hidden;
-        }
-        .skyline{
-          position:absolute; inset:auto 0 0 0;
-          height: 220px;
-          opacity:.14;
-          background:
-            linear-gradient(0deg, rgba(11,30,45,.9), rgba(11,30,45,0)),
-            url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="220" viewBox="0 0 1400 220"><g fill="none" stroke="%230b1e2d" stroke-opacity=".9" stroke-width="2"><path d="M0 200h1400"/><path d="M60 200V130h34v70M98 200V98h44v102M160 200V140h36v60M220 200V80h54v120M300 200V120h44v80M370 200V60h70v140M480 200V110h40v90M540 200V95h52v105M610 200V70h62v130M700 200V120h46v80M770 200V90h56v110M860 200V130h42v70M920 200V55h80v145M1030 200V110h42v90M1090 200V95h52v105M1160 200V75h68v125M1260 200V120h48v80M1330 200V98h52v102"/></g></svg>');
-          background-repeat:no-repeat;
-          background-position: center bottom;
-          background-size: cover;
-          pointer-events:none;
-        }
-        .itinerary{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top:18px; }
-        .day{
-          border:1px solid rgba(11,30,45,.10);
-          background: #f7f9fb;
-          border-radius: 18px;
-          padding:14px;
-          box-shadow: 0 10px 24px rgba(0,0,0,.06);
-        }
-        .day .d{font-family:Sora, Inter, sans-serif; font-weight:800; letter-spacing:-.2px}
-        .day .t{margin-top:6px; color: rgba(11,30,45,.74); font-weight:600; line-height:1.45}
+  const stars = Array.from({ length: 5 }).map((_, i) => {
+    const filled = i < full;
+    const isHalf = i === full && half;
 
-        /* --------- Why section --------- */
-        .why{ padding: 86px 0; }
-        .why-grid{ margin-top:22px; display:grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-        .why-card{
-          border:1px solid rgba(255,255,255,.12);
-          background: rgba(255,255,255,.04);
-          border-radius: 20px;
-          padding:16px;
-          backdrop-filter: blur(12px);
-          transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-          position:relative;
-          overflow:hidden;
-          min-height: 150px;
-        }
-        .why-card:hover{
-          transform: translateY(-2px);
-          border-color: rgba(255,47,179,.35);
-          box-shadow: 0 20px 50px rgba(0,0,0,.18);
-        }
-        .why-card .ico{
-          width:42px; height:42px;
-          border-radius: 16px;
-          background: linear-gradient(135deg, rgba(255,47,179,.20), rgba(34,211,238,.12));
-          border:1px solid rgba(255,255,255,.14);
-          display:flex; align-items:center; justify-content:center;
-          margin-bottom:12px;
-        }
-        .why-card p{color: rgba(255,255,255,.76); line-height:1.5; margin-top:6px;}
+    return (
+      <span key={i} className={cx("inline-flex", filled || isHalf ? "opacity-100" : "opacity-25")}>
+        <Star
+          className="h-4 w-4"
+          style={{
+            color: THEME.star,
+            fill: filled ? THEME.star : "transparent",
+          }}
+          strokeWidth={2.2}
+        />
+      </span>
+    );
+  });
 
-        /* --------- Form section --------- */
-        .formwrap{ background: #f7f9fb; color: var(--ink); padding: 86px 0; }
-        .formcard{
-          border-radius: 26px;
-          background:#fff;
-          border:1px solid rgba(11,30,45,.10);
-          box-shadow: 0 24px 60px rgba(0,0,0,.12);
-          overflow:hidden;
-        }
-        .formhead{
-          padding: 22px 22px 18px;
-          border-bottom:1px solid rgba(11,30,45,.08);
-          background: linear-gradient(90deg, rgba(255,47,179,.08), rgba(34,211,238,.06));
-        }
-        .formbody{padding:22px;}
-        .grid2{display:grid; grid-template-columns: 1fr 1fr; gap:12px;}
-        label{display:block; font-weight:700; font-size:13px; margin: 0 0 6px;}
-        input,select,textarea{
-          width:100%;
-          padding:12px 12px;
-          border-radius: 14px;
-          border:1px solid rgba(11,30,45,.18);
-          background: #fff;
-          font: inherit;
-          outline:none;
-          transition: box-shadow .18s ease, border-color .18s ease;
-        }
-        textarea{min-height: 110px; resize: vertical}
-        input:focus,select:focus,textarea:focus{
-          border-color: rgba(255,47,179,.55);
-          box-shadow: 0 0 0 4px rgba(255,47,179,.14);
-        }
-        .help{font-size:12px; color: rgba(11,30,45,.66); margin-top:6px}
-        .form-actions{display:flex; gap:12px; align-items:center; margin-top:14px; flex-wrap:wrap;}
-        .success{
-          margin-top:14px;
-          padding:12px 14px;
-          border-radius: 16px;
-          border:1px solid rgba(34,211,238,.34);
-          background: rgba(34,211,238,.10);
-          color: rgba(11,30,45,.86);
-          font-weight:700;
-          display:none;
-        }
-        .success.show{display:block}
+  return <div className="flex items-center gap-1">{stars}</div>;
+}
 
-        /* --------- Footer CTA --------- */
-        footer{
-          padding: 72px 0 36px;
-          background: linear-gradient(135deg, rgba(11,30,45,.65), rgba(15,44,69,.92));
-          border-top:1px solid rgba(255,255,255,.10);
-          position:relative;
-          overflow:hidden;
-        }
-        footer:before{
-          content:"";
-          position:absolute; inset:-40%;
-          background:
-            radial-gradient(circle at 25% 30%, rgba(255,47,179,.18), transparent 52%),
-            radial-gradient(circle at 75% 20%, rgba(34,211,238,.12), transparent 56%);
-          filter: blur(20px);
-          opacity:.75;
-          pointer-events:none;
-        }
-        .foot-row{display:flex; align-items:center; justify-content:space-between; gap:18px; flex-wrap:wrap;}
-        .fine{margin-top:18px; color: rgba(255,255,255,.62); font-size:12px}
+function Anchor({ href, label }) {
+  return (
+    <a href={href} className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white">
+      {label}
+    </a>
+  );
+}
 
-        /* --------- Floating Apply button --------- */
-        .float-apply{
-          position:fixed;
-          right: 18px;
-          bottom: 18px;
-          z-index: 80;
-          opacity:0;
-          transform: translateY(10px);
-          pointer-events:none;
-          transition: opacity .25s ease, transform .25s ease;
-        }
-        .float-apply.show{
-          opacity:1;
-          transform: translateY(0);
-          pointer-events:auto;
-        }
-        .float-apply .fab{
-          border:none;
-          padding: 12px 14px;
-          border-radius: 16px;
-          background: linear-gradient(90deg, var(--mag-1), var(--mag-2));
-          color:#fff;
-          font-weight:800;
-          box-shadow: 0 18px 54px rgba(255,47,179,.30);
-          cursor:pointer;
-          display:flex;
-          align-items:center;
-          gap:10px;
-        }
-        .float-apply .fab:hover{transform: translateY(-1px)}
-        .float-apply .fab:focus{outline:none; box-shadow: 0 0 0 4px rgba(255,47,179,.22), 0 18px 54px rgba(255,47,179,.30)}
+function clampStyle(lines) {
+  return {
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: lines,
+    overflow: "hidden",
+  };
+}
 
-        /* --------- Responsive --------- */
-        @media (max-width: 1000px){
-          .hero-grid{grid-template-columns: 1fr; gap:18px}
-          .hero-visual{min-height: 360px}
-          .impact-grid{grid-template-columns: repeat(2,1fr)}
-          .timeline{grid-template-columns: repeat(2,1fr)}
-          .itinerary{grid-template-columns: repeat(2,1fr)}
-          .why-grid{grid-template-columns: repeat(2,1fr)}
-        }
-        @media (max-width: 620px){
-          .nav-links{display:none}
-          .section{padding:72px 0}
-          .grid2{grid-template-columns: 1fr}
-          .impact-grid{grid-template-columns: 1fr}
-          .timeline{grid-template-columns: 1fr}
-          .itinerary{grid-template-columns: 1fr}
-          .why-grid{grid-template-columns: 1fr}
-          .program-card{flex-basis: 82vw}
-        }
-      `}</style>
+/** ---- DATA (icons now have per-item color accents) ---- */
+const categories = [
+  {
+    key: "eng",
+    label: "Engineering & Technology",
+    kicker: "Production-ready technical execution",
+    programs: [
+      {
+        name: "Software Engineering (FE/BE/Full Stack)",
+        description: "System architecture, API development, database integration, and production-grade workflows.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Mentor Rating",
+        rating: 4.9,
+        includes: ["Real Client Project", "Portfolio Deployment", "Expert Evaluation"],
+        deliverable: "Deployed app + codebase review report",
+        careers: ["Software Engineer", "Backend Engineer", "Full Stack Developer"],
+        icon: Zap,
+        accent: THEME.accent,
+        accentSoft: "rgba(34,211,238,0.18)",
+      },
+      {
+        name: "Cloud & DevOps Engineering",
+        description: "Cloud infrastructure, CI/CD pipelines, containerization, Kubernetes, monitoring, and scalable deployment.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Mentor Rating",
+        rating: 4.8,
+        includes: ["Deployed Cloud System", "DevOps Workflow Portfolio"],
+        deliverable: "Live CI/CD + infra diagram + runbook",
+        careers: ["DevOps Engineer", "Cloud Engineer", "SRE"],
+        icon: LineChart,
+        accent: THEME.accent3,
+        accentSoft: "rgba(52,211,153,0.16)",
+      },
+      {
+        name: "Data Analysis & Business Intelligence",
+        description: "Data cleaning, SQL modeling, dashboard development, predictive analysis, and executive reporting.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Mentor Evaluation Score",
+        rating: 4.9,
+        includes: ["Interactive Dashboard", "Insight Report"],
+        deliverable: "Decision-ready dashboard + insights pack",
+        careers: ["Data Analyst", "BI Analyst", "Reporting Specialist"],
+        icon: Target,
+        accent: THEME.accent4,
+        accentSoft: "rgba(245,158,11,0.16)",
+      },
+      {
+        name: "Cybersecurity",
+        description: "Vulnerability assessment, authentication, encryption layers, penetration basics, and security reporting.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Mentor Rating",
+        rating: 4.9,
+        includes: ["Security Audit", "Hardened System Framework"],
+        deliverable: "Audit report + remediation plan",
+        careers: ["Security Analyst", "SOC Analyst", "AppSec Associate"],
+        icon: Shield,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+      },
+      {
+        name: "Mobile App Development",
+        description: "Cross-platform development, API integration, performance optimization, deployment pipelines, and push notifications.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Mentor Rating",
+        rating: 4.8,
+        includes: ["Functional Mobile Application", "Deployment Demo"],
+        deliverable: "Shippable app + store-ready build",
+        careers: ["Mobile Developer", "React Native Developer", "Flutter Developer"],
+        icon: Laptop,
+        accent: THEME.accent,
+        accentSoft: "rgba(34,211,238,0.18)",
+      },
+      {
+        name: "AI & Machine Learning",
+        description: "Modeling, optimization, deployment as APIs, explainable AI, and automation systems.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "AI Expert Rating",
+        rating: 4.9,
+        includes: ["AI-Powered Application", "Model Performance Report"],
+        deliverable: "API-deployed model + eval report",
+        careers: ["ML Engineer", "AI Engineer", "Data Scientist"],
+        icon: Flame,
+        accent: THEME.accent4,
+        accentSoft: "rgba(245,158,11,0.16)",
+      },
+    ],
+  },
+  {
+    key: "digital",
+    label: "Digital & Innovation",
+    kicker: "Design, transformation, and growth systems",
+    programs: [
+      {
+        name: "UI/UX Product Design",
+        description: "User research, wireframing, prototyping, usability testing, and design systems.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Expert Rating",
+        rating: 4.8,
+        includes: ["High-Fidelity Prototype", "Design Case Study"],
+        deliverable: "Case study + hi-fi prototype",
+        careers: ["UI/UX Designer", "Product Designer", "UX Research Associate"],
+        icon: PenTool,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+      },
+      {
+        name: "Digital Transformation",
+        description: "Workflow analysis, automation strategy, tool selection, efficiency mapping, and roadmapping.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Mentor Evaluation Score",
+        rating: 4.8,
+        includes: ["Transformation Roadmap", "Executive Presentation"],
+        deliverable: "Transformation roadmap + exec deck",
+        careers: ["Transformation Analyst", "Ops Analyst", "Business Analyst"],
+        icon: Building2,
+        accent: THEME.accent3,
+        accentSoft: "rgba(52,211,153,0.16)",
+      },
+      {
+        name: "Digital Marketing",
+        description: "Campaign optimization, funnel design, A/B testing, performance analytics, and conversion strategy.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Mentor Rating",
+        rating: 4.8,
+        includes: ["Performance Campaign Report"],
+        deliverable: "Campaign analysis + optimization plan",
+        careers: ["Performance Marketer", "Growth Analyst", "Marketing Specialist"],
+        icon: Megaphone,
+        accent: THEME.accent,
+        accentSoft: "rgba(34,211,238,0.18)",
+      },
+      {
+        name: "Content Writing",
+        description: "Professional copywriting, SEO structuring, content optimization, and editorial workflows.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Editorial Rating",
+        rating: 4.7,
+        includes: ["Published Portfolio Collection"],
+        deliverable: "Published portfolio + SEO playbook",
+        careers: ["Content Writer", "SEO Copywriter", "Content Strategist"],
+        icon: FileCheck2,
+        accent: THEME.accent4,
+        accentSoft: "rgba(245,158,11,0.16)",
+      },
+    ],
+  },
+  {
+    key: "biz",
+    label: "Business & Strategy",
+    kicker: "Execution frameworks hiring teams recognize",
+    programs: [
+      {
+        name: "Business Development",
+        description: "Market research, partnership mapping, revenue modeling, and strategic expansion frameworks.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.8,
+        includes: ["Expansion Strategy Report"],
+        deliverable: "Expansion strategy + partner map",
+        careers: ["BD Associate", "Partnerships Associate", "Growth Associate"],
+        icon: Handshake,
+        accent: THEME.accent3,
+        accentSoft: "rgba(52,211,153,0.16)",
+      },
+      {
+        name: "Project Management",
+        description: "Milestone planning, stakeholder communication, risk management, and project documentation systems.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Professional Rating",
+        rating: 4.8,
+        includes: ["Execution Plan", "Project Documentation"],
+        deliverable: "Delivery plan + governance docs",
+        careers: ["Project Coordinator", "Junior PM", "Delivery Associate"],
+        icon: ListChecks,
+        accent: THEME.accent,
+        accentSoft: "rgba(34,211,238,0.18)",
+      },
+      {
+        name: "Entrepreneurship & Startup Building",
+        description: "MVP development, business validation, revenue strategy, and investor pitch structuring.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Innovation Mentor Rating",
+        rating: 4.9,
+        includes: ["Startup Prototype", "Investor Pitch Deck"],
+        deliverable: "MVP prototype + pitch deck",
+        careers: ["Founder", "Product Associate", "Startup Ops"],
+        icon: Rocket,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+      },
+      {
+        name: "Sales & Marketing",
+        description: "CRM processes, lead prospecting, pitch design, and structured revenue strategies.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.7,
+        includes: ["Sales Strategy Model"],
+        deliverable: "Pipeline model + pitch assets",
+        careers: ["Sales Associate", "SDR", "Revenue Operations"],
+        icon: Zap,
+        accent: THEME.accent4,
+        accentSoft: "rgba(245,158,11,0.16)",
+      },
+      {
+        name: "Business Consulting",
+        description: "Financial diagnostics, strategic analysis, executive reporting, and performance benchmarking.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Consulting Rating",
+        rating: 4.8,
+        includes: ["Consulting Report", "Executive Presentation"],
+        deliverable: "Consulting report + exec presentation",
+        careers: ["Consulting Analyst", "Strategy Analyst", "Business Analyst"],
+        icon: Target,
+        accent: THEME.accent,
+        accentSoft: "rgba(34,211,238,0.18)",
+      },
+    ],
+  },
+  {
+    key: "fin",
+    label: "Finance & Economics",
+    kicker: "Decision-grade models & industry reports",
+    programs: [
+      {
+        name: "Finance & Financial Modeling",
+        description: "Financial forecasting, risk modeling, investment analysis, and budgeting frameworks.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Financial Expert Rating",
+        rating: 4.8,
+        includes: ["Financial Model", "Analytical Report"],
+        deliverable: "Model + investment memo",
+        careers: ["Financial Analyst", "FP&A Associate", "Investment Analyst"],
+        icon: Wallet,
+        accent: THEME.accent4,
+        accentSoft: "rgba(245,158,11,0.16)",
+      },
+      {
+        name: "FinTech Engineering",
+        description: "Financial modeling, dashboards, risk simulation, payment logic systems, and fintech architecture basics.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Financial Tech Rating",
+        rating: 4.8,
+        includes: ["FinTech Prototype", "Financial Dashboard"],
+        deliverable: "Prototype + dashboard",
+        careers: ["FinTech Analyst", "Product Analyst", "Data Analyst"],
+        icon: Sparkles,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+      },
+      {
+        name: "Supply Chain Management",
+        description: "Demand forecasting, bottleneck analysis, inventory optimization, and operational modeling.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.7,
+        includes: ["Operational Efficiency Report"],
+        deliverable: "Ops efficiency report",
+        careers: ["Supply Chain Analyst", "Ops Analyst", "Planning Associate"],
+        icon: Boxes,
+        accent: THEME.accent3,
+        accentSoft: "rgba(52,211,153,0.16)",
+      },
+      {
+        name: "Digital Economics",
+        description: "Platform economy analysis, ecosystem modeling, digital market forecasting, and economic reporting.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Research Rating",
+        rating: 4.7,
+        includes: ["Market Research Study"],
+        deliverable: "Research study + executive summary",
+        careers: ["Research Analyst", "Economic Analyst", "Market Analyst"],
+        icon: Globe2,
+        accent: THEME.accent,
+        accentSoft: "rgba(34,211,238,0.18)",
+      },
+      {
+        name: "Digital Health Management",
+        description: "Healthcare KPI analysis, patient data dashboards, workflow optimization, and digital service mapping.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Expert Rating",
+        rating: 4.8,
+        includes: ["Health Management Dashboard"],
+        deliverable: "Health KPI dashboard",
+        careers: ["Health Ops Analyst", "Program Analyst", "Business Analyst"],
+        icon: HeartPulse,
+        accent: THEME.accent3,
+        accentSoft: "rgba(52,211,153,0.16)",
+      },
+    ],
+  },
+];
 
-      {/* Top nav */}
-      <div className="nav">
-        <div className="container">
-          <div className="nav-inner">
-            <div className="brand">
-              <div className="logo" aria-hidden="true" />
-              <div>Praktix</div>
-            </div>
+function LevelPill({ level, color }) {
+  return (
+    <div
+      className="inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-xs font-semibold ring-1"
+      style={{
+        background: "rgba(255,255,255,0.08)",
+        borderColor: "rgba(255,255,255,0.12)",
+      }}
+    >
+      <span className="inline-block h-2 w-2 rounded-full" style={{ background: color }} />
+      <span className="text-white/85">{level}</span>
+    </div>
+  );
+}
 
-            <div className="nav-links" aria-label="Primary navigation">
-              <a href="#programs">Programs</a>
-              <a href="#how">How it works</a>
-              <a href="#apply">Apply</a>
-            </div>
+function ProgramCard({ program, index = 0 }) {
+  const Icon = program.icon;
 
-            <div className="nav-cta">
-              <a className="btn btn-ghost" href="#programs">
-                Explore Programs
-              </a>
-              <a className="btn btn-primary" href="#apply">
-                Apply Now <span className="icon i-arrow" aria-hidden="true" />
-              </a>
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 14 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, ease: "easeOut", delay: Math.min(index * 0.03, 0.15) }}
+      whileHover={{ y: -6, scale: 1.01 }}
+      className={cx(
+        "group relative w-[380px] md:w-[420px] shrink-0 overflow-hidden rounded-3xl ring-1",
+        "bg-white/5 backdrop-blur"
+      )}
+      style={{
+        borderColor: "rgba(255,255,255,0.10)",
+        boxShadow: "0 18px 70px rgba(0,0,0,0.35)",
+      }}
+    >
+      {/* Subtle top accent */}
+      <div
+        className="absolute inset-x-0 top-0 h-1"
+        style={{
+          background: `linear-gradient(90deg, ${program.accent} 0%, rgba(255,255,255,0.0) 80%)`,
+          opacity: 0.9,
+        }}
+      />
+
+      {/* Hover shine */}
+      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+        <div className="shine" />
+      </div>
+
+      {/* Content */}
+      <div className="relative flex h-[560px] flex-col p-5">
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <IconBadge color={program.accent}>
+              <Icon className="h-4.5 w-4.5" {...iconStrongProps} />
+            </IconBadge>
+            <LevelPill level={program.level} color={program.accent} />
+          </div>
+
+          <div className="text-right">
+            <div className="text-xs font-semibold text-white/55">{program.ratingLabel}</div>
+            <div className="mt-1 flex items-center justify-end gap-2">
+              <StarRow rating={program.rating} />
+              <span className="text-sm font-semibold text-white">{program.rating.toFixed(1)}</span>
             </div>
           </div>
         </div>
+
+        <div className="mt-5">
+          <div className="text-lg font-semibold text-white" style={clampStyle(2)}>
+            {program.name}
+          </div>
+          <p className="mt-2 text-sm leading-relaxed text-white/70" style={clampStyle(3)}>
+            {program.description}
+          </p>
+        </div>
+
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <div className="rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
+            <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
+              <Calendar className="h-4 w-4" style={{ color: program.accent }} {...iconStrongProps} />
+              <span>Duration</span>
+            </div>
+            <div className="mt-1 text-sm font-semibold text-white">{program.duration}</div>
+          </div>
+          <div className="rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
+            <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
+              <GraduationCap className="h-4 w-4" style={{ color: program.accent }} {...iconStrongProps} />
+              <span>Intakes</span>
+            </div>
+            <div className="mt-1 text-sm font-semibold text-white">{program.intakes}</div>
+          </div>
+        </div>
+
+        <div className="mt-4 rounded-2xl p-3 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.04)" }}>
+          <div className="text-xs font-semibold tracking-widest text-white/55">DELIVERABLE</div>
+          <div className="mt-1 text-sm font-semibold text-white" style={clampStyle(2)}>
+            {program.deliverable}
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <div className="text-xs font-semibold tracking-widest text-white/55">CAREER PATHS</div>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {program.careers.slice(0, 3).map((c) => (
+              <span
+                key={c}
+                className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  color: "rgba(255,255,255,0.82)",
+                  borderColor: "rgba(255,255,255,0.10)",
+                }}
+              >
+                {c}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom block pinned to bottom for consistent height */}
+        <div className="mt-auto pt-5">
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/15 transition-all hover:bg-white/5"
+              onClick={() => alert("Hook up to a program details route/modal.")}
+            >
+              View Details <ChevronRight className="h-4 w-4" {...iconStrongProps} />
+            </button>
+            <div className="text-xs font-semibold text-white/55">Includes:</div>
+          </div>
+
+          <div className="mt-3 flex flex-wrap gap-2">
+            {program.includes.map((i, includeIdx) => (
+              <span
+                key={i}
+                className={cx(
+                  "include-pill rounded-full px-3 py-1 text-xs font-semibold ring-1",
+                  includeIdx % 2 === 0 ? "include-pill-accent" : "include-pill-muted"
+                )}
+                style={{
+                  ...(includeIdx % 2 === 0
+                    ? {
+                        background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)`,
+                        color: "rgba(255,255,255,0.96)",
+                        borderColor: "rgba(255,255,255,0.14)",
+                        boxShadow: `0 8px 20px ${accent(0.18)}`,
+                      }
+                    : {
+                        background: "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.07) 100%)",
+                        color: "rgba(255,255,255,0.85)",
+                        borderColor: "rgba(255,255,255,0.16)",
+                      }),
+                }}
+              >
+                {i}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function SplitCard({ title, bullets, icon, tone }) {
+  const isPink = tone === "light";
+  const isBlue = tone === "dark";
+  return (
+    <div
+      className={cx("relative overflow-hidden rounded-[36px] p-7 ring-1", isPink || isBlue ? "text-white" : "text-[#0B1220]")}
+      style={{
+        background: isPink ? "linear-gradient(135deg, #C91D67 0%, #B3175A 100%)" : isBlue ? "linear-gradient(135deg, #061A3B 0%, #0A2A4F 100%)" : "rgba(255,255,255,0.55)",
+        borderColor: isPink || isBlue ? "rgba(255,255,255,0.12)" : "rgba(11,18,32,0.10)",
+      }}
+    >
+      {isPink ? (
+        <>
+          <div
+            className="pointer-events-none absolute inset-0 opacity-[0.16]"
+            style={{
+              backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.20) 0px, rgba(255,255,255,0.20) 14px, transparent 14px, transparent 30px)",
+            }}
+          />
+          <div
+            className="pointer-events-none absolute -bottom-3 left-6 h-40 w-20 opacity-[0.16]"
+            style={{
+              background: "linear-gradient(180deg, rgba(255,255,255,0.40), transparent 70%)",
+              transform: "skewX(-18deg)",
+            }}
+          />
+        </>
+      ) : null}
+      {isBlue ? (
+        <div
+          className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full opacity-[0.5]"
+          style={{
+            border: "1px solid rgba(255,255,255,0.10)",
+            boxShadow:
+              "0 0 0 18px rgba(255,255,255,0.05), 0 0 0 36px rgba(255,255,255,0.03)",
+          }}
+        />
+      ) : null}
+
+      <div className="flex items-center gap-3">
+        <div
+          className="inline-flex h-12 w-12 items-center justify-center rounded-2xl"
+          style={{
+            background: isPink || isBlue ? "rgba(255,255,255,0.12)" : "rgba(11,18,32,0.05)",
+            border: isPink || isBlue ? "1px solid rgba(255,255,255,0.18)" : "1px solid rgba(11,18,32,0.10)",
+          }}
+        >
+          <span style={{ color: isPink || isBlue ? "rgba(255,255,255,0.95)" : THEME.accent }}>{icon}</span>
+        </div>
+        <div>
+          <div className={cx("text-xs font-semibold tracking-widest", isPink || isBlue ? "text-white/70" : "text-[#0B1220]/55")}>
+            ENVIRONMENT
+          </div>
+          <div className={cx("mt-1 text-lg font-semibold", isPink || isBlue ? "text-white" : "text-[#0B1220]")}>{title}</div>
+        </div>
       </div>
 
-      {/* HERO */}
-      <header className="hero" id="top">
-        <div className="grid-overlay" aria-hidden="true" />
-        <div className="streak" aria-hidden="true" />
+      <div className="mt-6 space-y-3">
+        {bullets.map((b) => (
+          <div key={b} className="flex items-start gap-3">
+            <span
+              className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full ring-1"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                borderColor: "rgba(255,255,255,0.10)",
+              }}
+            >
+              <span className="h-2 w-2 rounded-full bg-white/90" />
+            </span>
+            <div className={cx("text-sm", isPink || isBlue ? "text-white/85" : "text-[#0B1220]/75")}>{b}</div>
+          </div>
+        ))}
+      </div>
 
-        <div className="container">
-          <div className="hero-grid">
-            <div className="col">
-              <div className="eyebrow reveal">
-                <span className="dot" aria-hidden="true" />
-                <span className="small">Students &amp; Graduates • Industry Internship Programs</span>
-              </div>
+      <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full blur-3xl" style={{ background: isPink ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.10)" }} />
+    </div>
+  );
+}
 
-              <div style={{ height: 14 }} />
+function Timeline() {
+  const steps = [
+    { title: "Apply & Assessment", desc: "We evaluate readiness and align you with the right track.", icon: ClipboardCheck, color: THEME.accent },
+    { title: "Track Placement", desc: "You join a cohort with the right challenge level.", icon: Compass, color: THEME.accent2 },
+    { title: "Real Project Execution", desc: "Weekly sprints with mentor feedback and accountability.", icon: Briefcase, color: THEME.accent3 },
+    { title: "Final Evaluation & Portfolio", desc: "Documented performance + portfolio-ready deliverables.", icon: FileCheck2, color: THEME.accent4 },
+  ];
 
-              <h1 className="reveal">
-                Build Experience.
-                <br />
-                <span
-                  style={{
-                    background: "linear-gradient(90deg, var(--mag-1), var(--mag-2), var(--mag-3))",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    color: "transparent",
-                  }}
-                >
-                  Launch Your Career With Proof.
-                </span>
-              </h1>
+  return (
+    <div className="relative">
+      <div
+        className="absolute left-6 top-7 hidden h-[calc(100%-56px)] w-[2px] sm:block"
+        style={{ background: `linear-gradient(180deg, ${THEME.accent} 0%, rgba(34,211,238,0.10) 100%)` }}
+      />
 
-              <div style={{ height: 12 }} />
-
-              <p className="reveal" style={{ fontSize: 17 }}>
-                Real industry internships supervised by European experts and university professors.
-              </p>
-
-              <div style={{ height: 10 }} />
-
-              <p className="reveal">
-                We bridge the gap between academic theory and real market execution through structured, project-based
-                internships.
-              </p>
-
-              <div className="cta-row reveal">
-                <a className="btn btn-primary" href="#apply">
-                  Apply Now <span className="icon i-arrow" aria-hidden="true" />
-                </a>
-                <a className="btn btn-ghost" href="#programs">
-                  Explore Programs
-                </a>
-              </div>
-
-              <div className="badges reveal" aria-label="Key benefits">
-                <span className="pill">
-                  <span className="icon i-check" aria-hidden="true" />
-                  Real Projects
-                </span>
-                <span className="pill">
-                  <span className="icon i-check" aria-hidden="true" />
-                  Industry Mentorship
-                </span>
-                <span className="pill">
-                  <span className="icon i-check" aria-hidden="true" />
-                  Portfolio-Ready Outcomes
-                </span>
-                <span className="pill">
-                  <span className="icon i-check" aria-hidden="true" />
-                  3–4 Month Programs
-                </span>
-              </div>
-
-              <div style={{ height: 18 }} />
-
-              <div className="reveal surface" style={{ padding: "16px 16px", borderRadius: 20 }}>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    gap: 14,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <div
+      <div className="grid grid-cols-1 gap-4">
+        {steps.map((s, i) => {
+          const Icon = s.icon;
+          return (
+            <motion.div
+              key={s.title}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
+              className="relative rounded-[36px] bg-white/55 p-6 ring-1 ring-[#0B1220]/10"
+            >
+              <div className="flex items-start gap-4">
+                <div className="mt-1">
+                  <IconBadge color={s.color}>
+                    <Icon className="h-5 w-5" {...iconStrongProps} />
+                  </IconBadge>
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="text-lg font-semibold text-[#0B1220]">{s.title}</div>
+                    <span
+                      className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
                       style={{
-                        width: 44,
-                        height: 44,
-                        borderRadius: 16,
-                        border: "1px solid rgba(255,255,255,.14)",
-                        background: "linear-gradient(135deg, rgba(255,47,179,.20), rgba(34,211,238,.12))",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        background: "rgba(11,18,32,0.06)",
+                        color: "rgba(11,18,32,0.70)",
+                        borderColor: "rgba(11,18,32,0.10)",
                       }}
                     >
-                      <span className="icon i-spark" aria-hidden="true" />
-                    </div>
+                      Step {i + 1}
+                    </span>
+                  </div>
+                  <div className="mt-2 text-sm leading-relaxed text-[#0B1220]/70">{s.desc}</div>
+                </div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
+function ImpactPanel({ inView }) {
+  const stats = [
+    { label: "Interns trained", value: 1200, suffix: "+", hint: "Structured cohorts with evaluation", icon: GraduationCap, color: THEME.accent },
+    { label: "Job-ready portfolios", value: 87, suffix: "%", hint: "Proof-of-work deliverables", icon: FileCheck2, color: THEME.accent4 },
+    { label: "Career opportunities", value: 72, suffix: "%", hint: "Within 6 months of completion", icon: Briefcase, color: THEME.accent3 },
+    { label: "European mentors", value: 40, suffix: "+", hint: "Experts + professors", icon: BadgeCheck, color: THEME.accent2 },
+  ];
+
+  const proofs = [
+    { title: "Industry projects", desc: "Real scopes, constraints, and stakeholder expectations.", icon: Building2, color: THEME.accent },
+    { title: "Expert evaluation", desc: "Documented performance + improvement loops.", icon: ClipboardCheck, color: THEME.accent3 },
+    { title: "Verified outcomes", desc: "Portfolio-ready outputs that hiring teams can validate.", icon: FileCheck2, color: THEME.accent4 },
+  ];
+
+  return (
+    <div className="mt-10">
+      <div
+        className="relative overflow-hidden rounded-[36px] ring-1 ring-white/10"
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)",
+          boxShadow: "0 26px 90px rgba(0,0,0,0.35)",
+        }}
+      >
+        {/* Soft glow */}
+        <div
+          className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full blur-3xl"
+          style={{ background: "rgba(34,211,238,0.16)" }}
+        />
+        <div
+          className="pointer-events-none absolute -right-24 -bottom-24 h-80 w-80 rounded-full blur-3xl"
+          style={{ background: "rgba(167,139,250,0.14)" }}
+        />
+
+        <div className="relative p-6 sm:p-8">
+          {/* Stats grid with dividers (NO separate big cards) */}
+          <div className="grid grid-cols-1 gap-0 overflow-hidden rounded-3xl ring-1 ring-white/10 sm:grid-cols-2">
+            {stats.map((s, idx) => {
+              const Icon = s.icon;
+              const border =
+                idx === 0
+                  ? "border-b border-white/10 sm:border-b sm:border-r"
+                  : idx === 1
+                  ? "border-b border-white/10 sm:border-b"
+                  : idx === 2
+                  ? "border-white/10 sm:border-r"
+                  : "";
+
+              return (
+                <motion.div
+                  key={s.label}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                  transition={{ duration: 0.45, ease: "easeOut", delay: idx * 0.05 }}
+                  whileHover={{ scale: 1.01 }}
+                  className={cx("p-5 sm:p-6", border)}
+                  style={{
+                    background: "rgba(255,255,255,0.03)",
+                  }}
+                >
+                  <div className="flex items-start justify-between gap-4">
                     <div>
-                      <div style={{ fontWeight: 800, letterSpacing: "-.2px" }}>Outcome-driven, verified.</div>
-                      <div className="small muted">
-                        Structured supervision • measurable deliverables • documented evaluation
+                      <div className="flex items-center gap-3 text-xs font-semibold tracking-widest text-white/60">
+                        <IconBadge color={s.color}>
+                          <Icon className="h-4 w-4" {...iconStrongProps} />
+                        </IconBadge>
+                        <span>{s.label.toUpperCase()}</span>
                       </div>
+                      <div className="mt-3 text-4xl font-semibold text-white">
+                        {inView ? <AnimatedNumber value={s.value} suffix={s.suffix} /> : <span>0</span>}
+                      </div>
+                      <div className="mt-1 text-sm text-white/70">{s.hint}</div>
+                    </div>
+
+                    {/* tiny accent line */}
+                    <div className="hidden sm:block">
+                      <div className="h-12 w-1 rounded-full" style={{ background: s.color, opacity: 0.65 }} />
                     </div>
                   </div>
+                </motion.div>
+              );
+            })}
+          </div>
 
-                  <a className="btn btn-ghost" href="#how" style={{ padding: "10px 12px", borderRadius: 14 }}>
-                    See the process
-                  </a>
-                </div>
-              </div>
+          {/* Proof row (clean, lighter) */}
+          <div className="mt-6 grid grid-cols-1 gap-3 lg:grid-cols-3">
+            {proofs.map((p, i) => {
+              const Icon = p.icon;
+              return (
+                <motion.div
+                  key={p.title}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                  transition={{ duration: 0.45, ease: "easeOut", delay: 0.22 + i * 0.06 }}
+                  className="rounded-3xl p-5 ring-1 ring-white/10"
+                  style={{ background: "rgba(255,255,255,0.03)" }}
+                >
+                  <div className="flex items-start gap-3">
+                    <IconBadge color={p.color}>
+                      <Icon className="h-4 w-4" {...iconStrongProps} />
+                    </IconBadge>
+                    <div>
+                      <div className="text-sm font-semibold text-white">{p.title}</div>
+                      <div className="mt-1 text-sm text-white/65">{p.desc}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function StudentsGraduatesLanding() {
+  const [activeCat, setActiveCat] = useState(categories[0].key);
+  const [persona, setPersona] = useState("Student");
+  const [year, setYear] = useState("Final Year");
+  const [cv, setCv] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  const cat = useMemo(() => categories.find((c) => c.key === activeCat) || categories[0], [activeCat]);
+
+  const impact = useInViewOnce(0.25);
+  const sliderRef = useRef(null);
+
+  const scrollSlider = (dir) => {
+    const el = sliderRef.current;
+    if (!el) return;
+    const dx = dir === "left" ? -360 : 360;
+    el.scrollBy({ left: dx, behavior: "smooth" });
+  };
+
+  return (
+    <div
+      className="min-h-screen overflow-x-hidden"
+      style={{
+        background: THEME.deep,
+        color: "white",
+        fontFamily:
+          "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji",
+      }}
+    >
+      {/* Decorative global background */}
+      <div className="pointer-events-none fixed inset-0">
+        <div
+          className="absolute inset-0 opacity-70"
+          style={{
+            background:
+              "radial-gradient(1200px circle at 10% 10%, rgba(255,255,255,0.08), transparent 55%), radial-gradient(1200px circle at 80% 20%, rgba(233,231,223,0.06), transparent 55%), radial-gradient(900px circle at 60% 90%, rgba(255,255,255,0.06), transparent 55%)",
+          }}
+        />
+        <div
+          className="absolute inset-0 opacity-[0.16]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(233,231,223,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(233,231,223,0.12) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+            maskImage: "radial-gradient(900px circle at 30% 20%, rgba(0,0,0,1), transparent 70%)",
+          }}
+        />
+        <div className="absolute inset-0 opacity-55">
+          <div className="light-streak" />
+        </div>
+      </div>
+
+      {/* Sticky top nav */}
+      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+          <div className="flex items-center gap-3">
+            <div
+              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
+              style={{
+                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)`,
+              }}
+            >
+              <span className="text-sm font-black tracking-widest">P</span>
             </div>
-
-            <div className="col">
-              <div
-                className="hero-visual reveal"
-                id="heroVisual"
-                ref={heroVisualRef}
-                aria-label="Concept image: professionals collaborating"
-              >
-                <img
-                  alt="Young professionals collaborating in a modern workspace"
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
-                />
-                <div className="float-ui" aria-hidden="true">
-                  <div className="chip one">
-                    <span className="icon i-file" />
-                    <div>
-                      <div>Portfolio Output</div>
-                      <div className="mini">Verified deliverables</div>
-                    </div>
-                    <div className="bar" />
-                  </div>
-                  <div className="chip two">
-                    <span className="icon i-brief" />
-                    <div>
-                      <div>Mentor Reviews</div>
-                      <div className="mini">European experts</div>
-                    </div>
-                    <div className="bar" />
-                  </div>
-                  <div className="chip three">
-                    <span className="icon i-globe" />
-                    <div>
-                      <div>Global Positioning</div>
-                      <div className="mini">Career-ready proof</div>
-                    </div>
-                    <div className="bar" />
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ height: 12 }} />
-
-              <div className="reveal" style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "flex-end" }}>
-                <span className="pill" style={{ opacity: 0.9 }}>
-                  <span className="icon i-check" aria-hidden="true" />
-                  4 intakes / year
-                </span>
-                <span className="pill" style={{ opacity: 0.9 }}>
-                  <span className="icon i-check" aria-hidden="true" />
-                  Production-level work
-                </span>
-              </div>
+            <div>
+              <div className="text-sm font-semibold">PRAKTIX</div>
+              <div className="text-xs text-white/60">AI for Real-World Careers</div>
             </div>
+          </div>
+
+          <nav className="hidden items-center gap-1 md:flex">
+            <Anchor href="#overview" label="Overview" />
+            <Anchor href="#impact" label="Impact" />
+            <Anchor href="#programs" label="Programs" />
+            <Anchor href="#international" label="Germany" />
+            <Anchor href="#apply" label="Apply" />
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <a
+              href="#apply"
+              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
+            >
+              Explore Programs
+            </a>
+            <GradientButton href="#apply">Apply Now</GradientButton>
           </div>
         </div>
       </header>
 
-      {/* PROBLEM */}
-      <section className="problem" id="problem">
-        <div className="container">
-          <div className="row" style={{ alignItems: "center" }}>
-            <div className="col reveal">
-              <h2>The Gap Between Study and Employment</h2>
-              <div style={{ height: 12 }} />
-              <p style={{ fontSize: 16, lineHeight: 1.7, color: "rgba(6,18,27,.78)" }}>
-                <strong>Universities teach knowledge.</strong>
-                <br />
-                <strong>The market demands capability.</strong>
-                <br />
-                Our internships convert academic knowledge into measurable professional execution.
-              </p>
+      {/* HERO */}
+      <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
+              <GraduationCap className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
+              <span>FOR INDIVIDUALS</span>
+            </div>
 
-              <div style={{ height: 18 }} />
+            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+              Apply AI Skills.
+              <br />
+              Launch Real-World Career Outcomes.
+            </h1>
 
-              <div className="surface white" style={{ padding: 16, borderRadius: 22 }}>
-                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+            <p className="mt-5 max-w-xl text-balance text-base text-white/70 sm:text-lg">
+              Practical AI pathways supervised by industry experts and university professors.
+            </p>
+
+            <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-white/65">
+              We bridge the gap between AI theory and real market execution through structured, project-based programs.
+            </p>
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <GradientButton href="#apply">Apply Now</GradientButton>
+              <GradientButton href="#programs" variant="secondary">
+                Explore Programs
+              </GradientButton>
+            </div>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              <Pill label="Real Projects" />
+              <Pill label="Industry Mentorship" />
+              <Pill label="Portfolio-Ready Outcomes" />
+              <Pill label="3-4 Month Programs" />
+            </div>
+
+            <div className="mt-8 flex items-center gap-4 text-sm text-white/65">
+              <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+                <BadgeCheck className="h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
+                <span>Verified outcomes</span>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+                <FileCheck2 className="h-4 w-4" style={{ color: THEME.accent4 }} {...iconStrongProps} />
+                <span>Professional evaluation</span>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Hero visual */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, ease: "easeOut", delay: 0.05 }}
+            className="relative"
+          >
+            <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px]">
+              <div
+                className="absolute inset-0 rounded-[44px] ring-1 ring-white/10"
+                style={{
+                  background: "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
+                }}
+              />
+
+              {/* Concept circle */}
+              <div className="absolute right-6 top-6 grid place-items-center sm:right-10 sm:top-10">
+                <motion.div
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut" }}
+                  className="relative grid h-[230px] w-[230px] place-items-center rounded-full"
+                  style={{
+                    background:
+                      "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.16), transparent 58%), radial-gradient(circle at 70% 70%, rgba(233,231,223,0.10), transparent 55%), rgba(255,255,255,0.06)",
+                    boxShadow: "0 25px 70px rgba(0,0,0,0.35)",
+                  }}
+                >
+                  <div className="absolute inset-0 rounded-full" style={{ border: "10px solid rgba(233,231,223,0.75)", opacity: 0.9, transform: "scale(0.92)" }} />
+                  <div className="absolute inset-0 rounded-full" style={{ border: `8px solid ${accent(0.55)}`, opacity: 0.9, transform: "scale(1.02)" }} />
+
                   <div
+                    className="relative h-[170px] w-[170px] overflow-hidden rounded-full ring-1 ring-white/15"
                     style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 16,
-                      background: "rgba(255,47,179,.10)",
-                      border: "1px solid rgba(255,47,179,.18)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      background: "radial-gradient(circle at 30% 30%, rgba(233,231,223,0.22), rgba(11,18,32,0.82))",
                     }}
                   >
-                    <span className="icon i-bolt" style={{ color: "#0b1e2d" }} aria-hidden="true" />
+                    <img
+                      src="/istockphoto-471247592-612x612.jpg"
+                      alt="Hero visual"
+                      className="absolute inset-0 h-full w-full object-cover"
+                    />
                   </div>
+                </motion.div>
+              </div>
+
+              {/* Floating chips */}
+              <div className="absolute left-6 top-10 space-y-3 sm:left-10 sm:top-12">
+                <FloatingChip icon={Zap} title="Real client brief" desc="Industry project scope" color={THEME.accent} />
+                <FloatingChip icon={ClipboardCheck} title="Weekly reviews" desc="Mentor feedback loop" color={THEME.accent3} />
+                <FloatingChip icon={FileCheck2} title="Portfolio output" desc="Deliverable-ready" color={THEME.accent4} />
+              </div>
+
+              {/* Bottom caption */}
+              <div className="absolute bottom-6 left-6 right-6 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <div style={{ fontWeight: 800, letterSpacing: "-.2px" }}>The conversion is the product.</div>
-                    <div style={{ marginTop: 6, color: "rgba(6,18,27,.70)", lineHeight: 1.6 }}>
-                      You don’t just “learn”—you produce. You finish with deliverables, evaluation reports, and portfolio
-                      evidence.
-                    </div>
+                    <div className="text-xs font-semibold tracking-widest text-white/60">POSITIONING</div>
+                    <div className="mt-1 text-sm font-semibold text-white">Premium European supervision, measurable outcomes.</div>
+                  </div>
+                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
+                    <MapPin className="h-4 w-4" style={{ color: THEME.accent2 }} {...iconStrongProps} />
+                    <span>Global  Remote-friendly</span>
                   </div>
                 </div>
               </div>
             </div>
+          </motion.div>
+        </div>
+      </section>
 
-            <div className="col reveal">
-              <div className="split-illus" aria-label="Illustration: classroom to office">
-                <div className="half left">
-                  <div className="scene">
-                    <div className="scene-title">
-                      <span className="icon i-hat" style={{ color: "#0b1e2d" }} aria-hidden="true" />
-                      University <span>(theory)</span>
-                    </div>
-                    <div className="line w1" />
-                    <div className="line w2" />
-                    <div className="line w3" />
-                  </div>
-                </div>
-                <div className="half right">
-                  <div className="scene">
-                    <div className="scene-title">
-                      <span className="icon i-brief" style={{ color: "#0b1e2d" }} aria-hidden="true" />
-                      Company <span>(execution)</span>
-                    </div>
-                    <div className="line w1" />
-                    <div className="line w2" />
-                    <div className="line w3" />
-                  </div>
-                </div>
-                <div className="divider" aria-hidden="true" />
+      {/* PROBLEM */}
+      <section className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+          <SectionTitle
+            eyebrow="THE PROBLEM WE SOLVE"
+            title="The Gap Between Study and Employment"
+            subtitle="Universities teach knowledge. The market demands capability. We convert academic learning into measurable professional execution."
+          />
+
+          <div className="relative mt-10 overflow-hidden">
+            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+              <SplitCard
+                title="University Environment"
+                icon={<GraduationCap className="h-5 w-5" {...iconStrongProps} />}
+                bullets={["Theory-heavy learning", "Limited exposure to real delivery", "Few performance signals"]}
+                tone="light"
+              />
+              <SplitCard
+                title="Real Company Environment"
+                icon={<Briefcase className="h-5 w-5" {...iconStrongProps} />}
+                bullets={["Execution under constraints", "Output + iteration", "Clear ownership & accountability"]}
+                tone="dark"
+              />
+            </div>
+          </div>
+
+          <div className="mt-8 rounded-3xl bg-white/55 p-6 ring-1 ring-[#0B1220]/10 backdrop-blur">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">OUR PROMISE</div>
+                <div className="mt-1 text-base font-semibold">Internship programs designed to produce proof-of-work, not just participation.</div>
               </div>
+              <a
+                href="#programs"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
+              >
+                See Programs <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* IMPACT */}
-      <section className="impact" id="impact">
-        <div className="container">
-          <div className="row" style={{ alignItems: "flex-end", gap: 24 }}>
-            <div className="col reveal">
-              <h2>Real performance. Real outcomes.</h2>
-              <div style={{ height: 10 }} />
-              <p className="muted" style={{ maxWidth: 560, lineHeight: 1.7 }}>
-                Verified impact metrics designed to reflect real market readiness — not just course completion.
-              </p>
-            </div>
-
-            <div className="col reveal" style={{ display: "flex", justifyContent: "flex-end" }}>
-              <div className="eyebrow">
-                <span className="dot" aria-hidden="true" />
-                <span className="small">Scroll to animate counters</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="impact-grid reveal" id="impactCounters" ref={impactCountersRef}>
-            <div className="stat">
-              <div className="num" data-count="1200" data-suffix="+">
-                0
-              </div>
-              <div className="lbl">Interns Trained</div>
-            </div>
-            <div className="stat">
-              <div className="num" data-count="87" data-suffix="%">
-                0
-              </div>
-              <div className="lbl">Built Job-Ready Portfolios</div>
-            </div>
-            <div className="stat">
-              <div className="num" data-count="72" data-suffix="%">
-                0
-              </div>
-              <div className="lbl">Secured Opportunities in 6 Months</div>
-            </div>
-            <div className="stat">
-              <div className="num" data-count="40" data-suffix="+">
-                0
-              </div>
-              <div className="lbl">European Mentors &amp; Professors</div>
-            </div>
-          </div>
-
-          <div className="reveal" style={{ marginTop: 14, color: "rgba(255,255,255,.68)", fontWeight: 600 }}>
-            Real performance. Real outcomes. Verified impact.
-          </div>
+      {/* IMPACT (FIXED UI) */}
+      <section id="impact" className="relative" style={{ background: DARK_SECTION_BG }}>
+        <div ref={impact.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+          <SectionTitle
+            eyebrow="IMPACT & NUMBERS"
+            title="Real performance. Real outcomes."
+            accent="Verified impact"
+            subtitle="Cleaner hierarchy, better spacing, and a single modern panel (no heavy card clutter)."
+            dark
+          />
+          <ImpactPanel inView={impact.inView} />
         </div>
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="section" id="how">
-        <div className="container">
-          <div className="row" style={{ alignItems: "flex-end", gap: 24 }}>
-            <div className="col reveal">
-              <h2>How our internships work</h2>
-              <div style={{ height: 10 }} />
-              <p className="muted" style={{ maxWidth: 620, lineHeight: 1.7 }}>
-                A structured process that turns your effort into measurable output and a portfolio-ready finish.
-              </p>
-            </div>
-
-            <div className="col reveal" style={{ display: "flex", justifyContent: "flex-end" }}>
-              <a className="btn btn-ghost" href="#programs">
-                Browse programs
-              </a>
-            </div>
-          </div>
-
-          <div className="timeline reveal">
-            <div className="step">
-              <div className="badge">
-                <span className="icon i-spark" aria-hidden="true" />
-              </div>
-              <div className="title">1) Apply &amp; Assessment</div>
-              <div className="desc">We evaluate your goals and fit you to the right track.</div>
-              <div className="connector" aria-hidden="true" />
-            </div>
-
-            <div className="step">
-              <div className="badge">
-                <span className="icon i-brief" aria-hidden="true" />
-              </div>
-              <div className="title">2) Track Placement</div>
-              <div className="desc">You’re placed into a structured cohort with supervision.</div>
-              <div className="connector" aria-hidden="true" />
-            </div>
-
-            <div className="step">
-              <div className="badge">
-                <span className="icon i-bolt" aria-hidden="true" />
-              </div>
-              <div className="title">3) Real Project Execution</div>
-              <div className="desc">Production-level work with milestones and feedback loops.</div>
-              <div className="connector" aria-hidden="true" />
-            </div>
-
-            <div className="step">
-              <div className="badge">
-                <span className="icon i-file" aria-hidden="true" />
-              </div>
-              <div className="title">4) Final Evaluation &amp; Portfolio</div>
-              <div className="desc">You finish with deliverables, reports, and portfolio delivery.</div>
-            </div>
+      <section
+        className="relative"
+        style={{
+          background: "linear-gradient(180deg, rgba(233,231,223,1) 0%, rgba(233,231,223,0.85) 100%)",
+          color: THEME.deep,
+        }}
+      >
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+          <SectionTitle eyebrow="HOW OUR INTERNSHIPS WORK" title="A clear 4-step process" accent="that builds proof" subtitle="Designed for momentum: assessment ? placement ? execution ? evaluation." />
+          <div className="mt-10">
+            <Timeline />
           </div>
         </div>
       </section>
 
-      {/* PROGRAMS */}
-      <section className="programs" id="programs">
-        <div className="container">
-          <div className="reveal">
-            <h2>Choose a track. Build proof.</h2>
-            <div style={{ height: 10 }} />
-            <p className="muted" style={{ maxWidth: 680, lineHeight: 1.7 }}>
-              Select a category to explore swipeable program cards with deliverables and typical career outcomes.
-            </p>
-          </div>
+      {/* PROGRAMS (FREE LAYOUT + SAME HEIGHT CARDS + PINK ARROWS) */}
+      <section id="programs" className="relative" style={{ background: DARK_SECTION_BG }}>
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+          <SectionTitle eyebrow="PROGRAM STRUCTURE" title="Choose your track" accent="and ship outcomes" subtitle="Cleaner layout (no big wrapper card). Swipe/scroll horizontally." dark />
 
-          <div className="tabs reveal" role="tablist" aria-label="Program categories">
-            <div
-              className={`tab ${activeCat === "eng" ? "active" : ""}`}
-              role="tab"
-              aria-selected={activeCat === "eng" ? "true" : "false"}
-              onClick={() => setActiveCat("eng")}
-            >
-              Engineering &amp; Technology
-            </div>
-            <div
-              className={`tab ${activeCat === "digital" ? "active" : ""}`}
-              role="tab"
-              aria-selected={activeCat === "digital" ? "true" : "false"}
-              onClick={() => setActiveCat("digital")}
-            >
-              Digital &amp; Innovation
-            </div>
-            <div
-              className={`tab ${activeCat === "biz" ? "active" : ""}`}
-              role="tab"
-              aria-selected={activeCat === "biz" ? "true" : "false"}
-              onClick={() => setActiveCat("biz")}
-            >
-              Business &amp; Strategy
-            </div>
-            <div
-              className={`tab ${activeCat === "fin" ? "active" : ""}`}
-              role="tab"
-              aria-selected={activeCat === "fin" ? "true" : "false"}
-              onClick={() => setActiveCat("fin")}
-            >
-              Finance &amp; Economics
-            </div>
-          </div>
+          <div className="mt-10 flex flex-col gap-5">
+            {/* Tabs row */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex flex-wrap gap-2">
+                {categories.map((c) => {
+                  const active = c.key === activeCat;
+                  return (
+                    <button
+                      key={c.key}
+                      type="button"
+                      onClick={() => {
+                        setActiveCat(c.key);
+                        sliderRef.current?.scrollTo({ left: 0, behavior: "smooth" });
+                      }}
+                      className={cx(
+                        "rounded-full px-4 py-2 text-sm font-semibold ring-1 transition",
+                        active ? "text-white" : "text-white/70 hover:bg-white/5",
+                        active ? "ring-white/15" : "ring-white/10"
+                      )}
+                      style={
+                        active
+                          ? {
+                              background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 75%)`,
+                            }
+                          : undefined
+                      }
+                    >
+                      {c.label}
+                    </button>
+                  );
+                })}
+              </div>
 
-          <div className="slider-shell reveal" aria-label="Program slider">
-            <div className="slider-controls" aria-hidden="false">
-              <button
-                className="iconbtn"
-                type="button"
-                aria-label="Scroll programs left"
-                onClick={() => sliderRef.current?.scrollBy({ left: -380, behavior: "smooth" })}
+            </div>
+
+            {/* Selected category info (free, not boxed) */}
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <div className="text-xs font-semibold tracking-widest text-white/60">SELECTED CATEGORY</div>
+                <div className="mt-1 text-xl font-semibold text-white">{cat.label}</div>
+                <div className="mt-1 text-sm text-white/65">{cat.kicker}</div>
+              </div>
+
+              <a
+                href="#apply"
+                className="mt-2 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/5 sm:mt-0"
               >
-                <span className="icon i-arrow" style={{ transform: "rotate(180deg)" }} />
-              </button>
-              <button
-                className="iconbtn"
-                type="button"
-                aria-label="Scroll programs right"
-                onClick={() => sliderRef.current?.scrollBy({ left: 380, behavior: "smooth" })}
-              >
-                <span className="icon i-arrow" />
-              </button>
+                Apply for this track <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+              </a>
             </div>
 
-            <div className={`slider ${"fadeSwap"}`} id="programSlider" ref={sliderRef}>
-              {activePrograms.map((p) => {
-                const tags = [p.level, ...p.meta.slice(0, 2)];
-                return (
-                  <article className="program-card" key={p.title}>
-                    <div className="glow-edge" aria-hidden="true" />
-                    <div className="pc-img">
-                      <img alt={`${p.title} program cover`} src={p.img} />
-                    </div>
+            {/* Slider */}
+            <div className="relative overflow-visible">
+              <motion.button
+                type="button"
+                onClick={() => scrollSlider("left")}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="absolute -left-6 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full ring-1 transition lg:inline-flex"
+                style={{
+                  background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.65)} 90%)`,
+                  borderColor: "rgba(255,255,255,0.14)",
+                  boxShadow: `0 14px 35px ${accent(0.22)}`,
+                }}
+                aria-label="Scroll left"
+              >
+                <ChevronLeft className="h-5 w-5 text-white" {...iconStrongProps} />
+              </motion.button>
 
-                    <div className="pc-body">
-                      <div className="pc-title">{p.title}</div>
-                      <div className="pc-sub">
-                        {p.rating} • {p.meta.join(" · ")}
-                      </div>
+              <motion.button
+                type="button"
+                onClick={() => scrollSlider("right")}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="absolute -right-6 top-1/2 z-10 hidden h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full ring-1 transition lg:inline-flex"
+                style={{
+                  background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.65)} 90%)`,
+                  borderColor: "rgba(255,255,255,0.14)",
+                  boxShadow: `0 14px 35px ${accent(0.22)}`,
+                }}
+                aria-label="Scroll right"
+              >
+                <ChevronRight className="h-5 w-5 text-white" {...iconStrongProps} />
+              </motion.button>
 
-                      <div className="pc-meta">
-                        {tags.map((t) => (
-                          <span className="tag" key={t}>
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="pc-line">
-                        <div className="kv">
-                          <div className="k">Deliverable</div>
-                          <div className="v">{p.deliverable}</div>
-                        </div>
-                        <div style={{ height: 10 }} />
-                        <div className="kv">
-                          <div className="k">Outcomes</div>
-                          <div className="v">{p.outcomes}</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="pc-actions">
-                      <button className="btn btn-ghost btn-sm" type="button" onClick={() => scrollToApply(p.title)}>
-                        View Details
-                      </button>
-                    </div>
-                  </article>
-                );
-              })}
+              <div
+                ref={sliderRef}
+                className="no-scrollbar flex gap-5 overflow-x-auto pb-2"
+                style={{ scrollSnapType: "x mandatory" }}
+              >
+                {cat.programs.map((p, idx) => (
+                  <div key={p.name} style={{ scrollSnapAlign: "start" }}>
+                    <ProgramCard program={p} index={idx} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* GERMANY */}
-      <section className="germany" id="germany">
-        <div className="skyline" aria-hidden="true" />
-        <div className="container">
-          <div className="row" style={{ alignItems: "center", gap: 28 }}>
-            <div className="col reveal">
-              <h2>Outstanding teams get invited to Germany</h2>
-              <div style={{ height: 10 }} />
-              <p style={{ color: "rgba(6,18,27,.74)", lineHeight: 1.7, fontSize: 16, maxWidth: 620 }}>
-                Top-performing teams receive an exclusive 4-day professional visit: presentations, workshops, partner
-                tours, and Munich cultural experience.
-              </p>
-              <div style={{ height: 10 }} />
-              <div style={{ fontWeight: 800, color: "rgba(6,18,27,.80)" }}>Exposure. Network. Global positioning.</div>
-              <div style={{ height: 16 }} />
-              <a className="btn btn-light" href="#apply">
-                Learn About International Opportunities <span className="icon i-arrow" aria-hidden="true" />
-              </a>
-            </div>
+      <section id="international" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+          <SectionTitle eyebrow="GERMANY EXCELLENCE INVITATION" title="Outstanding teams get invited" accent="to Germany" subtitle="A premium 4-day professional visit for top-performing teams." />
 
-            <div className="col reveal">
-              <div className="itinerary">
-                <div className="day">
-                  <div className="d">Day 1</div>
-                  <div className="t">Final Project Presentation</div>
+          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
+            <div className="lg:col-span-3">
+              <div className="rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
+                <div className="flex items-center gap-3">
+                  <IconBadge color={THEME.accent2}>
+                    <Globe2 className="h-5 w-5" {...iconStrongProps} />
+                  </IconBadge>
+                  <div>
+                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">EXPERIENCE</div>
+                    <div className="mt-1 text-lg font-semibold">Exposure. Network. Global positioning.</div>
+                  </div>
                 </div>
-                <div className="day">
-                  <div className="d">Day 2</div>
-                  <div className="t">Advanced Industry Workshop</div>
-                </div>
-                <div className="day">
-                  <div className="d">Day 3</div>
-                  <div className="t">Partner Company Tours</div>
-                </div>
-                <div className="day">
-                  <div className="d">Day 4</div>
-                  <div className="t">Munich Cultural Experience</div>
-                </div>
-              </div>
 
-              <div style={{ height: 12 }} />
+                <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <DayCard day="Day 1" title="Final Project Presentation" icon={FileCheck2} color={THEME.accent} />
+                  <DayCard day="Day 2" title="Advanced Industry Workshop" icon={Sparkles} color={THEME.accent2} />
+                  <DayCard day="Day 3" title="Partner Company Tours" icon={Building2} color={THEME.accent3} />
+                  <DayCard day="Day 4" title="Munich Cultural Experience" icon={MapPin} color={THEME.accent4} />
+                </div>
 
-              <div className="surface light" style={{ padding: 16, borderRadius: 22 }}>
-                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                  <div
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="text-sm text-[#0B1220]/70">Learn how to qualify and what partners expect from top-performing teams.</div>
+                  <a
+                    href="#apply"
+                    className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
                     style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 16,
-                      background: "rgba(34,211,238,.14)",
-                      border: "1px solid rgba(34,211,238,.22)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
+                      background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
                     }}
                   >
-                    <span className="icon i-globe" style={{ color: "#0b1e2d" }} aria-hidden="true" />
-                  </div>
-                  <div>
-                    <div style={{ fontWeight: 900, letterSpacing: "-.2px" }}>International credibility boost</div>
-                    <div style={{ marginTop: 6, color: "rgba(6,18,27,.70)", lineHeight: 1.6 }}>
-                      A premium experience designed to expand your network and position you globally.
-                    </div>
-                  </div>
+                    Learn About International Opportunities <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                  </a>
                 </div>
+              </div>
+            </div>
+
+            <div className="lg:col-span-2">
+              <div
+                className="relative h-full overflow-hidden rounded-[36px] p-7 ring-1 ring-[#0B1220]/10"
+                style={{
+                  background:
+                    "radial-gradient(900px circle at 20% 20%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 60%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
+                }}
+              >
+                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHY IT MATTERS</div>
+                <div className="mt-2 text-2xl font-semibold leading-tight">Your internship becomes a signal - not a line on a CV.</div>
+                <p className="mt-4 text-sm leading-relaxed text-[#0B1220]/70">
+                  We design evaluation and deliverables so hiring teams can validate outcomes. Teams that execute exceptionally gain international visibility.
+                </p>
+
+                <div className="mt-6 space-y-3">
+                  <Bullet icon={BadgeCheck} text="Professional evaluation report" color={THEME.accent3} />
+                  <Bullet icon={FileCheck2} text="Portfolio-ready proof" color={THEME.accent4} />
+                  <Bullet icon={Building2} text="Partner exposure" color={THEME.accent2} />
+                </div>
+
+                <div className="pointer-events-none absolute -bottom-20 -right-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(255,255,255,0.10)" }} />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* WHY */}
-      <section className="why" id="why">
-        <div className="container">
-          <div className="reveal">
-            <h2>Why Praktix is different</h2>
-            <div style={{ height: 10 }} />
-            <p className="muted" style={{ maxWidth: 700, lineHeight: 1.7 }}>
-              Built for outcomes: supervision, real projects, measurable output, and professional evaluation.
-            </p>
-          </div>
+      {/* APPLICATION FORM */}
+      <section id="apply" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+          <SectionTitle eyebrow="APPLICATION" title="Apply for AI for Real-World Careers" subtitle="Start building practical AI experience today." />
 
-          <div className="why-grid reveal">
-            <div className="why-card">
-              <div className="ico">
-                <span className="icon i-hat" aria-hidden="true" />
-              </div>
-              <h3>Structured Supervision</h3>
-              <p>Industry experts + European professors guide progress and standards.</p>
-            </div>
-            <div className="why-card">
-              <div className="ico">
-                <span className="icon i-brief" aria-hidden="true" />
-              </div>
-              <h3>Real Production-Level Projects</h3>
-              <p>No simulations. No fake assignments — real execution and deliverables.</p>
-            </div>
-            <div className="why-card">
-              <div className="ico">
-                <span className="icon i-file" aria-hidden="true" />
-              </div>
-              <h3>Measurable Output</h3>
-              <p>Portfolio-ready outcomes that demonstrate capability.</p>
-            </div>
-            <div className="why-card">
-              <div className="ico">
-                <span className="icon i-check" aria-hidden="true" />
-              </div>
-              <h3>Professional Evaluation</h3>
-              <p>Documented performance reports that prove results.</p>
-            </div>
-          </div>
-        </div>
-      </section>
+          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
+            <div className="lg:col-span-3">
+              <motion.div
+                variants={formWrapV}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.25 }}
+                className="relative rounded-[40px] p-[1px]"
+                style={{
+                  background: "#FFFFFF",
+                  backgroundSize: "200% 200%",
+                  animation: "gradMove 10s ease-in-out infinite",
+                  boxShadow: "0 26px 90px rgba(0,0,0,0.18)",
+                }}
+              >
+                <div className="relative rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
+                  <AnimatePresence>
+                    {submitted ? (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                        className="pointer-events-none absolute right-6 top-6 rounded-full px-4 py-2 text-xs font-semibold ring-1"
+                        style={{
+                          background: "rgba(52,211,153,0.18)",
+                          borderColor: "rgba(52,211,153,0.30)",
+                          color: "rgba(11,18,32,0.85)",
+                        }}
+                      >
+                        Application received
+                      </motion.div>
+                    ) : null}
+                  </AnimatePresence>
 
-      {/* APPLY FORM */}
-      <section className="formwrap" id="apply" ref={applySectionRef}>
-        <div className="container">
-          <div className="row" style={{ gap: 24, alignItems: "flex-start" }}>
-            <div className="col reveal">
-              <h2>Apply for an Industry Internship</h2>
-              <div style={{ height: 10 }} />
-              <p style={{ color: "rgba(6,18,27,.74)", lineHeight: 1.7, fontSize: 16, maxWidth: 560 }}>
-                Start building real experience today. Submit your details and we’ll send an automatic confirmation email.
-              </p>
-
-              <div style={{ height: 18 }} />
-
-              <div className="surface white" style={{ padding: 16, borderRadius: 22 }}>
-                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                  <div
-                    style={{
-                      width: 44,
-                      height: 44,
-                      borderRadius: 16,
-                      background: "rgba(255,47,179,.10)",
-                      border: "1px solid rgba(255,47,179,.18)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span className="icon i-spark" style={{ color: "#0b1e2d" }} aria-hidden="true" />
-                  </div>
-
-                  <div>
-                    <div style={{ fontWeight: 900, letterSpacing: "-.2px" }}>What happens next?</div>
-                    <div style={{ marginTop: 6, color: "rgba(6,18,27,.70)", lineHeight: 1.6 }}>
-                      We review your profile, confirm track availability, then share intake timelines and next steps.
-                    </div>
-                    <div className="help">Tip: add a LinkedIn profile for faster review.</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="col reveal">
-              <div className="formcard">
-                <div className="formhead">
-                  <div
-                    style={{
-                      fontFamily: "Sora, Inter, sans-serif",
-                      fontWeight: 900,
-                      letterSpacing: "-.2px",
-                      fontSize: 18,
-                    }}
-                  >
-                    Internship Application
-                  </div>
-                  <div className="help">Fields marked * are required.</div>
-                </div>
-
-                <div className="formbody">
                   <form
-                    id="appForm"
-                    ref={formRef}
                     onSubmit={(e) => {
                       e.preventDefault();
-                      setSuccessVisible(true);
+                      setSubmitting(true);
 
-                      // Reset (match original behavior)
-                      if (formRef.current) formRef.current.reset();
-                      if (statusRef.current) statusRef.current.value = "student";
-                      syncYear();
-
-                      window.setTimeout(() => setSuccessVisible(false), 5200);
+                      setTimeout(() => {
+                        setSubmitting(false);
+                        setSubmitted(true);
+                        setTimeout(() => setSubmitted(false), 2800);
+                      }, 650);
                     }}
+                    className="space-y-5"
                   >
-                    <div className="grid2">
-                      <div>
-                        <label htmlFor="fullName">Full Name *</label>
-                        <input id="fullName" name="fullName" required placeholder="Your full name" />
-                      </div>
-                      <div>
-                        <label htmlFor="email">Email Address *</label>
-                        <input id="email" name="email" type="email" required placeholder="name@email.com" />
-                      </div>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Full Name" required>
+                        <Input icon={BadgeCheck} iconColor={THEME.accent2} placeholder="Your full name" />
+                      </Field>
+                      <Field label="Email Address" required>
+                        <Input icon={Globe2} iconColor={THEME.accent} placeholder="name@email.com" type="email" />
+                      </Field>
                     </div>
 
-                    <div style={{ height: 12 }} />
-
-                    <div className="grid2">
-                      <div>
-                        <label htmlFor="phone">Phone Number</label>
-                        <input id="phone" name="phone" placeholder="+962 …" />
-                      </div>
-                      <div>
-                        <label htmlFor="country">Country</label>
-                        <input id="country" name="country" placeholder="Jordan" />
-                      </div>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Phone Number">
+                        <Input icon={Briefcase} iconColor={THEME.accent3} placeholder="+20 000 000 000" />
+                      </Field>
+                      <Field label="Country">
+                        <Input icon={MapPin} iconColor={THEME.accent4} placeholder="Country" />
+                      </Field>
                     </div>
 
-                    <div style={{ height: 12 }} />
-
-                    <div className="grid2">
-                      <div>
-                        <label htmlFor="status">Are You?</label>
-                        <select
-                          id="status"
-                          name="status"
-                          ref={statusRef}
-                          onChange={() => syncYear()}
-                          defaultValue="student"
-                        >
-                          <option value="student">University Student</option>
-                          <option value="graduate">Graduate</option>
-                        </select>
-                      </div>
-
-                      <div id="yearWrap" ref={yearWrapRef}>
-                        <label htmlFor="year">Current Academic Year</label>
-                        <select id="year" name="year" defaultValue="1st">
-                          <option>1st</option>
-                          <option>2nd</option>
-                          <option>3rd</option>
-                          <option>Final Year</option>
-                        </select>
-                      </div>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Are you?">
+                        <Select icon={GraduationCap} iconColor={THEME.accent3} value={persona} onChange={setPersona} options={["Student", "Graduate"]} />
+                      </Field>
+                      <Field label="Current Academic Year" hint={persona === "Graduate" ? "(hidden for graduates)" : undefined}>
+                        {persona === "Student" ? (
+                          <Select icon={Calendar} iconColor={THEME.accent} value={year} onChange={setYear} options={["1st", "2nd", "3rd", "Final Year"]} />
+                        ) : (
+                          <div className="rounded-2xl bg-white/50 px-4 py-3 text-sm text-[#0B1220]/60 ring-1 ring-[#0B1220]/10">Not applicable</div>
+                        )}
+                      </Field>
                     </div>
 
-                    <div style={{ height: 12 }} />
+                    <Field label="Field of Study / Specialization">
+                      <Input icon={Sparkles} iconColor={THEME.accent2} placeholder="e.g., Computer Science, Business, Finance" />
+                    </Field>
 
-                    <div>
-                      <label htmlFor="study">Field of Study / Specialization</label>
-                      <input id="study" name="study" placeholder="Computer Science, Business, …" />
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Preferred Internship Category">
+                        <Select
+                          icon={Briefcase}
+                          iconColor={THEME.accent4}
+                          value={cat.label}
+                          onChange={(v) => {
+                            const match = categories.find((x) => x.label === v);
+                            if (match) setActiveCat(match.key);
+                          }}
+                          options={categories.map((c) => c.label)}
+                        />
+                      </Field>
+                      <Field label="Preferred Start Timeline">
+                        <Select
+                          icon={Calendar}
+                          iconColor={THEME.accent}
+                          value="Within 1 Month"
+                          onChange={() => null}
+                          options={["Immediately", "Within 1 Month", "Within 2-3 Months"]}
+                        />
+                      </Field>
                     </div>
 
-                    <div style={{ height: 12 }} />
-
-                    <div className="grid2">
-                      <div>
-                        <label htmlFor="cat">Preferred Internship Category</label>
-                        <select id="cat" name="cat" ref={catSelectRef} defaultValue="Engineering & Technology">
-                          <option>Engineering & Technology</option>
-                          <option>Digital & Innovation</option>
-                          <option>Business & Strategy</option>
-                          <option>Finance & Economics</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label htmlFor="timeline">Preferred Start Timeline</label>
-                        <select id="timeline" name="timeline" defaultValue="Immediately">
-                          <option>Immediately</option>
-                          <option>Within 1 Month</option>
-                          <option>Within 2–3 Months</option>
-                        </select>
-                      </div>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Preferred Cohort Intake">
+                        <Select icon={Compass} iconColor={THEME.accent3} value="Q2" onChange={() => null} options={["Q1", "Q2", "Q3", "Q4"]} />
+                      </Field>
+                      <Field label="LinkedIn Profile" hint="Optional but recommended">
+                        <Input icon={Rocket} iconColor={THEME.accent2} placeholder="https://linkedin.com/in/" />
+                      </Field>
                     </div>
 
-                    <div style={{ height: 12 }} />
+                    <Field label="Your Career Goal">
+                      <Textarea placeholder="Tell us your target role, industry, and what success looks like." />
+                    </Field>
 
-                    <div className="grid2">
-                      <div>
-                        <label htmlFor="cohort">Preferred Cohort Intake</label>
-                        <select id="cohort" name="cohort" defaultValue="Q1">
-                          <option>Q1</option>
-                          <option>Q2</option>
-                          <option>Q3</option>
-                          <option>Q4</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label htmlFor="linkedin">LinkedIn Profile (Optional)</label>
-                        <input id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/…" />
-                      </div>
-                    </div>
+                    <Field label="Upload CV" hint="Optional">
+                      <FilePicker onFile={setCv} />
+                      {cv ? <p className="mt-2 text-xs text-[#0B1220]/55">Selected: {cv.name}</p> : null}
+                    </Field>
 
-                    <div style={{ height: 12 }} />
-
-                    <div>
-                      <label htmlFor="goal">Your Career Goal</label>
-                      <textarea
-                        id="goal"
-                        name="goal"
-                        ref={goalRef}
-                        placeholder="Tell us what role you want to grow into, and what you want to prove."
-                      />
-                    </div>
-
-                    <div style={{ height: 12 }} />
-
-                    <div>
-                      <label htmlFor="cv">Upload CV (Optional)</label>
-                      <input id="cv" name="cv" type="file" accept=".pdf,.doc,.docx" />
-                      <div className="help">PDF preferred.</div>
-                    </div>
-
-                    <div className="form-actions">
-                      <button className="btn btn-primary" type="submit" style={{ minWidth: 220 }}>
-                        Submit Application <span className="icon i-arrow" aria-hidden="true" />
-                      </button>
-                      <div className="help">You’ll see a success message and receive a confirmation email.</div>
-                    </div>
-
-                    <div className={`success ${successVisible ? "show" : ""}`} id="successMsg">
-                      ✅ Application submitted successfully. Check your inbox for the confirmation email.
+                    <div className="pt-2">
+                      <motion.button
+                        type="submit"
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className="relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition"
+                        style={{
+                          background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
+                        }}
+                      >
+                        <span className="relative z-10">{submitting ? "Submitting..." : "Submit Application"}</span>
+                        <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
+                          <span className="shine" />
+                        </span>
+                      </motion.button>
+                      <p className="mt-3 text-center text-xs text-[#0B1220]/60">After submission: success message + automatic confirmation email.</p>
                     </div>
                   </form>
                 </div>
+              </motion.div>
+            </div>
+
+            <div className="lg:col-span-2">
+              <div
+                className="sticky top-24 rounded-[36px] p-7 ring-1 ring-[#0B1220]/10"
+                style={{
+                  background:
+                    "radial-gradient(900px circle at 30% 15%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 70%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
+                }}
+              >
+                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHAT YOU GET</div>
+                <div className="mt-2 text-2xl font-semibold leading-tight">A portfolio your next employer can validate.</div>
+
+                <div className="mt-5 space-y-3">
+                  <Bullet icon={FileCheck2} text="Verified internship certificate" color={THEME.accent4} />
+                  <Bullet icon={ClipboardCheck} text="Documented performance report" color={THEME.accent3} />
+                  <Bullet icon={Briefcase} text="Real project deliverables" color={THEME.accent} />
+                  <Bullet icon={BadgeCheck} text="Expert supervision & feedback" color={THEME.accent2} />
+                </div>
+
+                <div className="mt-7 rounded-3xl bg-white/55 p-5 ring-1 ring-[#0B1220]/10">
+                  <div className="text-sm font-semibold">Quick track fit</div>
+                  <p className="mt-2 text-sm text-[#0B1220]/70">
+                    Selected: <span className="font-semibold">{cat.label}</span>
+                  </p>
+                  <p className="mt-1 text-sm text-[#0B1220]/70">{cat.kicker}</p>
+
+                  <div className="mt-4">
+                    <a href="#programs" className="inline-flex items-center gap-2 rounded-full bg-[#0B1220] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
+                      Browse programs <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Footer CTA */}
+          <div className="mt-12">
+            <div
+              className="relative overflow-hidden rounded-[32px] border border-white/10 px-6 py-8 text-center sm:px-10 sm:py-10"
+              style={{
+                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)`,
+                boxShadow: "0 24px 90px rgba(0,0,0,0.16)",
+              }}
+            >
+              <div
+                className="pointer-events-none absolute inset-0 opacity-[0.16]"
+                style={{
+                  backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)",
+                }}
+              />
+              <div className="relative mx-auto max-w-6xl text-white">
+                <div className="text-xs font-semibold text-white/80 sm:text-sm">Balanced structure - strong visuals - portfolio-ready proof</div>
+                <div className="mt-3 text-3xl font-semibold md:text-4xl">
+                  <span className="text-white">2000+ </span>
+                  successful placements powered by portfolio-ready outcomes
+                </div>
+                <p className="mx-auto mt-4 max-w-4xl text-sm font-medium text-white/80">
+                  Real projects + mentor feedback + measurable outputs designed to match hiring expectations.
+                </p>
+                <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+                  <a href="#apply" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95">
+                    Start Your Internship Journey <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                  </a>
+                  <a href="#programs" className="inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15">
+                    Explore Programs <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* FOOTER CTA */}
-      <footer id="final">
-        <div className="container">
-          <div className="foot-row">
-            <div className="reveal">
-              <div className="eyebrow">
-                <span className="dot" aria-hidden="true" />
-                <span className="small">Ready when you are</span>
-              </div>
+      {/* Sticky Apply Button */}
+      <a
+        href="#apply"
+        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+        style={{
+          background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)`,
+        }}
+      >
+        <Briefcase className="h-4 w-4" {...iconStrongProps} />
+        Apply Now
+      </a>
 
-              <div style={{ height: 12 }} />
-
-              <h2 style={{ margin: 0 }}>Ready to Build Real Capability?</h2>
-
-              <div style={{ height: 10 }} />
-
-              <div className="muted" style={{ maxWidth: 640, lineHeight: 1.7 }}>
-                Start your internship journey with real projects, mentorship, and portfolio-ready outcomes.
-              </div>
-            </div>
-
-            <div className="reveal" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-              <a className="btn btn-ghost" href="#programs">
-                Explore Programs
-              </a>
-              <a className="btn btn-primary" href="#apply">
-                Start Your Internship Journey
-              </a>
-            </div>
-          </div>
-
-          <div className="fine">© Praktix • Premium European positioning • Outcome-driven internships</div>
-        </div>
-      </footer>
-
-      {/* Floating Apply button */}
-      <div className={`float-apply ${fabVisible ? "show" : ""}`} id="floatApply" ref={floatApplyRef}>
-        <button
-          className="fab"
-          type="button"
-          id="fabBtn"
-          aria-label="Apply now (jump to application form)"
-          onClick={() => applySectionRef.current?.scrollIntoView({ behavior: "smooth" })}
-        >
-          Apply Now <span className="icon i-arrow" aria-hidden="true" />
-        </button>
-      </div>
-    </>
+      <style>{css}</style>
+    </div>
   );
 }
+
+function FloatingChip({ icon: Icon, title, desc, color }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -10 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.55, ease: "easeOut" }}
+      className="w-[240px] rounded-3xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur"
+      style={{ boxShadow: "0 18px 60px rgba(0,0,0,0.28)" }}
+    >
+      <div className="flex items-start gap-3">
+        <IconBadge color={color}>
+          <Icon className="h-4 w-4" {...iconStrongProps} />
+        </IconBadge>
+        <div>
+          <div className="text-sm font-semibold text-white">{title}</div>
+          <div className="mt-1 text-xs text-white/65">{desc}</div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+function DayCard({ day, title, icon: Icon, color }) {
+  return (
+    <div className="rounded-3xl bg-white/55 p-5 ring-1 ring-[#0B1220]/10">
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">{day.toUpperCase()}</div>
+        <IconBadge color={color}>
+          <Icon className="h-4 w-4" {...iconStrongProps} />
+        </IconBadge>
+      </div>
+      <div className="mt-2 text-sm font-semibold text-[#0B1220]">{title}</div>
+    </div>
+  );
+}
+
+function Bullet({ icon: Icon, text, color }) {
+  return (
+    <div className="flex items-start gap-3">
+      <IconBadge color={color}>
+        <Icon className="h-4 w-4" {...iconStrongProps} />
+      </IconBadge>
+      <div className="text-sm text-[#0B1220]/75">{text}</div>
+    </div>
+  );
+}
+
+function Field({ label, required, hint, children }) {
+  return (
+    <motion.label variants={fieldV} className="group block">
+      <div className="mb-2 flex items-center justify-between">
+        <div className="text-sm font-semibold text-[#0B1220]">
+          {label} {required ? <span style={{ color: THEME.pink }}>*</span> : null}
+        </div>
+        {hint ? <div className="text-xs text-[#0B1220]/55">{hint}</div> : null}
+      </div>
+
+      <div className="relative">
+        {children}
+
+        <div
+          className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200 group-focus-within:opacity-100"
+          style={{
+            boxShadow: "0 0 0 4px rgba(34,211,238,0.18), 0 20px 60px rgba(34,211,238,0.14)",
+          }}
+        />
+      </div>
+    </motion.label>
+  );
+}
+
+function Input({ icon: Icon, iconColor = THEME.accent, className, ...props }) {
+  const hasIcon = !!Icon;
+
+  return (
+    <div className="relative">
+      {hasIcon ? (
+        <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2">
+          <Icon className="h-4 w-4" style={{ color: iconColor }} {...iconStrongProps} />
+        </div>
+      ) : null}
+
+      <input
+        {...props}
+        className={cx(
+          "w-full rounded-2xl px-4 py-3 text-sm outline-none ring-1 transition",
+          "bg-white/60 text-[#0B1220] placeholder:text-[#0B1220]/40",
+          "ring-[#0B1220]/10 hover:ring-[#0B1220]/20 focus:ring-2 focus:ring-[rgba(34,211,238,0.35)]",
+          hasIcon ? "pl-11" : "",
+          className
+        )}
+      />
+    </div>
+  );
+}
+
+function Textarea(props) {
+  return (
+    <textarea
+      {...props}
+      className={cx(
+        "w-full rounded-2xl px-4 py-3 text-sm outline-none ring-1 transition",
+        "bg-white/60 text-[#0B1220] placeholder:text-[#0B1220]/40",
+        "ring-[#0B1220]/10 hover:ring-[#0B1220]/20 focus:ring-2 focus:ring-[rgba(34,211,238,0.35)]"
+      )}
+      rows={4}
+    />
+  );
+}
+
+function Select({ value, onChange, options, icon: Icon, iconColor = THEME.accent }) {
+  const hasIcon = !!Icon;
+
+  return (
+    <div className="relative">
+      {hasIcon ? (
+        <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2">
+          <Icon className="h-4 w-4" style={{ color: iconColor }} {...iconStrongProps} />
+        </div>
+      ) : null}
+
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={cx(
+          "w-full appearance-none rounded-2xl px-4 py-3 pr-10 text-sm outline-none ring-1 transition",
+          "bg-white/60 text-[#0B1220]",
+          "ring-[#0B1220]/10 hover:ring-[#0B1220]/20 focus:ring-2 focus:ring-[rgba(34,211,238,0.35)]",
+          hasIcon ? "pl-11" : ""
+        )}
+      >
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+
+      <div className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-[#0B1220]/55">
+        <ChevronRight className="h-4 w-4 rotate-90" {...iconStrongProps} />
+      </div>
+    </div>
+  );
+}
+
+function FilePicker({ onFile }) {
+  return (
+    <div className="relative">
+      <input id="cv" type="file" className="hidden" onChange={(e) => onFile?.(e.target.files?.[0] || null)} />
+
+      <label
+        htmlFor="cv"
+        className="group relative flex cursor-pointer items-center justify-between rounded-2xl bg-white/60 px-4 py-4 ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
+      >
+        <div className="flex items-center gap-3">
+          <IconBadge color={THEME.accent3}>
+            <FileCheck2 className="h-4 w-4" {...iconStrongProps} />
+          </IconBadge>
+          <div>
+            <div className="text-sm font-semibold text-[#0B1220]">Upload your CV</div>
+            <div className="text-xs text-[#0B1220]/55">PDF preferred - optional</div>
+          </div>
+        </div>
+
+        <span
+          className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+          style={{
+            background: "rgba(11,18,32,0.06)",
+            borderColor: "rgba(11,18,32,0.10)",
+            color: "rgba(11,18,32,0.70)",
+          }}
+        >
+          Choose file
+        </span>
+
+        <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-2xl opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+          <div className="shine" />
+        </div>
+      </label>
+    </div>
+  );
+}
+
+const css = `
+  .light-streak{
+    position:absolute;
+    inset:-20% -10%;
+    background: linear-gradient(120deg,
+      transparent 0%,
+      rgba(233,231,223,0.05) 20%,
+      rgba(255,255,255,0.10) 35%,
+      transparent 55%);
+    transform: translateX(-30%) rotate(-10deg);
+    filter: blur(2px);
+    animation: streak 7.5s ease-in-out infinite;
+    opacity: 0.35;
+  }
+  @keyframes streak{
+    0%{ transform: translateX(-35%) rotate(-10deg); }
+    50%{ transform: translateX(25%) rotate(-10deg); }
+    100%{ transform: translateX(-35%) rotate(-10deg); }
+  }
+
+  /* Program card shine */
+  .shine{
+    position:absolute;
+    inset:-30% -30%;
+    background: linear-gradient(120deg,
+      transparent 0%,
+      rgba(255,255,255,0.05) 35%,
+      rgba(255,255,255,0.10) 45%,
+      transparent 60%);
+    transform: translateX(-25%) rotate(-10deg);
+    filter: blur(1px);
+    animation: shineMove 5.6s ease-in-out infinite;
+    opacity: 0.35;
+  }
+  @keyframes shineMove{
+    0%{ transform: translateX(-30%) rotate(-10deg); }
+    50%{ transform: translateX(25%) rotate(-10deg); }
+    100%{ transform: translateX(-30%) rotate(-10deg); }
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .include-pill{
+    position: relative;
+    overflow: hidden;
+    transition: transform 220ms ease, filter 220ms ease;
+  }
+  .include-pill:hover{
+    transform: translateY(-1px);
+    filter: brightness(1.04);
+  }
+  .include-pill-accent::after{
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.20) 45%, transparent 70%);
+    transform: translateX(-120%);
+    animation: includeShine 3.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes includeShine{
+    0%, 62%, 100%{ transform: translateX(-120%); }
+    78%{ transform: translateX(120%); }
+  }
+  @keyframes gradMove{
+    0%{ background-position: 0% 50%; }
+    50%{ background-position: 100% 50%; }
+    100%{ background-position: 0% 50%; }
+  }
+`;
+
