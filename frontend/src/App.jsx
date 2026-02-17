@@ -12,6 +12,10 @@ import UniversitiesCompaniesPage from "./components/universities-companies";
 import SchoolsEarlyTalentProgramsPage from "./components/schools-early-talent-programs";
 import AiForOrganizationsPage from "./components/ai-for-organizations";
 import LoginPortalPage from "./components/login-portal";
+import InsightsImpactOutcomesPage from "./components/insights-impact-outcomes";
+import InsightsRealExperiencePage from "./components/insights-real-experience";
+import InsightsSuccessTestimonialsPage from "./components/insights-success-testimonials";
+import InsightsOurValueModelPage from "./components/insights-our-value-model";
 import SiteFooter from "./components/SiteFooter";
 import ImpressumPage from "./components/legal/ImpressumPage";
 import TermsOfUsePage from "./components/legal/TermsOfUsePage";
@@ -50,6 +54,14 @@ export default function App() {
           <Route path="/impressum" element={<ImpressumPage />} />
           <Route path="/terms-of-use" element={<TermsOfUsePage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/insights/impact-outcomes" element={<InsightsImpactOutcomesPage />} />
+          <Route path="/insights/career-outcomes" element={<InsightsImpactOutcomesPage />} />
+          <Route path="/insights/real-experience" element={<InsightsRealExperiencePage />} />
+          <Route path="/insights/real-projects" element={<InsightsRealExperiencePage />} />
+          <Route path="/insights/success-testimonials" element={<InsightsSuccessTestimonialsPage />} />
+          <Route path="/insights/success-stories" element={<InsightsSuccessTestimonialsPage />} />
+          <Route path="/insights/our-value-model" element={<InsightsOurValueModelPage />} />
+          <Route path="/insights/value" element={<InsightsOurValueModelPage />} />
         </Routes>
       </main>
       <SiteFooter />
