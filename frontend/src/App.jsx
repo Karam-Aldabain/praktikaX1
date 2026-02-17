@@ -7,6 +7,11 @@ import BootcampPage from "./components/bootcamp";
 import CoursesWorkshopsPage from "./components/courses-workshops.jsx";
 import StudentsGraduatesPage from "./components/students-graduates";
 import AiForRealWorldCareersPage from "./components/ai-for-real-world-careers";
+import OneToOneCareerMentorshipPage from "./components/one-to-one-career-mentorship";
+import UniversitiesCompaniesPage from "./components/universities-companies";
+import SchoolsEarlyTalentProgramsPage from "./components/schools-early-talent-programs";
+import AiForOrganizationsPage from "./components/ai-for-organizations";
+import LoginPortalPage from "./components/login-portal";
 import SiteFooter from "./components/SiteFooter";
 import ImpressumPage from "./components/legal/ImpressumPage";
 import TermsOfUsePage from "./components/legal/TermsOfUsePage";
@@ -31,6 +36,17 @@ export default function App() {
           <Route path="/for-individuals/students-graduates" element={<StudentsGraduatesPage />} />
           <Route path="/for-individuals/ai-for-real-world-careers" element={<AiForRealWorldCareersPage />} />
           <Route path="/for-individuals/ai-across-industries" element={<AiForRealWorldCareersPage />} />
+          <Route path="/for-individuals/mentorship" element={<OneToOneCareerMentorshipPage />} />
+          <Route path="/mentorship" element={<OneToOneCareerMentorshipPage />} />
+          <Route path="/for-organizations/universities-companies" element={<UniversitiesCompaniesPage />} />
+          <Route path="/for-organizations/universities-educators" element={<UniversitiesCompaniesPage />} />
+          <Route path="/for-organizations/schools-early-talent-programs" element={<SchoolsEarlyTalentProgramsPage />} />
+          <Route path="/for-organizations/schools-early-talent" element={<SchoolsEarlyTalentProgramsPage />} />
+          <Route path="/for-organizations/ai" element={<AiForOrganizationsPage />} />
+          <Route path="/for-organizations/ai-for-organizations" element={<AiForOrganizationsPage />} />
+          <Route path="/ai-for-organizations" element={<AiForOrganizationsPage />} />
+          <Route path="/portal" element={<LoginPortalPage />} />
+          <Route path="/login" element={<LoginPortalPage />} />
           <Route path="/impressum" element={<ImpressumPage />} />
           <Route path="/terms-of-use" element={<TermsOfUsePage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />

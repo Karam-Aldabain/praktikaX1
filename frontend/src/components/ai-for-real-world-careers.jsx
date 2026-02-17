@@ -69,11 +69,6 @@ const formWrapV = {
   },
 };
 
-const fieldV = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: "easeOut" } },
-};
-
 function useInViewOnce(threshold = 0.2) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
@@ -520,7 +515,7 @@ function TrackCard({ track, index = 0 }) {
 ========================= */
 function Field({ label, required, hint, children }) {
   return (
-    <motion.label variants={fieldV} className="group block">
+    <label className="group block">
       <div className="mb-2 flex items-center justify-between">
         <div className="text-sm font-semibold text-[#0B1220]">
           {label} {required ? <span style={{ color: THEME.pink }}>*</span> : null}
@@ -537,7 +532,7 @@ function Field({ label, required, hint, children }) {
           }}
         />
       </div>
-    </motion.label>
+    </label>
   );
 }
 
@@ -1038,7 +1033,7 @@ export default function AIForRealWorldCareersPage() {
               </div>
 
               {/* Floating icon stack */}
-              <div className="absolute left-6 top-8 space-y-3 sm:left-10 sm:top-10">
+              <div className="absolute left-6 top-8 hidden space-y-3 sm:left-10 sm:top-10 sm:block">
                 {INDUSTRY_FLOATERS.slice(0, 3).map((f, i) => (
                   <motion.div
                     key={f.label}
@@ -1050,7 +1045,7 @@ export default function AIForRealWorldCareersPage() {
                 ))}
               </div>
 
-              <div className="absolute right-6 top-8 space-y-3 sm:right-10 sm:top-10">
+              <div className="absolute right-6 top-8 hidden space-y-3 sm:right-10 sm:top-10 sm:block">
                 {INDUSTRY_FLOATERS.slice(3, 6).map((f, i) => (
                   <motion.div
                     key={f.label}
@@ -1861,7 +1856,7 @@ export default function AIForRealWorldCareersPage() {
             {/* Right sticky panel */}
             <div className="lg:col-span-2">
               <div
-                className="sticky top-24 rounded-[36px] p-7 ring-1 ring-[#0B1220]/10"
+                className="rounded-[36px] p-7 ring-1 ring-[#0B1220]/10 lg:sticky lg:top-24"
                 style={{
                   background:
                     "radial-gradient(900px circle at 30% 15%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 70%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
@@ -1910,7 +1905,7 @@ export default function AIForRealWorldCareersPage() {
       {/* Sticky Apply button */}
       <a
         href="#apply"
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+        className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
         style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
       >
         <Briefcase className="h-4 w-4" {...iconStrongProps} />

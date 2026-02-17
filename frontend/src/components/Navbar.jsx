@@ -67,11 +67,6 @@ const NAV = [
         title: "Growth Paths",
         items: [
           {
-            label: "Life Training",
-            href: "/for-individuals/life-training",
-            desc: "Personal growth and practical life skills to support long-term career readiness",
-          },
-          {
             label: "1-to-1 Career Mentorship",
             href: "/for-individuals/mentorship",
             desc: "Direct access to industry experts and university professors",
@@ -98,7 +93,7 @@ const NAV = [
         items: [
           {
             label: "Universities & Companies",
-            href: "/for-organizations/universities-educators",
+            href: "/for-organizations/universities-companies",
             desc: "Co-hosted industry programs integrated into academic structures",
           },
           {

@@ -86,6 +86,7 @@ const SOLUTIONS = [
     img: IMAGES.solution3,
     tag1: "1:1 feedback",
     tag2: "Portfolio polish",
+    href: "/for-individuals/mentorship",
   },
 ];
 
@@ -97,6 +98,7 @@ const BENEFITS = [
     img: IMAGES.solution5,
     tag1: "Co-designed",
     tag2: "Talent pipeline",
+    href: "/for-organizations/universities-companies",
   },
   {
     icon: GraduationCap,
@@ -105,6 +107,7 @@ const BENEFITS = [
     img: "/schoold.webp",
     tag1: "Early talent",
     tag2: "Future-ready",
+    href: "/for-organizations/schools-early-talent-programs",
   },
   {
     icon: Zap,
@@ -113,6 +116,7 @@ const BENEFITS = [
     img: "/ai-for-or.webp",
     tag1: "Applied AI",
     tag2: "Operational impact",
+    href: "/for-organizations/ai",
   },
   {
     icon: Handshake,
@@ -1599,6 +1603,7 @@ export default function LandingPage() {
                         whileTap={reduce ? undefined : { scale: 0.99 }}
                         transition={SPRING}
                       >
+                        {b.href ? <a href={b.href} className="absolute inset-0 z-10" aria-label={b.title} /> : null}
                         <div className="relative h-56 overflow-hidden">
                           <motion.img
                             src={b.img}
