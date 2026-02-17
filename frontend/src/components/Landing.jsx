@@ -71,6 +71,7 @@ const SOLUTIONS = [
     img: IMAGES.solution2,
     tag1: "Applied AI",
     tag2: "Real use-cases",
+    href: "/for-individuals/ai-for-real-world-careers",
   },
   {
     title: "Life Training",

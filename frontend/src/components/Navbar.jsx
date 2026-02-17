@@ -58,7 +58,7 @@ const NAV = [
           },
           {
             label: "AI for Real-World Careers",
-            href: "/for-individuals/ai-across-industries",
+            href: "/for-individuals/ai-for-real-world-careers",
             desc: "Practical AI applications across business, healthcare, engineering, data, marketing, and beyond",
           },
         ],
