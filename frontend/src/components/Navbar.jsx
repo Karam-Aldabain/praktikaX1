@@ -199,26 +199,19 @@ const NAV = [
             desc: "Building structured systems that close the education-to-industry gap",
           },
           {
-            label: "Our Model (How We Work)",
-            href: "/about/model",
+            label: "How We Work",
+            href: "/about/how-we-work",
             desc: "A system-based approach combining projects, mentorship, and measurable outcomes",
           },
           {
-            label: "Our European Network",
-            href: "/about/european-network",
+            label: "PARTNERSHIPS",
+            href: "/about/partnerships",
             desc: "Academic and industry partnerships aligned with European education standards",
           },
           {
             label: "Ecosystem",
             href: "/about/ecosystem",
             desc: "A connected environment integrating experts, institutions, and industry",
-            children: [
-              { label: "Global Expert Network", href: "/about/ecosystem/global-expert-network" },
-              { label: "Industry Engagements", href: "/about/ecosystem/industry-engagements" },
-              { label: "Educational & Career Events", href: "/about/ecosystem/events" },
-              { label: "Hiring Initiatives", href: "/about/ecosystem/hiring-initiatives" },
-              { label: "Become an Expert", href: "/about/ecosystem/become-an-expert" },
-            ],
           },
         ],
       },
@@ -227,7 +220,7 @@ const NAV = [
       eyebrow: "About",
       title: "Understand the model",
       text: "See the system and network behind measurable outcomes.",
-      href: "/about",
+      href: "/about/mission-vision",
       cta: "Explore About",
     },
   },
@@ -303,8 +296,8 @@ const ICONS_BY_TITLE = {
   "Success & Testimonials": MessageSquareQuote,
   "Feedback & Testimonials": MessageSquareQuote,
   "Our Mission & Vision": Target,
-  "Our Model (How We Work)": Workflow,
-  "Our European Network": Map,
+  "How We Work": Workflow,
+  PARTNERSHIPS: Handshake,
   Ecosystem: Network,
   "Global Expert Network": UsersRound,
   "Industry Engagements": Factory,
@@ -701,7 +694,7 @@ export default function Navbar({ dir = "ltr" }) {
                   Contact
                 </a>
                 <span className="px-dot">•</span>
-                <a className="px-mutedLink" href="/about" onClick={onNavLink}>
+                <a className="px-mutedLink" href="/about/mission-vision" onClick={onNavLink}>
                   About Praktix
                 </a>
               </div>

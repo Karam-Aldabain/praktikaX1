@@ -35,21 +35,21 @@ const COLORS = {
 // Images (your same links)
 const IMAGES = {
   heroBg:
-    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   heroPortrait:
-    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   solution1:
-    "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   solution2:
-    "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   solution3:
-    "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   solution4:
-    "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   solution5:
-    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   about:
-    "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=2000&q=80",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
 };
 
 const SOLUTIONS = [
@@ -133,7 +133,7 @@ const EXPERTS = [
     id: "sarah",
     name: "Dr. Sarah Johnson",
     role: "Senior Product Manager",
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
     detail: {
       org: "Product Leadership",
       focus: "Strategy, Growth, Roadmaps",
@@ -145,7 +145,7 @@ const EXPERTS = [
     id: "michael",
     name: "Michael Chen",
     role: "Engineering Lead",
-    img: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
     detail: {
       org: "Engineering",
       focus: "Systems, Mentorship, Delivery",
@@ -157,7 +157,7 @@ const EXPERTS = [
     id: "emma",
     name: "Prof. Emma Williams",
     role: "Academic Director",
-    img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
     detail: {
       org: "Academia",
       focus: "Curricula, Outcomes, Partnerships",
@@ -169,7 +169,7 @@ const EXPERTS = [
     id: "ahmed",
     name: "Ahmed Al-Rashid",
     role: "Business Strategy",
-    img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
     detail: {
       org: "GCC Ventures",
       focus: "Market Expansion, Partnerships",
@@ -194,14 +194,14 @@ const TESTIMONIALS = [
     name: "Prof. Marie Dubois",
     role: "Department Head",
     org: "Sorbonne University",
-    avatar: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=600&q=80",
+    avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   },
   {
     quote: "The projects felt real, the feedback was sharp, and the outcomes were measurable.",
     name: "Alex Morgan",
     role: "Program Participant",
     org: "Technology Track",
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80",
+    avatar: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80",
   },
   {
     quote: "This ecosystem makes hiring simpler because candidates come with proven work.",
@@ -1150,4 +1150,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
+
+
 

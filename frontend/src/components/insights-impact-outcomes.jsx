@@ -737,7 +737,6 @@ export default function ImpactOutcomesPage() {
                   className="group relative overflow-hidden rounded-[34px] bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur"
                   style={{ boxShadow: "0 18px 70px rgba(0,0,0,0.35)" }}
                 >
-                  {/* top accent */}
                   <div
                     className="absolute inset-x-0 top-0 h-1"
                     style={{
@@ -745,7 +744,7 @@ export default function ImpactOutcomesPage() {
                       opacity: 0.9,
                     }}
                   />
-                  {/* hover shine */}
+
                   <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                     <div className="shine" />
                   </div>
@@ -756,9 +755,7 @@ export default function ImpactOutcomesPage() {
                         <Icon className="h-5 w-5" {...iconStrongProps} />
                       </IconBadge>
                       <div>
-                        <div className="text-xs font-semibold tracking-widest text-white/55">
-                          {m.label.toUpperCase()}
-                        </div>
+                        <div className="text-xs font-semibold tracking-widest text-white/55">{m.label.toUpperCase()}</div>
                         <div className="mt-2 text-4xl font-semibold text-white">
                           {counters.inView ? (
                             <AnimatedNumber value={m.value} suffix={m.suffix} durationMs={980 + idx * 70} />
@@ -768,11 +765,9 @@ export default function ImpactOutcomesPage() {
                         </div>
                       </div>
                     </div>
-
                     <Tooltip text={m.hint} />
                   </div>
 
-                  {/* progress bar */}
                   <div className="relative mt-5 h-3 overflow-hidden rounded-full bg-white/10 ring-1 ring-white/10">
                     <motion.div
                       className="absolute inset-y-0 left-0 rounded-full"
@@ -780,17 +775,10 @@ export default function ImpactOutcomesPage() {
                         background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 70%, ${m.color} 140%)`,
                       }}
                       initial={{ width: 0 }}
-                      animate={
-                        reduce
-                          ? { width: `${m.bar}%` }
-                          : counters.inView
-                          ? { width: `${m.bar}%` }
-                          : { width: 0 }
-                      }
+                      animate={reduce ? { width: `${m.bar}%` } : counters.inView ? { width: `${m.bar}%` } : { width: 0 }}
                       transition={{ duration: 0.9, ease: "easeOut", delay: 0.08 + idx * 0.04 }}
                     />
                   </div>
-
                 </TiltCard>
               );
             })}

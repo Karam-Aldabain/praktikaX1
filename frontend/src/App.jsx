@@ -16,6 +16,10 @@ import InsightsImpactOutcomesPage from "./components/insights-impact-outcomes";
 import InsightsRealExperiencePage from "./components/insights-real-experience";
 import InsightsSuccessTestimonialsPage from "./components/insights-success-testimonials";
 import InsightsOurValueModelPage from "./components/insights-our-value-model";
+import MissionVisionPage from "./components/mission-vision";
+import HowWeWorkPage from "./components/how-we-work";
+import PartnershipsPage from "./components/partnerships";
+import EcosystemPage from "./components/ecosystem";
 import SiteFooter from "./components/SiteFooter";
 import ImpressumPage from "./components/legal/ImpressumPage";
 import TermsOfUsePage from "./components/legal/TermsOfUsePage";
@@ -62,6 +66,18 @@ export default function App() {
           <Route path="/insights/success-stories" element={<InsightsSuccessTestimonialsPage />} />
           <Route path="/insights/our-value-model" element={<InsightsOurValueModelPage />} />
           <Route path="/insights/value" element={<InsightsOurValueModelPage />} />
+          <Route path="/about/mission-vision" element={<MissionVisionPage />} />
+          <Route path="/about/how-we-work" element={<HowWeWorkPage />} />
+          <Route path="/about/model" element={<HowWeWorkPage />} />
+          <Route path="/about/partnerships" element={<PartnershipsPage />} />
+          <Route path="/about/european-network" element={<PartnershipsPage />} />
+          <Route path="/about/ecosystem" element={<EcosystemPage />} />
+          <Route path="/about/ecosystem/global-expert-network" element={<EcosystemPage />} />
+          <Route path="/about/ecosystem/industry-engagements" element={<EcosystemPage />} />
+          <Route path="/about/ecosystem/events" element={<EcosystemPage />} />
+          <Route path="/about/ecosystem/hiring-initiatives" element={<EcosystemPage />} />
+          <Route path="/about/ecosystem/become-an-expert" element={<EcosystemPage />} />
+          <Route path="/about" element={<MissionVisionPage />} />
         </Routes>
       </main>
       <SiteFooter />

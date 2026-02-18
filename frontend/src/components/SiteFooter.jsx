@@ -48,7 +48,7 @@ export default function SiteFooter() {
           <FooterLink href="/for-individuals" dark={isDark}>For Individuals</FooterLink>
           <FooterLink href="/for-organizations" dark={isDark}>For Organizations</FooterLink>
           <FooterLink href="/insights" dark={isDark}>Insights</FooterLink>
-          <FooterLink href="/about" dark={isDark}>About</FooterLink>
+          <FooterLink href="/about/mission-vision" dark={isDark}>About</FooterLink>
         </FooterCol>
 
         <FooterCol title="Participate">

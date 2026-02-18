@@ -1,4 +1,4 @@
-﻿import React, { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -42,18 +42,18 @@ const PAPER_GRAIN_DATA_URI =
 
 const IMAGES = {
   heroBg:
-    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=2400&q=80",
+    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   heroPortrait:
-    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   solution1: "/students.jpg",
   solution2: "/adas.jpg",
   solution3:
     "/mentor.jpg",
   solution4: "/life.jpg",
   solution5:
-    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   about:
-    "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=2000&q=80",
+    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
 };
 
 const SOLUTIONS = [
@@ -144,7 +144,7 @@ const EXPERTS = [
     focus: "Product Strategy, Growth",
     experience: "10+ years experience",
     linkedin: "https://www.linkedin.com/",
-    img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Michael Chen",
@@ -153,7 +153,7 @@ const EXPERTS = [
     focus: "System Design, Leadership",
     experience: "8+ years engineering",
     linkedin: "https://www.linkedin.com/",
-    img: "https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Prof. Emma Williams",
@@ -162,7 +162,7 @@ const EXPERTS = [
     focus: "Curriculum, Industry Alignment",
     experience: "12+ years education",
     linkedin: "https://www.linkedin.com/",
-    img: "https://images.unsplash.com/photo-1524502397800-2eeaad7c3fe5?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Ahmed Al-Rashid",
@@ -171,7 +171,7 @@ const EXPERTS = [
     focus: "Market Expansion, Partnerships",
     experience: "12+ years consulting",
     linkedin: "https://www.linkedin.com/",
-    img: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Sofia Martinez",
@@ -180,7 +180,7 @@ const EXPERTS = [
     focus: "Machine Learning, MLOps",
     experience: "9+ years in data and AI",
     linkedin: "https://www.linkedin.com/",
-    img: "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Daniel Foster",
@@ -189,7 +189,7 @@ const EXPERTS = [
     focus: "Cloud Security, Risk",
     experience: "11+ years in security",
     linkedin: "https://www.linkedin.com/",
-    img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Noura Haddad",
@@ -198,7 +198,7 @@ const EXPERTS = [
     focus: "Product Research, UX Strategy",
     experience: "10+ years in product design",
     linkedin: "https://www.linkedin.com/",
-    img: "https://images.unsplash.com/photo-1542382257-80dedb725088?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Lucas Moretti",
@@ -207,7 +207,7 @@ const EXPERTS = [
     focus: "DevOps, Platform Engineering",
     experience: "8+ years in cloud operations",
     linkedin: "https://www.linkedin.com/",
-    img: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1200&q=80",
+    img: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   },
   {
     name: "Priya Raman",
@@ -1407,9 +1407,37 @@ export default function LandingPage() {
                   Structured real-world experience designed to turn potential into measurable capability.
                 </p>
 
-                <p className="mt-4 text-sm font-semibold tracking-wide text-[color:var(--muted)] sm:text-base">
-                  Industry projects. Expert evaluation. Verified outcomes.
-                </p>
+                <div className="mt-4 flex flex-col gap-2 text-sm font-semibold tracking-wide sm:text-base">
+                  {[
+                    {
+                      label: "Industry projects.",
+                      color: isDark ? "#60c8ff" : "#0d5b8f",
+                    },
+                    {
+                      label: "Expert evaluation.",
+                      color: isDark ? "#35d6a6" : "#0f7a59",
+                    },
+                    {
+                      label: "Verified outcomes.",
+                      color: isDark ? "#ffad66" : "#a54a06",
+                    },
+                  ].map((item, idx) => (
+                    <motion.p
+                      key={item.label}
+                      initial={reduce ? { opacity: 1, x: 0 } : { opacity: 0, x: -18 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={reduce ? { duration: 0 } : { duration: 0.45, delay: 0.12 + idx * 0.1, ease: "easeOut" }}
+                      whileHover={reduce ? undefined : { x: 6 }}
+                      className="w-fit"
+                      style={{
+                        color: item.color,
+                        textShadow: isDark ? "0 0 18px rgba(96,200,255,0.18)" : "0 4px 14px rgba(13,91,143,0.08)",
+                      }}
+                    >
+                      {item.label}
+                    </motion.p>
+                  ))}
+                </div>
               </div>
 
               <HeroPortrait theme={theme} y={heroArtY} />
@@ -2014,6 +2042,9 @@ export default function LandingPage() {
     </div>
   );
 }
+
+
+
 
 
 
