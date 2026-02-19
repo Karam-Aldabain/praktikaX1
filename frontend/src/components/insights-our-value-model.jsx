@@ -108,7 +108,7 @@ function SectionHeader({ eyebrow, title, highlight, subtitle, dark }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -417,49 +417,11 @@ export default function ValueModelPage() {
         </div>
       </div>
 
-      {/* Top Nav (new layout) */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)`,
-              }}
-            >
-              <span className="text-sm font-black tracking-widest">P</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">PRAKTIX</div>
-              <div className="text-xs text-white/60">Value Model</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <NavLink href="#philosophy" label="Philosophy" />
-            <NavLink href="#pillars" label="Pillars" />
-            <NavLink href="#process" label="Process" />
-            <NavLink href="#evidence" label="Measurement" />
-            <NavLink href="#difference" label="Differentiator" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#process"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
-            >
-              See How It Works
-            </a>
-            <GradientButton href="#pillars">Explore Pillars</GradientButton>
-          </div>
-        </div>
-      </header>
-
       {/* =======================
        *  HERO (NEW: asymmetrical split + orbit system)
        *  ======================= */}
       <section className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 py-14 lg:grid-cols-12 lg:py-18">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-5 pb-14 pt-8 lg:grid-cols-12 lg:pb-18 lg:pt-12">
           {/* Left: copy */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -467,12 +429,7 @@ export default function ValueModelPage() {
             transition={{ duration: 0.65, ease: "easeOut" }}
             className="lg:col-span-6"
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Layers className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>OUR VALUE MODEL</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
               A Structured System. <br />
               Not Random Training.
             </h1>
@@ -653,7 +610,6 @@ export default function ValueModelPage() {
       >
         <div ref={philosophy.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="THE CORE PHILOSOPHY"
             title="Experience is the foundation"
             subtitle="Education builds knowledge. We build applied capability. Real experience must lead — everything else supports it."
           />
@@ -748,7 +704,6 @@ export default function ValueModelPage() {
       <section id="pillars" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={pillars.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="THE VALUE FRAMEWORK"
             title="The four pillars of career acceleration"
             highlight="(interactive)"
             subtitle="Tap a pillar to expand details. Built to feel like a system — not a brochure."
@@ -959,7 +914,6 @@ export default function ValueModelPage() {
       <section id="process" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div ref={process.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="FROM ENTRY TO OUTCOME"
             title="A step flow you can click through"
             subtitle="Each stage expands with a short explanation — designed as an interactive framework."
           />
@@ -1104,7 +1058,6 @@ export default function ValueModelPage() {
       <section id="evidence" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={metrics.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="DATA-DRIVEN APPROACH"
             title="Measured. Not assumed."
             highlight="(dashboard mock)"
             subtitle="We track completion, performance, progression, and career movement as evidence — not vibes."
@@ -1210,7 +1163,6 @@ export default function ValueModelPage() {
       <section id="difference" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div ref={diff.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="THE DIFFERENTIATOR"
             title="What makes the model different?"
             subtitle="We replace weak signals with structured execution, supervision, and verified outcomes."
           />
@@ -1319,17 +1271,6 @@ export default function ValueModelPage() {
 /** =======================
  *  Components
  *  ======================= */
-function NavLink({ href, label }) {
-  return (
-    <a
-      href={href}
-      className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      {label}
-    </a>
-  );
-}
-
 function FloatTag({ label }) {
   return (
     <div

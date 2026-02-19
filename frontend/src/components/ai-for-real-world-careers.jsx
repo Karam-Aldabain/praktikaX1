@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -11,33 +11,30 @@ import {
   ClipboardCheck,
   Compass,
   FileCheck2,
-  Flame,
   Globe2,
   GraduationCap,
   LineChart,
-  MapPin,
   Shield,
   Sparkles,
-  Star,
   Target,
   Zap,
   Laptop,
   PenTool,
-  Megaphone,
   Handshake,
   ListChecks,
   Rocket,
   Wallet,
-  Boxes,
   HeartPulse,
   CheckCircle2,
   Users,
   Layers,
   Lightbulb,
+  Crown,
+  Workflow,
 } from "lucide-react";
 
 /* =========================
-   THEME (from your code)
+   THEME
 ========================= */
 const THEME = {
   deep: "#0B1220",
@@ -59,6 +56,33 @@ const iconStrongProps = { strokeWidth: 2.4 };
 function cx(...classes) {
   return classes.filter(Boolean).join(" ");
 }
+
+/* =========================
+   IMAGES (swap with your own assets anytime)
+   (Unsplash hotlinks are fine for mock)
+========================= */
+const IMG = {
+  hero:
+    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80",
+  tech:
+    "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1600&q=80",
+  product:
+    "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=80",
+  biz:
+    "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1600&q=80",
+  industry:
+    "https://images.unsplash.com/photo-1581091215367-59ab6b6f3d2b?auto=format&fit=crop&w=1600&q=80",
+  foundations:
+    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+  outcomes:
+    "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
+  diff1:
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80",
+  diff2:
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
+  diff3:
+    "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1400&q=80",
+};
 
 const formWrapV = {
   hidden: { opacity: 0, y: 14 },
@@ -156,7 +180,7 @@ function SectionTitle({ eyebrow, title, accentWord, subtitle, dark }) {
         </div>
       ) : null}
 
-      <h2 className={cx("mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl", dark ? "text-white" : "text-[#0B1220]")}>
+      <h2 className={cx(eyebrow ? "mt-5" : "mt-0", "text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl", dark ? "text-white" : "text-[#0B1220]")}>
         {title}{" "}
         {accentWord ? (
           <span style={{ color: THEME.pink }}>
@@ -233,7 +257,48 @@ function clampStyle(lines) {
 }
 
 /* =========================
-   DATA (from PDF structure)
+   LIVING BACKGROUND
+========================= */
+function AmbientOrbs() {
+  const reduce = useReducedMotion();
+  const ORBS = [
+    { top: "8%", left: "6%", size: 420, color: `rgba(34,211,238,0.16)`, dx: 60, dy: 40, dur: 12 },
+    { top: "18%", left: "70%", size: 520, color: `rgba(167,139,250,0.14)`, dx: -80, dy: 55, dur: 15 },
+    { top: "70%", left: "20%", size: 520, color: `rgba(201,29,103,0.16)`, dx: 70, dy: -55, dur: 16 },
+  ];
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {ORBS.map((o, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full blur-3xl"
+          style={{
+            width: o.size,
+            height: o.size,
+            top: o.top,
+            left: o.left,
+            background: o.color,
+            opacity: 0.9,
+          }}
+          animate={
+            reduce
+              ? {}
+              : {
+                  x: [0, o.dx, 0],
+                  y: [0, o.dy, 0],
+                  scale: [1, 1.05, 1],
+                }
+          }
+          transition={{ duration: o.dur, repeat: Infinity, ease: "easeInOut" }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* =========================
+   DATA
 ========================= */
 const TRACKS = [
   {
@@ -243,6 +308,7 @@ const TRACKS = [
     accent: THEME.accent,
     accentSoft: "rgba(34,211,238,0.16)",
     icon: Zap,
+    image: IMG.tech,
     programs: [
       "AI for Developers: Productivity & Automation",
       "AI Development Tools & Prompt Engineering",
@@ -260,6 +326,7 @@ const TRACKS = [
     accent: THEME.accent2,
     accentSoft: "rgba(167,139,250,0.16)",
     icon: PenTool,
+    image: IMG.product,
     programs: [
       "AI for Product Management",
       "AI for UX Research",
@@ -275,6 +342,7 @@ const TRACKS = [
     accent: THEME.accent3,
     accentSoft: "rgba(52,211,153,0.16)",
     icon: Target,
+    image: IMG.biz,
     programs: [
       "Artificial Intelligence for Business Strategy",
       "AI Adoption: Driving Business Value",
@@ -292,6 +360,7 @@ const TRACKS = [
     accent: THEME.accent4,
     accentSoft: "rgba(245,158,11,0.16)",
     icon: Building2,
+    image: IMG.industry,
     programs: [
       "AI for Financial Services",
       "AI in Pharma & Biotech",
@@ -310,6 +379,7 @@ const TRACKS = [
     accent: THEME.accent,
     accentSoft: "rgba(34,211,238,0.16)",
     icon: Layers,
+    image: IMG.foundations,
     programs: [
       "AI Essentials: Accelerating Impactful Adoption",
       "AI Beyond Tech Roles",
@@ -329,12 +399,39 @@ const INDUSTRY_FLOATERS = [
 ];
 
 const OVERVIEW_FACTS = [
-  { icon: Globe2, title: "Online", desc: "Remote-friendly delivery built for working professionals.", color: THEME.accent },
-  { icon: Calendar, title: "3–7 Weeks", desc: "Short, focused tracks with momentum and structure.", color: THEME.accent4 },
-  { icon: Users, title: "Cohort-Based", desc: "Accountability, feedback loops, and guided progress.", color: THEME.accent2 },
-  { icon: ClipboardCheck, title: "Practical Assignments", desc: "Workflows and cases you can apply immediately.", color: THEME.accent3 },
-  { icon: Briefcase, title: "Industry Use Cases", desc: "Role-relevant scenarios — not generic AI hype.", color: THEME.accent },
-  { icon: Compass, title: "Intakes Every 4–8 Weeks", desc: "Monthly / bi-monthly starts depending on track.", color: THEME.accent2 },
+  { icon: Globe2, title: "Online", color: THEME.accent },
+  { icon: Calendar, title: "3–7 Weeks", color: THEME.accent4 },
+  { icon: Users, title: "Cohort-Based", color: THEME.accent2 },
+  { icon: ClipboardCheck, title: "Practical Assignments", color: THEME.accent3 },
+  { icon: Briefcase, title: "Industry Use Cases", color: THEME.accent },
+  { icon: Compass, title: "Intakes Every 4–8 Weeks", color: THEME.accent2 },
+];
+
+const WHY_EXISTS_CARDS = [
+  {
+    text: "AI is no longer optional.",
+    icon: Lightbulb,
+    color: THEME.accent,
+    bg: "linear-gradient(135deg, rgba(34,211,238,0.20) 0%, rgba(255,255,255,0.05) 100%)",
+  },
+  {
+    text: "It is reshaping workflows, decision-making, operations, and competitive advantage across every industry.",
+    icon: Workflow,
+    color: THEME.accent2,
+    bg: "linear-gradient(135deg, rgba(167,139,250,0.20) 0%, rgba(255,255,255,0.05) 100%)",
+  },
+  {
+    text: "But most professionals do not need to become AI engineers. They need to use AI inside their field.",
+    icon: Users,
+    color: THEME.accent3,
+    bg: "linear-gradient(135deg, rgba(52,211,153,0.18) 0%, rgba(255,255,255,0.05) 100%)",
+  },
+  {
+    text: "Praktix AI programs are structured by role and industry, so every professional can integrate AI into their real work environment.",
+    icon: Briefcase,
+    color: THEME.accent4,
+    bg: "linear-gradient(135deg, rgba(245,158,11,0.18) 0%, rgba(255,255,255,0.05) 100%)",
+  },
 ];
 
 function StatMini({ label, value, suffix, icon: Icon, color, inView }) {
@@ -393,6 +490,7 @@ function FloatingIcon({ icon: Icon, label, color, delay = 0 }) {
 
 function TrackCard({ track, index = 0 }) {
   const Icon = track.icon;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -406,33 +504,47 @@ function TrackCard({ track, index = 0 }) {
         boxShadow: "0 18px 70px rgba(0,0,0,0.35)",
       }}
     >
-      <div
-        className="absolute inset-x-0 top-0 h-1"
-        style={{
-          background: `linear-gradient(90deg, ${track.accent} 0%, rgba(255,255,255,0.0) 80%)`,
-          opacity: 0.9,
-        }}
-      />
-      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-        <div className="shine" />
-      </div>
+      {/* Top image */}
+      <div className="relative h-[160px] overflow-hidden">
+        <motion.img
+          src={track.image}
+          alt={track.label}
+          className="h-full w-full object-cover"
+          initial={{ scale: 1.05 }}
+          whileHover={{ scale: 1.12 }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(11,18,32,0.20) 0%, rgba(11,18,32,0.68) 85%, rgba(11,18,32,0.90) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-x-0 top-0 h-1"
+          style={{
+            background: `linear-gradient(90deg, ${track.accent} 0%, rgba(255,255,255,0.0) 80%)`,
+            opacity: 0.95,
+          }}
+        />
+        <div className="pointer-events-none absolute inset-0 opacity-40">
+          <div className="shine" />
+        </div>
 
-      <div className="relative flex h-[520px] flex-col p-6">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <IconBadge color={track.accent}>
-              <Icon className="h-5 w-5" {...iconStrongProps} />
-            </IconBadge>
-            <div>
-              <div className="text-xs font-semibold tracking-widest text-white/55">TRACK</div>
-              <div className="mt-1 text-lg font-semibold text-white" style={clampStyle(2)}>
-                {track.label}
-              </div>
-            </div>
+        <div className="absolute left-5 top-5 flex items-center gap-3">
+          <IconBadge color={track.accent}>
+            <Icon className="h-5 w-5" {...iconStrongProps} />
+          </IconBadge>
+          <div className="text-xs font-semibold tracking-widest text-white/75">TRACK</div>
+        </div>
+
+        <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-3">
+          <div className="text-lg font-semibold text-white" style={clampStyle(2)}>
+            {track.label}
           </div>
-
           <span
-            className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+            className="shrink-0 rounded-full px-3 py-1 text-xs font-semibold ring-1"
             style={{
               background: track.accentSoft,
               borderColor: "rgba(255,255,255,0.14)",
@@ -442,8 +554,10 @@ function TrackCard({ track, index = 0 }) {
             3–7 Weeks
           </span>
         </div>
+      </div>
 
-        <p className="mt-4 text-sm leading-relaxed text-white/70" style={clampStyle(3)}>
+      <div className="relative flex h-[520px] flex-col p-6">
+        <p className="text-sm leading-relaxed text-white/70" style={clampStyle(3)}>
           {track.desc}
         </p>
 
@@ -477,33 +591,8 @@ function TrackCard({ track, index = 0 }) {
             >
               Apply for this track <ChevronRight className="h-4 w-4" {...iconStrongProps} />
             </a>
-            <div className="text-xs font-semibold text-white/55">Capability-first</div>
           </div>
 
-          <div className="mt-3 flex flex-wrap gap-2">
-            {["Cohort-based", "Role-aligned", "Practical cases"].map((t, i) => (
-              <span
-                key={t}
-                className="include-pill rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                style={{
-                  ...(i === 0
-                    ? {
-                        background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)`,
-                        color: "rgba(255,255,255,0.96)",
-                        borderColor: "rgba(255,255,255,0.14)",
-                        boxShadow: `0 8px 20px ${accent(0.18)}`,
-                      }
-                    : {
-                        background: "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.07) 100%)",
-                        color: "rgba(255,255,255,0.85)",
-                        borderColor: "rgba(255,255,255,0.16)",
-                      }),
-                }}
-              >
-                {t}
-              </span>
-            ))}
-          </div>
         </div>
       </div>
     </motion.div>
@@ -669,7 +758,6 @@ function AIDiagnostic({ onResult }) {
   const [q3, setQ3] = useState("Not Sure – Recommend for Me");
 
   const result = useMemo(() => {
-    // very lightweight mapping
     if (q3 !== "Not Sure – Recommend for Me") return q3;
     if (q1.includes("products")) return "AI for Product, UX & Design";
     if (q1.includes("transformation") || q1.includes("Lead")) return "AI for Business & Strategy";
@@ -689,9 +777,13 @@ function AIDiagnostic({ onResult }) {
           <div className="mt-4 text-2xl font-semibold text-white">Find your AI path in 3 minutes</div>
           <p className="mt-2 text-sm text-white/70">Answer 3 quick questions and we’ll recommend a best-fit track.</p>
         </div>
-        <div className="hidden sm:block">
+        <motion.div
+          animate={{ y: [0, -8, 0] }}
+          transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut" }}
+          className="hidden sm:block"
+        >
           <div className="h-10 w-10 rounded-2xl ring-1 ring-white/10" style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)` }} />
-        </div>
+        </motion.div>
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-3">
@@ -755,18 +847,54 @@ function AIDiagnostic({ onResult }) {
             <BadgeCheck className="h-5 w-5" {...iconStrongProps} />
           </IconBadge>
           <div>
-            <div className="text-xs font-semibold tracking-widest text-white/60">RECOMMENDATION</div>
             <div className="mt-1 text-lg font-semibold text-white">{result}</div>
             <div className="mt-1 text-sm text-white/70">Use this to pre-fill your application.</div>
           </div>
         </div>
 
-        <GradientButton
-          onClick={() => onResult?.(result)}
-        >
-          Use this track
-        </GradientButton>
+        <GradientButton onClick={() => onResult?.(result)}>Use this track</GradientButton>
       </div>
+    </div>
+  );
+}
+
+/* =========================
+   EXTRA: Motion image strip (keeps page alive)
+========================= */
+function ImageTriptych({ dark = false }) {
+  const reduce = useReducedMotion();
+  const imgs = [IMG.diff1, IMG.diff2, IMG.diff3];
+
+  return (
+    <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3">
+      {imgs.map((src, i) => (
+        <motion.div
+          key={src}
+          className={cx(
+            "relative overflow-hidden rounded-[28px] ring-1",
+            dark ? "ring-white/10 bg-white/5" : "ring-[#0B1220]/10 bg-white/60"
+          )}
+          whileHover={{ y: -4 }}
+          transition={{ duration: 0.25 }}
+        >
+          <motion.img
+            src={src}
+            alt="Program visual"
+            className="h-56 w-full object-cover"
+            animate={reduce ? {} : { scale: [1.02, 1.06, 1.02] }}
+            transition={{ duration: 10 + i * 2, repeat: Infinity, ease: "easeInOut" }}
+          />
+          <div className="absolute inset-0" style={{ background: dark ? "linear-gradient(180deg, rgba(11,18,32,0.15) 0%, rgba(11,18,32,0.72) 100%)" : "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(11,18,32,0.08) 100%)" }} />
+          <div className="absolute bottom-4 left-4 right-4">
+            <div className={cx("inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold ring-1", dark ? "bg-white/10 text-white/80 ring-white/10" : "bg-[#0B1220]/5 text-[#0B1220]/70 ring-[#0B1220]/10")}>
+              {i === 0 ? <Workflow className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} /> : null}
+              {i === 1 ? <LineChart className="h-4 w-4" style={{ color: THEME.accent4 }} {...iconStrongProps} /> : null}
+              {i === 2 ? <Crown className="h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} /> : null}
+              <span>{i === 0 ? "Workflows" : i === 1 ? "Decisions" : "Leadership"}</span>
+            </div>
+          </div>
+        </motion.div>
+      ))}
     </div>
   );
 }
@@ -789,7 +917,7 @@ export default function AIForRealWorldCareersPage() {
   };
 
   /* -------- Multi-step form state -------- */
-  const steps = ["Background", "AI Goals", "Preferences", "Impact", "Consent"];
+  const steps = ["Professional Background", "AI Goals & Interests", "Program Preferences", "Professional Impact", "Final Confirmation"];
   const [step, setStep] = useState(0);
 
   const [submitted, setSubmitted] = useState(false);
@@ -844,7 +972,7 @@ export default function AIForRealWorldCareersPage() {
     if (step === 0) return fullName.trim() && email.trim() && phone.trim() && roleTitle.trim();
     if (step === 1) return interestTracks.size > 0 && goal && knowledge;
     if (step === 2) return startTime && timeCommitment && weeklyAvail && applyingAs;
-    if (step === 3) return outcomes.size > 0; // linkedin optional
+    if (step === 3) return outcomes.size > 0;
     if (step === 4) return consent;
     return true;
   }, [step, fullName, email, phone, roleTitle, interestTracks, goal, knowledge, startTime, timeCommitment, weeklyAvail, applyingAs, outcomes, consent]);
@@ -859,12 +987,10 @@ export default function AIForRealWorldCareersPage() {
   }
 
   function applyDiagnosticRecommendation(reco) {
-    // set interest tracks based on reco
     const normalized = normalizeTrackLabel(reco);
     const next = new Set([normalized]);
     setInterestTracks(next);
 
-    // also sync track tab
     const match =
       normalized.includes("Technology") ? "tech" :
       normalized.includes("Product") ? "product" :
@@ -874,7 +1000,6 @@ export default function AIForRealWorldCareersPage() {
       TRACKS[0].key;
     setActiveTrack(match);
 
-    // move user toward form
     document.querySelector("#apply")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -884,8 +1009,6 @@ export default function AIForRealWorldCareersPage() {
       setSubmitting(false);
       setSubmitted(true);
       setTimeout(() => setSubmitted(false), 2600);
-
-      // optional: reset step to 0 after success
       setStep(0);
     }, 650);
   }
@@ -900,17 +1023,19 @@ export default function AIForRealWorldCareersPage() {
           "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji",
       }}
     >
-      {/* Global decorative background (same vibe as your code) */}
-      <div className="pointer-events-none fixed inset-0">
+      {/* Global decorative background (more alive) */}
+      <div className="pointer-events-none fixed inset-0 -z-10">
+        <AmbientOrbs />
+
         <div
-          className="absolute inset-0 opacity-70"
+          className="absolute inset-0 opacity-65"
           style={{
             background:
               "radial-gradient(1200px circle at 10% 10%, rgba(255,255,255,0.08), transparent 55%), radial-gradient(1200px circle at 80% 20%, rgba(233,231,223,0.06), transparent 55%), radial-gradient(900px circle at 60% 90%, rgba(255,255,255,0.06), transparent 55%)",
           }}
         />
         <div
-          className="absolute inset-0 opacity-[0.16]"
+          className="absolute inset-0 opacity-[0.15]"
           style={{
             backgroundImage:
               "linear-gradient(rgba(233,231,223,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(233,231,223,0.12) 1px, transparent 1px)",
@@ -921,54 +1046,14 @@ export default function AIForRealWorldCareersPage() {
         <div className="absolute inset-0 opacity-55">
           <div className="light-streak" />
         </div>
+        <div className="absolute inset-0 noise" />
       </div>
 
-      {/* Sticky nav */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)` }}
-            >
-              <span className="text-sm font-black tracking-widest">AI</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">AI for Real-World Careers</div>
-              <div className="text-xs text-white/60">Executive structure · Capability focus</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <Anchor href="#overview" label="Overview" />
-            <Anchor href="#tracks" label="Tracks" />
-            <Anchor href="#how" label="How it works" />
-            <Anchor href="#outcomes" label="Outcomes" />
-            <Anchor href="#apply" label="Apply" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#tracks"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
-            >
-              Explore Tracks
-            </a>
-            <GradientButton href="#apply">Apply Now</GradientButton>
-          </div>
-        </div>
-      </header>
-
-      {/* HERO */}
+     
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-10 lg:grid-cols-2 lg:py-14">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Briefcase className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>FOR INDIVIDUALS</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-1 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
               AI Is Not a Skill.
               <br />
               It’s a{" "}
@@ -978,41 +1063,25 @@ export default function AIForRealWorldCareersPage() {
               .
             </h1>
 
-            <p className="mt-5 max-w-xl text-balance text-base text-white/70 sm:text-lg">
-              Practical AI programs designed for professionals across every industry — so you don’t get replaced by AI. You lead with it.
+            <p className="mt-4 max-w-xl text-balance text-base text-white/70 sm:text-lg">
+             Practical AI programs designed for professionals across every industry — so you don’t
+get replaced by AI. You lead with it
             </p>
 
-            <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-white/65">
-              Online · 3–7 Weeks · Monthly & Bi-Monthly Intakes · Built for Working Professionals
+            <p className="mt-4 max-w-2xl text-sm text-white/65">
+              Online · 3-7 Weeks · Monthly & Bi-Monthly Intakes · Built for Working Professionals
             </p>
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
               <GradientButton href="#tracks">Explore AI Tracks</GradientButton>
               <GradientButton href="#diagnostic" variant="secondary">
                 Find Your AI Path
               </GradientButton>
             </div>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              <Pill label="Market-aligned" />
-              <Pill label="Role-based tracks" />
-              <Pill label="Case applications" />
-              <Pill label="Cohort accountability" />
-            </div>
-
-            <div className="mt-8 flex items-center gap-4 text-sm text-white/65">
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                <BadgeCheck className="h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
-                <span>Capability certificate</span>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                <FileCheck2 className="h-4 w-4" style={{ color: THEME.accent4 }} {...iconStrongProps} />
-                <span>Use-case portfolio</span>
-              </div>
-            </div>
           </motion.div>
 
-          {/* Hero visual: neural lines + floating industry icons */}
+          {/* Hero photo visual + floating icons + neural overlay */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1020,92 +1089,79 @@ export default function AIForRealWorldCareersPage() {
             className="relative"
           >
             <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px]">
-              <div
-                className="absolute inset-0 rounded-[44px] ring-1 ring-white/10"
-                style={{
-                  background: "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-                }}
-              />
-
-              {/* neural lines overlay */}
-              <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[44px] opacity-[0.75]">
-                <div className="neural" />
+              <div className="absolute inset-0 overflow-hidden rounded-[44px] ring-1 ring-white/10">
+                <motion.img
+                  src={IMG.hero}
+                  alt="Professionals using AI"
+                  className="h-full w-full object-cover"
+                  initial={{ scale: 1.05 }}
+                  animate={{ scale: [1.05, 1.09, 1.05] }}
+                  transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(11,18,32,0.30) 0%, rgba(11,18,32,0.66) 65%, rgba(11,18,32,0.90) 100%)",
+                  }}
+                />
               </div>
 
-              {/* Floating icon stack */}
-              <div className="absolute left-6 top-8 hidden space-y-3 sm:left-10 sm:top-10 sm:block">
-                {INDUSTRY_FLOATERS.slice(0, 3).map((f, i) => (
-                  <motion.div
-                    key={f.label}
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 5.5 + i * 0.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
-                  >
-                    <FloatingIcon icon={f.icon} label={f.label} color={f.color} delay={0.15 + i * 0.08} />
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="absolute right-6 top-8 hidden space-y-3 sm:right-10 sm:top-10 sm:block">
-                {INDUSTRY_FLOATERS.slice(3, 6).map((f, i) => (
-                  <motion.div
-                    key={f.label}
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 6.2 + i * 0.6, repeat: Infinity, ease: "easeInOut", delay: 0.2 + i * 0.15 }}
-                  >
-                    <FloatingIcon icon={f.icon} label={f.label} color={f.color} delay={0.25 + i * 0.08} />
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* bottom caption */}
-              <div className="absolute bottom-6 left-6 right-6 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <div className="text-xs font-semibold tracking-widest text-white/60">POSITIONING</div>
-                    <div className="mt-1 text-sm font-semibold text-white">
-                      Capability-focused programs — professional, not hype.
-                    </div>
-                  </div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                    <MapPin className="h-4 w-4" style={{ color: THEME.accent2 }} {...iconStrongProps} />
-                    <span>Online · Global</span>
-                  </div>
-                </div>
-              </div>
+              
+           
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* WHY THIS EXISTS */}
-      <section className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="WHY THIS PAGE EXISTS"
-            title="Why AI for Real-World Careers?"
-            subtitle="AI is reshaping workflows, operations, and competitive advantage — but most professionals don’t need to become AI engineers. They need to use AI inside their field."
-          />
-
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {[
-              { icon: Shield, title: "Not AI hype", desc: "No generic intros. We focus on real capability and job outcomes.", color: THEME.accent2 },
-              { icon: Briefcase, title: "Role-aligned", desc: "Tracks structured by role and industry, so learning maps to work.", color: THEME.accent3 },
-              { icon: ClipboardCheck, title: "Work-case application", desc: "Assignments built around real workflows, decisions, and delivery.", color: THEME.accent4 },
-            ].map((c) => {
-              const Icon = c.icon;
+      {/* WHY THIS PAGE EXISTS */}
+      <section className="relative" style={{ background: DARK_SECTION_BG }}>
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
+          <SectionTitle title="Why AI for Real-World Careers?" dark />
+          <div className="mt-10 grid grid-cols-1 gap-4 md:grid-cols-2">
+            {WHY_EXISTS_CARDS.map((item, i) => {
+              const Icon = item.icon;
               return (
-                <div key={c.title} className="rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                  <div className="flex items-center gap-3">
-                    <IconBadge color={c.color}>
-                      <Icon className="h-5 w-5" {...iconStrongProps} />
-                    </IconBadge>
-                    <div>
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">PRINCIPLE</div>
-                      <div className="mt-1 text-lg font-semibold">{c.title}</div>
+                <motion.div
+                  key={item.text}
+                  initial={{ opacity: 0, y: 14 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.45, ease: "easeOut", delay: i * 0.06 }}
+                  whileHover={{ y: -8, scale: 1.01 }}
+                  className="relative overflow-hidden rounded-[30px] p-6 ring-1 ring-white/10 backdrop-blur"
+                  style={{ background: item.bg, boxShadow: "0 18px 42px rgba(0,0,0,0.24)" }}
+                >
+                  <div className="pointer-events-none absolute inset-0 opacity-35">
+                    <div className="shine" />
+                  </div>
+                  <div className="relative flex items-start gap-4">
+                    <motion.div
+                      animate={{ y: [0, -4, 0], rotate: [0, -3, 0] }}
+                      transition={{ duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                      className="mt-0.5"
+                    >
+                      <IconBadge color={item.color}>
+                        <Icon className="h-5 w-5" {...iconStrongProps} />
+                      </IconBadge>
+                    </motion.div>
+                    <div className="flex-1">
+                      <p className="text-base leading-relaxed text-white/85">{item.text}</p>
+                      <motion.div
+                        className="mt-4 h-1.5 w-16 rounded-full"
+                        style={{ background: item.color }}
+                        animate={{ width: [64, 96, 64], opacity: [0.6, 1, 0.6] }}
+                        transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+                      />
                     </div>
                   </div>
-                  <p className="mt-5 text-sm leading-relaxed text-[#0B1220]/70">{c.desc}</p>
-                </div>
+                  <motion.span
+                    className="absolute right-5 top-5 h-2.5 w-2.5 rounded-full"
+                    style={{ background: item.color }}
+                    animate={{ scale: [1, 1.6, 1], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.18 }}
+                  />
+                </motion.div>
               );
             })}
           </div>
@@ -1114,12 +1170,9 @@ export default function AIForRealWorldCareersPage() {
 
       {/* PROGRAM STRUCTURE OVERVIEW */}
       <section className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle
-            eyebrow="PROGRAM STRUCTURE"
-            title="Choose your AI track"
-            accentWord="with clarity"
-            subtitle="3–7 week cohort-based programs with practical assignments and industry case applications."
+            title="Choose Your AI Track"
             dark
           />
 
@@ -1127,43 +1180,37 @@ export default function AIForRealWorldCareersPage() {
             {OVERVIEW_FACTS.map((f) => {
               const Icon = f.icon;
               return (
-                <div key={f.title} className="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur">
+                <motion.div
+                  key={f.title}
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.25 }}
+                  className="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur"
+                >
                   <div className="flex items-start gap-3">
                     <IconBadge color={f.color}>
                       <Icon className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
                     <div>
                       <div className="text-sm font-semibold text-white">{f.title}</div>
-                      <div className="mt-1 text-sm text-white/65">{f.desc}</div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
-
-          {/* Small stats row (keeps same visual language) */}
-          <div ref={impact.ref} className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3">
-            <StatMini label="Track Families" value={5} suffix="" icon={Layers} color={THEME.accent2} inView={impact.inView} />
-            <StatMini label="Typical Duration" value={7} suffix="w" icon={Calendar} color={THEME.accent4} inView={impact.inView} />
-            <StatMini label="Start Window" value={8} suffix="w" icon={Compass} color={THEME.accent3} inView={impact.inView} />
           </div>
         </div>
       </section>
 
       {/* TRACKS */}
       <section id="tracks" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle
-            eyebrow="AI TRACKS"
-            title="Structured categories"
-            accentWord="not 30 random courses"
-            subtitle="Select a track family, then choose the program that maps to your job function."
+            title="Categorized AI Tracks"
+            subtitle="We do not present 30 random courses. We present clear categories."
             dark
           />
 
           <div className="mt-10 flex flex-col gap-5">
-            {/* Tabs */}
             <div className="flex flex-wrap gap-2">
               {TRACKS.map((t) => {
                 const active = t.key === activeTrack;
@@ -1188,7 +1235,6 @@ export default function AIForRealWorldCareersPage() {
               })}
             </div>
 
-            {/* Selected */}
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <div className="text-xs font-semibold tracking-widest text-white/60">SELECTED</div>
@@ -1204,7 +1250,6 @@ export default function AIForRealWorldCareersPage() {
               </a>
             </div>
 
-            {/* Slider */}
             <div className="relative overflow-visible">
               <motion.button
                 type="button"
@@ -1251,13 +1296,14 @@ export default function AIForRealWorldCareersPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how" className="relative" style={{ background: `linear-gradient(180deg, rgba(233,231,223,1) 0%, rgba(233,231,223,0.85) 100%)`, color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+      <section
+        id="how"
+        className="relative"
+        style={{ background: `linear-gradient(180deg, rgba(233,231,223,1) 0%, rgba(233,231,223,0.85) 100%)`, color: THEME.deep }}
+      >
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle
-            eyebrow="HOW IT WORKS"
-            title="A clear 4-step process"
-            accentWord="to build capability"
-            subtitle="Choose a track → join a structured program → apply AI to real cases → become AI-ready in your role."
+            title="How It Works"
           />
 
           <div className="mt-10 grid grid-cols-1 gap-4">
@@ -1275,6 +1321,7 @@ export default function AIForRealWorldCareersPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.35 }}
                   transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
+                  whileHover={{ y: -3 }}
                   className="relative rounded-[36px] bg-white/55 p-6 ring-1 ring-[#0B1220]/10"
                 >
                   <div className="flex items-start gap-4">
@@ -1304,14 +1351,14 @@ export default function AIForRealWorldCareersPage() {
               );
             })}
           </div>
+
         </div>
       </section>
 
-      {/* OUTCOMES */}
+      {/* OUTCOMES (removed "Built to signal..." + removed NOT FOR block) */}
       <section id="outcomes" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle
-            eyebrow="CERTIFICATION & OUTCOMES"
             title="You leave with proof"
             accentWord="not attendance"
             subtitle="Verified capability + a practical portfolio you can use in real work."
@@ -1338,65 +1385,80 @@ export default function AIForRealWorldCareersPage() {
                     { icon: ClipboardCheck, text: "Implementation Framework Templates", color: THEME.accent2 },
                     { icon: Layers, text: "AI Workflow Blueprints", color: THEME.accent4 },
                     { icon: LineChart, text: "Executive Summary Toolkit (for leaders)", color: THEME.accent3 },
-                    { icon: Shield, text: "Responsible adoption guidance", color: THEME.accent2 },
                   ].map((b) => {
                     const Icon = b.icon;
                     return (
-                      <div key={b.text} className="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
+                      <motion.div key={b.text} whileHover={{ y: -3 }} transition={{ duration: 0.25 }} className="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
                         <div className="flex items-start gap-3">
                           <IconBadge color={b.color}>
                             <Icon className="h-4 w-4" {...iconStrongProps} />
                           </IconBadge>
                           <div className="text-sm font-semibold text-white">{b.text}</div>
                         </div>
-                      </div>
+                      </motion.div>
                     );
                   })}
                 </div>
 
                 <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="text-sm text-white/70">Built to signal capability to teams, managers, and hiring decision-makers.</div>
+                  <div className="text-sm text-white/70">Built for real work environments — not generic exercises.</div>
                   <GradientButton href="#apply">Apply Now</GradientButton>
                 </div>
               </div>
             </div>
 
             <div className="lg:col-span-2">
-              <div
-                className="relative h-full overflow-hidden rounded-[36px] p-7 ring-1 ring-white/10"
-                style={{
-                  background:
-                    "radial-gradient(900px circle at 30% 15%, rgba(255,255,255,0.08), transparent 55%), radial-gradient(900px circle at 80% 70%, rgba(255,255,255,0.05), transparent 55%), rgba(255,255,255,0.04)",
-                }}
-              >
-                <div className="text-xs font-semibold tracking-widest text-white/60">WHO THIS IS FOR</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight text-white">Professionals who want AI leverage inside their role.</div>
+              <div className="relative h-full overflow-hidden rounded-[36px] p-7 ring-1 ring-white/10">
+                <motion.img
+                  src={IMG.outcomes}
+                  alt="Outcomes visual"
+                  className="absolute inset-0 h-full w-full object-cover"
+                  initial={{ scale: 1.05 }}
+                  animate={{ scale: [1.05, 1.10, 1.05] }}
+                  transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(11,18,32,0.35) 0%, rgba(11,18,32,0.75) 75%, rgba(11,18,32,0.92) 100%)",
+                  }}
+                />
 
-                <div className="mt-6 space-y-3">
-                  {[
-                    { icon: Briefcase, text: "Working professionals", color: THEME.accent },
-                    { icon: Target, text: "Managers & decision-makers", color: THEME.accent3 },
-                    { icon: Zap, text: "Developers", color: THEME.accent2 },
-                    { icon: GraduationCap, text: "Researchers", color: THEME.accent4 },
-                    { icon: Handshake, text: "Consultants & sector specialists", color: THEME.accent3 },
-                  ].map((b) => {
-                    const Icon = b.icon;
-                    return (
-                      <div key={b.text} className="flex items-start gap-3">
-                        <IconBadge color={b.color}>
-                          <Icon className="h-4 w-4" {...iconStrongProps} />
-                        </IconBadge>
-                        <div className="text-sm text-white/80">{b.text}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="mt-7 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
-                  <div className="text-xs font-semibold tracking-widest text-white/60">NOT FOR</div>
-                  <div className="mt-2 text-sm text-white/75">
-                    People looking for generic “intro to AI” hype content.
+                <div className="relative">
+                  <div className="text-xs font-semibold tracking-widest text-white/70">WHO THIS IS FOR</div>
+                  <div className="mt-2 text-2xl font-semibold leading-tight text-white">
+                    Professionals who want AI leverage inside their role.
                   </div>
+
+                  <div className="mt-6 space-y-3">
+                    {[
+                      { icon: Briefcase, text: "Working professionals", color: THEME.accent },
+                      { icon: Target, text: "Managers & decision-makers", color: THEME.accent3 },
+                      { icon: Zap, text: "Developers", color: THEME.accent2 },
+                      { icon: GraduationCap, text: "Researchers", color: THEME.accent4 },
+                      { icon: Handshake, text: "Consultants & sector specialists", color: THEME.accent3 },
+                    ].map((b) => {
+                      const Icon = b.icon;
+                      return (
+                        <motion.div key={b.text} initial={{ opacity: 0, x: 10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.45, ease: "easeOut" }}>
+                          <div className="flex items-start gap-3">
+                            <IconBadge color={b.color}>
+                              <Icon className="h-4 w-4" {...iconStrongProps} />
+                            </IconBadge>
+                            <div className="text-sm text-white/85">{b.text}</div>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="mt-7">
+                    <a href="#apply" className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15">
+                      Speak With an AI Advisor <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                    </a>
+                  </div>
+                 
                 </div>
 
                 <div className="pointer-events-none absolute -bottom-20 -right-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(255,255,255,0.08)" }} />
@@ -1408,9 +1470,8 @@ export default function AIForRealWorldCareersPage() {
 
       {/* DIFFERENTIATION */}
       <section className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle
-            eyebrow="DIFFERENTIATION"
             title="Why Praktix AI programs?"
             subtitle="We don’t teach AI in isolation. We integrate AI inside real job functions — turning AI into a productivity engine, strategic layer, decision system, and workflow multiplier."
           />
@@ -1420,10 +1481,11 @@ export default function AIForRealWorldCareersPage() {
               { icon: Zap, title: "Productivity engine", desc: "Automate, accelerate, and improve throughput.", color: THEME.accent },
               { icon: Target, title: "Strategic layer", desc: "Better prioritization, planning, and competitive moves.", color: THEME.accent3 },
               { icon: LineChart, title: "Decision system", desc: "Sharper analysis, scenarios, and forecasting.", color: THEME.accent4 },
+              { icon: Workflow, title: "Workflow multiplier", desc: "Embed AI directly into role-specific execution.", color: THEME.accent2 },
             ].map((c) => {
               const Icon = c.icon;
               return (
-                <div key={c.title} className="rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
+                <motion.div key={c.title} whileHover={{ y: -4 }} transition={{ duration: 0.25 }} className="rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
                   <div className="flex items-center gap-3">
                     <IconBadge color={c.color}>
                       <Icon className="h-5 w-5" {...iconStrongProps} />
@@ -1434,16 +1496,17 @@ export default function AIForRealWorldCareersPage() {
                     </div>
                   </div>
                   <p className="mt-5 text-sm leading-relaxed text-[#0B1220]/70">{c.desc}</p>
-                </div>
+                </motion.div>
               );
             })}
           </div>
+
         </div>
       </section>
 
       {/* ENROLLMENT CTA */}
       <section className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <div
             className="relative overflow-hidden rounded-[32px] border border-white/10 px-6 py-10 text-center sm:px-10"
             style={{
@@ -1458,13 +1521,9 @@ export default function AIForRealWorldCareersPage() {
               }}
             />
             <div className="relative mx-auto max-w-5xl text-white">
-              <div className="text-xs font-semibold text-white/80 sm:text-sm">Future-proof, market-aligned, capability-first</div>
-              <div className="mt-3 text-3xl font-semibold md:text-4xl">
-                Future-Proof Your Career With AI.
-              </div>
-              <p className="mx-auto mt-4 max-w-4xl text-sm font-medium text-white/80">
-                Every industry is evolving. Make sure you evolve with it.
-              </p>
+              <div className="text-xs font-semibold text-white/80 sm:text-sm">Future-proof, market-aligned</div>
+              <div className="mt-3 text-3xl font-semibold md:text-4xl">Future-Proof Your Career With AI.</div>
+              <p className="mx-auto mt-4 max-w-4xl text-sm font-medium text-white/80">Every industry is evolving. Make sure you evolve with it.</p>
               <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
                 <a href="#tracks" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95">
                   Explore AI Tracks <ArrowRight className="h-4 w-4" {...iconStrongProps} />
@@ -1480,9 +1539,8 @@ export default function AIForRealWorldCareersPage() {
 
       {/* DIAGNOSTIC */}
       <section id="diagnostic" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle
-            eyebrow="OPTIONAL CONVERSION UPGRADE"
             title="AI Career Diagnostic"
             accentWord="(3 minutes)"
             subtitle="A fast way to find your best-fit track — then apply with confidence."
@@ -1496,15 +1554,14 @@ export default function AIForRealWorldCareersPage() {
 
       {/* APPLICATION FORM (Multi-step) */}
       <section id="apply" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle
-            eyebrow="APPLICATION"
             title="Apply for an AI Track"
             subtitle="Tell us about your background and goals. We’ll match you with the right AI program."
           />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
-            <div className="lg:col-span-3">
+          <div className="mt-10 mx-auto max-w-[900px]">
+            <div>
               <motion.div
                 variants={formWrapV}
                 initial="hidden"
@@ -1534,7 +1591,7 @@ export default function AIForRealWorldCareersPage() {
                       >
                         <span className="inline-flex items-center gap-2">
                           <CheckCircle2 className="h-4 w-4" {...iconStrongProps} />
-                          Application received
+                          Thank you. Your request has been received.
                         </span>
                       </motion.div>
                     ) : null}
@@ -1590,7 +1647,7 @@ export default function AIForRealWorldCareersPage() {
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                          <Field label="Phone Number" required>
+                          <Field label="Phone Number (with country code)" required>
                             <Input icon={Briefcase} iconColor={THEME.accent3} placeholder="+962 ..." value={phone} onChange={(e) => setPhone(e.target.value)} />
                           </Field>
                           <Field label="Current Role / Title" required>
@@ -1638,7 +1695,6 @@ export default function AIForRealWorldCareersPage() {
                             options={TRACK_LABELS}
                             valueSet={interestTracks}
                             onChange={(next) => {
-                              // keep “Not Sure” exclusive behavior (optional)
                               if (next.has("Not Sure – Recommend for Me") && next.size > 1) {
                                 next.delete("Not Sure – Recommend for Me");
                               }
@@ -1648,11 +1704,7 @@ export default function AIForRealWorldCareersPage() {
                         </Field>
 
                         <Field label="What Is Your Primary Goal?" required>
-                          <Select
-                            icon={Target}
-                            iconColor={THEME.accent3}
-                            value={goal}
-                            onChange={setGoal}
+                          <RadioRow
                             options={[
                               "Increase productivity in my current job",
                               "Lead AI transformation in my organization",
@@ -1662,6 +1714,8 @@ export default function AIForRealWorldCareersPage() {
                               "Future-proof my career",
                               "Other",
                             ]}
+                            value={goal}
+                            onChange={setGoal}
                           />
                         </Field>
 
@@ -1740,7 +1794,7 @@ export default function AIForRealWorldCareersPage() {
                     {/* STEP 5 */}
                     {step === 4 ? (
                       <>
-                        <div className="text-lg font-semibold">Step 5 — Consent & Final Action</div>
+                        <div className="text-lg font-semibold">Step 5 — Final Confirmation</div>
 
                         <div className="rounded-3xl bg-white/60 p-5 ring-1 ring-[#0B1220]/10">
                           <div className="text-sm font-semibold">Review summary</div>
@@ -1821,115 +1875,55 @@ export default function AIForRealWorldCareersPage() {
                             </span>
                           </motion.button>
                         ) : (
-                          <motion.button
-                            type="button"
-                            whileHover={{ scale: canNext && !submitting ? 1.01 : 1 }}
-                            whileTap={{ scale: canNext && !submitting ? 0.99 : 1 }}
-                            onClick={() => canNext && !submitting && resetAndSubmit()}
-                            disabled={!canNext || submitting}
-                            className={cx(
-                              "relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition sm:w-auto",
-                              !canNext || submitting ? "cursor-not-allowed opacity-60" : ""
-                            )}
-                            style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
-                          >
-                            <span className="relative z-10 inline-flex items-center gap-2">
-                              {submitting ? "Submitting..." : "Apply Now"}
-                              <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                            </span>
-                            <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
-                              <span className="shine" />
-                            </span>
-                          </motion.button>
+                          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+                            <a
+                              href="#"
+                              onClick={(e) => e.preventDefault()}
+                              className="inline-flex items-center justify-center gap-2 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/10 transition hover:bg-white/70"
+                            >
+                              Schedule AI Consultation <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                            </a>
+                            <motion.button
+                              type="button"
+                              whileHover={{ scale: canNext && !submitting ? 1.01 : 1 }}
+                              whileTap={{ scale: canNext && !submitting ? 0.99 : 1 }}
+                              onClick={() => canNext && !submitting && resetAndSubmit()}
+                              disabled={!canNext || submitting}
+                              className={cx(
+                                "relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition sm:w-auto",
+                                !canNext || submitting ? "cursor-not-allowed opacity-60" : ""
+                              )}
+                              style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
+                            >
+                              <span className="relative z-10 inline-flex items-center gap-2">
+                                {submitting ? "Submitting..." : "Apply Now"}
+                                <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                              </span>
+                              <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
+                                <span className="shine" />
+                              </span>
+                            </motion.button>
+                          </div>
                         )}
                       </div>
 
-                      <p className="mt-3 text-center text-xs text-[#0B1220]/60">
-                        Cohorts limited to maintain quality · Programs start every 4–8 weeks · AI advisor support included
-                      </p>
                     </div>
                   </div>
                 </div>
               </motion.div>
             </div>
 
-            {/* Right sticky panel */}
-            <div className="lg:col-span-2">
-              <div
-                className="rounded-[36px] p-7 ring-1 ring-[#0B1220]/10 lg:sticky lg:top-24"
-                style={{
-                  background:
-                    "radial-gradient(900px circle at 30% 15%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 70%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
-                }}
-              >
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHAT YOU GET</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight">A practical portfolio your work environment can validate.</div>
-
-                <div className="mt-5 space-y-3">
-                  <SideBullet icon={BadgeCheck} text="Verified AI capability certificate" color={THEME.accent3} />
-                  <SideBullet icon={ClipboardCheck} text="Implementation templates & blueprints" color={THEME.accent2} />
-                  <SideBullet icon={Briefcase} text="Real use-case portfolio" color={THEME.accent} />
-                  <SideBullet icon={LineChart} text="Executive summary toolkit (leaders)" color={THEME.accent4} />
-                </div>
-
-                <div className="mt-7 rounded-3xl bg-white/55 p-5 ring-1 ring-[#0B1220]/10">
-                  <div className="text-sm font-semibold">Quick track snapshot</div>
-                  <p className="mt-2 text-sm text-[#0B1220]/70">
-                    Current tab: <span className="font-semibold">{track.label}</span>
-                  </p>
-                  <p className="mt-1 text-sm text-[#0B1220]/70">{track.desc}</p>
-
-                  <div className="mt-4 flex flex-col gap-2">
-                    <a href="#tracks" className="inline-flex items-center gap-2 rounded-full bg-[#0B1220] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
-                      Browse tracks <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                    </a>
-                    <button
-                      type="button"
-                      onClick={() => applyDiagnosticRecommendation("Not Sure – Recommend for Me")}
-                      className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/10 transition hover:opacity-95"
-                    >
-                      Take diagnostic <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="mt-6 text-xs text-[#0B1220]/55">
-                  Developer notes: after submit → redirect to thank you page; trigger confirmation email; auto-tag applicant by track; internal notification; CRM mapping.
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
-
-      {/* Sticky Apply button */}
-      <a
-        href="#apply"
-        className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
-        style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
-      >
-        <Briefcase className="h-4 w-4" {...iconStrongProps} />
-        Apply Now
-      </a>
 
       <style>{css}</style>
     </div>
   );
 }
 
-function SideBullet({ icon: Icon, text, color }) {
-  return (
-    <div className="flex items-start gap-3">
-      <IconBadge color={color}>
-        <Icon className="h-4 w-4" {...iconStrongProps} />
-      </IconBadge>
-      <div className="text-sm text-[#0B1220]/75">{text}</div>
-    </div>
-  );
-}
-
 /* =========================
-   CSS (same animation vibe)
+   CSS
 ========================= */
 const css = `
   .light-streak{
@@ -2008,7 +2002,7 @@ const css = `
     100%{ background-position: 0% 50%; }
   }
 
-  /* Neural lines (subtle, professional) */
+  /* Neural lines */
   .neural{
     position:absolute;
     inset:-40% -40%;
@@ -2027,5 +2021,31 @@ const css = `
     0%{ transform: translateX(-2%) translateY(0%) rotate(-8deg); }
     50%{ transform: translateX(2%) translateY(1.5%) rotate(-8deg); }
     100%{ transform: translateX(-2%) translateY(0%) rotate(-8deg); }
+  }
+
+  /* Subtle film grain */
+  .noise{
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
+    opacity: .08;
+    mix-blend-mode: overlay;
+  }
+
+  /* Marquee */
+  .marquee{
+    display:flex;
+    gap:22px;
+    white-space:nowrap;
+    width:max-content;
+    animation: marquee 14s linear infinite;
+  }
+  .marquee span{
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.06);
+  }
+  @keyframes marquee{
+    0%{ transform: translateX(0); }
+    100%{ transform: translateX(-50%); }
   }
 `;

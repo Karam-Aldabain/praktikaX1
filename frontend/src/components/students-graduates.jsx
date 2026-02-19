@@ -32,31 +32,25 @@ import {
   HeartPulse,
 } from "lucide-react";
 
-
 const THEME = {
-  // Core background
   deep: "#0B1220",
   slate: "#1E2A3A",
   sand: "#E9E7DF",
-
-  // Accent system (NOT pink-dominant)
-  accent: "#22D3EE", // cyan highlight
-  accent2: "#A78BFA", // violet
-  accent3: "#34D399", // green
-  accent4: "#F59E0B", // amber
-
-  // Keep pink ONLY where you explicitly want it (scroll arrows)
+  accent: "#22D3EE",
+  accent2: "#A78BFA",
+  accent3: "#34D399",
+  accent4: "#F59E0B",
   pink: "#C91D67",
-
-  // Stars / rating
   star: "#F5D66B",
 };
 
 const DARK_SECTION_BG = "linear-gradient(90deg, #050B1F 0%, #071A3E 100%)";
 const ACCENT_RGB = "201,29,103";
 const accent = (a) => `rgba(${ACCENT_RGB}, ${a})`;
+
 const POWER_ICON_SHELL = {
-  background: "linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.07) 100%)",
+  background:
+    "linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.07) 100%)",
   border: "1px solid rgba(255,255,255,0.22)",
   boxShadow: "0 10px 24px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.20)",
 };
@@ -70,7 +64,12 @@ const formWrapV = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease: "easeOut", when: "beforeChildren", staggerChildren: 0.06 },
+    transition: {
+      duration: 0.55,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.06,
+    },
   },
 };
 
@@ -86,7 +85,6 @@ function useInViewOnce(threshold = 0.2) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-
     const obs = new IntersectionObserver(
       (entries) => {
         for (const e of entries) {
@@ -99,7 +97,6 @@ function useInViewOnce(threshold = 0.2) {
       },
       { threshold }
     );
-
     obs.observe(el);
     return () => obs.disconnect();
   }, [threshold]);
@@ -119,14 +116,12 @@ function AnimatedNumber({ value, suffix, durationMs = 900 }) {
     let raf = 0;
     const start = performance.now();
     const from = 0;
-
     const tick = (t) => {
       const p = Math.min(1, (t - start) / durationMs);
       const eased = 1 - Math.pow(1 - p, 3);
       setN(Math.round(from + (value - from) * eased));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
-
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [value, durationMs, reduce]);
@@ -139,31 +134,26 @@ function AnimatedNumber({ value, suffix, durationMs = 900 }) {
   );
 }
 
-const iconStrongProps = {
-  strokeWidth: 2.4,
-};
+const iconStrongProps = { strokeWidth: 2.4 };
 
 function IconBadge({ color, children }) {
   return (
-    <span
-      className="inline-flex h-9 w-9 items-center justify-center rounded-2xl ring-1"
-      style={{
-        ...POWER_ICON_SHELL,
-      }}
-    >
+    <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl ring-1" style={POWER_ICON_SHELL}>
       <span style={{ color }}>{children}</span>
     </span>
   );
 }
 
-function SectionTitle({ eyebrow, title, accent, subtitle, dark }) {
+function SectionTitle({ eyebrow, title, accentText, subtitle, dark }) {
   return (
     <div className={cx("mx-auto max-w-5xl", dark ? "text-white" : "text-[#0B1220]")}>
       {eyebrow ? (
         <div
           className={cx(
             "inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-widest",
-            dark ? "bg-white/10 text-white/80 ring-1 ring-white/10" : "bg-[#0B1220]/5 text-[#0B1220]/70 ring-1 ring-[#0B1220]/10"
+            dark
+              ? "bg-white/10 text-white/80 ring-1 ring-white/10"
+              : "bg-[#0B1220]/5 text-[#0B1220]/70 ring-1 ring-[#0B1220]/10"
           )}
         >
           <Sparkles className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} />
@@ -171,16 +161,15 @@ function SectionTitle({ eyebrow, title, accent, subtitle, dark }) {
         </div>
       ) : null}
 
-      <h2 className={cx("mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl", dark ? "text-white" : "text-[#0B1220]")}>
+      <h2
+        className={cx(
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          dark ? "text-white" : "text-[#0B1220]"
+        )}
+      >
         {title}{" "}
-        {accent ? (
-          <span
-            style={{
-              color: THEME.pink,
-            }}
-          >
-            {accent}
-          </span>
+        {accentText ? (
+          <span style={{ color: THEME.pink }}>{accentText}</span>
         ) : null}
       </h2>
 
@@ -211,19 +200,14 @@ function Pill({ label }) {
 function GradientButton({ children, onClick, href, variant = "primary" }) {
   const base =
     "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
-
   const primary =
     "text-white shadow-[0_12px_30px_rgba(34,211,238,0.18)] hover:translate-y-[-1px] active:translate-y-[0px]";
-
   const secondary = "bg-transparent text-white ring-1 ring-white/20 hover:bg-white/5";
-
   const stylePrimary = {
     background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.82)} 55%, ${accent(0.60)} 120%)`,
   };
-
   const Comp = href ? "a" : "button";
   const props = href ? { href } : { type: "button" };
-
   return (
     <Comp
       {...props}
@@ -240,34 +224,20 @@ function GradientButton({ children, onClick, href, variant = "primary" }) {
 function StarRow({ rating }) {
   const full = Math.floor(rating);
   const half = rating - full >= 0.5;
-
   const stars = Array.from({ length: 5 }).map((_, i) => {
     const filled = i < full;
     const isHalf = i === full && half;
-
     return (
       <span key={i} className={cx("inline-flex", filled || isHalf ? "opacity-100" : "opacity-25")}>
         <Star
           className="h-4 w-4"
-          style={{
-            color: THEME.star,
-            fill: filled ? THEME.star : "transparent",
-          }}
+          style={{ color: THEME.star, fill: filled ? THEME.star : "transparent" }}
           strokeWidth={2.2}
         />
       </span>
     );
   });
-
   return <div className="flex items-center gap-1">{stars}</div>;
-}
-
-function Anchor({ href, label }) {
-  return (
-    <a href={href} className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white">
-      {label}
-    </a>
-  );
 }
 
 function clampStyle(lines) {
@@ -279,333 +249,488 @@ function clampStyle(lines) {
   };
 }
 
-/** ---- DATA (icons now have per-item color accents) ---- */
+/** ---- IMAGES (simple, relevant, and “alive”) ---- */
+const IMAGES = {
+  heroMain: "/istockphoto-471247592-612x612.jpg",
+  mosaic: [
+    "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=60",
+    "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=60",
+    "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=60",
+    "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=60",
+  ],
+  germany: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1400&q=60",
+  mentors: [
+    "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1552058544-f2b08422138a?auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=800&q=60",
+  ],
+};
+
+function MiniMosaic() {
+  return (
+    <div className="mt-6 grid grid-cols-2 gap-3">
+      {IMAGES.mosaic.slice(0, 4).map((src, i) => (
+        <motion.div
+          key={src}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: "easeOut", delay: 0.08 + i * 0.06 }}
+          className="relative overflow-hidden rounded-3xl ring-1 ring-white/10"
+          style={{ background: "rgba(255,255,255,0.04)" }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/10 to-transparent" />
+          <img src={src} alt="Project moment" className="h-[120px] w-full object-cover" />
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+function MentorRow() {
+  return (
+    <div className="mt-8 rounded-[36px] bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <div className="text-xs font-semibold tracking-widest text-white/60">MENTORS</div>
+          <div className="mt-1 text-sm font-semibold text-white">European experts + professors</div>
+        </div>
+        <div className="hidden rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-white/15 text-white/80 sm:inline-flex">
+          Live reviews • weekly feedback
+        </div>
+      </div>
+
+      <div className="mt-4 flex items-center gap-3 overflow-x-auto no-scrollbar pb-1">
+        {IMAGES.mentors.map((src, i) => (
+          <motion.div
+            key={src}
+            className="relative shrink-0"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: "easeOut", delay: 0.05 + i * 0.05 }}
+          >
+            <div className="h-12 w-12 overflow-hidden rounded-full ring-1 ring-white/15">
+              <img src={src} alt="Mentor" className="h-full w-full object-cover" />
+            </div>
+            <div className="pointer-events-none absolute -bottom-2 left-1/2 h-8 w-8 -translate-x-1/2 rounded-full blur-2xl" style={{ background: "rgba(34,211,238,0.18)" }} />
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** ---- DATA (now includes cover images) ---- */
 const categories = [
   {
     key: "eng",
     label: "Engineering & Technology",
-    kicker: "Production-ready technical execution",
+    kicker: "Production-grade technical execution with verified outputs",
     programs: [
       {
-        name: "Software Engineering (FE/BE/Full Stack)",
-        description: "System architecture, API development, database integration, and production-grade workflows.",
+        name: "Software Engineering (Frontend / Backend / Full Stack)",
+        description:
+          "Skills you'll gain: System architecture, API development, database integration, cloud deployment, Git workflows, and production-ready coding standards.",
         level: "Advanced",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Industry Mentor Rating",
         rating: 4.9,
         includes: ["Real Client Project", "Portfolio Deployment", "Expert Evaluation"],
-        deliverable: "Deployed app + codebase review report",
-        careers: ["Software Engineer", "Backend Engineer", "Full Stack Developer"],
+        deliverable: "Live product build with documented engineering review",
+        careers: ["Frontend Engineer", "Backend Engineer", "Full Stack Developer"],
         icon: Zap,
         accent: THEME.accent,
         accentSoft: "rgba(34,211,238,0.18)",
+        cover: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "Cloud & DevOps Engineering",
-        description: "Cloud infrastructure, CI/CD pipelines, containerization, Kubernetes, monitoring, and scalable deployment.",
+        description:
+          "Skills you'll gain: Cloud infrastructure setup, CI/CD pipelines, containerization, Kubernetes orchestration, monitoring systems, and scalable deployment models.",
         level: "Advanced",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Industry Mentor Rating",
         rating: 4.8,
         includes: ["Deployed Cloud System", "DevOps Workflow Portfolio"],
-        deliverable: "Live CI/CD + infra diagram + runbook",
-        careers: ["DevOps Engineer", "Cloud Engineer", "SRE"],
+        deliverable: "Operational cloud environment with CI/CD deployment workflow",
+        careers: ["Cloud Engineer", "DevOps Engineer", "Site Reliability Engineer"],
         icon: LineChart,
         accent: THEME.accent3,
         accentSoft: "rgba(52,211,153,0.16)",
+        cover: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Digital Twin Engineering",
+        description: "Skills you'll gain: System simulation, IoT integration, predictive analytics, digital modeling, and AI optimization.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Mentor Rating",
+        rating: 4.9,
+        includes: ["Functional Digital Twin Prototype", "Executive Demo Presentation"],
+        deliverable: "Functional digital twin prototype with executive-level demo",
+        careers: ["Digital Twin Analyst", "Simulation Engineer", "IoT Solutions Associate"],
+        icon: Boxes,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+        cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "Data Analysis & Business Intelligence",
-        description: "Data cleaning, SQL modeling, dashboard development, predictive analysis, and executive reporting.",
+        description:
+          "Skills you'll gain: Data cleaning, SQL modeling, dashboard development, predictive analysis, executive reporting, and data storytelling.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Mentor Evaluation Score",
         rating: 4.9,
         includes: ["Interactive Dashboard", "Insight Report"],
-        deliverable: "Decision-ready dashboard + insights pack",
+        deliverable: "Interactive dashboard and executive insight report",
         careers: ["Data Analyst", "BI Analyst", "Reporting Specialist"],
         icon: Target,
         accent: THEME.accent4,
         accentSoft: "rgba(245,158,11,0.16)",
+        cover: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "Cybersecurity",
-        description: "Vulnerability assessment, authentication, encryption layers, penetration basics, and security reporting.",
+        description:
+          "Skills you'll gain: Vulnerability assessment, encryption layers, authentication systems, penetration basics, and security reporting.",
         level: "Advanced",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Industry Mentor Rating",
         rating: 4.9,
         includes: ["Security Audit", "Hardened System Framework"],
-        deliverable: "Audit report + remediation plan",
-        careers: ["Security Analyst", "SOC Analyst", "AppSec Associate"],
+        deliverable: "Security audit report with hardened architecture framework",
+        careers: ["Cybersecurity Analyst", "SOC Analyst", "Application Security Associate"],
         icon: Shield,
         accent: THEME.accent2,
         accentSoft: "rgba(167,139,250,0.18)",
+        cover: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "Mobile App Development",
-        description: "Cross-platform development, API integration, performance optimization, deployment pipelines, and push notifications.",
+        description:
+          "Skills you'll gain: Cross-platform development, API integration, performance optimization, deployment pipelines, and push notification systems.",
         level: "Advanced",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Mentor Rating",
         rating: 4.8,
         includes: ["Functional Mobile Application", "Deployment Demo"],
-        deliverable: "Shippable app + store-ready build",
+        deliverable: "Functional mobile app with deployment demonstration",
         careers: ["Mobile Developer", "React Native Developer", "Flutter Developer"],
         icon: Laptop,
         accent: THEME.accent,
         accentSoft: "rgba(34,211,238,0.18)",
+        cover: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1400&q=60",
       },
       {
-        name: "AI & Machine Learning",
-        description: "Modeling, optimization, deployment as APIs, explainable AI, and automation systems.",
+        name: "Web Development Internship",
+        description:
+          "Skills you'll gain: Responsive layout engineering, backend integration, CMS systems, SEO optimization, and cross-device testing.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Professional Rating",
+        rating: 4.7,
+        includes: ["Live Website", "CMS Deployment"],
+        deliverable: "Live website with CMS deployment and performance checks",
+        careers: ["Web Developer", "Frontend Developer", "CMS Specialist"],
+        icon: Globe2,
+        accent: THEME.accent3,
+        accentSoft: "rgba(52,211,153,0.16)",
+        cover: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "AI & Machine Learning Internship",
+        description:
+          "Skills you'll gain: Machine learning modeling, model optimization, AI deployment as APIs, explainable AI frameworks, and real-world automation systems.",
         level: "Advanced",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "AI Expert Rating",
         rating: 4.9,
         includes: ["AI-Powered Application", "Model Performance Report"],
-        deliverable: "API-deployed model + eval report",
-        careers: ["ML Engineer", "AI Engineer", "Data Scientist"],
+        deliverable: "AI-powered application with model performance report",
+        careers: ["Machine Learning Engineer", "AI Engineer", "Applied Data Scientist"],
         icon: Flame,
         accent: THEME.accent4,
         accentSoft: "rgba(245,158,11,0.16)",
+        cover: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Game Development Internship",
+        description: "Skills you'll gain: Gameplay mechanics, physics engines, level design, AI integration, and performance tuning.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.7,
+        includes: ["Playable Demo", "Game Prototype"],
+        deliverable: "Playable game demo with optimized core mechanics",
+        careers: ["Game Developer", "Gameplay Programmer", "Interactive Systems Developer"],
+        icon: Rocket,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+        cover: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=60",
       },
     ],
   },
   {
     key: "digital",
     label: "Digital & Innovation",
-    kicker: "Design, transformation, and growth systems",
+    kicker: "Design, growth, and transformation execution tracks",
     programs: [
       {
         name: "UI/UX Product Design",
-        description: "User research, wireframing, prototyping, usability testing, and design systems.",
+        description:
+          "Skills you'll gain: User research, wireframing, prototyping, usability testing, interface systems, and product validation methods.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Expert Rating",
         rating: 4.8,
         includes: ["High-Fidelity Prototype", "Design Case Study"],
-        deliverable: "Case study + hi-fi prototype",
+        deliverable: "High-fidelity prototype with complete design case study",
         careers: ["UI/UX Designer", "Product Designer", "UX Research Associate"],
         icon: PenTool,
         accent: THEME.accent2,
         accentSoft: "rgba(167,139,250,0.18)",
+        cover: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "Digital Transformation",
-        description: "Workflow analysis, automation strategy, tool selection, efficiency mapping, and roadmapping.",
+        description:
+          "Skills you'll gain: Workflow analysis, automation strategy, digital tool selection, efficiency mapping, and transformation roadmapping.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Mentor Evaluation Score",
         rating: 4.8,
         includes: ["Transformation Roadmap", "Executive Presentation"],
-        deliverable: "Transformation roadmap + exec deck",
-        careers: ["Transformation Analyst", "Ops Analyst", "Business Analyst"],
+        deliverable: "Digital transformation roadmap with executive presentation",
+        careers: ["Transformation Analyst", "Operations Analyst", "Business Analyst"],
         icon: Building2,
         accent: THEME.accent3,
         accentSoft: "rgba(52,211,153,0.16)",
+        cover: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "Digital Marketing",
-        description: "Campaign optimization, funnel design, A/B testing, performance analytics, and conversion strategy.",
+        description:
+          "Skills you'll gain: Campaign optimization, funnel design, A/B testing, performance analytics, and conversion strategy.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Mentor Rating",
         rating: 4.8,
         includes: ["Performance Campaign Report"],
-        deliverable: "Campaign analysis + optimization plan",
+        deliverable: "Performance campaign report with optimization roadmap",
         careers: ["Performance Marketer", "Growth Analyst", "Marketing Specialist"],
         icon: Megaphone,
         accent: THEME.accent,
         accentSoft: "rgba(34,211,238,0.18)",
+        cover: "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&w=1400&q=60",
       },
       {
-        name: "Content Writing",
-        description: "Professional copywriting, SEO structuring, content optimization, and editorial workflows.",
+        name: "Content Writing Internship",
+        description: "Skills you'll gain: Professional copywriting, SEO structuring, content optimization, and editorial workflows.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Editorial Rating",
         rating: 4.7,
         includes: ["Published Portfolio Collection"],
-        deliverable: "Published portfolio + SEO playbook",
+        deliverable: "Published content portfolio with SEO optimization proof",
         careers: ["Content Writer", "SEO Copywriter", "Content Strategist"],
         icon: FileCheck2,
         accent: THEME.accent4,
         accentSoft: "rgba(245,158,11,0.16)",
+        cover: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1400&q=60",
       },
     ],
   },
   {
     key: "biz",
     label: "Business & Strategy",
-    kicker: "Execution frameworks hiring teams recognize",
+    kicker: "Business execution systems with measurable strategic output",
     programs: [
       {
         name: "Business Development",
-        description: "Market research, partnership mapping, revenue modeling, and strategic expansion frameworks.",
+        description: "Skills you'll gain: Market research, partnership mapping, revenue modeling, and strategic expansion frameworks.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Industry Rating",
         rating: 4.8,
         includes: ["Expansion Strategy Report"],
-        deliverable: "Expansion strategy + partner map",
-        careers: ["BD Associate", "Partnerships Associate", "Growth Associate"],
+        deliverable: "Expansion strategy report with opportunity map",
+        careers: ["Business Development Associate", "Partnerships Associate", "Growth Associate"],
         icon: Handshake,
         accent: THEME.accent3,
         accentSoft: "rgba(52,211,153,0.16)",
-      },
-      {
-        name: "Project Management",
-        description: "Milestone planning, stakeholder communication, risk management, and project documentation systems.",
-        level: "Professional",
-        duration: "3-4 Months",
-        intakes: "4 Intakes / Year",
-        ratingLabel: "Professional Rating",
-        rating: 4.8,
-        includes: ["Execution Plan", "Project Documentation"],
-        deliverable: "Delivery plan + governance docs",
-        careers: ["Project Coordinator", "Junior PM", "Delivery Associate"],
-        icon: ListChecks,
-        accent: THEME.accent,
-        accentSoft: "rgba(34,211,238,0.18)",
-      },
-      {
-        name: "Entrepreneurship & Startup Building",
-        description: "MVP development, business validation, revenue strategy, and investor pitch structuring.",
-        level: "Advanced",
-        duration: "3-4 Months",
-        intakes: "4 Intakes / Year",
-        ratingLabel: "Innovation Mentor Rating",
-        rating: 4.9,
-        includes: ["Startup Prototype", "Investor Pitch Deck"],
-        deliverable: "MVP prototype + pitch deck",
-        careers: ["Founder", "Product Associate", "Startup Ops"],
-        icon: Rocket,
-        accent: THEME.accent2,
-        accentSoft: "rgba(167,139,250,0.18)",
-      },
-      {
-        name: "Sales & Marketing",
-        description: "CRM processes, lead prospecting, pitch design, and structured revenue strategies.",
-        level: "Professional",
-        duration: "3-4 Months",
-        intakes: "4 Intakes / Year",
-        ratingLabel: "Industry Rating",
-        rating: 4.7,
-        includes: ["Sales Strategy Model"],
-        deliverable: "Pipeline model + pitch assets",
-        careers: ["Sales Associate", "SDR", "Revenue Operations"],
-        icon: Zap,
-        accent: THEME.accent4,
-        accentSoft: "rgba(245,158,11,0.16)",
+        cover: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "Business Consulting",
-        description: "Financial diagnostics, strategic analysis, executive reporting, and performance benchmarking.",
+        description:
+          "Skills you'll gain: Financial diagnostics, strategic analysis, executive reporting, and performance benchmarking.",
         level: "Advanced",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Consulting Rating",
         rating: 4.8,
         includes: ["Consulting Report", "Executive Presentation"],
-        deliverable: "Consulting report + exec presentation",
-        careers: ["Consulting Analyst", "Strategy Analyst", "Business Analyst"],
-        icon: Target,
+        deliverable: "Consulting report with board-style executive presentation",
+        careers: ["Business Analyst", "Consulting Associate", "Strategy Analyst"],
+        icon: Compass,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+        cover: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Project Management",
+        description:
+          "Skills you'll gain: Milestone planning, stakeholder communication, risk management, and project documentation systems.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Professional Rating",
+        rating: 4.8,
+        includes: ["Execution Plan", "Project Documentation"],
+        deliverable: "Execution plan with full project governance documentation",
+        careers: ["Project Coordinator", "Junior Project Manager", "Delivery Associate"],
+        icon: ListChecks,
         accent: THEME.accent,
         accentSoft: "rgba(34,211,238,0.18)",
+        cover: "https://images.unsplash.com/photo-1454165205744-3b78555e5572?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Entrepreneurship & Startup Building",
+        description: "Skills you'll gain: MVP development, business validation, revenue strategy design, and investor pitch structuring.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Innovation Mentor Rating",
+        rating: 4.9,
+        includes: ["Startup Prototype", "Investor Pitch Deck"],
+        deliverable: "Validated startup prototype and investor-ready pitch deck",
+        careers: ["Startup Founder", "Venture Analyst", "Innovation Associate"],
+        icon: Rocket,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+        cover: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Sales & Marketing",
+        description: "Skills you'll gain: CRM processes, lead prospecting, pitch design, and structured revenue strategies.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.7,
+        includes: ["Sales Strategy Model"],
+        deliverable: "Sales pipeline model with conversion strategy plan",
+        careers: ["Sales Analyst", "Revenue Operations Associate", "Growth Executive"],
+        icon: Megaphone,
+        accent: THEME.accent3,
+        accentSoft: "rgba(52,211,153,0.16)",
+        cover: "https://images.unsplash.com/photo-1553484771-cc0d9b8c2b33?auto=format&fit=crop&w=1400&q=60",
       },
     ],
   },
   {
     key: "fin",
     label: "Finance & Economics",
-    kicker: "Decision-grade models & industry reports",
+    kicker: "Financial systems, digital markets, and operational economics",
     programs: [
       {
         name: "Finance & Financial Modeling",
-        description: "Financial forecasting, risk modeling, investment analysis, and budgeting frameworks.",
+        description: "Skills you'll gain: Financial forecasting, risk modeling, investment analysis, and budgeting frameworks.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Financial Expert Rating",
         rating: 4.8,
-        includes: ["Financial Model", "Analytical Report"],
-        deliverable: "Model + investment memo",
-        careers: ["Financial Analyst", "FP&A Associate", "Investment Analyst"],
+        includes: ["Financial Model", "Investment Scenario Analysis"],
+        deliverable: "Financial model and investment scenario presentation",
+        careers: ["Financial Analyst", "Investment Analyst", "Corporate Finance Associate"],
         icon: Wallet,
         accent: THEME.accent4,
         accentSoft: "rgba(245,158,11,0.16)",
+        cover: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "FinTech Engineering",
-        description: "Financial modeling, dashboards, risk simulation, payment logic systems, and fintech architecture basics.",
+        description:
+          "Skills you'll gain: Financial modeling, dashboard development, risk simulation, payment logic systems, and fintech architecture basics.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Financial Tech Rating",
         rating: 4.8,
         includes: ["FinTech Prototype", "Financial Dashboard"],
-        deliverable: "Prototype + dashboard",
-        careers: ["FinTech Analyst", "Product Analyst", "Data Analyst"],
-        icon: Sparkles,
-        accent: THEME.accent2,
-        accentSoft: "rgba(167,139,250,0.18)",
+        deliverable: "Functional fintech prototype with decision dashboard",
+        careers: ["FinTech Analyst", "Product Analyst", "Financial Systems Associate"],
+        icon: Wallet,
+        accent: THEME.accent,
+        accentSoft: "rgba(34,211,238,0.18)",
+        cover: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1400&q=60",
       },
       {
-        name: "Supply Chain Management",
-        description: "Demand forecasting, bottleneck analysis, inventory optimization, and operational modeling.",
+        name: "Supply Chain Management Internship",
+        description: "Skills you'll gain: Demand forecasting, bottleneck analysis, inventory optimization, and operational modeling.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Industry Rating",
         rating: 4.7,
         includes: ["Operational Efficiency Report"],
-        deliverable: "Ops efficiency report",
-        careers: ["Supply Chain Analyst", "Ops Analyst", "Planning Associate"],
+        deliverable: "Operational efficiency report with optimization roadmap",
+        careers: ["Supply Chain Analyst", "Operations Analyst", "Logistics Associate"],
         icon: Boxes,
         accent: THEME.accent3,
         accentSoft: "rgba(52,211,153,0.16)",
+        cover: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=60",
       },
       {
         name: "Digital Economics",
-        description: "Platform economy analysis, ecosystem modeling, digital market forecasting, and economic reporting.",
+        description: "Skills you'll gain: Platform economy analysis, ecosystem modeling, digital market forecasting, and economic reporting.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Research Rating",
         rating: 4.7,
         includes: ["Market Research Study"],
-        deliverable: "Research study + executive summary",
-        careers: ["Research Analyst", "Economic Analyst", "Market Analyst"],
-        icon: Globe2,
-        accent: THEME.accent,
-        accentSoft: "rgba(34,211,238,0.18)",
+        deliverable: "Digital market research study with forecast scenarios",
+        careers: ["Economic Analyst", "Research Associate", "Policy Analyst"],
+        icon: LineChart,
+        accent: THEME.accent2,
+        accentSoft: "rgba(167,139,250,0.18)",
+        cover: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=60",
       },
       {
-        name: "Digital Health Management",
-        description: "Healthcare KPI analysis, patient data dashboards, workflow optimization, and digital service mapping.",
+        name: "Digital Health Management Internship",
+        description:
+          "Skills you'll gain: Healthcare KPI analysis, patient data dashboards, workflow optimization, and digital service mapping.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Expert Rating",
         rating: 4.8,
         includes: ["Health Management Dashboard"],
-        deliverable: "Health KPI dashboard",
-        careers: ["Health Ops Analyst", "Program Analyst", "Business Analyst"],
+        deliverable: "Health management dashboard with service optimization insights",
+        careers: ["Health Operations Analyst", "Healthcare Data Associate", "Digital Health Coordinator"],
         icon: HeartPulse,
-        accent: THEME.accent3,
-        accentSoft: "rgba(52,211,153,0.16)",
+        accent: THEME.accent4,
+        accentSoft: "rgba(245,158,11,0.16)",
+        cover: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=60",
       },
     ],
   },
@@ -615,10 +740,7 @@ function LevelPill({ level, color }) {
   return (
     <div
       className="inline-flex items-center gap-2 rounded-2xl px-3 py-2 text-xs font-semibold ring-1"
-      style={{
-        background: "rgba(255,255,255,0.08)",
-        borderColor: "rgba(255,255,255,0.12)",
-      }}
+      style={{ background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.12)" }}
     >
       <span className="inline-block h-2 w-2 rounded-full" style={{ background: color }} />
       <span className="text-white/85">{level}</span>
@@ -636,16 +758,10 @@ function ProgramCard({ program, index = 0 }) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: "easeOut", delay: Math.min(index * 0.03, 0.15) }}
       whileHover={{ y: -6, scale: 1.01 }}
-      className={cx(
-        "group relative w-[380px] md:w-[420px] shrink-0 overflow-hidden rounded-3xl ring-1",
-        "bg-white/5 backdrop-blur"
-      )}
-      style={{
-        borderColor: "rgba(255,255,255,0.10)",
-        boxShadow: "0 18px 70px rgba(0,0,0,0.35)",
-      }}
+      className={cx("group relative w-[380px] md:w-[420px] shrink-0 overflow-hidden rounded-3xl ring-1", "bg-white/5 backdrop-blur")}
+      style={{ borderColor: "rgba(255,255,255,0.10)", boxShadow: "0 18px 70px rgba(0,0,0,0.35)" }}
     >
-      {/* Subtle top accent */}
+      {/* Top accent */}
       <div
         className="absolute inset-x-0 top-0 h-1"
         style={{
@@ -659,16 +775,27 @@ function ProgramCard({ program, index = 0 }) {
         <div className="shine" />
       </div>
 
-      {/* Content */}
-      <div className="relative flex h-[560px] flex-col p-5">
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-2">
+      <div className="relative flex h-[710px] flex-col p-5">
+        {/* Cover image */}
+        <div className="relative overflow-hidden rounded-3xl ring-1 ring-white/10">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
+          <img
+            src={program.cover}
+            alt={`${program.name} cover`}
+            className="w-full object-cover"
+            style={{ height: 300, objectPosition: program.coverPosition || "center" }}
+          />
+          <div className="absolute bottom-3 left-3 flex items-center gap-2">
             <IconBadge color={program.accent}>
               <Icon className="h-4.5 w-4.5" {...iconStrongProps} />
             </IconBadge>
             <LevelPill level={program.level} color={program.accent} />
           </div>
+        </div>
 
+        {/* Rating */}
+        <div className="mt-4 flex items-start justify-between gap-3">
+          <div className="text-xs font-semibold text-white/55"> </div>
           <div className="text-right">
             <div className="text-xs font-semibold text-white/55">{program.ratingLabel}</div>
             <div className="mt-1 flex items-center justify-end gap-2">
@@ -678,7 +805,8 @@ function ProgramCard({ program, index = 0 }) {
           </div>
         </div>
 
-        <div className="mt-5">
+        {/* Main text */}
+        <div className="mt-3">
           <div className="text-lg font-semibold text-white" style={clampStyle(2)}>
             {program.name}
           </div>
@@ -687,6 +815,7 @@ function ProgramCard({ program, index = 0 }) {
           </p>
         </div>
 
+        {/* Metrics */}
         <div className="mt-4 grid grid-cols-2 gap-3">
           <div className="rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
             <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
@@ -704,6 +833,7 @@ function ProgramCard({ program, index = 0 }) {
           </div>
         </div>
 
+        {/* Deliverable */}
         <div className="mt-4 rounded-2xl p-3 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.04)" }}>
           <div className="text-xs font-semibold tracking-widest text-white/55">DELIVERABLE</div>
           <div className="mt-1 text-sm font-semibold text-white" style={clampStyle(2)}>
@@ -711,6 +841,7 @@ function ProgramCard({ program, index = 0 }) {
           </div>
         </div>
 
+        {/* Careers */}
         <div className="mt-4">
           <div className="text-xs font-semibold tracking-widest text-white/55">CAREER PATHS</div>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -730,7 +861,7 @@ function ProgramCard({ program, index = 0 }) {
           </div>
         </div>
 
-        {/* Bottom block pinned to bottom for consistent height */}
+        {/* Bottom */}
         <div className="mt-auto pt-5">
           <div className="flex items-center justify-between">
             <button
@@ -738,7 +869,8 @@ function ProgramCard({ program, index = 0 }) {
               className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/15 transition-all hover:bg-white/5"
               onClick={() => alert("Hook up to a program details route/modal.")}
             >
-              View Details <ChevronRight className="h-4 w-4" {...iconStrongProps} />
+              View Details
+              <ChevronRight className="h-4 w-4" {...iconStrongProps} />
             </button>
             <div className="text-xs font-semibold text-white/55">Includes:</div>
           </div>
@@ -747,10 +879,7 @@ function ProgramCard({ program, index = 0 }) {
             {program.includes.map((i, includeIdx) => (
               <span
                 key={i}
-                className={cx(
-                  "include-pill rounded-full px-3 py-1 text-xs font-semibold ring-1",
-                  includeIdx % 2 === 0 ? "include-pill-accent" : "include-pill-muted"
-                )}
+                className="include-pill rounded-full px-3 py-1 text-xs font-semibold ring-1"
                 style={{
                   ...(includeIdx % 2 === 0
                     ? {
@@ -783,7 +912,11 @@ function SplitCard({ title, bullets, icon, tone }) {
     <div
       className={cx("relative overflow-hidden rounded-[36px] p-7 ring-1", isPink || isBlue ? "text-white" : "text-[#0B1220]")}
       style={{
-        background: isPink ? "linear-gradient(135deg, #C91D67 0%, #B3175A 100%)" : isBlue ? "linear-gradient(135deg, #061A3B 0%, #0A2A4F 100%)" : "rgba(255,255,255,0.55)",
+        background: isPink
+          ? "linear-gradient(135deg, #C91D67 0%, #B3175A 100%)"
+          : isBlue
+          ? "linear-gradient(135deg, #061A3B 0%, #0A2A4F 100%)"
+          : "rgba(255,255,255,0.55)",
         borderColor: isPink || isBlue ? "rgba(255,255,255,0.12)" : "rgba(11,18,32,0.10)",
       }}
     >
@@ -792,25 +925,23 @@ function SplitCard({ title, bullets, icon, tone }) {
           <div
             className="pointer-events-none absolute inset-0 opacity-[0.16]"
             style={{
-              backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.20) 0px, rgba(255,255,255,0.20) 14px, transparent 14px, transparent 30px)",
+              backgroundImage:
+                "repeating-linear-gradient(135deg, rgba(255,255,255,0.20) 0px, rgba(255,255,255,0.20) 14px, transparent 14px, transparent 30px)",
             }}
           />
           <div
             className="pointer-events-none absolute -bottom-3 left-6 h-40 w-20 opacity-[0.16]"
-            style={{
-              background: "linear-gradient(180deg, rgba(255,255,255,0.40), transparent 70%)",
-              transform: "skewX(-18deg)",
-            }}
+            style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.40), transparent 70%)", transform: "skewX(-18deg)" }}
           />
         </>
       ) : null}
+
       {isBlue ? (
         <div
           className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full opacity-[0.5]"
           style={{
             border: "1px solid rgba(255,255,255,0.10)",
-            boxShadow:
-              "0 0 0 18px rgba(255,255,255,0.05), 0 0 0 36px rgba(255,255,255,0.03)",
+            boxShadow: "0 0 0 18px rgba(255,255,255,0.05), 0 0 0 36px rgba(255,255,255,0.03)",
           }}
         />
       ) : null}
@@ -838,10 +969,7 @@ function SplitCard({ title, bullets, icon, tone }) {
           <div key={b} className="flex items-start gap-3">
             <span
               className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full ring-1"
-              style={{
-                background: "rgba(255,255,255,0.08)",
-                borderColor: "rgba(255,255,255,0.10)",
-              }}
+              style={{ background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.10)" }}
             >
               <span className="h-2 w-2 rounded-full bg-white/90" />
             </span>
@@ -850,17 +978,20 @@ function SplitCard({ title, bullets, icon, tone }) {
         ))}
       </div>
 
-      <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full blur-3xl" style={{ background: isPink ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.10)" }} />
+      <div
+        className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full blur-3xl"
+        style={{ background: isPink ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.10)" }}
+      />
     </div>
   );
 }
 
 function Timeline() {
   const steps = [
-    { title: "Apply & Assessment", desc: "We evaluate readiness and align you with the right track.", icon: ClipboardCheck, color: THEME.accent },
-    { title: "Track Placement", desc: "You join a cohort with the right challenge level.", icon: Compass, color: THEME.accent2 },
-    { title: "Real Project Execution", desc: "Weekly sprints with mentor feedback and accountability.", icon: Briefcase, color: THEME.accent3 },
-    { title: "Final Evaluation & Portfolio", desc: "Documented performance + portfolio-ready deliverables.", icon: FileCheck2, color: THEME.accent4 },
+    { title: "Apply & Assessment", desc: "Readiness screening and capability assessment.", icon: ClipboardCheck, color: THEME.accent },
+    { title: "Track Placement", desc: "Placement into the best-fit internship category.", icon: Compass, color: THEME.accent2 },
+    { title: "Real Project Execution", desc: "Real project delivery under expert supervision.", icon: Briefcase, color: THEME.accent3 },
+    { title: "Final Evaluation & Portfolio Delivery", desc: "Documented evaluation and portfolio-ready outputs.", icon: FileCheck2, color: THEME.accent4 },
   ];
 
   return (
@@ -869,7 +1000,6 @@ function Timeline() {
         className="absolute left-6 top-7 hidden h-[calc(100%-56px)] w-[2px] sm:block"
         style={{ background: `linear-gradient(180deg, ${THEME.accent} 0%, rgba(34,211,238,0.10) 100%)` }}
       />
-
       <div className="grid grid-cols-1 gap-4">
         {steps.map((s, i) => {
           const Icon = s.icon;
@@ -880,10 +1010,10 @@ function Timeline() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.35 }}
               transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
-              className="relative rounded-[36px] bg-white/55 p-6 ring-1 ring-[#0B1220]/10"
+              className="relative rounded-[36px] bg-white/55 p-5 sm:p-6 ring-1 ring-[#0B1220]/10"
             >
-              <div className="flex items-start gap-4">
-                <div className="mt-1">
+              <div className="flex items-center gap-4">
+                <div>
                   <IconBadge color={s.color}>
                     <Icon className="h-5 w-5" {...iconStrongProps} />
                   </IconBadge>
@@ -902,7 +1032,6 @@ function Timeline() {
                       Step {i + 1}
                     </span>
                   </div>
-                  <div className="mt-2 text-sm leading-relaxed text-[#0B1220]/70">{s.desc}</div>
                 </div>
               </div>
             </motion.div>
@@ -915,39 +1044,30 @@ function Timeline() {
 
 function ImpactPanel({ inView }) {
   const stats = [
-    { label: "Interns trained", value: 1200, suffix: "+", hint: "Structured cohorts with evaluation", icon: GraduationCap, color: THEME.accent },
-    { label: "Job-ready portfolios", value: 87, suffix: "%", hint: "Proof-of-work deliverables", icon: FileCheck2, color: THEME.accent4 },
-    { label: "Career opportunities", value: 72, suffix: "%", hint: "Within 6 months of completion", icon: Briefcase, color: THEME.accent3 },
-    { label: "European mentors", value: 40, suffix: "+", hint: "Experts + professors", icon: BadgeCheck, color: THEME.accent2 },
+    { label: "Interns Trained", value: 1200, suffix: "+", hint: "Structured internship execution", icon: GraduationCap, color: THEME.accent },
+    { label: "Built Job-Ready Portfolios", value: 87, suffix: "%", hint: "Portfolio-ready professional outputs", icon: FileCheck2, color: THEME.accent4 },
+    { label: "Secured Career Opportunities", value: 72, suffix: "%", hint: "Within 6 months of completion", icon: Briefcase, color: THEME.accent3 },
+    { label: "European Mentors & Professors", value: 40, suffix: "+", hint: "Active practitioners and academic experts", icon: BadgeCheck, color: THEME.accent2 },
   ];
 
   const proofs = [
-    { title: "Industry projects", desc: "Real scopes, constraints, and stakeholder expectations.", icon: Building2, color: THEME.accent },
-    { title: "Expert evaluation", desc: "Documented performance + improvement loops.", icon: ClipboardCheck, color: THEME.accent3 },
-    { title: "Verified outcomes", desc: "Portfolio-ready outputs that hiring teams can validate.", icon: FileCheck2, color: THEME.accent4 },
+    { title: "Real performance", desc: "Real scopes, constraints, and stakeholder expectations.", icon: Building2, color: THEME.accent },
+    { title: "Real outcomes", desc: "Documented performance + improvement loops.", icon: ClipboardCheck, color: THEME.accent3 },
+    { title: "Verified impact", desc: "Portfolio-ready outputs that hiring teams can validate.", icon: FileCheck2, color: THEME.accent4 },
   ];
 
   return (
-    <div className="mt-10">
+    <div className="mt-6 sm:mt-8">
       <div
         className="relative overflow-hidden rounded-[36px] ring-1 ring-white/10"
-        style={{
-          background: "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)",
-          boxShadow: "0 26px 90px rgba(0,0,0,0.35)",
-        }}
+        style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)", boxShadow: "0 26px 90px rgba(0,0,0,0.35)" }}
       >
         {/* Soft glow */}
-        <div
-          className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full blur-3xl"
-          style={{ background: "rgba(34,211,238,0.16)" }}
-        />
-        <div
-          className="pointer-events-none absolute -right-24 -bottom-24 h-80 w-80 rounded-full blur-3xl"
-          style={{ background: "rgba(167,139,250,0.14)" }}
-        />
+        <div className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full blur-3xl" style={{ background: "rgba(34,211,238,0.16)" }} />
+        <div className="pointer-events-none absolute -right-24 -bottom-24 h-80 w-80 rounded-full blur-3xl" style={{ background: "rgba(167,139,250,0.14)" }} />
 
         <div className="relative p-6 sm:p-8">
-          {/* Stats grid with dividers (NO separate big cards) */}
+          {/* Stats grid */}
           <div className="grid grid-cols-1 gap-0 overflow-hidden rounded-3xl ring-1 ring-white/10 sm:grid-cols-2">
             {stats.map((s, idx) => {
               const Icon = s.icon;
@@ -959,7 +1079,6 @@ function ImpactPanel({ inView }) {
                   : idx === 2
                   ? "border-white/10 sm:border-r"
                   : "";
-
               return (
                 <motion.div
                   key={s.label}
@@ -968,9 +1087,7 @@ function ImpactPanel({ inView }) {
                   transition={{ duration: 0.45, ease: "easeOut", delay: idx * 0.05 }}
                   whileHover={{ scale: 1.01 }}
                   className={cx("p-5 sm:p-6", border)}
-                  style={{
-                    background: "rgba(255,255,255,0.03)",
-                  }}
+                  style={{ background: "rgba(255,255,255,0.03)" }}
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
@@ -980,13 +1097,13 @@ function ImpactPanel({ inView }) {
                         </IconBadge>
                         <span>{s.label.toUpperCase()}</span>
                       </div>
+
                       <div className="mt-3 text-4xl font-semibold text-white">
                         {inView ? <AnimatedNumber value={s.value} suffix={s.suffix} /> : <span>0</span>}
                       </div>
                       <div className="mt-1 text-sm text-white/70">{s.hint}</div>
                     </div>
 
-                    {/* tiny accent line */}
                     <div className="hidden sm:block">
                       <div className="h-12 w-1 rounded-full" style={{ background: s.color, opacity: 0.65 }} />
                     </div>
@@ -996,7 +1113,7 @@ function ImpactPanel({ inView }) {
             })}
           </div>
 
-          {/* Proof row (clean, lighter) */}
+          {/* Proof row */}
           <div className="mt-6 grid grid-cols-1 gap-3 lg:grid-cols-3">
             {proofs.map((p, i) => {
               const Icon = p.icon;
@@ -1006,22 +1123,22 @@ function ImpactPanel({ inView }) {
                   initial={{ opacity: 0, y: 10 }}
                   animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                   transition={{ duration: 0.45, ease: "easeOut", delay: 0.22 + i * 0.06 }}
-                  className="rounded-3xl p-5 ring-1 ring-white/10"
+                  className="rounded-3xl px-5 py-4 ring-1 ring-white/10 sm:px-6 sm:py-5"
                   style={{ background: "rgba(255,255,255,0.03)" }}
                 >
-                  <div className="flex items-start gap-3">
+                  <div className="flex items-center gap-3">
                     <IconBadge color={p.color}>
                       <Icon className="h-4 w-4" {...iconStrongProps} />
                     </IconBadge>
-                    <div>
+                    <div className="min-w-0">
                       <div className="text-sm font-semibold text-white">{p.title}</div>
-                      <div className="mt-1 text-sm text-white/65">{p.desc}</div>
                     </div>
                   </div>
                 </motion.div>
               );
             })}
           </div>
+
         </div>
       </div>
     </div>
@@ -1030,21 +1147,20 @@ function ImpactPanel({ inView }) {
 
 export default function StudentsGraduatesLanding() {
   const [activeCat, setActiveCat] = useState(categories[0].key);
-  const [persona, setPersona] = useState("Student");
+  const [persona, setPersona] = useState("University Student");
   const [year, setYear] = useState("Final Year");
   const [cv, setCv] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const cat = useMemo(() => categories.find((c) => c.key === activeCat) || categories[0], [activeCat]);
-
   const impact = useInViewOnce(0.25);
   const sliderRef = useRef(null);
 
   const scrollSlider = (dir) => {
     const el = sliderRef.current;
     if (!el) return;
-    const dx = dir === "left" ? -360 : 360;
+    const dx = dir === "left" ? -380 : 380;
     el.scrollBy({ left: dx, behavior: "smooth" });
   };
 
@@ -1079,67 +1195,35 @@ export default function StudentsGraduatesLanding() {
         <div className="absolute inset-0 opacity-55">
           <div className="light-streak" />
         </div>
+        {/* extra alive blobs */}
+        <motion.div
+          className="absolute -left-28 top-24 h-80 w-80 rounded-full blur-3xl"
+          animate={{ y: [0, 18, 0], x: [0, 10, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          style={{ background: "rgba(34,211,238,0.10)" }}
+        />
+        <motion.div
+          className="absolute -right-28 bottom-10 h-80 w-80 rounded-full blur-3xl"
+          animate={{ y: [0, -16, 0], x: [0, -12, 0] }}
+          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+          style={{ background: "rgba(167,139,250,0.10)" }}
+        />
       </div>
 
-      {/* Sticky top nav */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)`,
-              }}
-            >
-              <span className="text-sm font-black tracking-widest">P</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">PRAKTIX</div>
-              <div className="text-xs text-white/60">AI for Real-World Careers</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <Anchor href="#overview" label="Overview" />
-            <Anchor href="#impact" label="Impact" />
-            <Anchor href="#programs" label="Programs" />
-            <Anchor href="#international" label="Germany" />
-            <Anchor href="#apply" label="Apply" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#apply"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
-            >
-              Explore Programs
-            </a>
-            <GradientButton href="#apply">Apply Now</GradientButton>
-          </div>
-        </div>
-      </header>
-
-      {/* HERO */}
+      {/* HERO (navbar removed + tighter top padding) */}
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pt-5 pb-14 lg:grid-cols-2 lg:pt-8 lg:pb-18">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <GraduationCap className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>FOR INDIVIDUALS</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
-              Apply AI Skills.
-              <br />
-              Launch Real-World Career Outcomes.
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+              Build Experience. <br /> Launch Your Career With Proof.
             </h1>
 
             <p className="mt-5 max-w-xl text-balance text-base text-white/70 sm:text-lg">
-              Practical AI pathways supervised by industry experts and university professors.
+              Real industry internships supervised by European experts and university professors.
             </p>
 
             <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-white/65">
-              We bridge the gap between AI theory and real market execution through structured, project-based programs.
+              We bridge the gap between academic theory and real market execution through structured, project-based internships.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -1156,16 +1240,6 @@ export default function StudentsGraduatesLanding() {
               <Pill label="3-4 Month Programs" />
             </div>
 
-            <div className="mt-8 flex items-center gap-4 text-sm text-white/65">
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                <BadgeCheck className="h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
-                <span>Verified outcomes</span>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                <FileCheck2 className="h-4 w-4" style={{ color: THEME.accent4 }} {...iconStrongProps} />
-                <span>Professional evaluation</span>
-              </div>
-            </div>
           </motion.div>
 
           {/* Hero visual */}
@@ -1175,12 +1249,10 @@ export default function StudentsGraduatesLanding() {
             transition={{ duration: 0.75, ease: "easeOut", delay: 0.05 }}
             className="relative"
           >
-            <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px]">
+            <div className="relative mx-auto w-full max-w-[560px] min-h-[290px] sm:min-h-[340px]">
               <div
                 className="absolute inset-0 rounded-[44px] ring-1 ring-white/10"
-                style={{
-                  background: "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
-                }}
+                style={{ background: "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)" }}
               />
 
               {/* Concept circle */}
@@ -1197,18 +1269,11 @@ export default function StudentsGraduatesLanding() {
                 >
                   <div className="absolute inset-0 rounded-full" style={{ border: "10px solid rgba(233,231,223,0.75)", opacity: 0.9, transform: "scale(0.92)" }} />
                   <div className="absolute inset-0 rounded-full" style={{ border: `8px solid ${accent(0.55)}`, opacity: 0.9, transform: "scale(1.02)" }} />
-
                   <div
                     className="relative h-[170px] w-[170px] overflow-hidden rounded-full ring-1 ring-white/15"
-                    style={{
-                      background: "radial-gradient(circle at 30% 30%, rgba(233,231,223,0.22), rgba(11,18,32,0.82))",
-                    }}
+                    style={{ background: "radial-gradient(circle at 30% 30%, rgba(233,231,223,0.22), rgba(11,18,32,0.82))" }}
                   >
-                    <img
-                      src="/istockphoto-471247592-612x612.jpg"
-                      alt="Hero visual"
-                      className="absolute inset-0 h-full w-full object-cover"
-                    />
+                    <img src={IMAGES.heroMain} alt="Hero visual" className="absolute inset-0 h-full w-full object-cover" />
                   </div>
                 </motion.div>
               </div>
@@ -1220,20 +1285,8 @@ export default function StudentsGraduatesLanding() {
                 <FloatingChip icon={FileCheck2} title="Portfolio output" desc="Deliverable-ready" color={THEME.accent4} />
               </div>
 
-              {/* Bottom caption */}
-              <div className="absolute bottom-6 left-6 right-6 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <div className="text-xs font-semibold tracking-widest text-white/60">POSITIONING</div>
-                    <div className="mt-1 text-sm font-semibold text-white">Premium European supervision, measurable outcomes.</div>
-                  </div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                    <MapPin className="h-4 w-4" style={{ color: THEME.accent2 }} {...iconStrongProps} />
-                    <span>Global  Remote-friendly</span>
-                  </div>
-                </div>
-              </div>
             </div>
+
           </motion.div>
         </div>
       </section>
@@ -1242,21 +1295,20 @@ export default function StudentsGraduatesLanding() {
       <section className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="THE PROBLEM WE SOLVE"
             title="The Gap Between Study and Employment"
-            subtitle="Universities teach knowledge. The market demands capability. We convert academic learning into measurable professional execution."
+            subtitle="Universities teach knowledge. The market demands capability. Our internships convert academic knowledge into measurable professional execution."
           />
 
           <div className="relative mt-10 overflow-hidden">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
               <SplitCard
-                title="University Environment"
+                title="University classroom"
                 icon={<GraduationCap className="h-5 w-5" {...iconStrongProps} />}
                 bullets={["Theory-heavy learning", "Limited exposure to real delivery", "Few performance signals"]}
                 tone="light"
               />
               <SplitCard
-                title="Real Company Environment"
+                title="Real company office"
                 icon={<Briefcase className="h-5 w-5" {...iconStrongProps} />}
                 bullets={["Execution under constraints", "Output + iteration", "Clear ownership & accountability"]}
                 tone="dark"
@@ -1264,38 +1316,22 @@ export default function StudentsGraduatesLanding() {
             </div>
           </div>
 
-          <div className="mt-8 rounded-3xl bg-white/55 p-6 ring-1 ring-[#0B1220]/10 backdrop-blur">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">OUR PROMISE</div>
-                <div className="mt-1 text-base font-semibold">Internship programs designed to produce proof-of-work, not just participation.</div>
-              </div>
-              <a
-                href="#programs"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[#0B1220] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
-              >
-                See Programs <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-              </a>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* IMPACT (FIXED UI) */}
+      {/* IMPACT */}
       <section id="impact" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={impact.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="IMPACT & NUMBERS"
-            title="Real performance. Real outcomes."
-            accent="Verified impact"
-            subtitle="Cleaner hierarchy, better spacing, and a single modern panel (no heavy card clutter)."
+            title="Impact & Numbers"
+            subtitle={null}
             dark
           />
           <ImpactPanel inView={impact.inView} />
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* HOW IT WORKS (subtitle removed as requested) */}
       <section
         className="relative"
         style={{
@@ -1304,20 +1340,18 @@ export default function StudentsGraduatesLanding() {
         }}
       >
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle eyebrow="HOW OUR INTERNSHIPS WORK" title="A clear 4-step process" accent="that builds proof" subtitle="Designed for momentum: assessment ? placement ? execution ? evaluation." />
+          <SectionTitle title="How Our Internships Work" subtitle={null} />
           <div className="mt-10">
             <Timeline />
           </div>
         </div>
       </section>
 
-      {/* PROGRAMS (FREE LAYOUT + SAME HEIGHT CARDS + PINK ARROWS) */}
+      {/* PROGRAMS (subtitle removed as requested) */}
       <section id="programs" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle eyebrow="PROGRAM STRUCTURE" title="Choose your track" accent="and ship outcomes" subtitle="Cleaner layout (no big wrapper card). Swipe/scroll horizontally." dark />
-
-          <div className="mt-10 flex flex-col gap-5">
-            {/* Tabs row */}
+          <div className="mt-2 flex flex-col gap-5 sm:mt-4">
+            {/* Tabs */}
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex flex-wrap gap-2">
                 {categories.map((c) => {
@@ -1332,14 +1366,11 @@ export default function StudentsGraduatesLanding() {
                       }}
                       className={cx(
                         "rounded-full px-4 py-2 text-sm font-semibold ring-1 transition",
-                        active ? "text-white" : "text-white/70 hover:bg-white/5",
-                        active ? "ring-white/15" : "ring-white/10"
+                        active ? "text-white ring-white/15" : "text-white/70 hover:bg-white/5 ring-white/10"
                       )}
                       style={
                         active
-                          ? {
-                              background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 75%)`,
-                            }
+                          ? { background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 75%)` }
                           : undefined
                       }
                     >
@@ -1348,17 +1379,14 @@ export default function StudentsGraduatesLanding() {
                   );
                 })}
               </div>
-
             </div>
 
-            {/* Selected category info (free, not boxed) */}
+            {/* Selected category */}
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="text-xs font-semibold tracking-widest text-white/60">SELECTED CATEGORY</div>
-                <div className="mt-1 text-xl font-semibold text-white">{cat.label}</div>
+                <div className="text-xl font-semibold text-white">{cat.label}</div>
                 <div className="mt-1 text-sm text-white/65">{cat.kicker}</div>
               </div>
-
               <a
                 href="#apply"
                 className="mt-2 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/5 sm:mt-0"
@@ -1401,11 +1429,7 @@ export default function StudentsGraduatesLanding() {
                 <ChevronRight className="h-5 w-5 text-white" {...iconStrongProps} />
               </motion.button>
 
-              <div
-                ref={sliderRef}
-                className="no-scrollbar flex gap-5 overflow-x-auto pb-2"
-                style={{ scrollSnapType: "x mandatory" }}
-              >
+              <div ref={sliderRef} className="no-scrollbar flex gap-5 overflow-x-auto pb-2" style={{ scrollSnapType: "x mandatory" }}>
                 {cat.programs.map((p, idx) => (
                   <div key={p.name} style={{ scrollSnapAlign: "start" }}>
                     <ProgramCard program={p} index={idx} />
@@ -1420,7 +1444,10 @@ export default function StudentsGraduatesLanding() {
       {/* GERMANY */}
       <section id="international" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle eyebrow="GERMANY EXCELLENCE INVITATION" title="Outstanding teams get invited" accent="to Germany" subtitle="A premium 4-day professional visit for top-performing teams." />
+          <SectionTitle
+            title="Outstanding Teams Get Invited to Germany"
+            subtitle="Top-performing teams receive an exclusive 4-day professional visit to Germany."
+          />
 
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
             <div className="lg:col-span-3">
@@ -1447,9 +1474,7 @@ export default function StudentsGraduatesLanding() {
                   <a
                     href="#apply"
                     className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
-                    style={{
-                      background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
-                    }}
+                    style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
                   >
                     Learn About International Opportunities <ArrowRight className="h-4 w-4" {...iconStrongProps} />
                   </a>
@@ -1458,36 +1483,19 @@ export default function StudentsGraduatesLanding() {
             </div>
 
             <div className="lg:col-span-2">
-              <div
-                className="relative h-full overflow-hidden rounded-[36px] p-7 ring-1 ring-[#0B1220]/10"
-                style={{
-                  background:
-                    "radial-gradient(900px circle at 20% 20%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 60%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
-                }}
-              >
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHY IT MATTERS</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight">Your internship becomes a signal - not a line on a CV.</div>
-                <p className="mt-4 text-sm leading-relaxed text-[#0B1220]/70">
-                  We design evaluation and deliverables so hiring teams can validate outcomes. Teams that execute exceptionally gain international visibility.
-                </p>
-
-                <div className="mt-6 space-y-3">
-                  <Bullet icon={BadgeCheck} text="Professional evaluation report" color={THEME.accent3} />
-                  <Bullet icon={FileCheck2} text="Portfolio-ready proof" color={THEME.accent4} />
-                  <Bullet icon={Building2} text="Partner exposure" color={THEME.accent2} />
-                </div>
-
-                <div className="pointer-events-none absolute -bottom-20 -right-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(255,255,255,0.10)" }} />
+              <div className="relative h-full overflow-hidden rounded-[36px] ring-1 ring-[#0B1220]/10">
+                <img src={IMAGES.germany} alt="Germany visit" className="h-full w-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* APPLICATION FORM */}
+      {/* APPLICATION FORM (footnote removed as requested) */}
       <section id="apply" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle eyebrow="APPLICATION" title="Apply for AI for Real-World Careers" subtitle="Start building practical AI experience today." />
+          <SectionTitle title="Apply for an Industry Internship" subtitle="Start building real experience today." />
 
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
             <div className="lg:col-span-3">
@@ -1527,7 +1535,6 @@ export default function StudentsGraduatesLanding() {
                     onSubmit={(e) => {
                       e.preventDefault();
                       setSubmitting(true);
-
                       setTimeout(() => {
                         setSubmitting(false);
                         setSubmitted(true);
@@ -1555,11 +1562,11 @@ export default function StudentsGraduatesLanding() {
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <Field label="Are you?">
-                        <Select icon={GraduationCap} iconColor={THEME.accent3} value={persona} onChange={setPersona} options={["Student", "Graduate"]} />
+                      <Field label="Are You?">
+                        <Select icon={GraduationCap} iconColor={THEME.accent3} value={persona} onChange={setPersona} options={["University Student", "Graduate"]} />
                       </Field>
                       <Field label="Current Academic Year" hint={persona === "Graduate" ? "(hidden for graduates)" : undefined}>
-                        {persona === "Student" ? (
+                        {persona === "University Student" ? (
                           <Select icon={Calendar} iconColor={THEME.accent} value={year} onChange={setYear} options={["1st", "2nd", "3rd", "Final Year"]} />
                         ) : (
                           <div className="rounded-2xl bg-white/50 px-4 py-3 text-sm text-[#0B1220]/60 ring-1 ring-[#0B1220]/10">Not applicable</div>
@@ -1568,7 +1575,7 @@ export default function StudentsGraduatesLanding() {
                     </div>
 
                     <Field label="Field of Study / Specialization">
-                      <Input icon={Sparkles} iconColor={THEME.accent2} placeholder="e.g., Computer Science, Business, Finance" />
+                      <Input icon={Sparkles} iconColor={THEME.accent2} placeholder="e.g., Software Engineering, Business, Finance" />
                     </Field>
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -1585,13 +1592,7 @@ export default function StudentsGraduatesLanding() {
                         />
                       </Field>
                       <Field label="Preferred Start Timeline">
-                        <Select
-                          icon={Calendar}
-                          iconColor={THEME.accent}
-                          value="Within 1 Month"
-                          onChange={() => null}
-                          options={["Immediately", "Within 1 Month", "Within 2-3 Months"]}
-                        />
+                        <Select icon={Calendar} iconColor={THEME.accent} value="Within 1 Month" onChange={() => null} options={["Immediately", "Within 1 Month", "Within 2-3 Months"]} />
                       </Field>
                     </div>
 
@@ -1619,16 +1620,13 @@ export default function StudentsGraduatesLanding() {
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                         className="relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition"
-                        style={{
-                          background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
-                        }}
+                        style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
                       >
                         <span className="relative z-10">{submitting ? "Submitting..." : "Submit Application"}</span>
                         <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
                           <span className="shine" />
                         </span>
                       </motion.button>
-                      <p className="mt-3 text-center text-xs text-[#0B1220]/60">After submission: success message + automatic confirmation email.</p>
                     </div>
                   </form>
                 </div>
@@ -1643,18 +1641,18 @@ export default function StudentsGraduatesLanding() {
                     "radial-gradient(900px circle at 30% 15%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 70%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
                 }}
               >
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHAT YOU GET</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight">A portfolio your next employer can validate.</div>
+                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHY PRAKTIX IS DIFFERENT</div>
+                <div className="mt-2 text-2xl font-semibold leading-tight">Structured, measurable internship capability.</div>
 
                 <div className="mt-5 space-y-3">
-                  <Bullet icon={FileCheck2} text="Verified internship certificate" color={THEME.accent4} />
-                  <Bullet icon={ClipboardCheck} text="Documented performance report" color={THEME.accent3} />
-                  <Bullet icon={Briefcase} text="Real project deliverables" color={THEME.accent} />
-                  <Bullet icon={BadgeCheck} text="Expert supervision & feedback" color={THEME.accent2} />
+                  <Bullet icon={ClipboardCheck} text="Structured Supervision: Industry experts + European professors" color={THEME.accent4} />
+                  <Bullet icon={Briefcase} text="Real Production-Level Projects: No simulations. No fake assignments" color={THEME.accent3} />
+                  <Bullet icon={FileCheck2} text="Measurable Output: Portfolio-ready deliverables" color={THEME.accent} />
+                  <Bullet icon={BadgeCheck} text="Professional Evaluation: Documented performance reports" color={THEME.accent2} />
                 </div>
 
                 <div className="mt-7 rounded-3xl bg-white/55 p-5 ring-1 ring-[#0B1220]/10">
-                  <div className="text-sm font-semibold">Quick track fit</div>
+                  <div className="text-sm font-semibold">Selected track</div>
                   <p className="mt-2 text-sm text-[#0B1220]/70">
                     Selected: <span className="font-semibold">{cat.label}</span>
                   </p>
@@ -1666,6 +1664,7 @@ export default function StudentsGraduatesLanding() {
                     </a>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>
@@ -1674,25 +1673,19 @@ export default function StudentsGraduatesLanding() {
           <div className="mt-12">
             <div
               className="relative overflow-hidden rounded-[32px] border border-white/10 px-6 py-8 text-center sm:px-10 sm:py-10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)`,
-                boxShadow: "0 24px 90px rgba(0,0,0,0.16)",
-              }}
+              style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)`, boxShadow: "0 24px 90px rgba(0,0,0,0.16)" }}
             >
               <div
                 className="pointer-events-none absolute inset-0 opacity-[0.16]"
-                style={{
-                  backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)",
-                }}
+                style={{ backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)" }}
               />
               <div className="relative mx-auto max-w-6xl text-white">
-                <div className="text-xs font-semibold text-white/80 sm:text-sm">Balanced structure - strong visuals - portfolio-ready proof</div>
+                <div className="text-xs font-semibold text-white/80 sm:text-sm">High credibility • European-standard • outcome-focused</div>
                 <div className="mt-3 text-3xl font-semibold md:text-4xl">
-                  <span className="text-white">2000+ </span>
-                  successful placements powered by portfolio-ready outcomes
+                  Ready to Build Real Capability?
                 </div>
                 <p className="mx-auto mt-4 max-w-4xl text-sm font-medium text-white/80">
-                  Real projects + mentor feedback + measurable outputs designed to match hiring expectations.
+                  Start your internship journey with structured programs and measurable professional output.
                 </p>
                 <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
                   <a href="#apply" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95">
@@ -1712,12 +1705,9 @@ export default function StudentsGraduatesLanding() {
       <a
         href="#apply"
         className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
-        style={{
-          background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)`,
-        }}
+        style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
       >
-        <Briefcase className="h-4 w-4" {...iconStrongProps} />
-        Apply Now
+        <Briefcase className="h-4 w-4" {...iconStrongProps} /> Apply Now
       </a>
 
       <style>{css}</style>
@@ -1725,6 +1715,7 @@ export default function StudentsGraduatesLanding() {
   );
 }
 
+/** ---- Small Components ---- */
 function FloatingChip({ icon: Icon, title, desc, color }) {
   return (
     <motion.div
@@ -1784,12 +1775,9 @@ function Field({ label, required, hint, children }) {
 
       <div className="relative">
         {children}
-
         <div
           className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200 group-focus-within:opacity-100"
-          style={{
-            boxShadow: "0 0 0 4px rgba(34,211,238,0.18), 0 20px 60px rgba(34,211,238,0.14)",
-          }}
+          style={{ boxShadow: "0 0 0 4px rgba(34,211,238,0.18), 0 20px 60px rgba(34,211,238,0.14)" }}
         />
       </div>
     </motion.label>
@@ -1798,7 +1786,6 @@ function Field({ label, required, hint, children }) {
 
 function Input({ icon: Icon, iconColor = THEME.accent, className, ...props }) {
   const hasIcon = !!Icon;
-
   return (
     <div className="relative">
       {hasIcon ? (
@@ -1806,7 +1793,6 @@ function Input({ icon: Icon, iconColor = THEME.accent, className, ...props }) {
           <Icon className="h-4 w-4" style={{ color: iconColor }} {...iconStrongProps} />
         </div>
       ) : null}
-
       <input
         {...props}
         className={cx(
@@ -1837,7 +1823,6 @@ function Textarea(props) {
 
 function Select({ value, onChange, options, icon: Icon, iconColor = THEME.accent }) {
   const hasIcon = !!Icon;
-
   return (
     <div className="relative">
       {hasIcon ? (
@@ -1874,7 +1859,6 @@ function FilePicker({ onFile }) {
   return (
     <div className="relative">
       <input id="cv" type="file" className="hidden" onChange={(e) => onFile?.(e.target.files?.[0] || null)} />
-
       <label
         htmlFor="cv"
         className="group relative flex cursor-pointer items-center justify-between rounded-2xl bg-white/60 px-4 py-4 ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
@@ -1885,7 +1869,7 @@ function FilePicker({ onFile }) {
           </IconBadge>
           <div>
             <div className="text-sm font-semibold text-[#0B1220]">Upload your CV</div>
-            <div className="text-xs text-[#0B1220]/55">PDF preferred - optional</div>
+            <div className="text-xs text-[#0B1220]/55">PDF preferred — optional</div>
           </div>
         </div>
 
@@ -1908,80 +1892,62 @@ function FilePicker({ onFile }) {
   );
 }
 
+/** ---- CSS ---- */
 const css = `
-  .light-streak{
-    position:absolute;
-    inset:-20% -10%;
-    background: linear-gradient(120deg,
-      transparent 0%,
-      rgba(233,231,223,0.05) 20%,
-      rgba(255,255,255,0.10) 35%,
-      transparent 55%);
-    transform: translateX(-30%) rotate(-10deg);
-    filter: blur(2px);
-    animation: streak 7.5s ease-in-out infinite;
-    opacity: 0.35;
-  }
-  @keyframes streak{
-    0%{ transform: translateX(-35%) rotate(-10deg); }
-    50%{ transform: translateX(25%) rotate(-10deg); }
-    100%{ transform: translateX(-35%) rotate(-10deg); }
-  }
+.light-streak{
+  position:absolute;
+  inset:-20% -10%;
+  background: linear-gradient(120deg, transparent 0%, rgba(233,231,223,0.05) 20%, rgba(255,255,255,0.10) 35%, transparent 55%);
+  transform: translateX(-30%) rotate(-10deg);
+  filter: blur(2px);
+  animation: streak 7.5s ease-in-out infinite;
+  opacity: 0.35;
+}
+@keyframes streak{
+  0%{ transform: translateX(-35%) rotate(-10deg); }
+  50%{ transform: translateX(25%) rotate(-10deg); }
+  100%{ transform: translateX(-35%) rotate(-10deg); }
+}
 
-  /* Program card shine */
-  .shine{
-    position:absolute;
-    inset:-30% -30%;
-    background: linear-gradient(120deg,
-      transparent 0%,
-      rgba(255,255,255,0.05) 35%,
-      rgba(255,255,255,0.10) 45%,
-      transparent 60%);
-    transform: translateX(-25%) rotate(-10deg);
-    filter: blur(1px);
-    animation: shineMove 5.6s ease-in-out infinite;
-    opacity: 0.35;
-  }
-  @keyframes shineMove{
-    0%{ transform: translateX(-30%) rotate(-10deg); }
-    50%{ transform: translateX(25%) rotate(-10deg); }
-    100%{ transform: translateX(-30%) rotate(-10deg); }
-  }
+/* Program card shine */
+.shine{
+  position:absolute;
+  inset:-30% -30%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.10) 45%, transparent 60%);
+  transform: translateX(-25%) rotate(-10deg);
+  filter: blur(1px);
+  animation: shineMove 5.6s ease-in-out infinite;
+  opacity: 0.35;
+}
+@keyframes shineMove{
+  0%{ transform: translateX(-30%) rotate(-10deg); }
+  50%{ transform: translateX(25%) rotate(-10deg); }
+  100%{ transform: translateX(-30%) rotate(-10deg); }
+}
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
 
-  .include-pill{
-    position: relative;
-    overflow: hidden;
-    transition: transform 220ms ease, filter 220ms ease;
-  }
-  .include-pill:hover{
-    transform: translateY(-1px);
-    filter: brightness(1.04);
-  }
-  .include-pill-accent::after{
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.20) 45%, transparent 70%);
-    transform: translateX(-120%);
-    animation: includeShine 3.2s ease-in-out infinite;
-    pointer-events: none;
-  }
-  @keyframes includeShine{
-    0%, 62%, 100%{ transform: translateX(-120%); }
-    78%{ transform: translateX(120%); }
-  }
-  @keyframes gradMove{
-    0%{ background-position: 0% 50%; }
-    50%{ background-position: 100% 50%; }
-    100%{ background-position: 0% 50%; }
-  }
+.include-pill{ position: relative; overflow: hidden; transition: transform 220ms ease, filter 220ms ease; }
+.include-pill:hover{ transform: translateY(-1px); filter: brightness(1.04); }
+
+.include-pill::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.20) 45%, transparent 70%);
+  transform: translateX(-120%);
+  animation: includeShine 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes includeShine{
+  0%, 62%, 100%{ transform: translateX(-120%); }
+  78%{ transform: translateX(120%); }
+}
+
+@keyframes gradMove{
+  0%{ background-position: 0% 50%; }
+  50%{ background-position: 100% 50%; }
+  100%{ background-position: 0% 50%; }
+}
 `;
-

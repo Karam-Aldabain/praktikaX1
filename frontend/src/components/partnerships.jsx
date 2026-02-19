@@ -1,4 +1,4 @@
-import React, { useEffect, useId, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useId, useMemo, useRef, useState } from "react";
 import {
   motion,
   AnimatePresence,
@@ -186,7 +186,7 @@ function SectionTitle({ eyebrow, title, accentText, subtitle, dark = false }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -286,7 +286,6 @@ const ARCHITECTURE = [
       "Portfolio-driven outcomes",
       "Academic–industry integration",
     ],
-    motionHint: "Lift + subtle icon orbit",
   },
   {
     title: "Industry & Corporate Partnerships",
@@ -302,7 +301,6 @@ const ARCHITECTURE = [
       "Employee development tracks",
       "Innovation labs collaboration",
     ],
-    motionHint: "Slide-in + data grid shimmer",
   },
   {
     title: "Strategic Alliances",
@@ -318,7 +316,6 @@ const ARCHITECTURE = [
       "Regional transformation initiatives",
       "International program expansion",
     ],
-    motionHint: "Cinematic reveal + glow ring",
   },
   {
     title: "Co-Hosted Programs",
@@ -333,7 +330,6 @@ const ARCHITECTURE = [
       "Onsite / hybrid implementation",
       "Faculty collaboration",
     ],
-    motionHint: "Hover shine + badge pulse",
   },
 ];
 
@@ -492,25 +488,12 @@ function ArchitectureCard({ item, index }) {
             </motion.div>
 
             <div>
-              <div className="text-xs font-semibold tracking-widest text-white/55">
-                ARCHITECTURE
-              </div>
-              <div className="mt-1 text-lg font-semibold text-white" style={clampStyle(2)}>
+              <div className="text-lg font-semibold text-white" style={clampStyle(2)}>
                 {item.title}
               </div>
             </div>
           </div>
 
-          <span
-            className="hidden rounded-full px-3 py-2 text-xs font-semibold ring-1 sm:inline-flex"
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              borderColor: "rgba(255,255,255,0.12)",
-              color: "rgba(255,255,255,0.78)",
-            }}
-          >
-            {item.motionHint}
-          </span>
         </div>
 
         <p className="mt-4 text-sm leading-relaxed text-white/70" style={clampStyle(3)}>
@@ -534,11 +517,6 @@ function ArchitectureCard({ item, index }) {
           ))}
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          <Pill label="Structured" />
-          <Pill label="Scalable" />
-          <Pill label="Outcome-driven" />
-        </div>
       </div>
     </motion.article>
   );
@@ -614,16 +592,17 @@ function ReachMap() {
   const reduce = useReducedMotion();
 
   const points = [
-    { id: "munich", x: 66, y: 35, label: "Europe Hub", color: THEME.accent2 },
-    { id: "berlin", x: 58, y: 30, label: "Universities", color: THEME.accent },
-    { id: "paris", x: 52, y: 40, label: "Industry", color: THEME.accent3 },
-    { id: "mena", x: 78, y: 58, label: "MENA Expansion", color: THEME.accent4 },
+    { id: "hub", x: 49, y: 32, label: "Europe Hub", color: THEME.accent2 },
+    { id: "universities", x: 62, y: 26, label: "Universities", color: THEME.accent },
+    { id: "industry", x: 43, y: 42, label: "Industry", color: THEME.accent3 },
+    { id: "mena", x: 70, y: 56, label: "MENA Expansion", color: THEME.accent4 },
   ];
 
   const paths = [
-    { from: "berlin", to: "munich", color: THEME.accent },
-    { from: "paris", to: "munich", color: THEME.accent3 },
-    { from: "munich", to: "mena", color: THEME.accent2 },
+    { from: "universities", to: "hub", color: THEME.accent, bend: 10 },
+    { from: "industry", to: "hub", color: THEME.accent3, bend: 8 },
+    { from: "industry", to: "universities", color: "rgba(255,255,255,0.45)", bend: 12 },
+    { from: "hub", to: "mena", color: THEME.accent2, bend: 14 },
   ];
 
   const byId = Object.fromEntries(points.map((p) => [p.id, p]));
@@ -640,15 +619,14 @@ function ReachMap() {
       <div className="pointer-events-none absolute -left-24 -top-24 h-80 w-80 rounded-full blur-3xl" style={{ background: "rgba(34,211,238,0.14)" }} />
       <div className="pointer-events-none absolute -right-24 -bottom-24 h-80 w-80 rounded-full blur-3xl" style={{ background: "rgba(167,139,250,0.12)" }} />
 
-      {/* map image-ish background */}
-      <div className="absolute inset-0 opacity-[0.18]">
-        <img
-          src="https://images.unsplash.com/photo-1526779259212-756e5c4f92b2?auto=format&fit=crop&w=1400&q=80"
-          alt="Global map"
-          className="h-full w-full object-cover"
-        />
-      </div>
-      <div className="absolute inset-0" style={{ background: "rgba(11,18,32,0.72)" }} />
+      {/* photo removed: clean layered background */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(11,18,32,0.55) 0%, rgba(11,18,32,0.82) 100%)",
+        }}
+      />
 
       <div className="relative p-6 sm:p-8">
         <div className="flex items-center justify-between gap-4">
@@ -662,17 +640,13 @@ function ReachMap() {
             </p>
           </div>
 
-          <div className="hidden md:flex items-center gap-2">
-            <Pill label="Cross-border collaboration" />
-            <Pill label="Exposure pathways" />
-          </div>
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-5">
           <div className="lg:col-span-3">
             <div className="relative overflow-hidden rounded-[32px] ring-1 ring-white/10 bg-white/5 backdrop-blur">
               <svg viewBox="0 0 100 70" className="h-[320px] w-full">
-                {/* subtle “continent” blob */}
+                {/* subtle "continent" blob */}
                 <defs>
                   <filter id="glow">
                     <feGaussianBlur stdDeviation="1.4" result="blur" />
@@ -689,73 +663,77 @@ function ReachMap() {
 
                 <rect x="0" y="0" width="100" height="70" fill="url(#ocean)" />
 
-                {/* abstract land */}
-                <path
-                  d="M12,52 C18,38 20,26 34,18 C46,11 55,18 64,24 C72,29 84,27 88,35 C92,45 78,56 64,60 C48,65 28,64 12,52 Z"
-                  fill="rgba(255,255,255,0.06)"
-                  stroke="rgba(255,255,255,0.10)"
-                  strokeWidth="0.5"
-                />
+                <g transform="translate(0,-8)">
+                  {/* abstract land */}
+                  <path
+                    d="M20,50 C27,33 36,21 50,18 C58,16 64,20 69,25 C75,30 82,30 84,37 C86,47 78,55 64,60 C49,65 32,62 20,50 Z"
+                    fill="rgba(255,255,255,0.06)"
+                    stroke="rgba(255,255,255,0.10)"
+                    strokeWidth="0.5"
+                  />
 
-                {/* connections */}
-                {paths.map((p, i) => {
-                  const a = byId[p.from];
-                  const b = byId[p.to];
-                  const d = `M ${a.x} ${a.y} C ${(a.x + b.x) / 2} ${a.y - 10}, ${(a.x + b.x) / 2} ${b.y + 10}, ${b.x} ${b.y}`;
-                  return (
-                    <motion.path
-                      key={i}
-                      d={d}
-                      fill="none"
-                      stroke={p.color}
-                      strokeOpacity="0.75"
-                      strokeWidth="0.8"
-                      filter="url(#glow)"
-                      initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-                      animate={reduce ? false : { pathLength: 1, opacity: 1 }}
-                      transition={{ duration: 1.1, ease: "easeInOut", delay: 0.15 + i * 0.12 }}
-                      strokeDasharray="1 1"
-                    />
-                  );
-                })}
+                  {/* connections */}
+                  {paths.map((p, i) => {
+                    const a = byId[p.from];
+                    const b = byId[p.to];
+                    const midX = (a.x + b.x) / 2;
+                    const bend = p.bend ?? 10;
+                    const d = `M ${a.x} ${a.y} C ${midX - 3} ${a.y - bend}, ${midX + 4} ${b.y + bend * 0.35}, ${b.x} ${b.y}`;
+                    return (
+                      <motion.path
+                        key={i}
+                        d={d}
+                        fill="none"
+                        stroke={p.color}
+                        strokeOpacity="0.75"
+                        strokeWidth="0.8"
+                        filter="url(#glow)"
+                        initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+                        animate={reduce ? false : { pathLength: 1, opacity: 1 }}
+                        transition={{ duration: 1.1, ease: "easeInOut", delay: 0.15 + i * 0.12 }}
+                        strokeDasharray="1 1"
+                      />
+                    );
+                  })}
 
-                {/* points */}
-                {points.map((pt, i) => (
-                  <g key={pt.id}>
-                    <motion.circle
-                      cx={pt.x}
-                      cy={pt.y}
-                      r="2.1"
-                      fill={pt.color}
-                      filter="url(#glow)"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 + i * 0.08 }}
-                    />
-                    {!reduce ? (
+                  {/* points */}
+                  {points.map((pt, i) => (
+                    <g key={pt.id}>
                       <motion.circle
                         cx={pt.x}
                         cy={pt.y}
-                        r="5.2"
-                        fill="transparent"
-                        stroke={pt.color}
-                        strokeOpacity="0.35"
-                        strokeWidth="0.7"
-                        animate={{ scale: [1, 1.25, 1], opacity: [0.25, 0.5, 0.25] }}
-                        transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+                        r="2.1"
+                        fill={pt.color}
+                        filter="url(#glow)"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, ease: "easeOut", delay: 0.12 + i * 0.08 }}
                       />
-                    ) : null}
-                  </g>
-                ))}
+                      {!reduce ? (
+                        <motion.circle
+                          cx={pt.x}
+                          cy={pt.y}
+                          r="5.2"
+                          fill="transparent"
+                          stroke={pt.color}
+                          strokeOpacity="0.35"
+                          strokeWidth="0.7"
+                          animate={{ scale: [1, 1.25, 1], opacity: [0.25, 0.5, 0.25] }}
+                          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+                        />
+                      ) : null}
+                    </g>
+                  ))}
+                </g>
               </svg>
 
               {/* legend */}
-              <div className="absolute inset-x-0 bottom-0 p-4">
-                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <div className="absolute left-4 bottom-4">
+                <div className="flex flex-col gap-2">
                   {points.map((p) => (
                     <div
                       key={p.id}
-                      className="flex items-center gap-3 rounded-2xl px-4 py-3 ring-1"
+                      className="flex items-center gap-3 rounded-2xl px-4 py-2.5 ring-1"
                       style={{
                         background: "rgba(255,255,255,0.06)",
                         borderColor: "rgba(255,255,255,0.10)",
@@ -831,10 +809,6 @@ function MetricsStrip() {
               <div className="text-xs font-semibold tracking-widest text-white/60">PARTNERSHIP IMPACT</div>
               <div className="mt-2 text-2xl font-semibold text-white">Measured outcomes — not theoretical engagement</div>
             </div>
-            <div className="hidden md:flex items-center gap-2">
-              <Pill label="Counter-up on scroll" />
-              <Pill label="Verified signals" />
-            </div>
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
@@ -872,56 +846,40 @@ function MetricsStrip() {
 /** ---------------- WHY PARTNER ---------------- */
 function WhyPartner() {
   return (
-    <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
-      <div className="lg:col-span-2">
-        <div className="rounded-[40px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-          <div className="flex items-center gap-3">
-            <IconBadge color={THEME.accent}>
-              <Star className="h-5 w-5" style={{ color: THEME.star, fill: THEME.star }} strokeWidth={2.2} />
-            </IconBadge>
-            <div>
-              <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHY PARTNER</div>
-              <div className="mt-1 text-lg font-semibold text-[#0B1220]">Why institutions choose Praktix</div>
-            </div>
-          </div>
-
-          <p className="mt-5 text-sm leading-relaxed text-[#0B1220]/70">
-            We build partnership models around execution, accountability, and measurable professional impact.
-          </p>
-
-          <div className="mt-6 flex flex-wrap gap-2">
-            <Pill label="Structured delivery" tone="light" />
-            <Pill label="Scalable deployment" tone="light" />
-            <Pill label="Measurable outcomes" tone="light" />
+    <div className="mt-10">
+      <div className="rounded-[40px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
+        <div className="flex items-center gap-3">
+          <IconBadge color={THEME.accent}>
+            <Star className="h-5 w-5" style={{ color: THEME.star, fill: THEME.star }} strokeWidth={2.2} />
+          </IconBadge>
+          <div>
+            <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHY PARTNER</div>
+            <div className="mt-1 text-lg font-semibold text-[#0B1220]">Why Institutions Choose Praktix</div>
           </div>
         </div>
-      </div>
 
-      <div className="lg:col-span-3">
-        <div className="rounded-[40px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {WHY_PARTNER.map((b, i) => (
-              <motion.div
-                key={b}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
-                className="flex items-start gap-3 rounded-3xl bg-white/60 p-5 ring-1 ring-[#0B1220]/10"
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {WHY_PARTNER.map((b, i) => (
+            <motion.div
+              key={b}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
+              className="flex items-start gap-3 rounded-3xl bg-white/60 p-5 ring-1 ring-[#0B1220]/10"
+            >
+              <span
+                className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-2xl ring-1"
+                style={{
+                  background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.25)} 120%)`,
+                  borderColor: "rgba(11,18,32,0.10)",
+                }}
               >
-                <span
-                  className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-2xl ring-1"
-                  style={{
-                    background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.25)} 120%)`,
-                    borderColor: "rgba(11,18,32,0.10)",
-                  }}
-                >
-                  <CheckCircle2 className="h-4 w-4 text-white" {...iconStrongProps} />
-                </span>
-                <div className="text-sm font-semibold text-[#0B1220]/80">{b}</div>
-              </motion.div>
-            ))}
-          </div>
+                <CheckCircle2 className="h-4 w-4 text-white" {...iconStrongProps} />
+              </span>
+              <div className="text-sm font-semibold text-[#0B1220]/80">{b}</div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </div>
@@ -972,7 +930,7 @@ function FormWizard() {
     references: true,
     portfolio: "",
     scholar: "",
-    compensation: "Open to Discussion",
+    compensation: "Per Program",
     longTerm: true,
   });
 
@@ -1022,17 +980,17 @@ function FormWizard() {
     setPartnership({
       collab: [],
       deliveryMode: "Online",
-      participants: "10â€“25",
+      participants: "10–25",
       startTimeline: "Within 1 Month",
       duration: "3 Months",
       objectives: "",
     });
     setExpert({
       expertise: [],
-      years: "5â€“10",
+      years: "5–10",
       organization: "",
       roleType: "Industry Professional",
-      availability: "4â€“8 Hours",
+      availability: "4–8 Hours",
       engagement: [],
       delivery: "Online",
       travel: false,
@@ -1044,7 +1002,7 @@ function FormWizard() {
       references: true,
       portfolio: "",
       scholar: "",
-      compensation: "Open to Discussion",
+      compensation: "Per Program",
       longTerm: true,
     });
     setAlignment({
@@ -1087,10 +1045,12 @@ function FormWizard() {
           {/* header */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">FORM</div>
-              <div className="mt-1 text-2xl font-semibold text-[#0B1220]">Partnership & Expert Application</div>
+              <div className="mt-1 text-2xl font-semibold text-[#0B1220]">Partnership & Expert Application Form</div>
               <p className="mt-2 max-w-3xl text-sm text-[#0B1220]/70">
-                We collaborate with universities, corporations, public institutions, and industry experts to deliver structured, measurable impact.
+                We collaborate with universities, corporations, public institutions, and industry experts to deliver structured, measurable professional impact.
+              </p>
+              <p className="mt-2 max-w-3xl text-sm text-[#0B1220]/70">
+                Please complete the form below to initiate a partnership or apply to join our expert network.
               </p>
             </div>
 
@@ -1148,7 +1108,7 @@ function FormWizard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="grid grid-cols-1 gap-4 lg:grid-cols-2"
+                  className="grid grid-cols-1 gap-4"
                 >
                   <FormCard
                     title="Choose applicant type"
@@ -1169,26 +1129,6 @@ function FormWizard() {
                     </div>
                   </FormCard>
 
-                  <FormCard
-                    title="What happens next"
-                    icon={<Compass className="h-5 w-5" {...iconStrongProps} />}
-                    tone="gradient"
-                  >
-                    <div className="space-y-3 text-sm text-white/85">
-                      <div className="flex items-start gap-3">
-                        <span className="mt-1 h-2 w-2 rounded-full bg-white/90" />
-                        <div>We review for fit + outcomes alignment.</div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <span className="mt-1 h-2 w-2 rounded-full bg-white/90" />
-                        <div>We propose a structured delivery model.</div>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <span className="mt-1 h-2 w-2 rounded-full bg-white/90" />
-                        <div>We schedule a partnership discussion if needed.</div>
-                      </div>
-                    </div>
-                  </FormCard>
                 </motion.div>
               ) : null}
 
@@ -1297,8 +1237,8 @@ function FormWizard() {
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
                 >
-                  <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
-                    <div className="lg:col-span-3">
+                  <div className="grid grid-cols-1 gap-6">
+                    <div>
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <Field label="Type of collaboration interested in" required hint="Multi-select">
                           <MultiSelect
@@ -1370,35 +1310,6 @@ function FormWizard() {
                       </div>
                     </div>
 
-                    <div className="lg:col-span-2">
-                      <FormCard
-                        title="Outcome-first partnership"
-                        icon={<Target className="h-5 w-5" {...iconStrongProps} />}
-                        tone="dark"
-                      >
-                        <div className="space-y-3 text-sm text-white/80">
-                          <div className="flex items-start gap-3">
-                            <span className="mt-1 h-2 w-2 rounded-full" style={{ background: THEME.accent }} />
-                            <div>Clear deliverables + evaluation signals.</div>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <span className="mt-1 h-2 w-2 rounded-full" style={{ background: THEME.accent3 }} />
-                            <div>Structured, scalable delivery model.</div>
-                          </div>
-                          <div className="flex items-start gap-3">
-                            <span className="mt-1 h-2 w-2 rounded-full" style={{ background: THEME.accent4 }} />
-                            <div>European academic & industry integration.</div>
-                          </div>
-                        </div>
-
-                        <div className="mt-5 rounded-3xl p-4 ring-1 ring-white/10 bg-white/5">
-                          <div className="text-xs font-semibold tracking-widest text-white/55">TIP</div>
-                          <div className="mt-2 text-sm text-white/80">
-                            The more specific your outcomes are, the faster we can propose a ready-to-run partnership architecture.
-                          </div>
-                        </div>
-                      </FormCard>
-                    </div>
                   </div>
                 </motion.div>
               ) : null}
@@ -1411,8 +1322,8 @@ function FormWizard() {
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
                 >
-                  <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
-                    <div className="lg:col-span-3">
+                  <div className="grid grid-cols-1 gap-6">
+                    <div>
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <Field label="Primary area of expertise" required hint="Multi-select">
                           <MultiSelect
@@ -1550,25 +1461,15 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Google Scholar (optional for academics)">
-                          <Input
-                            icon={LinkIcon}
-                            iconColor={THEME.accent2}
-                            placeholder="https://scholar.google.com/..."
-                            value={expert.scholar}
-                            onChange={(e) => setExpert({ ...expert, scholar: e.target.value })}
-                          />
-                        </Field>
-
-                        <Field label="Preferred collaboration model">
-                          <Select
-                            value={expert.compensation}
-                            onChange={(v) => setExpert({ ...expert, compensation: v })}
-                            options={["Per Program", "Per Hour", "Revenue Share", "Advisory Role", "Open to Discussion"]}
-                            icon={Handshake}
-                            iconColor={THEME.accent4}
-                          />
-                        </Field>
+	                        <Field label="Preferred collaboration model">
+	                          <Select
+	                            value={expert.compensation}
+	                            onChange={(v) => setExpert({ ...expert, compensation: v })}
+	                            options={["Per Program", "Per Hour"]}
+	                            icon={Handshake}
+	                            iconColor={THEME.accent4}
+	                          />
+	                        </Field>
 
                         <Field label="Uploads (optional)">
                           <FileRow />
@@ -1576,39 +1477,6 @@ function FormWizard() {
                       </div>
                     </div>
 
-                    <div className="lg:col-span-2">
-                      <FormCard
-                        title="Expert opportunities"
-                        icon={<Sparkles className="h-5 w-5" {...iconStrongProps} />}
-                        tone="dark"
-                      >
-                        <div className="space-y-3">
-                          {EXPERT_OPPORTUNITIES.map((o) => {
-                            const Icon = o.icon;
-                            return (
-                              <div key={o.label} className="flex items-start gap-3">
-                                <IconBadge color={o.color}>
-                                  <Icon className="h-5 w-5" {...iconStrongProps} />
-                                </IconBadge>
-                                <div className="text-sm text-white/80">{o.label}</div>
-                              </div>
-                            );
-                          })}
-                        </div>
-
-                        <div className="mt-5 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
-                          <div className="text-xs font-semibold tracking-widest text-white/55">ELIGIBILITY</div>
-                          <div className="mt-3 space-y-2">
-                            {EXPERT_ELIGIBILITY.map((e) => (
-                              <div key={e} className="flex items-start gap-3">
-                                <span className="mt-1 h-2 w-2 rounded-full" style={{ background: THEME.accent3 }} />
-                                <div className="text-sm text-white/80">{e}</div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </FormCard>
-                    </div>
                   </div>
                 </motion.div>
               ) : null}
@@ -1620,9 +1488,9 @@ function FormWizard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="grid grid-cols-1 gap-6 lg:grid-cols-5"
+                  className="grid grid-cols-1 gap-6"
                 >
-                  <div className="lg:col-span-3 space-y-4">
+                  <div className="space-y-4">
                     <Field label="Why do you want to collaborate with Praktix?" required>
                       <Textarea
                         value={alignment.why}
@@ -1640,28 +1508,22 @@ function FormWizard() {
                     </Field>
                   </div>
 
-                  <div className="lg:col-span-2">
-                    <FormCard
-                      title="Compliance"
-                      icon={<Shield className="h-5 w-5" {...iconStrongProps} />}
-                      tone="light"
-                    >
-                      <Checkbox
-                        checked={alignment.confirm}
-                        onChange={(v) => setAlignment({ ...alignment, confirm: v })}
-                        label="I confirm the information provided is accurate."
-                      />
-                      <Checkbox
-                        checked={alignment.contact}
-                        onChange={(v) => setAlignment({ ...alignment, contact: v })}
-                        label="I agree to be contacted regarding partnership opportunities."
-                      />
-                      <Checkbox
-                        checked={alignment.consent}
-                        onChange={(v) => setAlignment({ ...alignment, consent: v })}
-                        label="I consent to data processing in accordance with the privacy policy."
-                      />
-                    </FormCard>
+                  <div className="space-y-2 rounded-3xl bg-white/60 p-4 ring-1 ring-[#0B1220]/10">
+                    <Checkbox
+                      checked={alignment.confirm}
+                      onChange={(v) => setAlignment({ ...alignment, confirm: v })}
+                      label="I confirm the information provided is accurate."
+                    />
+                    <Checkbox
+                      checked={alignment.contact}
+                      onChange={(v) => setAlignment({ ...alignment, contact: v })}
+                      label="I agree to be contacted regarding partnership opportunities."
+                    />
+                    <Checkbox
+                      checked={alignment.consent}
+                      onChange={(v) => setAlignment({ ...alignment, consent: v })}
+                      label="I consent to data processing in accordance with the privacy policy."
+                    />
                   </div>
                 </motion.div>
               ) : null}
@@ -1673,9 +1535,9 @@ function FormWizard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
-                  className="grid grid-cols-1 gap-6 lg:grid-cols-5"
+                  className="grid grid-cols-1 gap-6"
                 >
-                  <div className="lg:col-span-3">
+                  <div>
                     <div className="rounded-[36px] bg-white/60 p-6 ring-1 ring-[#0B1220]/10">
                       <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">REVIEW</div>
                       <div className="mt-2 text-lg font-semibold text-[#0B1220]">Check details before submitting</div>
@@ -1720,38 +1582,6 @@ function FormWizard() {
                     </div>
                   </div>
 
-                  <div className="lg:col-span-2">
-                    <FormCard
-                      title="Submit"
-                      icon={<RocketIcon />}
-                      tone="gradient"
-                    >
-                      <div className="text-sm text-white/85">
-                        Submit your application and we’ll follow up with the next steps.
-                      </div>
-
-                      <div className="mt-5 space-y-3">
-                        <button
-                          type="button"
-                          className="w-full rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition"
-                          style={{
-                            background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
-                          }}
-                          onClick={submit}
-                        >
-                          Submit Application
-                        </button>
-
-                        <a
-                          href="#"
-                          onClick={(e) => e.preventDefault()}
-                          className="inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white/90 ring-1 ring-white/25 transition hover:bg-white/10"
-                        >
-                          Schedule Introductory Call <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                        </a>
-                      </div>
-                    </FormCard>
-                  </div>
                 </motion.div>
               ) : null}
             </AnimatePresence>
@@ -2044,9 +1874,9 @@ function FilePicker({ label }) {
       <input id={id} type="file" className="hidden" onChange={() => null} />
       <label
         htmlFor={id}
-        className="group relative flex cursor-pointer items-center justify-between rounded-2xl bg-white/60 px-4 py-4 ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
+        className="group relative flex min-h-[132px] cursor-pointer flex-col items-start justify-between rounded-2xl bg-white/60 px-4 py-4 ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-start gap-3">
           <span
             className="inline-flex h-10 w-10 items-center justify-center rounded-2xl ring-1"
             style={{
@@ -2063,7 +1893,7 @@ function FilePicker({ label }) {
         </div>
 
         <span
-          className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+          className="self-end rounded-full px-3 py-1 text-xs font-semibold ring-1"
           style={{
             background: "rgba(11,18,32,0.06)",
             borderColor: "rgba(11,18,32,0.10)",
@@ -2121,14 +1951,10 @@ export default function PartnershipsPage() {
               transition={{ duration: 0.65, ease: "easeOut" }}
               className="lg:col-span-6"
             >
-              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-                <Handshake className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-                <span>ABOUT → PARTNERSHIPS</span>
-              </div>
-
               <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
                 Strategic Partnerships <br /> Built on Outcomes.
               </h1>
+              
 
               <p className="mt-5 max-w-xl text-balance text-base text-white/70 sm:text-lg">
                 We collaborate with universities, corporations, public institutions, and industry leaders to deliver measurable professional impact — not theoretical engagement.
@@ -2137,20 +1963,11 @@ export default function PartnershipsPage() {
               <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-white/65">
                 From co-hosted internships to executive AI programs and expert networks — our partnership model is structured, scalable, and results-driven.
               </p>
-
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <MagneticButton href="#apply">Become a Partner</MagneticButton>
-                <MagneticButton href="#experts" variant="secondary">
-                  Become an Expert
-                </MagneticButton>
+                <MagneticButton href="#apply" variant="secondary">Become an Expert</MagneticButton>
               </div>
 
-              <div className="mt-6 flex flex-wrap gap-2">
-                <Pill label="Internships" />
-                <Pill label="Executive AI Programs" />
-                <Pill label="Expert Network" />
-                <Pill label="Institutional Impact" />
-              </div>
             </motion.div>
 
             {/* collage */}
@@ -2228,7 +2045,6 @@ export default function PartnershipsPage() {
       <section id="architecture" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="OUR PARTNERSHIP ARCHITECTURE"
             title="Structured collaboration models"
             accentText="aligned with outcomes"
             subtitle="We design partnerships aligned with institutional goals, workforce transformation, and long-term impact."
@@ -2243,98 +2059,12 @@ export default function PartnershipsPage() {
         </div>
       </section>
 
-      {/* EXPERTS */}
-      <section id="experts" className="relative" style={{ background: "linear-gradient(180deg, rgba(233,231,223,1) 0%, rgba(233,231,223,0.85) 100%)", color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="BECOME AN EXPERT"
-            title="Shape the next generation"
-            accentText="of professionals"
-            subtitle="Join our expert network across Europe and global markets — and contribute to real-world professional transformation."
-          />
-
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
-            <div className="lg:col-span-3 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              {PORTRAITS.map((p, idx) => (
-                <PortraitTile key={p.name} p={p} idx={idx} />
-              ))}
-            </div>
-
-            <div className="lg:col-span-2 space-y-6">
-              <div className="rounded-[40px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                <div className="flex items-center gap-3">
-                  <IconBadge color={THEME.accent2}>
-                    <BadgeCheck className="h-5 w-5" {...iconStrongProps} />
-                  </IconBadge>
-                  <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">OPPORTUNITIES</div>
-                    <div className="mt-1 text-lg font-semibold text-[#0B1220]">Expert roles</div>
-                  </div>
-                </div>
-
-                <div className="mt-6 space-y-3">
-                  {EXPERT_OPPORTUNITIES.map((o) => {
-                    const Icon = o.icon;
-                    return (
-                      <div key={o.label} className="flex items-start gap-3 rounded-3xl bg-white/60 p-4 ring-1 ring-[#0B1220]/10">
-                        <IconBadge color={o.color}>
-                          <Icon className="h-5 w-5" {...iconStrongProps} />
-                        </IconBadge>
-                        <div className="text-sm font-semibold text-[#0B1220]/80">{o.label}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="rounded-[40px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                <div className="flex items-center gap-3">
-                  <IconBadge color={THEME.accent3}>
-                    <Shield className="h-5 w-5" {...iconStrongProps} />
-                  </IconBadge>
-                  <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">ELIGIBILITY</div>
-                    <div className="mt-1 text-lg font-semibold text-[#0B1220]">Who we work with</div>
-                  </div>
-                </div>
-
-                <div className="mt-6 space-y-3">
-                  {EXPERT_ELIGIBILITY.map((e) => (
-                    <div key={e} className="flex items-start gap-3">
-                      <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full ring-1 ring-[#0B1220]/10 bg-[#0B1220]/5">
-                        <span className="h-2 w-2 rounded-full" style={{ background: THEME.pink }} />
-                      </span>
-                      <div className="text-sm text-[#0B1220]/75">{e}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[40px] p-7 text-white ring-1 ring-white/10"
-                   style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.55)} 100%)` }}>
-                <div className="text-xs font-semibold tracking-widest text-white/80">READY?</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight">Join the expert network</div>
-                <div className="mt-3 text-sm text-white/85">
-                  Help supervise internships, deliver workshops, and co-design curricula with measurable outcomes.
-                </div>
-                <div className="mt-5">
-                  <a href="#apply" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95">
-                    Apply as Expert <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* REACH */}
       <section id="reach" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="EUROPEAN-ROOTED, GLOBAL NETWORK"
-            title="Cross-border partnerships"
-            accentText="that scale"
+            title="A European-Rooted, Global Network"
             subtitle="Our partnerships span universities, corporations, and ecosystems across Europe — with expansion in MENA and international markets."
             dark
           />
@@ -2348,10 +2078,9 @@ export default function PartnershipsPage() {
       <section id="impact" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="IMPACT METRICS"
             title="Partnership impact"
             accentText="on outcomes"
-            subtitle="Animated metrics on scroll — designed to be swapped with real data anytime."
+            subtitle=""
             dark
           />
           <MetricsStrip />
@@ -2369,38 +2098,13 @@ export default function PartnershipsPage() {
       <section id="apply" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="LET’S BUILD STRUCTURED IMPACT"
-            title="Request a partnership discussion"
+            title="Let's Build Structured Impact Together."
             subtitle="Whether you represent a university, company, government entity, or expert network — we design partnerships that create measurable value."
           />
 
-          {/* CTA strip (different look) */}
-          <div className="mt-10 relative overflow-hidden rounded-[36px] border border-white/10 px-6 py-8 text-center sm:px-10 sm:py-10"
-               style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.55)} 100%)`, boxShadow: "0 24px 90px rgba(0,0,0,0.16)" }}>
-            <div className="pointer-events-none absolute inset-0 opacity-[0.16]"
-                 style={{ backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)" }} />
-            <div className="relative mx-auto max-w-6xl text-white">
-              <div className="text-xs font-semibold text-white/80 sm:text-sm">Unified architecture • European expert network • measurable outcomes</div>
-              <div className="mt-3 text-3xl font-semibold md:text-4xl">Let’s build structured impact together.</div>
-              <p className="mx-auto mt-4 max-w-4xl text-sm font-medium text-white/85">
-                Co-host programs, run executive AI training, build internships, and create ecosystem-level collaborations.
-              </p>
-              <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-                <a href="#apply" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95">
-                  Submit Application <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                </a>
-                <a
-                  href="#"
-                  onClick={(e) => e.preventDefault()}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15"
-                >
-                  Schedule Introductory Call <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                </a>
-              </div>
-            </div>
+          <div id="application-form" className="mt-10 scroll-mt-24">
+            <FormWizard />
           </div>
-
-          <FormWizard />
         </div>
       </section>
 
@@ -2537,4 +2241,13 @@ const css = `
   100%{ transform: translateY(0px); opacity: 0.55; }
 }
 `;
+
+
+
+
+
+
+
+
+
 

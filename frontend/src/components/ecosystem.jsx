@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import {
   ArrowRight,
@@ -168,7 +168,7 @@ function SectionHeader({ eyebrow, title, subtitle, dark }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -184,7 +184,7 @@ function SectionHeader({ eyebrow, title, subtitle, dark }) {
   );
 }
 
-function PhotoCard({ title, subtitle, image, icon: Icon, color, bullets }) {
+function PhotoCard({ title, subtitle, image, icon: Icon, color, bullets, darkCopy = false }) {
   void Icon;
   return (
     <motion.div
@@ -202,7 +202,9 @@ function PhotoCard({ title, subtitle, image, icon: Icon, color, bullets }) {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, rgba(11,18,32,0.15) 0%, rgba(11,18,32,0.78) 62%, rgba(11,18,32,0.92) 100%)",
+              darkCopy
+                ? "linear-gradient(180deg, rgba(233,231,223,0.25) 0%, rgba(233,231,223,0.82) 62%, rgba(233,231,223,0.92) 100%)"
+                : "linear-gradient(180deg, rgba(11,18,32,0.15) 0%, rgba(11,18,32,0.78) 62%, rgba(11,18,32,0.92) 100%)",
           }}
         />
       </div>
@@ -215,9 +217,8 @@ function PhotoCard({ title, subtitle, image, icon: Icon, color, bullets }) {
       <div className="relative p-6 sm:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <div className="text-xs font-semibold tracking-widest text-white/65">ECOSYSTEM MODULE</div>
-            <div className="mt-1 text-xl font-semibold text-white">{title}</div>
-            <div className="mt-2 text-sm text-white/70">{subtitle}</div>
+            <div className={cx("text-xl font-semibold", darkCopy ? "text-[#0B1220]" : "text-white")}>{title}</div>
+            <div className={cx("mt-2 text-sm", darkCopy ? "text-[#0B1220]/80" : "text-white/70")}>{subtitle}</div>
           </div>
           <IconBadge color={color}>
             <Icon className="h-5 w-5" {...iconStrongProps} />
@@ -229,9 +230,9 @@ function PhotoCard({ title, subtitle, image, icon: Icon, color, bullets }) {
             {bullets.map((b) => (
               <div key={b} className="flex items-start gap-3">
                 <span className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full ring-1 ring-white/15 bg-white/10">
-                  <span className="h-2 w-2 rounded-full bg-white/90" />
+                  <span className={cx("h-2 w-2 rounded-full", darkCopy ? "bg-[#0B1220]/80" : "bg-white/90")} />
                 </span>
-                <div className="text-sm text-white/80">{b}</div>
+                <div className={cx("text-sm", darkCopy ? "text-[#0B1220]/85" : "text-white/80")}>{b}</div>
               </div>
             ))}
           </div>
@@ -264,17 +265,9 @@ function PillarNode({ title, desc, icon: Icon, color, image, align = "left" }) {
           </IconBadge>
 
           <div className="flex-1">
-            <div className="text-xs font-semibold tracking-widest text-white/60">PILLAR</div>
-            <div className="mt-1 text-lg font-semibold text-white">{title}</div>
+            <div className="text-lg font-semibold text-white">{title}</div>
             <div className="mt-2 text-sm leading-relaxed text-white/75">{desc}</div>
 
-            <div className={cx("mt-4 inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold ring-1", align === "right" ? "ml-auto" : "")}
-              style={{ background: "rgba(255,255,255,0.06)", borderColor: "rgba(255,255,255,0.12)" }}
-            >
-              <span className="inline-block h-2 w-2 rounded-full" style={{ background: color }} />
-              <span className="text-white/85">Strengthens the system</span>
-              <ChevronRight className="h-4 w-4 text-white/70" {...iconStrongProps} />
-            </div>
           </div>
         </div>
       </div>
@@ -283,7 +276,7 @@ function PillarNode({ title, desc, icon: Icon, color, image, align = "left" }) {
 }
 
 function OrbitEcosystem({ reduce }) {
-  // “Data-related” animation: orbiting nodes = ecosystem stakeholders in motion.
+  // "Data-related" animation: orbiting nodes = ecosystem stakeholders in motion.
   const nodes = [
     { label: "Talent", icon: Users, color: THEME.accent, x: 0, y: -1 },
     { label: "Institutions", icon: Building2, color: THEME.accent3, x: 1, y: 0 },
@@ -368,12 +361,15 @@ function OrbitEcosystem({ reduce }) {
               key={n.label}
               className="absolute -translate-x-1/2 -translate-y-1/2"
               style={pos}
-              animate={reduce ? undefined : { y: [0, -6, 0] }}
-              transition={reduce ? undefined : { duration: 4.8 + idx * 0.6, repeat: Infinity, ease: "easeInOut" }}
+              animate={reduce ? undefined : { y: [0, -2, 0] }}
+              transition={reduce ? undefined : { duration: 5.8 + idx * 0.6, repeat: Infinity, ease: "easeInOut" }}
             >
               <div className="group relative">
                 <div
-                  className="flex items-center gap-3 rounded-full px-4 py-3 ring-1 backdrop-blur"
+                  className={cx(
+                    "flex items-center gap-3 rounded-full px-4 py-3 ring-1 backdrop-blur",
+                    reduce ? "" : "orbit-node-upright"
+                  )}
                   style={{
                     background: "rgba(255,255,255,0.08)",
                     borderColor: "rgba(255,255,255,0.14)",
@@ -384,7 +380,6 @@ function OrbitEcosystem({ reduce }) {
                     <Icon className="h-4 w-4" {...iconStrongProps} />
                   </IconBadge>
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-white/60">NODE</div>
                     <div className="text-sm font-semibold text-white">{n.label}</div>
                   </div>
                 </div>
@@ -410,7 +405,7 @@ export default function EcosystemAboutPage() {
   void motion;
   const reduce = useReducedMotion();
 
-  // top progress bar (subtle “better animations”)
+  // top progress bar (subtle "better animations")
   const { scrollYProgress } = useScroll();
   const progressX = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
@@ -464,7 +459,7 @@ export default function EcosystemAboutPage() {
 
     experts: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1600&q=80",
     industry: "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1600&q=80",
-    events: "https://images.unsplash.com/photo-1515165562835-c4c40f1b8f80?auto=format&fit=crop&w=1600&q=80",
+    events: "/images/career-events-banner.jpg",
     hiring: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1600&q=80",
     europe: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1600&q=80",
   };
@@ -514,19 +509,14 @@ export default function EcosystemAboutPage() {
 
       {/* HERO (new layout, not like your other page) */}
       <section className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-8 lg:grid-cols-2 lg:py-12">
           {/* left */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Globe2 className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>ABOUT → ECOSYSTEM</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.06] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.06] sm:text-5xl lg:text-6xl">
               A Connected <span style={{ color: THEME.pink }}>Professional</span> Ecosystem.
             </h1>
 
@@ -554,7 +544,7 @@ export default function EcosystemAboutPage() {
             {/* hero photo ribbon (adds visual variety) */}
             <div className="mt-8 grid grid-cols-3 gap-3 max-w-xl">
               {[
-                { t: "Mentors", c: THEME.accent2, i: BadgeCheck },
+                { t: "Experts", c: THEME.accent2, i: BadgeCheck },
                 { t: "Institutions", c: THEME.accent3, i: Building2 },
                 { t: "Talent", c: THEME.accent, i: Users },
               ].map((x) => {
@@ -570,7 +560,6 @@ export default function EcosystemAboutPage() {
                         <I className="h-4 w-4" {...iconStrongProps} />
                       </IconBadge>
                       <div>
-                        <div className="text-xs font-semibold tracking-widest text-white/55">NODE</div>
                         <div className="text-sm font-semibold text-white">{x.t}</div>
                       </div>
                     </div>
@@ -596,15 +585,13 @@ export default function EcosystemAboutPage() {
       <section id="pillars" className="relative" style={{ background: "linear-gradient(180deg, rgba(11,18,32,1) 0%, rgba(7,26,62,1) 100%)" }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="THREE PILLARS. ONE INTEGRATED SYSTEM."
             title="Each pillar strengthens the other."
             subtitle="Ensuring that learning becomes execution—and execution becomes measurable impact."
             dark
           />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-center">
-            {/* left pillar */}
-            <div className="lg:col-span-4">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="h-full">
               <PillarNode
                 title="Talent"
                 desc="Students, graduates, early talent, and professionals upgrading their skills."
@@ -614,113 +601,27 @@ export default function EcosystemAboutPage() {
               />
             </div>
 
-            {/* center integrator */}
-            <div className="lg:col-span-4">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.98 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                className="relative overflow-hidden rounded-[38px] p-[1px]"
-                style={{
-                  background: `linear-gradient(135deg, ${THEME.accent} 0%, ${THEME.pink} 55%, ${THEME.accent2} 100%)`,
-                  boxShadow: "0 26px 90px rgba(0,0,0,0.35)",
-                }}
-              >
-                <div className="relative rounded-[36px] bg-[#0B1220]/75 p-7 ring-1 ring-white/10 backdrop-blur">
-                  <div className="pointer-events-none absolute inset-0 opacity-[0.15]" style={{ backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)" }} />
-                  <div className="relative">
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <div className="text-xs font-semibold tracking-widest text-white/60">INTEGRATION LAYER</div>
-                        <div className="mt-2 text-2xl font-semibold text-white">Outcome-driven system</div>
-                        <div className="mt-3 text-sm leading-relaxed text-white/70">
-                          We don’t connect stakeholders loosely—<span className="font-semibold text-white">we structure capability</span> with
-                          supervision, evaluation, and verified outputs.
-                        </div>
-                      </div>
-                      <IconBadge color={THEME.pink}>
-                        <Target className="h-5 w-5" {...iconStrongProps} />
-                      </IconBadge>
-                    </div>
-
-                    <div className="mt-6 grid grid-cols-2 gap-3">
-                      {[
-                        { t: "Supervision", i: Compass, c: THEME.accent2 },
-                        { t: "Evaluation", i: FileCheck2, c: THEME.accent4 },
-                        { t: "Execution", i: Briefcase, c: THEME.accent3 },
-                        { t: "Mobility", i: Rocket, c: THEME.accent },
-                      ].map((x) => {
-                        const I = x.i;
-                        return (
-                          <div key={x.t} className="rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
-                            <div className="flex items-center gap-3">
-                              <IconBadge color={x.c}>
-                                <I className="h-4 w-4" {...iconStrongProps} />
-                              </IconBadge>
-                              <div>
-                                <div className="text-xs font-semibold tracking-widest text-white/55">MODULE</div>
-                                <div className="text-sm font-semibold text-white">{x.t}</div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* right pillar */}
-            <div className="lg:col-span-4 space-y-6">
+            <div className="h-full">
               <PillarNode
                 title="Institutions"
                 desc="Universities, companies, public sector entities, and innovation hubs."
                 icon={Building2}
                 color={THEME.accent3}
                 image={photo.pillarsInstitutions}
-                align="right"
               />
+            </div>
+
+            <div className="h-full">
               <PillarNode
                 title="Experts"
                 desc="Industry leaders, professors, consultants, and strategic advisors."
                 icon={BadgeCheck}
                 color={THEME.accent2}
                 image={photo.pillarsExperts}
-                align="right"
               />
             </div>
           </div>
 
-          {/* animated “connection lines between pillars” */}
-          <div className="relative mt-10 hidden lg:block">
-            <svg className="h-28 w-full" viewBox="0 0 1200 180" aria-hidden="true">
-              <defs>
-                <linearGradient id="pillarsLine" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor={THEME.accent} stopOpacity="0.7" />
-                  <stop offset="50%" stopColor={THEME.pink} stopOpacity="0.5" />
-                  <stop offset="100%" stopColor={THEME.accent2} stopOpacity="0.7" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M210 90 C420 10, 520 10, 600 90 C680 170, 780 170, 990 90"
-                fill="none"
-                stroke="url(#pillarsLine)"
-                strokeWidth="3"
-                strokeDasharray="10 10"
-                className="dash-flow"
-                opacity="0.85"
-              />
-              {[
-                { x: 210, c: THEME.accent },
-                { x: 600, c: THEME.pink },
-                { x: 990, c: THEME.accent2 },
-              ].map((d, i) => (
-                <circle key={i} cx={d.x} cy="90" r="7" fill={d.c} opacity="0.9" className="pulse-dot" />
-              ))}
-            </svg>
-          </div>
         </div>
       </section>
 
@@ -728,142 +629,65 @@ export default function EcosystemAboutPage() {
       <section id="network" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="GLOBAL EXPERT NETWORK"
-            title="Experts don’t just guide. They structure capability."
+            title="Global Expert Network"
             subtitle="Powered by active industry professionals and European university professors who design, supervise, and evaluate real-world programs."
           />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            <div className="rounded-[34px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-              <div className="flex items-center gap-3">
-                <IconBadge color={THEME.accent2}>
-                  <BadgeCheck className="h-5 w-5" {...iconStrongProps} />
-                </IconBadge>
-                <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">CHARACTERISTIC</div>
-                  <div className="mt-1 text-lg font-semibold text-[#0B1220]">Industry-active experts</div>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#0B1220]/70">
-                Supervision that reflects real constraints, delivery standards, and hiring expectations.
-              </p>
-            </div>
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            {[
+              { t: "Industry-active experts", i: BadgeCheck, c: THEME.accent2 },
+              { t: "Academic credibility", i: GraduationCap, c: THEME.accent3 },
+              { t: "Measurable evaluation", i: FileCheck2, c: THEME.accent4 },
+              { t: "Structured supervision model", i: Compass, c: THEME.accent },
+            ].map((x, idx) => {
+              const I = x.i;
+              return (
+                <motion.div
+                  key={x.t}
+                  initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.5, ease: "easeOut", delay: idx * 0.06 }}
+                  whileHover={{ y: -6, scale: 1.01 }}
+                  className="group relative overflow-hidden rounded-[34px] p-7 ring-1 ring-[#0B1220]/10 backdrop-blur"
+                  style={{
+                    background: "linear-gradient(180deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.55) 100%)",
+                    boxShadow: "0 16px 50px rgba(11,18,32,0.10)",
+                  }}
+                >
+                  <div
+                    className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-300 group-hover:opacity-100"
+                    style={{ background: `${x.c}33` }}
+                  />
 
-            <div className="rounded-[34px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-              <div className="flex items-center gap-3">
-                <IconBadge color={THEME.accent3}>
-                  <GraduationCap className="h-5 w-5" {...iconStrongProps} />
-                </IconBadge>
-                <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">CHARACTERISTIC</div>
-                  <div className="mt-1 text-lg font-semibold text-[#0B1220]">Academic credibility</div>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#0B1220]/70">
-                European standards that anchor programs in rigor, clarity, and measurable assessment.
-              </p>
-            </div>
-
-            <div className="rounded-[34px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-              <div className="flex items-center gap-3">
-                <IconBadge color={THEME.accent4}>
-                  <FileCheck2 className="h-5 w-5" {...iconStrongProps} />
-                </IconBadge>
-                <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">CHARACTERISTIC</div>
-                  <div className="mt-1 text-lg font-semibold text-[#0B1220]">Measurable evaluation</div>
-                </div>
-              </div>
-              <p className="mt-4 text-sm leading-relaxed text-[#0B1220]/70">
-                Structured supervision models, benchmarks, and proof-of-work outcomes that employers can trust.
-              </p>
-            </div>
+                  <div className="relative flex items-center gap-3">
+                    <motion.div
+                      animate={{ y: [0, -2, 0] }}
+                      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: idx * 0.2 }}
+                    >
+                      <IconBadge color={x.c}>
+                        <I className="h-5 w-5" {...iconStrongProps} />
+                      </IconBadge>
+                    </motion.div>
+                    <div className="text-lg font-semibold text-[#0B1220]">{x.t}</div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
 
-          <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative overflow-hidden rounded-[36px] ring-1 ring-[#0B1220]/10"
-              style={{ background: "rgba(255,255,255,0.55)" }}
+          <div className="mt-8">
+            <div
+              className="relative overflow-hidden rounded-[36px] p-7 ring-1 ring-[#0B1220]/10"
+              style={{
+                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)`,
+                boxShadow: "0 22px 70px rgba(0,0,0,0.16)",
+              }}
             >
-              <div className="absolute inset-0">
-                <img src={photo.experts} alt="Expert supervision" className="h-full w-full object-cover" />
-                <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(11,18,32,0.82), rgba(11,18,32,0.66))" }} />
-              </div>
-              <div className="relative p-7">
-                <div className="text-xs font-semibold tracking-widest text-white/65">POSITIONING</div>
-                <div className="mt-2 text-2xl font-semibold text-white">Structured supervision model</div>
-                <p className="mt-4 text-sm leading-relaxed text-white/80">
-                  Experts design the learning-to-execution pathway, supervise delivery, and evaluate outcomes with clear standards.
-                </p>
-
-                <div className="mt-6 flex flex-wrap gap-2">
-                  {["Cross-border collaboration", "Outcome benchmarks", "Expert evaluation loops"].map((t, i) => (
-                    <span
-                      key={t}
-                      className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                      style={{
-                        background: i === 0 ? "rgba(34,211,238,0.22)" : i === 1 ? "rgba(167,139,250,0.22)" : "rgba(52,211,153,0.22)",
-                        borderColor: "rgba(255,255,255,0.20)",
-                        color: "rgba(255,255,255,0.92)",
-                      }}
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-
-            <div className="grid grid-cols-1 gap-6">
-              <div className="rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">KEY CHARACTERISTICS</div>
-                    <div className="mt-2 text-xl font-semibold text-[#0B1220]">What makes the network different</div>
-                  </div>
-                  <IconBadge color={THEME.pink}>
-                    <Star className="h-5 w-5" {...iconStrongProps} />
-                  </IconBadge>
-                </div>
-
-                <div className="mt-5 space-y-3">
-                  {[
-                    { t: "Industry-active experts", i: Briefcase, c: THEME.accent3 },
-                    { t: "Academic credibility", i: GraduationCap, c: THEME.accent2 },
-                    { t: "Structured supervision model", i: Compass, c: THEME.accent },
-                    { t: "Cross-border collaboration", i: Globe2, c: THEME.accent4 },
-                    { t: "Measurable evaluation standards", i: FileCheck2, c: THEME.pink },
-                  ].map((x) => {
-                    const I = x.i;
-                    return (
-                      <div key={x.t} className="flex items-start gap-3">
-                        <IconBadge color={x.c}>
-                          <I className="h-4 w-4" {...iconStrongProps} />
-                        </IconBadge>
-                        <div className="text-sm text-[#0B1220]/75">{x.t}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div
-                className="relative overflow-hidden rounded-[36px] p-7 ring-1 ring-[#0B1220]/10"
-                style={{
-                  background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)`,
-                  boxShadow: "0 22px 70px rgba(0,0,0,0.16)",
-                }}
-              >
-                <div className="pointer-events-none absolute inset-0 opacity-[0.14]" style={{ backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)" }} />
-                <div className="relative text-white">
-                  <div className="text-xs font-semibold tracking-widest text-white/80">POSITIONING LINE</div>
-                  <div className="mt-2 text-2xl font-semibold">Experts don’t just guide.</div>
-                  <div className="mt-1 text-2xl font-semibold">They structure capability.</div>
-                </div>
+              <div className="pointer-events-none absolute inset-0 opacity-[0.14]" style={{ backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)" }} />
+              <div className="relative text-white">
+                <div className="text-2xl font-semibold">Experts don’t just guide.</div>
+                <div className="mt-1 text-2xl font-semibold">They structure capability.</div>
               </div>
             </div>
           </div>
@@ -874,7 +698,6 @@ export default function EcosystemAboutPage() {
       <section id="engagements" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="INDUSTRY ENGAGEMENTS"
             title="Industry is integrated into execution."
             subtitle="Not positioned as an external destination—organizations become part of the learning and innovation infrastructure."
             dark
@@ -949,7 +772,7 @@ export default function EcosystemAboutPage() {
                 <div className="absolute inset-0" style={{ background: "linear-gradient(90deg, rgba(11,18,32,0.78), rgba(11,18,32,0.92))" }} />
               </div>
 
-              {/* pulsing “nodes” */}
+              {/* pulsing "nodes" */}
               <div className="absolute inset-0 pointer-events-none">
                 {[
                   { left: "20%", top: "55%", c: THEME.accent },
@@ -1016,9 +839,8 @@ export default function EcosystemAboutPage() {
       <section id="metrics" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div ref={metricsRef} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionHeader
-            eyebrow="ECOSYSTEM METRICS"
             title="Ecosystem at a Glance"
-            subtitle="Animated counters on scroll, clean numeric emphasis, minimal text—high-credibility tone."
+            subtitle=""
           />
 
           <div className="mt-10 relative overflow-hidden rounded-[40px] bg-white/55 ring-1 ring-[#0B1220]/10 backdrop-blur"
@@ -1078,18 +900,11 @@ export default function EcosystemAboutPage() {
         </div>
       </section>
 
-      {/* FINAL CTA */}
+      {/* CTA */}
       <section id="cta" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionHeader
-            eyebrow="FINAL CTA"
-            title="Join the Ecosystem That Delivers Impact."
-            subtitle="Choose how you want to participate—partnerships, expertise, or collaboration."
-            dark
-          />
-
           <div
-            className="mt-10 relative overflow-hidden rounded-[38px] border border-white/10 px-6 py-8 sm:px-10 sm:py-10"
+            className="relative overflow-hidden rounded-[38px] border border-white/10 px-6 py-8 sm:px-10 sm:py-10"
             style={{
               background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)`,
               boxShadow: "0 24px 90px rgba(0,0,0,0.20)",
@@ -1113,38 +928,10 @@ export default function EcosystemAboutPage() {
                   <GradientButton href="/about/partnerships#architecture">
                     Explore Partnerships
                   </GradientButton>
-                  <GradientButton href="/about/partnerships#experts" variant="secondary">
-                    Become an Expert
-                  </GradientButton>
-                  <GradientButton href="/about/partnerships#apply" variant="secondary">
-                    Work With Us
-                  </GradientButton>
-                </div>
-
-                <div className="mt-5 rounded-3xl bg-white/10 p-5 ring-1 ring-white/20">
-                  <div className="flex items-center gap-3">
-                    <IconBadge color={THEME.accent}>
-                      <LineChart className="h-5 w-5" {...iconStrongProps} />
-                    </IconBadge>
-                    <div>
-                      <div className="text-xs font-semibold tracking-widest text-white/70">OUTCOME PROMISE</div>
-                      <div className="mt-1 text-sm font-semibold text-white">Measured impact, not vague participation.</div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* floating sticky CTA */}
-          <a
-            href="#cta"
-            className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
-            style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
-          >
-            <Rocket className="h-4 w-4" {...iconStrongProps} />
-            Join Now
-          </a>
         </div>
       </section>
 
@@ -1204,11 +991,19 @@ const css = `
 }
 
 .orbit-rot{
-  animation: orbit 18s linear infinite;
+  animation: orbit 28s linear infinite;
   transform-origin: center;
 }
 @keyframes orbit{
   to { transform: rotate(360deg); }
+}
+
+.orbit-node-upright{
+  animation: orbitCounter 28s linear infinite;
+  transform-origin: center;
+}
+@keyframes orbitCounter{
+  to { transform: rotate(-360deg); }
 }
 
 /* map pulse */

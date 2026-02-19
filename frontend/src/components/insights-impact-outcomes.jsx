@@ -357,7 +357,7 @@ function SectionTitle({ eyebrow, title, subtitle, dark }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -591,18 +591,13 @@ export default function ImpactOutcomesPage() {
 
       {/* HERO */}
       <section id="hero" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-14 pt-8 lg:grid-cols-2 lg:pb-20 lg:pt-12">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <BarChart3 className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>IMPACT & OUTCOMES</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
               Results You Can Measure.
               <br />
               Careers You Can Prove.
@@ -722,7 +717,6 @@ export default function ImpactOutcomesPage() {
       <section id="metrics" className="relative">
         <div ref={counters.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="KEY IMPACT METRICS"
             title="Measurable outcomes that hiring teams recognize"
             subtitle="Animated counters + gradient bars + tooltips. Toggle Edit Mode to change values locally."
             dark
@@ -820,7 +814,6 @@ export default function ImpactOutcomesPage() {
       <section id="breakdown" className="relative" style={{ background: "linear-gradient(180deg, rgba(11,18,32,1) 0%, rgba(6,10,20,1) 100%)" }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="CAREER ADVANCEMENT BREAKDOWN"
             title="From internship to career progression"
             subtitle="Placement impact + professional growth + portfolio strength — presented in a clear 3-column system with animated progression."
             dark
@@ -903,7 +896,6 @@ export default function ImpactOutcomesPage() {
       <section id="roi" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="INSTITUTIONAL ROI"
             title="Institutional Impact & ROI"
             subtitle="Designed for measurable value — not theoretical exposure."
           />
@@ -958,7 +950,6 @@ export default function ImpactOutcomesPage() {
       <section id="categories" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="PROGRAM OUTCOME CATEGORIES"
             title="Outcome categories across tracks"
             subtitle="Hover tiles expand slightly and preview a sample deliverable."
             dark
@@ -1025,7 +1016,6 @@ export default function ImpactOutcomesPage() {
       <section id="verification" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="VERIFIED OUTPUT FRAMEWORK"
             title="How we verify outcomes"
             subtitle="A three-step system: execution → supervision → evaluation."
           />
@@ -1096,7 +1086,6 @@ export default function ImpactOutcomesPage() {
       <section id="alumni" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="ALUMNI PROGRESSION SNAPSHOT"
             title="Where our participants advance"
             subtitle="Scrolling ticker of roles (swap for logo grid later)."
             dark
@@ -1146,7 +1135,6 @@ export default function ImpactOutcomesPage() {
       <section id="germany" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="GLOBAL EXPOSURE OUTCOMES"
             title="Germany exposure impact"
             subtitle="Exposure builds confidence. Results build careers."
           />
@@ -1229,7 +1217,6 @@ export default function ImpactOutcomesPage() {
       <section id="summary" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="EXECUTIVE SUMMARY"
             title="Impact is not a claim. It is documented performance."
             subtitle="Praktix programs are structured to deliver measurable advancement across skills, careers, and institutional value."
             dark

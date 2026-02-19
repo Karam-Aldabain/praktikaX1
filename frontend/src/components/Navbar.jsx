@@ -111,23 +111,6 @@ const NAV = [
             href: "/for-organizations/ai",
             desc: "Applied AI frameworks tailored to industry sectors and institutional needs",
           },
-          {
-            label: "Partnerships",
-            href: "/for-organizations/partnerships",
-            desc: "Strategic alliances with universities, corporations, and innovation ecosystems",
-            children: [
-              { label: "University Partnerships", href: "/for-organizations/partnerships/university" },
-              { label: "Industry Partners", href: "/for-organizations/partnerships/industry" },
-              { label: "Affiliate Network", href: "/for-organizations/partnerships/affiliate-network" },
-              { label: "Become a Co-Host", href: "/for-organizations/partnerships/co-host" },
-              { label: "Strategic Alliances", href: "/for-organizations/partnerships/strategic-alliances" },
-            ],
-          },
-          {
-            label: "Innovation & Workforce Tools",
-            href: "/for-organizations/innovation-workforce-tools",
-            desc: "Market-aligned frameworks and future-ready talent models",
-          },
         ],
       },
     ],
@@ -202,11 +185,6 @@ const NAV = [
             label: "How We Work",
             href: "/about/how-we-work",
             desc: "A system-based approach combining projects, mentorship, and measurable outcomes",
-          },
-          {
-            label: "PARTNERSHIPS",
-            href: "/about/partnerships",
-            desc: "Academic and industry partnerships aligned with European education standards",
           },
           {
             label: "Ecosystem",
@@ -483,10 +461,6 @@ export default function Navbar({ dir = "ltr" }) {
                         clearPreviewTimer();
                       }}
                     >
-                      <div className="px-megaTop">
-                        <div className="px-megaTitle">{group.label}</div>
-                      </div>
-
                       <div className="px-megaGrid">
                         <div className="px-cols">
                           {group.columns.map((col) => (
@@ -533,7 +507,6 @@ export default function Navbar({ dir = "ltr" }) {
                           >
                             {activePreview ? (
                               <>
-                                <div className="px-promoEyebrow">{group.label}</div>
                                 <ItemIcon title={activePreview.iconTitle} active className="promo" />
                                 <div className="px-promoTitle">{activePreview.title}</div>
                                 <div className="px-promoText">{activePreview.text}</div>
@@ -554,11 +527,10 @@ export default function Navbar({ dir = "ltr" }) {
                                     ))}
                                   </div>
                                 ) : null}
-                                <div className="px-promoCta">Open this page -&gt;</div>
+                                <div className="px-promoCta">Learn More -&gt;</div>
                               </>
                             ) : (
                               <>
-                                <div className="px-promoEyebrow">{group.label}</div>
                                 <div className="px-promoTitle">Hover an item</div>
                                 <div className="px-promoText">
                                   Move over an item card to preview its details in this panel.
@@ -662,7 +634,6 @@ export default function Navbar({ dir = "ltr" }) {
 
                           {activePreview ? (
                             <div className="px-accPreview">
-                              <div className="px-promoEyebrow">{group.label}</div>
                               <ItemIcon title={activePreview.iconTitle} active className="promo" />
                               <div className="px-promoTitle">{activePreview.title}</div>
                               <div className="px-promoText">{activePreview.text}</div>
@@ -678,7 +649,7 @@ export default function Navbar({ dir = "ltr" }) {
                                 </div>
                               ) : null}
                               <a className="px-promoCta" href={activePreview.href || group.promo.href} onClick={onNavLink}>
-                                Open this page -&gt;
+                                Learn More -&gt;
                               </a>
                             </div>
                           ) : null}

@@ -168,17 +168,6 @@ function GradientButton({ children, href, onClick, variant = "primary", icon = A
   );
 }
 
-function Anchor({ href, label }) {
-  return (
-    <a
-      href={href}
-      className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      {label}
-    </a>
-  );
-}
-
 function SectionTitle({ eyebrow, title, accentText, subtitle, dark }) {
   return (
     <div className={cx("mx-auto max-w-6xl", dark ? "text-white" : "text-[#0B1220]")}>
@@ -196,7 +185,7 @@ function SectionTitle({ eyebrow, title, accentText, subtitle, dark }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -529,33 +518,43 @@ const companyPrograms = [
     icon: Briefcase,
     color: THEME.accent,
     bullets: [
-      "Structured development tracks for junior employees, graduate recruits, and talent pipeline programs.",
-      "Customized to your workflows and real operational projects.",
-      "Clear deliverables, performance evaluation, and structured reporting.",
+      "Junior employees",
+      "Graduate recruits",
+      "Talent pipeline programs",
+      "Internships can be customized to company workflows and real operational projects.",
     ],
   },
   {
-    title: "Custom Training & Workshops",
+    title: "Tailored Capability Building",
     icon: ClipboardCheck,
     color: THEME.accent3,
     bullets: [
-      "AI adoption workshops, digital transformation training, leadership programs, strategic innovation sessions.",
-      "Technical bootcamps and department-specific skill upgrades.",
-      "Tailored to organizational goals with measurable outcomes.",
+      "AI adoption workshops",
+      "Digital transformation training",
+      "Leadership programs",
+      "Strategic innovation sessions",
+      "Technical bootcamps",
+      "Department-specific skill upgrades",
+      "Tailored to organizational goals",
+      "Delivered by European industry professionals",
+      "Built around measurable outcomes",
     ],
   },
   {
-    title: "AI Programs for Employees & Their Families",
+    title: "Future-Proofing the Extended Workforce",
     icon: Users,
     color: THEME.accent2,
     bullets: [
-      "Practical AI use in daily work, prompt engineering, automation tools.",
-      "AI productivity frameworks and industry-specific AI applications.",
-      "Options for employees, young professionals, and foundational programs for employees’ children.",
+      "Organizations may provide AI learning access for employees, young professionals, and employees' children (AI foundational programs).",
+      "Practical AI use in daily work",
+      "Prompt engineering",
+      "Automation tools",
+      "AI productivity frameworks",
+      "Industry-specific AI applications",
+      "This enhances long-term organizational adaptability and digital culture.",
     ],
   },
 ];
-
 const expertCards = [
   { name: "European Industry Experts", role: "Hands-on practitioners", icon: Building2, color: THEME.accent },
   { name: "Top University Professors", role: "Academic rigor + relevance", icon: GraduationCap, color: THEME.accent2 },
@@ -1390,7 +1389,6 @@ export default function OrganizationsLanding() {
   const deliveryRef = useInViewOnce(0.2);
   const whyRef = useInViewOnce(0.2);
 
-  const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
     <div
@@ -1424,92 +1422,15 @@ export default function OrganizationsLanding() {
         </div>
       </div>
 
-      {/* Sticky top nav */}
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)` }}
-            >
-              <span className="text-sm font-black tracking-widest">P</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">PRAKTIX</div>
-              <div className="text-xs text-white/60">Universities & Companies</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <Anchor href="#overview" label="Overview" />
-            <Anchor href="#universities" label="For Universities" />
-            <Anchor href="#companies" label="For Companies" />
-            <Anchor href="#experts" label="Experts" />
-            <Anchor href="#delivery" label="Delivery" />
-            <Anchor href="#why" label="Why Partner" />
-            <Anchor href="#cta" label="CTA" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => setMobileNavOpen((p) => !p)}
-              className="inline-flex rounded-full px-4 py-2 text-sm font-semibold text-white/80 ring-1 ring-white/15 transition hover:bg-white/5 md:hidden"
-            >
-              Menu
-            </button>
-            <GradientButton href="#form">Partner With Us</GradientButton>
-          </div>
-        </div>
-
-        <AnimatePresence>
-          {mobileNavOpen ? (
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              className="border-t border-white/10 bg-[#0B1220]/85 px-5 py-4 backdrop-blur md:hidden"
-            >
-              <div className="flex flex-col gap-2">
-                {[
-                  ["#overview", "Overview"],
-                  ["#universities", "For Universities"],
-                  ["#companies", "For Companies"],
-                  ["#experts", "Experts"],
-                  ["#delivery", "Delivery"],
-                  ["#why", "Why Partner"],
-                  ["#cta", "CTA"],
-                  ["#form", "Form"],
-                ].map(([href, label]) => (
-                  <a
-                    key={href}
-                    href={href}
-                    onClick={() => setMobileNavOpen(false)}
-                    className="rounded-2xl bg-white/5 px-4 py-3 text-sm font-semibold text-white/80 ring-1 ring-white/10 transition hover:bg-white/10"
-                  >
-                    {label}
-                  </a>
-                ))}
-              </div>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </header>
-
       {/* HERO */}
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={heroRef.ref} className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div ref={heroRef.ref} className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-14 pt-8 lg:grid-cols-2 lg:pb-20 lg:pt-12">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={heroRef.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Building2 className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>FOR ORGANIZATIONS</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
               Building Workforce-Ready Talent{" "}
               <span style={{ color: THEME.pink }} className="whitespace-nowrap">
                 at Scale.
@@ -1565,7 +1486,6 @@ export default function OrganizationsLanding() {
       <section id="universities" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div ref={uniRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="FOR UNIVERSITIES"
             title="Academic Excellence Meets"
             accentText="Industry Execution"
             subtitle="We collaborate with universities to embed real industry experience into academic pathways, ensuring graduates are prepared for the global job market."
@@ -1714,7 +1634,6 @@ export default function OrganizationsLanding() {
       <section id="companies" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={compRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="FOR COMPANIES & INSTITUTIONS"
             title="Upskilling Organizations"
             accentText="for the AI-Driven Economy"
             subtitle="We support organizations in building future-ready teams through expert-led, structured development programs."
@@ -1739,10 +1658,7 @@ export default function OrganizationsLanding() {
                     <IconBadge color={p.color}>
                       <Icon className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
-                    <div>
-                      <div className="text-xs font-semibold tracking-widest text-white/60">OFFERING</div>
-                      <div className="mt-1 text-lg font-semibold text-white">{p.title}</div>
-                    </div>
+                    <div className="text-lg font-semibold text-white">{p.title}</div>
                   </div>
 
                   <div className="mt-5 space-y-3">
@@ -1752,17 +1668,6 @@ export default function OrganizationsLanding() {
                         <div className="text-sm text-white/70">{b}</div>
                       </div>
                     ))}
-                  </div>
-
-                  <div className="mt-6 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
-                    <div className="flex items-center justify-between">
-                      <div className="text-xs font-semibold tracking-widest text-white/55">QUALITY SIGNAL</div>
-                      <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                        <Shield className="h-4 w-4" style={{ color: p.color }} {...iconStrongProps} />
-                        Measurable outcomes
-                      </span>
-                    </div>
-                    <div className="mt-2 text-sm text-white/70">Clear milestones · defined deliverables · structured reporting</div>
                   </div>
                 </motion.div>
               );
@@ -1795,10 +1700,8 @@ export default function OrganizationsLanding() {
       <section id="experts" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div ref={expertsRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="OUR EXPERT NETWORK"
             title="Delivered by Practitioners,"
             accentText="Not Just Trainers"
-            subtitle="Programs are led by European industry experts, top university professors, and senior consultants — prioritizing real implementation, industry standards, and practical outcomes."
           />
 
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-4">
@@ -1823,7 +1726,6 @@ export default function OrganizationsLanding() {
                       <Icon className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">NETWORK</div>
                       <div className="mt-1 text-lg font-semibold text-[#0B1220]}">{c.name}</div>
                       <div className="mt-1 text-sm text-[#0B1220]/70">{c.role}</div>
                     </div>
@@ -1868,10 +1770,8 @@ export default function OrganizationsLanding() {
       <section id="delivery" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={deliveryRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="DELIVERY MODEL & FORMATS"
             title="Flexible Delivery."
             accentText="Structured Execution."
-            subtitle="Available fully online, hybrid, on-site, or co-hosted — with milestones, deliverables, evaluation, and reporting baked in."
             dark
           />
 
@@ -1893,7 +1793,6 @@ export default function OrganizationsLanding() {
                       <Icon className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-white/60">BLOCK</div>
                       <div className="mt-1 text-lg font-semibold text-white">{b.label}</div>
                     </div>
                   </div>
@@ -1923,7 +1822,6 @@ export default function OrganizationsLanding() {
       <section id="why" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div ref={whyRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="WHY PARTNER WITH US"
             title="A Strategic Talent"
             accentText="Development Partner."
             subtitle="Institutional programs engineered for quality, scalability, and measurable impact."
@@ -1947,18 +1845,13 @@ export default function OrganizationsLanding() {
                       <Icon className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">BENEFIT</div>
                       <div className="mt-1 text-lg font-semibold text-[#0B1220]" style={clampStyle(2)}>
                         {w.title}
                       </div>
                     </div>
                   </div>
 
-                  <div className="mt-5 rounded-3xl bg-white/55 p-5 ring-1 ring-[#0B1220]/10">
-                    <div className="text-sm text-[#0B1220]/70">
-                      Designed to work across universities and corporate organizations, with a scalable framework and measurable outcomes.
-                    </div>
-                  </div>
+                 
                 </motion.div>
               );
             })}
@@ -1970,7 +1863,6 @@ export default function OrganizationsLanding() {
       <section id="cta" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="CALL TO ACTION"
             title="Ready to Elevate"
             accentText="Your Institutional Impact?"
             subtitle="Partner with us to build graduates and teams prepared for the demands of modern industry."

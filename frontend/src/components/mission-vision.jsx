@@ -23,7 +23,6 @@ import {
   Network,
   Layers,
   Orbit,
-  ChevronRight,
 } from "lucide-react";
 
 
@@ -86,8 +85,6 @@ const PHOTOS = {
     "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=70",
   whyIndustry:
     "https://images.unsplash.com/photo-1523961131990-5ea7c61b2107?auto=format&fit=crop&w=1200&q=70",
-  global:
-    "https://images.unsplash.com/photo-1526779259212-756e3f2fdd27?auto=format&fit=crop&w=1200&q=70",
   ai:
     "/images/ai-support.png",
 };
@@ -156,20 +153,19 @@ function SectionTitle({ eyebrow, title, subtitle, dark }) {
       {eyebrow ? (
         <div
           className={cx(
-            "inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-widest",
+            "inline-flex items-center rounded-full px-5 py-2 text-xs font-semibold tracking-widest",
             dark
               ? "bg-white/10 text-white/80 ring-1 ring-white/10"
               : "bg-[#0B1220]/5 text-[#0B1220]/70 ring-1 ring-[#0B1220]/10"
           )}
         >
-          <Sparkles className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} />
           <span>{eyebrow}</span>
         </div>
       ) : null}
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -595,20 +591,25 @@ function IntersectionDiagram() {
                 />
 
                 {/* center */}
-                <motion.div
-                  className="absolute left-1/2 top-1/2 grid h-28 w-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full ring-1 ring-white/12"
-                  style={{
-                    background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
-                    boxShadow: `0 20px 70px ${accent(0.25)}`,
-                  }}
-                  animate={reduce ? undefined : { scale: [1, 1.04, 1] }}
-                  transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                <div
+                  className="absolute left-1/2 h-28 w-28 -translate-x-1/2 -translate-y-1/2"
+                  style={{ top: "53%" }}
                 >
-                  <div className="text-center">
-                    <div className="text-xs font-black tracking-widest text-white/90">PRAKTIX</div>
-                    <div className="mt-1 text-[11px] font-semibold text-white/80">System</div>
-                  </div>
-                </motion.div>
+                  <motion.div
+                    className="grid h-full w-full place-items-center rounded-full ring-1 ring-white/12"
+                    style={{
+                      background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
+                      boxShadow: `0 20px 70px ${accent(0.25)}`,
+                    }}
+                    animate={reduce ? undefined : { scale: [1, 1.04, 1] }}
+                    transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                  >
+                    <div className="text-center">
+                      <div className="text-xs font-black tracking-widest text-white/90">PRAKTIX</div>
+                      <div className="mt-1 text-[11px] font-semibold text-white/80">System</div>
+                    </div>
+                  </motion.div>
+                </div>
               </div>
 
               {/* labels */}
@@ -774,18 +775,13 @@ export default function AboutMissionVisionPage() {
           <NetworkBackdrop intensity={0.18} />
         </div>
 
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-8 lg:grid-cols-2 lg:py-14">
           <motion.div
             initial={reduce ? false : { opacity: 0, y: 16 }}
             animate={reduce ? undefined : { opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Sparkles className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} />
-              <span>ABOUT PRAKTIX</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-1 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
               Designing the Future of{" "}
               <span
                 className="relative inline-block"
@@ -811,8 +807,8 @@ export default function AboutMissionVisionPage() {
             <KineticBridgeWords />
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <GradientButton href="#mission">Explore Our Model</GradientButton>
-              <GradientButton href="#principles" variant="secondary">
+              <GradientButton href="/about/how-we-work">Explore Our Model</GradientButton>
+              <GradientButton href="/students-graduates" variant="secondary">
                 See Our Programs
               </GradientButton>
             </div>
@@ -951,7 +947,6 @@ export default function AboutMissionVisionPage() {
       <section id="mission" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="OUR MISSION"
             title="Transform learning into professional capability"
             subtitle="We design experiences that convert potential into measurable execution — built for the modern workforce."
           />
@@ -975,9 +970,6 @@ export default function AboutMissionVisionPage() {
                 <div className="rounded-[35px] p-7" style={glassLight}>
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">
-                        CORE STATEMENT
-                      </div>
                       <div className="mt-2 text-2xl font-semibold text-[#0B1220]">
                         We do not believe in passive education.
                       </div>
@@ -1106,7 +1098,6 @@ export default function AboutMissionVisionPage() {
         <div className="relative mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             dark
-            eyebrow="OUR VISION"
             title="Become the global bridge between academia and high-performance industries"
             subtitle="A future where experience becomes the standard — not the exception."
           />
@@ -1121,7 +1112,6 @@ export default function AboutMissionVisionPage() {
                 <div className="relative p-7">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-white/60">CORE STATEMENT</div>
                       <div className="mt-2 text-2xl font-semibold text-white">
                         We envision a world where:
                       </div>
@@ -1209,9 +1199,8 @@ export default function AboutMissionVisionPage() {
 
       {/* WHY — split & merge system (new layout) */}
       <section id="why" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 pt-9 pb-0 sm:pt-10 sm:pb-1">
           <SectionTitle
-            eyebrow="WHY WE EXIST"
             title="Closing the readiness gap — structurally"
             subtitle="Theory advances. Technology evolves. But real-world readiness lags behind."
           />
@@ -1221,11 +1210,9 @@ export default function AboutMissionVisionPage() {
 
       {/* PRINCIPLES — minimal iconography + hover lift (light section) */}
       <section id="principles" className="relative" style={{ background: "linear-gradient(180deg, rgba(233,231,223,1) 0%, rgba(233,231,223,0.85) 100%)", color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="mx-auto max-w-7xl px-5 pt-0 pb-8 sm:pt-0 sm:pb-9">
           <SectionTitle
-            eyebrow="CORE PRINCIPLES"
             title="What we stand for"
-            subtitle="A clean, scalable model with a clear hierarchy — not text-heavy, always outcome-first."
           />
 
           <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -1273,52 +1260,6 @@ export default function AboutMissionVisionPage() {
             })}
           </div>
 
-          <div className="mt-8 overflow-hidden rounded-[36px] ring-1 ring-[#0B1220]/10" style={glassLight}>
-            <div className="grid grid-cols-1 gap-0 lg:grid-cols-12">
-              <div className="relative lg:col-span-5">
-                <img
-                  src="/images/design-note.png"
-                  alt="AI innovation"
-                  className="h-full min-h-[220px] w-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent" />
-              </div>
-              <div className="p-7 lg:col-span-7">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">DESIGN NOTE</div>
-                    <div className="mt-2 text-2xl font-semibold text-[#0B1220]">
-                      Structured, not text-heavy.
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-[#0B1220]/70">
-                      We break content into blocks, maintain strong typography hierarchy, and use smooth transitions.
-                    </p>
-                  </div>
-                  <IconBadge color={THEME.pink}>
-                    <Sparkles className="h-5 w-5" {...iconStrongProps} />
-                  </IconBadge>
-                </div>
-
-                <div className="mt-5 flex flex-wrap gap-2">
-                  <Pill tone="light" label="Alternating backgrounds" />
-                  <Pill tone="light" label="Smooth scroll transitions" />
-                  <Pill tone="light" label="Hover elevation" />
-                  <Pill tone="light" label="Clean hierarchy" />
-                </div>
-
-                <div className="mt-6">
-                  <a
-                    href="#global"
-                    className="inline-flex items-center gap-2 rounded-full bg-[#0B1220] px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-90"
-                  >
-                    See Global Standards <ChevronRight className="h-4 w-4" {...iconStrongProps} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -1328,27 +1269,16 @@ export default function AboutMissionVisionPage() {
           <NetworkBackdrop intensity={0.18} />
         </div>
 
-        <div className="relative mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div className="relative mx-auto max-w-7xl px-5 pt-4 pb-10 sm:pt-6 sm:pb-12">
           <SectionTitle
             dark
-            eyebrow="GLOBAL PERSPECTIVE"
             title="Built with international standards"
             subtitle="Aligned with European professional frameworks, execution standards, and outcome-based education models."
           />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12">
+          <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-12">
             <div className="lg:col-span-5">
-              <div className="relative overflow-hidden rounded-[38px] ring-1 ring-white/10" style={softCard}>
-                <div className="absolute inset-0">
-                  <img
-                    src={PHOTOS.global}
-                    alt="Global perspective"
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                    decoding="async"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/10" />
-                </div>
+              <div className="relative overflow-hidden rounded-[38px] ring-1 ring-white/10 bg-[#0B1220]/90" style={softCard}>
                 <div className="relative p-7">
                   <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
                     <Globe2 className="h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
@@ -1358,7 +1288,7 @@ export default function AboutMissionVisionPage() {
                   <div className="mt-4 text-2xl font-semibold text-white">
                     Global structure. Local execution.
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-white/70">
+                  <p className="mt-3 text-sm leading-relaxed text-white/90">
                     We align execution pathways with professional frameworks and measurable outcomes.
                   </p>
 
@@ -1404,9 +1334,6 @@ export default function AboutMissionVisionPage() {
                 transition={{ duration: 0.65, ease: "easeOut" }}
                 className="relative mx-auto max-w-4xl text-white"
               >
-                <div className="text-xs font-semibold tracking-widest text-white/85">
-                  CLOSING STATEMENT
-                </div>
                 <div className="mt-4 text-3xl font-semibold md:text-4xl">
                   We Don’t Just Prepare People for Jobs. <br />
                   We Prepare Them for Performance.
@@ -1530,6 +1457,3 @@ const css = `
   to { stroke-dashoffset: -220; }
 }
 `;
-
-
-

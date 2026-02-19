@@ -174,17 +174,6 @@ function Pill({ label }) {
   );
 }
 
-function Anchor({ href, label }) {
-  return (
-    <a
-      href={href}
-      className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      {label}
-    </a>
-  );
-}
-
 function GradientButton({ children, href, onClick, variant = "primary" }) {
   const base =
     "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2";
@@ -236,7 +225,7 @@ function SectionTitle({ eyebrow, title, accentWord, subtitle, dark }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -1189,62 +1178,15 @@ export default function SuccessTestimonialsPage() {
         </div>
       </div>
 
-      {/* Sticky top nav */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(
-                  0.72
-                )} 70%)`,
-              }}
-            >
-              <span className="text-sm font-black tracking-widest">P</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">PRAKTIX</div>
-              <div className="text-xs text-white/60">Success & Testimonials</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <Anchor href="#overview" label="Overview" />
-            <Anchor href="#impact" label="Impact" />
-            <Anchor href="#stories" label="Stories" />
-            <Anchor href="#institutions" label="Institutions" />
-            <Anchor href="#germany" label="Germany" />
-            <Anchor href="#testimonials" label="Testimonials" />
-            <Anchor href="#momentum" label="Momentum" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#stories"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
-            >
-              Explore Stories
-            </a>
-            <GradientButton href="#apply">Apply Now</GradientButton>
-          </div>
-        </div>
-      </header>
-
       {/* HERO */}
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-14 pt-8 lg:grid-cols-2 lg:pb-20 lg:pt-12">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <BadgeCheck className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>SUCCESS STORIES</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
               Results Speak <br />
               Louder Than Promises.
             </h1>
@@ -1352,7 +1294,6 @@ export default function SuccessTestimonialsPage() {
       <section id="impact" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={impact.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="IMPACT SNAPSHOT"
             title="Outcome Signals"
             accentWord="This Quarter"
             subtitle="A timeline-style proof view showing momentum, validation, and hiring-relevant movement."
@@ -1368,7 +1309,6 @@ export default function SuccessTestimonialsPage() {
       <section id="stories" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="FEATURED CASE STUDIES"
             title="Stories that show"
             accentWord="real movement"
             subtitle="Consistent framework: profile → program → before/during/outcome → quote. Drag to explore."
@@ -1442,7 +1382,6 @@ export default function SuccessTestimonialsPage() {
       <section id="institutions" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="INSTITUTIONAL SUCCESS"
             title="Impact for"
             accentWord="Universities & Organizations"
             subtitle="Two-column layout with logo placeholders and clear challenge/solution/results."
@@ -1458,7 +1397,6 @@ export default function SuccessTestimonialsPage() {
       <section id="germany" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="GERMANY EXPOSURE"
             title="From Local Projects"
             accentWord="to Global Stage"
             subtitle="Map animation + event blocks + mini quotes."
@@ -1474,7 +1412,6 @@ export default function SuccessTestimonialsPage() {
       <section id="testimonials" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="TESTIMONIALS GRID"
             title="What Participants Say"
             accentWord="(short & real)"
             subtitle="Masonry grid with smooth slide animation + rotating spotlight."
@@ -1490,7 +1427,6 @@ export default function SuccessTestimonialsPage() {
       <section id="momentum" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="CAREER MOVEMENT METRICS"
             title="Beyond completion"
             accentWord="— momentum"
             subtitle="Execution builds confidence. Confidence builds opportunity."

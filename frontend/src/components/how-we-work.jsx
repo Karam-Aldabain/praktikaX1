@@ -167,7 +167,7 @@ function SectionHeader({ eyebrow, title, subtitle, rightSlot, dark = false }) {
             </div>
           ) : null}
 
-          <h2 className={cx("mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl", dark ? "text-white" : "text-[#0B1220]")}>
+          <h2 className={cx(eyebrow ? "mt-5" : "mt-0", "text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl", dark ? "text-white" : "text-[#0B1220]")}>
             {title}
           </h2>
 
@@ -632,7 +632,7 @@ function Hero() {
       </div>
 
       {/* Hero content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-5 py-16 sm:py-20">
+      <div className="relative z-10 mx-auto max-w-7xl px-5 pt-6 pb-14 sm:pt-8 sm:pb-16">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-center">
           {/* Left: headline */}
           <motion.div
@@ -641,27 +641,22 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Network className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>ABOUT → OUR MODEL (HOW WE WORK)</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
               A Structured System.{" "}
               <span style={{ color: THEME.pink }}>Not Just Programs.</span>
             </h1>
 
-            <p className="mt-5 max-w-2xl text-balance text-base text-white/75 sm:text-lg">
+            <p className="mt-4 max-w-2xl text-balance text-base text-white/75 sm:text-lg">
               How Praktix transforms learning into measurable professional performance.
             </p>
 
-            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/65">
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/65">
               We operate through a clear execution model designed for individuals, institutions, and organizations.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <GradientButton href="#framework">Explore Our Framework</GradientButton>
-              <GradientButton href="#partnerships" variant="secondary">
+              <GradientButton href="/about/partnerships" variant="secondary">
                 Partner With Us
               </GradientButton>
             </div>
@@ -825,19 +820,10 @@ function Framework() {
 
       <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
         <SectionHeader
-          eyebrow="THE PRAKTIX FRAMEWORK"
           title="The Praktix Performance Framework"
           subtitle="Four structured pillars that ensure real-world outcomes — not theoretical exposure."
           dark
-          rightSlot={
-            <div className="hidden lg:block">
-              <div className="rounded-3xl bg-white/5 px-5 py-4 ring-1 ring-white/10">
-                <div className="text-xs font-semibold tracking-widest text-white/60">DISPLAY</div>
-                <div className="mt-1 text-sm font-semibold text-white">Connected stages with animated progress flow</div>
-              </div>
-            </div>
-          }
-        />
+          />
 
         <div ref={wrapRef} className="relative mt-12">
           {/* Progress spine */}
@@ -860,6 +846,7 @@ function Framework() {
 
 function FrameworkStep({ step, index, reduce }) {
   const Icon = step.icon;
+  const photoLeft = index % 2 === 0;
 
   return (
     <motion.div
@@ -882,9 +869,9 @@ function FrameworkStep({ step, index, reduce }) {
       </div>
 
       <div className="sm:pl-14">
-        <CardShell className="p-6">
-          <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-start">
-            <div className="lg:col-span-7">
+        <CardShell className="p-5">
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:items-start">
+            <div className={`lg:col-span-7 ${photoLeft ? "lg:order-2" : "lg:order-1"}`}>
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <IconBadge color={step.color}>
@@ -894,10 +881,6 @@ function FrameworkStep({ step, index, reduce }) {
                     <div className="text-xs font-semibold tracking-widest text-white/60">STEP {index + 1}</div>
                     <div className="mt-1 text-xl font-semibold text-white">{step.title}</div>
                   </div>
-                </div>
-
-                <div className="rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.06)" }}>
-                  <span style={{ color: step.color }}>●</span> {step.micro}
                 </div>
               </div>
 
@@ -934,10 +917,10 @@ function FrameworkStep({ step, index, reduce }) {
               </div>
             </div>
 
-            <div className="lg:col-span-5">
+            <div className={`lg:col-span-5 ${photoLeft ? "lg:order-1" : "lg:order-2"}`}>
               <PhotoPanel
                 src={step.photo}
-                className="h-[320px] lg:h-[440px]"
+                className="h-[260px] lg:h-[340px]"
               />
             </div>
           </div>
@@ -1070,16 +1053,9 @@ function DeliveryFormats() {
     <section id="formats" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
       <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
         <SectionHeader
-          eyebrow="DELIVERY FORMATS"
           title="Flexible Delivery Architecture"
           subtitle="Our model adapts to context — choose the execution format that fits your reality."
-          rightSlot={
-            <div className="hidden lg:block rounded-3xl bg-white/55 px-5 py-4 ring-1 ring-[#0B1220]/10">
-              <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">INTERACTION</div>
-              <div className="mt-1 text-sm font-semibold text-[#0B1220]">Tabs switch with animated transitions</div>
-            </div>
-          }
-        />
+          />
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
           <div className="lg:col-span-5">
@@ -1123,13 +1099,6 @@ function DeliveryFormats() {
               })}
             </div>
 
-            <div className="mt-6 rounded-3xl bg-white/55 p-6 ring-1 ring-[#0B1220]/10">
-              <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">NOTE</div>
-              <div className="mt-2 text-sm font-semibold text-[#0B1220]">Custom-tailored execution is supported</div>
-              <div className="mt-2 text-sm text-[#0B1220]/70">
-                We adapt scope, cadence, and evaluation to match your constraints while preserving measurable outcomes.
-              </div>
-            </div>
           </div>
 
           <div className="lg:col-span-7">
@@ -1155,12 +1124,6 @@ function DeliveryFormats() {
                           </div>
                         </div>
 
-                        <div
-                          className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                          style={{ background: "rgba(11,18,32,0.06)", borderColor: "rgba(11,18,32,0.12)", color: "rgba(11,18,32,0.75)" }}
-                        >
-                          Architecture-ready
-                        </div>
                       </div>
 
                       <div className="mt-4 text-sm leading-relaxed text-[#0B1220]/70">{current.desc}</div>
@@ -1215,12 +1178,10 @@ function ExpertEcosystem() {
     <section id="experts" className="relative" style={{ background: DARK_SECTION_BG, color: "white" }}>
       <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
         <SectionHeader
-          eyebrow="EXPERT-LED ECOSYSTEM"
           title="Built on Real Industry Expertise"
           subtitle="No simulated environments. No generic teaching. Only active market practitioners."
           dark
-          rightSlot={<GradientButton href="#partnerships">Work With Us</GradientButton>}
-        />
+          />
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
           <div className="lg:col-span-5">
@@ -1263,46 +1224,12 @@ function ExpertEcosystem() {
                         </div>
                       </div>
 
-                      <motion.div
-                        className="hidden sm:block rounded-2xl px-4 py-3 text-xs font-semibold ring-1 ring-white/10"
-                        style={{ background: "rgba(255,255,255,0.06)" }}
-                        whileHover={{ scale: 1.02 }}
-                      >
-                        Hover to reveal
-                      </motion.div>
-                    </div>
-
-                    <div className="relative mt-4 text-sm leading-relaxed text-white/70">
-                      <span className="text-white/85">Expectation:</span> active practitioners who deliver and evaluate against real standards — not generic content.
-                    </div>
-
-                    <div className="relative mt-6 flex flex-wrap gap-2">
-                      {["Mentor reviews", "Delivery standards", "Performance signals", "Portfolio proof"].map((t, idx) => (
-                        <span
-                          key={t}
-                          className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                          style={{
-                            background: idx % 2 === 0 ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "rgba(255,255,255,0.06)",
-                            borderColor: "rgba(255,255,255,0.12)",
-                            color: "rgba(255,255,255,0.88)",
-                          }}
-                        >
-                          {t}
-                        </span>
-                      ))}
                     </div>
                   </motion.div>
                 );
               })}
             </div>
 
-            <div className="mt-6 rounded-[34px] bg-white/5 p-6 ring-1 ring-white/10">
-              <div className="text-xs font-semibold tracking-widest text-white/60">WHY IT MATTERS</div>
-              <div className="mt-2 text-xl font-semibold text-white">Expert-led evaluation creates credible signals.</div>
-              <div className="mt-2 text-sm text-white/70">
-                Hiring teams recognize validated outputs faster than attendance-based “certificates”.
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -1315,7 +1242,6 @@ function AILayer() {
     <section id="ai" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
       <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
         <SectionHeader
-          eyebrow="AI INTEGRATION LAYER"
           title="AI Embedded Across All Programs"
           subtitle="AI is not a separate course — it’s an integrated layer across disciplines to ensure future-proof capability."
         />
@@ -1426,23 +1352,14 @@ function PartnershipArchitecture() {
     <section id="partnerships" className="relative" style={{ background: DARK_SECTION_BG, color: "white" }}>
       <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
         <SectionHeader
-          eyebrow="INSTITUTIONAL & ORGANIZATIONAL MODEL"
           title="Scalable Partnership Architecture"
           subtitle="Structured models for universities, companies, and governments — with expandable scopes."
           dark
-          rightSlot={
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <GradientButton href="#closing">Explore Opportunities</GradientButton>
-              <GradientButton href="#top" variant="secondary">
-                Back to Top
-              </GradientButton>
-            </div>
-          }
-        />
+          />
 
         <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
           <div className="lg:col-span-5">
-            <PhotoPanel src={IMAGES.partnerships} className="h-[420px] lg:h-[560px]" />
+            <PhotoPanel src={IMAGES.partnerships} className="h-[320px] lg:h-[430px]" />
           </div>
 
           <div className="lg:col-span-7">
@@ -1458,13 +1375,6 @@ function PartnershipArchitecture() {
               }))}
             />
 
-            <div className="mt-6 rounded-[34px] bg-white/5 p-6 ring-1 ring-white/10">
-              <div className="text-xs font-semibold tracking-widest text-white/60">DESIGN NOTE</div>
-              <div className="mt-2 text-xl font-semibold text-white">Same framework, different contexts</div>
-              <div className="mt-2 text-sm text-white/70">
-                The architecture adapts to objectives, but the outcome logic remains consistent: alignment → execution → validation → impact.
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -1477,7 +1387,6 @@ function Differentiator() {
     <section className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
       <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
         <SectionHeader
-          eyebrow="THE DIFFERENTIATOR"
           title="Why Our Model Works"
           subtitle="We design systems that produce performance — not participation."
         />
@@ -1543,7 +1452,7 @@ function Closing() {
         />
       </div>
 
-      <div className="relative mx-auto max-w-7xl px-5 py-16 sm:py-20">
+      <div className="relative mx-auto max-w-7xl px-5 pt-7 pb-14 sm:pt-9 sm:pb-16">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1551,12 +1460,8 @@ function Closing() {
           transition={{ duration: 0.65, ease: "easeOut" }}
           className="mx-auto max-w-4xl text-center"
         >
-          <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-            <Sparkles className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} />
-            <span>CLOSING</span>
-          </div>
 
-          <h3 className="mt-6 text-balance text-4xl font-semibold leading-tight text-white sm:text-5xl">
+          <h3 className="mt-1 text-balance text-4xl font-semibold leading-tight text-white sm:text-5xl">
             From Capability to Impact. <br />
             From Theory to Execution. <br />
             From Learning to Leadership.
@@ -1567,23 +1472,12 @@ function Closing() {
           </p>
 
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <GradientButton href="#partnerships">Work With Us</GradientButton>
+            <GradientButton href="/about/partnerships">Work With Us</GradientButton>
             <GradientButton href="#framework" variant="secondary">
               Explore Our Framework
             </GradientButton>
           </div>
 
-          <motion.div
-            className="mt-10 rounded-[34px] border border-white/10 bg-white/5 px-6 py-8"
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <div className="text-xs font-semibold tracking-widest text-white/60">PREMIUM TONE</div>
-            <div className="mt-2 text-lg font-semibold text-white">Wide spacing • consistent hierarchy • micro-interactions</div>
-            <div className="mt-2 text-sm text-white/70">
-              This page keeps the same Praktix color system while making each section visually distinct via unique imagery and motion.
-            </div>
-          </motion.div>
         </motion.div>
       </div>
 
@@ -1645,3 +1539,6 @@ const css = `
   100%{ transform: translateX(-30%) rotate(-10deg); }
 }
 `;
+
+
+

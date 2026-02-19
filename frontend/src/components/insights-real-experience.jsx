@@ -112,17 +112,6 @@ function IconBadge({ color, children }) {
   );
 }
 
-function Anchor({ href, label }) {
-  return (
-    <a
-      href={href}
-      className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      {label}
-    </a>
-  );
-}
-
 function Pill({ label }) {
   return (
     <span
@@ -193,7 +182,7 @@ function SectionTitle({ eyebrow, title, accent, subtitle, dark }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -1303,60 +1292,14 @@ export default function RealExperiencePage() {
         />
       </div>
 
-      {/* Sticky top nav */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${pinkRGBA(0.72)} 70%)`,
-              }}
-            >
-              <span className="text-sm font-black tracking-widest">P</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">PRAKTIX</div>
-              <div className="text-xs text-white/60">Real Experience System</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <Anchor href="#hero" label="Hero" />
-            <Anchor href="#meaning" label="Meaning" />
-            <Anchor href="#lifecycle" label="Lifecycle" />
-            <Anchor href="#categories" label="Projects" />
-            <Anchor href="#deliverables" label="Deliverables" />
-            <Anchor href="#compare" label="Comparison" />
-            <Anchor href="#global" label="Germany" />
-            <Anchor href="#closing" label="CTA" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#categories"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
-            >
-              Explore Projects
-            </a>
-            <GradientButton href="#closing">Start Now</GradientButton>
-          </div>
-        </div>
-      </header>
-
       {/* HERO */}
       <section id="hero" className="relative" style={{ background: DARK_SECTION_BG }}>
         <ProjectBoardBG />
-        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-14 pt-8 lg:grid-cols-2 lg:pb-20 lg:pt-12">
           <motion.div variants={staggerWrap} initial="hidden" animate="show">
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Briefcase className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>REAL EXPERIENCE</span>
-            </div>
-
             <motion.h1
               variants={fadeUp}
-              className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl"
+              className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl"
             >
               Experience Is Not an Add-On.
               <br />
@@ -1475,7 +1418,6 @@ export default function RealExperiencePage() {
       <section id="meaning" className="relative" style={{ background: THEME.deep }}>
         <div ref={meaning.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow='WHAT “REAL EXPERIENCE” MEANS'
             title="Not Simulation."
             accent="Not Case Studies."
             subtitle="Three pillars that make experience the core operating model."
@@ -1489,7 +1431,6 @@ export default function RealExperiencePage() {
       <section id="lifecycle" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="PROJECT LIFECYCLE MODEL"
             title="How real projects are structured"
             subtitle="A clear lifecycle: define → scope → execute → review → deliver."
           />
@@ -1501,7 +1442,6 @@ export default function RealExperiencePage() {
       <section id="categories" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="TYPES OF REAL PROJECTS"
             title="Project categories"
             accent="across disciplines"
             subtitle="Click any card to expand objective, typical deliverable, and skill focus."
@@ -1515,7 +1455,6 @@ export default function RealExperiencePage() {
       <section id="deliverables" className="relative" style={{ background: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="SAMPLE DELIVERABLES"
             title="What participants actually build"
             subtitle="A slider-style preview with clean navigation and high polish."
             dark
@@ -1528,7 +1467,6 @@ export default function RealExperiencePage() {
       <section id="supervision" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="EXPERT INVOLVEMENT FRAMEWORK"
             title="Supervision"
             accent="that builds capability"
             subtitle="Layered support with parallax depth — like stacked review layers."
@@ -1542,7 +1480,6 @@ export default function RealExperiencePage() {
       <section id="compare" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="EXPERIENCE VS TRADITIONAL LEARNING"
             title="The difference"
             accent="is structural"
             subtitle="Two columns: old model vs execution-first system."
@@ -1555,7 +1492,6 @@ export default function RealExperiencePage() {
       <section id="global" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="GLOBAL EXPOSURE INTEGRATION"
             title="Experience"
             accent="beyond borders"
             subtitle="For selected high-performing teams: Germany invitation + ecosystem exposure."

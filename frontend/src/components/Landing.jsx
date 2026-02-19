@@ -41,10 +41,6 @@ const PAPER_GRAIN_DATA_URI =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E";
 
 const IMAGES = {
-  heroBg:
-    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
-  heroPortrait:
-    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
   solution1: "/students.jpg",
   solution2: "/adas.jpg",
   solution3:
@@ -526,54 +522,222 @@ function SuccessStories({ items }) {
    HERO
 ----------------------------------------------------------- */
 
-function CircuitOverlay({ opacity = 0.24 }) {
-  return (
-    <div
-      className="pointer-events-none absolute inset-0"
-      style={{
-        opacity,
-        backgroundImage:
-          "radial-gradient(circle at 20% 30%, rgba(255,255,255,0.40), transparent 55%)," +
-          "radial-gradient(circle at 80% 20%, rgba(255,255,255,0.30), transparent 60%)," +
-          "linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px)," +
-          "linear-gradient(0deg, rgba(255,255,255,0.14) 1px, transparent 1px)",
-        backgroundSize: "auto, auto, 42px 42px, 42px 42px",
-        mixBlendMode: "soft-light",
-      }}
-    />
-  );
+function EcosystemCanvas({ pulseKey, reduce }) {
+  const canvasRef = React.useRef(null);
+  const nodesRef = React.useRef([]);
+  const frameRef = React.useRef(0);
+  const sizeRef = React.useRef({ w: 0, h: 0 });
+  const [staticMode, setStaticMode] = useState(false);
+
+  React.useEffect(() => {
+    const lowCore = navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4;
+    const lowMemory = navigator.deviceMemory && navigator.deviceMemory <= 4;
+    setStaticMode(Boolean(lowCore || lowMemory));
+  }, []);
+
+  React.useEffect(() => {
+    if (reduce || staticMode) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const makeNodes = (w, h) => {
+      const mobile = window.innerWidth < 768;
+      const count = mobile ? 20 : 34;
+      const palette = [
+        "rgba(197,31,93,0.95)",
+        "rgba(82,214,149,0.95)",
+        "rgba(147,230,184,0.90)",
+        "rgba(255,255,255,0.85)",
+      ];
+
+      nodesRef.current = Array.from({ length: count }, (_, idx) => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.07,
+        vy: (Math.random() - 0.5) * 0.07,
+        r: 1.2 + Math.random() * 2.4,
+        color: palette[idx % palette.length],
+        pulseOffset: Math.random() * Math.PI * 2,
+        core: idx % 8 === 0,
+        boost: 0,
+      }));
+    };
+
+    const fit = () => {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(rect.width * dpr);
+      canvas.height = Math.floor(rect.height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      sizeRef.current = { w: rect.width, h: rect.height };
+      makeNodes(rect.width, rect.height);
+    };
+
+    const draw = (ts) => {
+      const { w, h } = sizeRef.current;
+      ctx.clearRect(0, 0, w, h);
+
+      const nodes = nodesRef.current;
+      const maxDist = 110;
+      const cycle = 13000;
+      const phase = ((ts % cycle) / cycle) * Math.PI * 2;
+
+      for (let i = 0; i < nodes.length; i += 1) {
+        const n = nodes[i];
+        n.x += n.vx;
+        n.y += n.vy;
+
+        if (n.x < 0 || n.x > w) n.vx *= -1;
+        if (n.y < 0 || n.y > h) n.vy *= -1;
+        n.x = Math.max(0, Math.min(w, n.x));
+        n.y = Math.max(0, Math.min(h, n.y));
+        n.boost *= 0.95;
+      }
+
+      for (let i = 0; i < nodes.length; i += 1) {
+        for (let j = i + 1; j < nodes.length; j += 1) {
+          const a = nodes[i];
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist > maxDist) continue;
+          const alpha = (1 - dist / maxDist) * 0.34;
+          ctx.strokeStyle = `rgba(173, 227, 205, ${alpha})`;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+
+      for (let i = 0; i < nodes.length; i += 1) {
+        const n = nodes[i];
+        const pulse = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(phase + n.pulseOffset));
+        const radius = n.r + pulse * 0.8 + n.boost * 1.8;
+        const glow = n.core ? 14 : 8;
+        ctx.shadowBlur = glow + n.boost * 18;
+        ctx.shadowColor = n.color;
+        ctx.fillStyle = n.color;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+      frameRef.current = window.requestAnimationFrame(draw);
+    };
+
+    fit();
+    frameRef.current = window.requestAnimationFrame(draw);
+    window.addEventListener("resize", fit);
+    return () => {
+      window.removeEventListener("resize", fit);
+      if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
+    };
+  }, [reduce, staticMode]);
+
+  React.useEffect(() => {
+    if (reduce || staticMode || nodesRef.current.length === 0) return;
+    const nodes = nodesRef.current;
+    const flashes = Math.min(3, nodes.length);
+    for (let i = 0; i < flashes; i += 1) {
+      const idx = Math.floor(Math.random() * nodes.length);
+      nodes[idx].boost = 1.1;
+    }
+  }, [pulseKey, reduce, staticMode]);
+
+  if (staticMode || reduce) {
+    return (
+      <div
+        className="absolute inset-0 rounded-full"
+        style={{
+          background:
+            "radial-gradient(58% 58% at 32% 30%, rgba(197,31,93,0.26), transparent 70%)," +
+            "radial-gradient(56% 56% at 72% 68%, rgba(82,214,149,0.28), transparent 72%)," +
+            "linear-gradient(135deg, rgba(11,18,32,0.94), rgba(20,35,58,0.95))",
+        }}
+      />
+    );
+  }
+
+  return <canvas ref={canvasRef} className="absolute inset-0 h-full w-full rounded-full" aria-hidden="true" />;
 }
 
-function HeroPortrait({ theme, y }) {
+function HeroEcosystem({ y, pulseKey, reduce }) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   return (
-    <motion.div style={{ y }} className="relative mx-auto w-full max-w-[520px]">
-      <div className="relative aspect-square w-full">
-        <div className="absolute inset-6 rounded-full border border-[rgba(36,52,71,0.22)] bg-white/5" />
-
-        <div
-          className="absolute inset-10 rounded-full"
+    <motion.div style={{ y }} className="relative mx-auto w-full max-w-[460px] sm:max-w-[560px]">
+      <motion.div
+        className="group relative mx-auto aspect-square w-full max-w-[420px] sm:max-w-[500px]"
+        whileHover={
+          reduce || isMobile
+            ? undefined
+            : {
+                scale: 1.03,
+                filter: "drop-shadow(0 0 26px rgba(197,31,93,0.28))",
+              }
+        }
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
+        <motion.div
+          className="absolute rounded-full border border-[rgba(197,31,93,0.38)]"
+          animate={
+            reduce || isMobile
+              ? undefined
+              : {
+                  rotate: 360,
+                }
+          }
+          transition={
+            reduce || isMobile
+              ? undefined
+              : {
+                  duration: 18,
+                  repeat: Infinity,
+                  ease: "linear",
+                }
+          }
           style={{
-            background:
-              "conic-gradient(from 210deg, rgba(36,52,71,0.82), rgba(60,200,255,0.55), rgba(11,18,32,0.86))",
+            inset: isMobile ? 10 : 16,
+            boxShadow: "0 0 0 1px rgba(82,214,149,0.34), 0 0 46px rgba(82,214,149,0.20)",
           }}
         />
-        <div
-          className="absolute inset-[52px] rounded-full"
+        <motion.div
+          className="absolute rounded-full border border-[rgba(255,255,255,0.14)]"
+          animate={{ opacity: [0.38, 0.62, 0.38] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           style={{
-            // ? match light background paper, not bright cream
-            background: theme === "light" ? COLORS.paper : COLORS.navy,
+            inset: isMobile ? 24 : 36,
+            boxShadow: "inset 0 0 34px rgba(197,31,93,0.22)",
           }}
         />
 
-        <div className="absolute inset-16 overflow-hidden rounded-full border-[12px] border-white/80 shadow-[0_28px_100px_rgba(0,0,0,0.20)]">
-          <img
-            src={IMAGES.heroPortrait}
-            alt="Student"
-            className="h-full w-full object-cover"
+        <div
+          className="absolute overflow-hidden rounded-full border border-white/12 bg-[linear-gradient(145deg,rgba(9,17,30,0.98),rgba(17,30,51,0.98))]"
+          style={{ inset: isMobile ? 40 : 58 }}
+        >
+          <EcosystemCanvas pulseKey={pulseKey} reduce={reduce} />
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background:
+                "radial-gradient(circle at 26% 30%, rgba(197,31,93,0.18), transparent 54%)," +
+                "radial-gradient(circle at 74% 64%, rgba(82,214,149,0.20), transparent 58%)",
+            }}
           />
         </div>
-
-      </div>
+      </motion.div>
     </motion.div>
   );
 }
@@ -584,7 +748,7 @@ function HeroPortrait({ theme, y }) {
 
 function StatTile({ variant, value, label }) {
   const common =
-    "relative overflow-hidden rounded-[26px] px-10 py-9 md:px-12 md:py-10";
+    "relative overflow-hidden rounded-[26px] px-6 py-7 sm:px-10 sm:py-9 md:px-12 md:py-10";
 
   if (variant === "pink") {
     return (
@@ -613,7 +777,7 @@ function StatTile({ variant, value, label }) {
             transform: "rotate(10deg)",
           }}
         />
-        <div className="relative text-6xl font-semibold leading-none">
+        <div className="relative text-4xl font-semibold leading-none sm:text-6xl">
           {value}
         </div>
         <div className="relative mt-3 text-sm font-semibold text-white/80">
@@ -643,7 +807,7 @@ function StatTile({ variant, value, label }) {
               "radial-gradient(150px 150px at 92% 18%, transparent 56%, rgba(255,255,255,0.08) 57%, transparent 64%)",
           }}
         />
-        <div className="relative text-6xl font-semibold leading-none">
+        <div className="relative text-4xl font-semibold leading-none sm:text-6xl">
           {value}
         </div>
         <div className="relative mt-3 text-sm font-semibold text-white/70">
@@ -666,7 +830,7 @@ function StatTile({ variant, value, label }) {
           "linear-gradient(135deg, rgba(255,255,255,0.70), rgba(245,245,236,0.92))",
       }}
     >
-      <div className="text-6xl font-semibold leading-none text-[#1F2A37]">
+      <div className="text-4xl font-semibold leading-none text-[#1F2A37] sm:text-6xl">
         {String(value).replace("+", "")}
         <span className="text-[color:var(--accent)]">+</span>
       </div>
@@ -1063,15 +1227,19 @@ export default function LandingPage() {
     mass: 0.7,
   });
 
-  const heroBgY = useTransform(scrollY, [0, 900], [0, reduce ? 0 : 18]);
-  const heroArtY = useTransform(scrollY, [0, 900], [0, reduce ? 0 : -10]);
-  const heroWords = ["Experience", "Evaluation", "Outcomes"];
+  const heroTextY = useTransform(scrollY, [0, 480], [0, reduce ? 0 : -24]);
+  const heroArtY = useTransform(scrollY, [0, 480], [0, reduce ? 0 : -10]);
+  const heroNetworkScale = useTransform(scrollY, [0, 480], [1, reduce ? 1 : 0.96]);
+  const heroNetworkOpacity = useTransform(scrollY, [0, 480], [1, reduce ? 1 : 0.9]);
+  const heroWords = ["Experience", "Projects", "Outcomes", "Capability", "Impact"];
   const [heroWordIndex, setHeroWordIndex] = useState(0);
+  const [heroPulseTick, setHeroPulseTick] = useState(0);
   React.useEffect(() => {
     if (reduce) return;
     const id = window.setInterval(() => {
       setHeroWordIndex((prev) => (prev + 1) % heroWords.length);
-    }, 2300);
+      setHeroPulseTick((prev) => prev + 1);
+    }, 2500);
     return () => window.clearInterval(id);
   }, [reduce, heroWords.length]);
 
@@ -1314,133 +1482,94 @@ export default function LandingPage() {
         style={{ scaleX: progress, background: "var(--accent)" }}
       />
 
-      <main className="pb-16">
+      <main className="overflow-x-clip pb-16">
         {/* HERO */}
         <section className="mx-auto max-w-6xl px-4 pt-1 sm:pt-2">
           <GlassCard className="relative overflow-hidden p-4 sm:p-6 md:p-10">
-            <motion.div
-              className="absolute inset-0 opacity-[0.12]"
-              style={{
-                y: heroBgY,
-                backgroundImage: `url(${IMAGES.heroBg})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                transform: "scale(1.06)",
-              }}
-            />
-
-            {!reduce && (
-              <>
-                <motion.div
-                  className="pointer-events-none absolute -left-24 -top-20 h-72 w-72 rounded-full"
-                  style={{ background: "radial-gradient(circle, rgba(197,31,93,0.18), transparent 60%)" }}
-                  animate={{ y: [0, 18, 0], x: [0, 10, 0] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <motion.div
-                  className="pointer-events-none absolute -right-28 top-10 h-80 w-80 rounded-full"
-                  style={{ background: "radial-gradient(circle, rgba(60,200,255,0.16), transparent 60%)" }}
-                  animate={{ y: [0, -16, 0], x: [0, -12, 0] }}
-                  transition={{ duration: 9.5, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </>
-            )}
-
-            {/* ? less white overlay in light mode (so it stays paper, not bright) */}
             <div
               className="absolute inset-0"
               style={{
-                background: !isDark
-                  ? "linear-gradient(180deg, rgba(255,255,255,0.22), rgba(226,226,210,0.88))"
-                  : "linear-gradient(180deg, rgba(11,18,32,0.84), rgba(11,18,32,0.94))",
+                background:
+                  "linear-gradient(135deg, rgba(6,12,22,0.98), rgba(11,24,41,0.96) 55%, rgba(9,18,33,0.98))",
               }}
             />
-
             <div
-              className="absolute inset-0"
+              className="absolute inset-0 opacity-95"
               style={{
-                background: !isDark
-                  ? "radial-gradient(700px 380px at 22% 24%, rgba(36,52,71,0.10), transparent 68%)"
-                  : "radial-gradient(700px 380px at 22% 24%, rgba(60,200,255,0.16), transparent 65%)",
+                background:
+                  "radial-gradient(900px 600px at 16% 14%, rgba(197,31,93,0.16), transparent 66%)," +
+                  "radial-gradient(900px 620px at 84% 22%, rgba(82,214,149,0.16), transparent 65%)," +
+                  "radial-gradient(1200px 900px at 60% 86%, rgba(147,230,184,0.08), transparent 75%)",
               }}
             />
 
-            {!isDark ? (
-              <CircuitOverlay opacity={0.18} />
-            ) : (
-              <CircuitOverlay opacity={0.10} />
-            )}
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={heroPulseTick}
+                className="pointer-events-none absolute inset-0"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0, 0.16, 0] }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                style={{
+                  background:
+                    "radial-gradient(500px 260px at 66% 40%, rgba(197,31,93,0.22), transparent 70%)",
+                }}
+              />
+            </AnimatePresence>
 
-            <div className="pointer-events-none absolute right-[16%] top-[-40%] hidden h-[200%] w-[14px] rotate-[18deg] rounded-full bg-[linear-gradient(180deg,rgba(36,52,71,0.70),rgba(60,200,255,0.14))] opacity-60 sm:block" />
-
-            <div className="relative grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
-              <div>
-                <h1 className="mt-2 text-4xl font-light tracking-tight text-[color:var(--text)] sm:text-5xl md:text-6xl">
-                  <span>Real </span>
-                  <span className="inline-block">
+            <div className="relative grid gap-10 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
+              <motion.div style={{ y: heroTextY }}>
+                <h1 className="mt-2 text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl">
+                  <span className="block">Real</span>
+                  <span className="block h-[1.2em] text-[color:var(--accent)]">
                     <AnimatePresence mode="wait">
                       <motion.span
                         key={heroWords[heroWordIndex]}
-                        className="inline-flex font-semibold text-[color:var(--accent)]"
-                        initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
+                        className="inline-flex font-semibold"
+                        initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={reduce ? { opacity: 1 } : { opacity: 0, y: -14 }}
-                        transition={reduce ? { duration: 0 } : { duration: 0.28, ease: "easeOut" }}
+                        exit={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
+                        transition={reduce ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
                       >
-                        {heroWords[heroWordIndex].split("").map((ch, idx) => (
-                          <motion.span
-                            key={`${heroWords[heroWordIndex]}-${idx}`}
-                            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={reduce ? { opacity: 1 } : { opacity: 0, y: -8 }}
-                            transition={reduce ? { duration: 0 } : { duration: 0.18, delay: idx * 0.018 }}
-                          >
-                            {ch}
-                          </motion.span>
-                        ))}
+                        {heroWords[heroWordIndex]}
                       </motion.span>
                     </AnimatePresence>
                   </span>
                 </h1>
 
-                <p className="mt-5 max-w-[58ch] text-base font-medium leading-relaxed text-[color:var(--muted)] sm:text-lg">
-                  Structured real-world experience designed to turn potential into measurable capability.
+                <p className="mt-6 max-w-[56ch] text-base font-medium leading-relaxed text-white/78 sm:text-lg">
+                  Structured industry-driven programs connecting education, AI, and global expertise.
+                </p>
+                <p className="max-w-[56ch] text-base font-medium leading-relaxed text-white/78 sm:text-lg">
+                  Built to turn potential into measurable performance.
                 </p>
 
-                <div className="mt-4 flex flex-col gap-2 text-sm font-semibold tracking-wide sm:text-base">
-                  {[
-                    {
-                      label: "Industry projects.",
-                      color: isDark ? "#60c8ff" : "#0d5b8f",
-                    },
-                    {
-                      label: "Expert evaluation.",
-                      color: isDark ? "#35d6a6" : "#0f7a59",
-                    },
-                    {
-                      label: "Verified outcomes.",
-                      color: isDark ? "#ffad66" : "#a54a06",
-                    },
-                  ].map((item, idx) => (
-                    <motion.p
-                      key={item.label}
-                      initial={reduce ? { opacity: 1, x: 0 } : { opacity: 0, x: -18 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={reduce ? { duration: 0 } : { duration: 0.45, delay: 0.12 + idx * 0.1, ease: "easeOut" }}
-                      whileHover={reduce ? undefined : { x: 6 }}
-                      className="w-fit"
-                      style={{
-                        color: item.color,
-                        textShadow: isDark ? "0 0 18px rgba(96,200,255,0.18)" : "0 4px 14px rgba(13,91,143,0.08)",
-                      }}
-                    >
-                      {item.label}
-                    </motion.p>
-                  ))}
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <motion.a
+                    href="#method"
+                    onClick={(e) => (e.preventDefault(), smoothScrollTo("method"))}
+                    className="inline-flex w-full items-center justify-center rounded-full border border-[rgba(197,31,93,0.55)] bg-[rgba(197,31,93,0.88)] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(197,31,93,0.42)] sm:w-auto"
+                    whileHover={reduce ? undefined : { y: -2 }}
+                    whileTap={reduce ? undefined : { scale: 0.98 }}
+                  >
+                    Explore Programs
+                  </motion.a>
+                  <motion.a
+                    href="#solutions"
+                    onClick={(e) => (e.preventDefault(), smoothScrollTo("solutions"))}
+                    className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-[rgba(197,31,93,0.52)] hover:shadow-[0_0_16px_rgba(197,31,93,0.34)] sm:w-auto"
+                    whileHover={reduce ? undefined : { y: -2 }}
+                    whileTap={reduce ? undefined : { scale: 0.98 }}
+                  >
+                    For Organizations
+                  </motion.a>
                 </div>
-              </div>
+              </motion.div>
 
-              <HeroPortrait theme={theme} y={heroArtY} />
+              <motion.div style={{ scale: heroNetworkScale, opacity: heroNetworkOpacity }}>
+                <HeroEcosystem y={heroArtY} pulseKey={heroPulseTick} reduce={reduce} />
+              </motion.div>
             </div>
           </GlassCard>
         </section>
@@ -1496,43 +1625,7 @@ export default function LandingPage() {
           </MotionItem>
 
           <MotionItem>
-          <motion.div
-            className="mt-8 mb-2 flex justify-center"
-            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.45 }}
-            transition={{ duration: 0.38, ease: "easeOut" }}
-          >
-            <div
-              className="relative inline-flex items-center justify-center overflow-hidden rounded-full border px-7 py-3"
-              style={{
-                borderColor: isDark ? "rgba(255,255,255,0.18)" : "rgba(36,52,71,0.16)",
-                background: isDark
-                  ? "linear-gradient(135deg, rgba(20,29,38,0.86), rgba(36,52,71,0.82))"
-                  : "linear-gradient(135deg, rgba(255,255,255,0.70), rgba(226,226,210,0.85))",
-                boxShadow: isDark
-                  ? "0 16px 46px rgba(0,0,0,0.30)"
-                  : "0 16px 46px rgba(15,23,42,0.12)",
-              }}
-            >
-              <motion.span
-                className="pointer-events-none absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(110deg, transparent 0%, rgba(197,31,93,0.10) 35%, rgba(197,31,93,0.20) 50%, rgba(36,52,71,0.10) 68%, transparent 100%)",
-                }}
-                animate={reduce ? undefined : { x: ["-55%", "55%"] }}
-                transition={reduce ? undefined : { duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <span className="relative text-base font-extrabold tracking-[0.08em] uppercase text-[color:var(--accent)] sm:text-lg">
-                For Individuals
-              </span>
-            </div>
-          </motion.div>
-          </MotionItem>
-
-          <MotionItem>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
             {SOLUTIONS.map((s) => (
               <PillarCard key={s.title} theme={theme} item={s} />
             ))}
@@ -1597,24 +1690,22 @@ export default function LandingPage() {
             <button
               type="button"
               onClick={goOrgLeft}
-              className="absolute -left-5 top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-3xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_16px_40px_rgba(197,31,93,0.34)] transition-transform duration-150 hover:-translate-y-[52%] hover:brightness-105 lg:-left-20"
+              className="absolute left-1 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-2xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_12px_26px_rgba(197,31,93,0.30)] transition-transform duration-150 sm:-left-5 sm:h-14 sm:w-14 sm:rounded-3xl sm:shadow-[0_16px_40px_rgba(197,31,93,0.34)] sm:hover:-translate-y-[52%] sm:hover:brightness-105 lg:-left-20"
               aria-label="Scroll organizations cards left"
             >
-              <ChevronLeft className="h-5 w-5 text-white" />
+              <ChevronLeft className="h-4 w-4 text-white sm:h-5 sm:w-5" />
             </button>
 
             <button
               type="button"
               onClick={goOrgRight}
-              className="absolute -right-5 top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-3xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_16px_40px_rgba(197,31,93,0.34)] transition-transform duration-150 hover:-translate-y-[52%] hover:brightness-105 lg:-right-20"
+              className="absolute right-1 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-2xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_12px_26px_rgba(197,31,93,0.30)] transition-transform duration-150 sm:-right-5 sm:h-14 sm:w-14 sm:rounded-3xl sm:shadow-[0_16px_40px_rgba(197,31,93,0.34)] sm:hover:-translate-y-[52%] sm:hover:brightness-105 lg:-right-20"
               aria-label="Scroll organizations cards right"
             >
-              <ChevronRight className="h-5 w-5 text-white" />
+              <ChevronRight className="h-4 w-4 text-white sm:h-5 sm:w-5" />
             </button>
 
-            <div
-              className="overflow-hidden px-10"
-            >
+            <div className="overflow-hidden px-2 sm:px-10">
               <motion.div
                 className="flex"
                 animate={{ x: `-${(orgIndex * 100) / orgVisible}%` }}
@@ -1793,22 +1884,22 @@ export default function LandingPage() {
             <button
               type="button"
               onClick={goExpertLeft}
-              className="absolute -left-5 top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-3xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_16px_40px_rgba(197,31,93,0.34)] transition-transform duration-150 hover:-translate-y-[52%] hover:brightness-105 lg:-left-20"
+              className="absolute left-1 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-2xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_12px_26px_rgba(197,31,93,0.30)] transition-transform duration-150 sm:-left-5 sm:h-14 sm:w-14 sm:rounded-3xl sm:shadow-[0_16px_40px_rgba(197,31,93,0.34)] sm:hover:-translate-y-[52%] sm:hover:brightness-105 lg:-left-20"
               aria-label="Scroll experts left"
             >
-              <ChevronLeft className="h-5 w-5 text-white" />
+              <ChevronLeft className="h-4 w-4 text-white sm:h-5 sm:w-5" />
             </button>
 
             <button
               type="button"
               onClick={goExpertRight}
-              className="absolute -right-5 top-1/2 z-10 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-3xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_16px_40px_rgba(197,31,93,0.34)] transition-transform duration-150 hover:-translate-y-[52%] hover:brightness-105 lg:-right-20"
+              className="absolute right-1 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-2xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_12px_26px_rgba(197,31,93,0.30)] transition-transform duration-150 sm:-right-5 sm:h-14 sm:w-14 sm:rounded-3xl sm:shadow-[0_16px_40px_rgba(197,31,93,0.34)] sm:hover:-translate-y-[52%] sm:hover:brightness-105 lg:-right-20"
               aria-label="Scroll experts right"
             >
-              <ChevronRight className="h-5 w-5 text-white" />
+              <ChevronRight className="h-4 w-4 text-white sm:h-5 sm:w-5" />
             </button>
 
-            <div className="overflow-hidden px-10">
+            <div className="overflow-hidden px-2 sm:px-10">
               <motion.div
                 className="flex"
                 animate={{ x: `-${(expertIndex * 100) / expertVisible}%` }}

@@ -185,17 +185,6 @@ function GradientButton({ children, href, onClick, variant = "primary" }) {
   );
 }
 
-function Anchor({ href, label }) {
-  return (
-    <a
-      href={href}
-      className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      {label}
-    </a>
-  );
-}
-
 function SectionTitle({ eyebrow, title, accentText, subtitle, dark = false }) {
   return (
     <div className={cx("mx-auto max-w-6xl", dark ? "text-white" : "text-[#0B1220]")}>
@@ -211,7 +200,11 @@ function SectionTitle({ eyebrow, title, accentText, subtitle, dark = false }) {
         </div>
       ) : null}
 
-      <h2 className={cx("mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl")}>
+      <h2
+        className={cx(
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl"
+        )}
+      >
         {title}{" "}
         {accentText ? (
           <span style={{ color: THEME.pink }} className="whitespace-nowrap">
@@ -238,7 +231,6 @@ const AGE_GROUPS = [
     title: "Explorers",
     range: "9-12 Years",
     focus: "Creativity, logic, visual programming, digital confidence",
-    designNote: "Colorful but clean - Rounded shapes - Illustration-style visuals",
     icon: Lightbulb,
     accent: THEME.accent,
     learnStyle: ["Gamified lessons", "Visual coding platforms", "Mini project builds", "Team challenges"],
@@ -256,7 +248,6 @@ const AGE_GROUPS = [
     title: "Builders",
     range: "13-15 Years",
     focus: "Technical foundations + applied projects",
-    designNote: "More structured layout - More professional visuals - Learn -> Build transition",
     icon: Wrench,
     accent: THEME.accent3,
     learnStyle: ["Real coding intro", "Simplified data analysis", "Beginner AI models", "Small team collaboration"],
@@ -274,7 +265,6 @@ const AGE_GROUPS = [
     title: "Future Professionals",
     range: "16-18 Years",
     focus: "Pre-university preparation + portfolio building",
-    designNote: "Premium tone - Professional identity - School -> University -> Career progress",
     icon: Rocket,
     accent: THEME.accent2,
     learnStyle: ["Real-world scenarios", "Mentor project sprints", "Demo sessions", "Career exposure"],
@@ -1179,80 +1169,28 @@ export default function SchoolsEarlyTalentLanding() {
         </div>
       </div>
 
-      {/* Sticky top nav */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)`,
-              }}
-            >
-              <span className="text-sm font-black tracking-widest">S</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">Schools & Early Talent</div>
-              <div className="text-xs text-white/60">From curiosity to capability</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <Anchor href="#overview" label="Overview" />
-            <Anchor href="#why" label="Why This Matters" />
-            <Anchor href="#pathway" label="Age Pathway" />
-            <Anchor href="#tracks" label="Tracks" />
-            <Anchor href="#delivery" label="Delivery" />
-            <Anchor href="#register" label="Register" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#tracks"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
-            >
-              Explore Tracks
-            </a>
-            <GradientButton href="#register">Partner With Us</GradientButton>
-          </div>
-        </div>
-      </header>
-
       {/* HERO */}
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-14 pt-8 lg:grid-cols-2 lg:pb-20 lg:pt-12">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <GraduationCap className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>FOR ORGANIZATIONS &rarr; SCHOOLS</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
               Shaping Tomorrow's Innovators -
               <br />
               <span style={{ color: THEME.pink }}>From Curiosity to Capability</span>
             </h1>
 
             <p className="mt-5 max-w-xl text-balance text-base text-white/70 sm:text-lg">
-              Early exposure to AI, technology, and innovation for students aged <span className="font-semibold text-white">9-18</span>.
+                           We design structured, age-appropriate programs that transform curiosity into real skills - preparing the next generation for a digital future.
+ 
             </p>
 
-            <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-white/65">
-              We design structured, age-appropriate programs that transform curiosity into real skills - preparing the next generation for a digital future.
-            </p>
+
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
               <GradientButton href="#register">Partner With Us</GradientButton>
               <GradientButton href="#tracks" variant="secondary">
                 Explore Programs
               </GradientButton>
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              <Pill label="Age-appropriate" />
-              <Pill label="Safe & supervised" />
-              <Pill label="Project-based" />
-              <Pill label="Monthly intakes" />
             </div>
 
             <div className="mt-8 flex items-center gap-4 text-sm text-white/65">
@@ -1369,18 +1307,6 @@ export default function SchoolsEarlyTalentLanding() {
                 ))}
               </div>
 
-              <div className="absolute bottom-4 left-4 right-4 rounded-3xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur sm:bottom-6 sm:left-6 sm:right-6 sm:p-5">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
-                    <div className="text-xs font-semibold tracking-widest text-white/60">VISUAL DIRECTION</div>
-                    <div className="mt-1 text-sm font-semibold text-white">Connected live system - playful motion, structured layout.</div>
-                  </div>
-                  <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                    <Sparkles className="h-4 w-4" style={{ color: THEME.accent2 }} {...iconStrongProps} />
-                    <span>Animated connection map</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </motion.div>
         </div>
@@ -1390,7 +1316,6 @@ export default function SchoolsEarlyTalentLanding() {
       <section id="why" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="WHY EARLY TECHNOLOGY EDUCATION MATTERS"
             title="The Future Starts Earlier Than You Think"
             subtitle="By 2030, digital and AI skills will be essential across almost every profession - the goal is not just to use technology, but to create it."
           />
@@ -1408,7 +1333,6 @@ export default function SchoolsEarlyTalentLanding() {
                   <Lightbulb className="h-5 w-5" {...iconStrongProps} />
                 </IconBadge>
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">THE SHIFT</div>
                   <div className="mt-1 text-lg font-semibold">Curiosity becomes capability</div>
                 </div>
               </div>
@@ -1445,11 +1369,9 @@ export default function SchoolsEarlyTalentLanding() {
             >
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">VISUAL STORY</div>
                   <div className="mt-1 text-lg font-semibold">Curiosity &rarr; Capability</div>
                 </div>
 
-                <div className="rounded-full bg-[#0B1220] px-3 py-2 text-xs font-semibold text-white">Animated transition</div>
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-4">
@@ -1477,7 +1399,6 @@ export default function SchoolsEarlyTalentLanding() {
               <div className="mt-6 rounded-3xl bg-white/70 p-5 ring-1 ring-[#0B1220]/10">
                 <div className="flex items-center justify-between gap-3">
                   <div className="text-sm font-semibold text-[#0B1220]">Transition</div>
-                  <div className="text-xs font-semibold text-[#0B1220]/60">Animated label</div>
                 </div>
 
                 <div className="mt-4">
@@ -1510,10 +1431,8 @@ export default function SchoolsEarlyTalentLanding() {
       <section id="pathway" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="AGE-BASED LEARNING PATHWAY"
             title="Structured Learning by Age"
             accentText="& cognitive development"
-            subtitle="A clear pathway from playful exploration to portfolio-ready outputs."
             dark
           />
 
@@ -1629,7 +1548,6 @@ export default function SchoolsEarlyTalentLanding() {
       <section id="tracks" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="PROGRAM TRACKS"
             title="Core Technology Tracks"
             subtitle="12 core fields displayed as animated cards. Click to view details in a modal."
           />
@@ -1693,7 +1611,6 @@ export default function SchoolsEarlyTalentLanding() {
       <section id="delivery" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="DELIVERY MODELS"
             title="Flexible implementation"
             accentText="for schools & families"
             subtitle="Choose a model that fits your context - curriculum, club, or direct enrollment."
@@ -1806,7 +1723,6 @@ export default function SchoolsEarlyTalentLanding() {
       <section className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div ref={impactRef} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="SHOWCASE & SUPERVISION"
             title="From learning to presenting"
             subtitle="Students present final projects to mentors, parents, and school representatives - with optional excellence recognition."
           />
@@ -1839,9 +1755,18 @@ export default function SchoolsEarlyTalentLanding() {
               </div>
 
               <div className="mt-7 rounded-3xl bg-white/70 p-5 ring-1 ring-[#0B1220]/10">
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">OPTIONAL PATHWAYS</div>
-                <div className="mt-2 text-sm text-[#0B1220]/70">
-                  Top-performing students can receive an Advanced Track Invitation and (16+) Early Internship Pathway.
+                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">TOP-PERFORMING STUDENTS RECEIVE</div>
+                <div className="mt-3 space-y-2">
+                  {[
+                    "Certificate of Excellence",
+                    "Advanced track invitation",
+                    "Early internship pathway (16+ age group)",
+                  ].map((x) => (
+                    <div key={x} className="flex items-start gap-3 text-sm text-[#0B1220]/75">
+                      <span className="mt-1 h-2 w-2 rounded-full" style={{ background: THEME.accent4 }} />
+                      <span>{x}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </motion.div>
@@ -1859,7 +1784,7 @@ export default function SchoolsEarlyTalentLanding() {
                 </IconBadge>
                 <div>
                   <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">SAFETY & SUPERVISION</div>
-                  <div className="mt-1 text-lg font-semibold">Safe, structured & supervised</div>
+                  <div className="mt-1 text-lg font-semibold">Safe, Structured & Supervised</div>
                 </div>
               </div>
 
@@ -1878,10 +1803,6 @@ export default function SchoolsEarlyTalentLanding() {
                 ))}
               </div>
 
-              <div className="mt-7 rounded-3xl bg-white/70 p-5 ring-1 ring-[#0B1220]/10">
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">RESPONSIBLE AI</div>
-                <div className="mt-2 text-sm text-[#0B1220]/70">Students learn ethical use, digital safety, and responsible creation.</div>
-              </div>
             </motion.div>
           </div>
 
@@ -1988,7 +1909,6 @@ export default function SchoolsEarlyTalentLanding() {
           {/* Registration */}
           <div id="register" className="mt-12">
             <SectionTitle
-              eyebrow="SCHOOLS & EARLY TALENT - REGISTRATION FORM"
               title="Start the Journey"
               subtitle="Smooth step transitions - max 5-6 visible fields - simple validation (email required)."
             />
@@ -2098,4 +2018,3 @@ const css = `
     82%{ transform: translateX(120%) rotate(-10deg); }
   }
 `;
-

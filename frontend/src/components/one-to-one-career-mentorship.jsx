@@ -25,6 +25,7 @@ import {
   Star,
   Target,
   Users,
+  Wallet,
   Zap,
 } from "lucide-react";
 
@@ -165,14 +166,13 @@ function SectionTitle({ eyebrow, title, accentText, subtitle, dark }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5" : "mt-0",
+          "text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
         {title}{" "}
-        {accentText ? (
-          <span style={{ color: THEME.pink }}>{accentText}</span>
-        ) : null}
+        {accentText ? <span style={{ color: THEME.pink }}>{accentText}</span> : null}
       </h2>
 
       {subtitle ? (
@@ -218,21 +218,6 @@ function GradientButton({ children, href, onClick, variant = "primary" }) {
   );
 }
 
-function Pill({ label }) {
-  return (
-    <span
-      className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
-      style={{
-        background: "rgba(255,255,255,0.08)",
-        color: "rgba(255,255,255,0.84)",
-        border: "1px solid rgba(255,255,255,0.12)",
-      }}
-    >
-      {label}
-    </span>
-  );
-}
-
 function clampStyle(lines) {
   return {
     display: "-webkit-box",
@@ -248,25 +233,25 @@ function clampStyle(lines) {
 const whoFor = [
   {
     title: "Students & Graduates",
-    desc: "Career clarity, internship planning, and skill strategy—move from confusion to structured execution.",
+    desc: "Career clarity. Internship planning. Skill strategy. Move from confusion to structured execution.",
     icon: GraduationCap,
     color: THEME.accent,
   },
   {
     title: "Working Professionals",
-    desc: "Promotion strategy, AI upskilling, and career transitions—redesign your next 2–3 years intentionally.",
+    desc: "Promotion strategy. AI upskilling. Career transitions. Redesign your next 2-3 years intentionally.",
     icon: Briefcase,
     color: THEME.accent3,
   },
   {
     title: "Startup Founders",
-    desc: "Product-market validation, go-to-market strategy, investor preparation, and growth decisions.",
+    desc: "Product-market validation. Go-to-market strategy. Investor preparation. Growth decisions.",
     icon: RocketIcon,
     color: THEME.accent4,
   },
   {
     title: "Companies & Teams",
-    desc: "Executive advisory, AI transformation, digital strategy, and organizational design.",
+    desc: "Executive advisory. AI transformation. Digital strategy. Organizational design.",
     icon: Building2,
     color: THEME.accent2,
   },
@@ -275,7 +260,7 @@ const whoFor = [
 const processSteps = [
   { title: "Define Your Goal", desc: "You tell us your objective and background.", icon: ClipboardCheck, color: THEME.accent },
   { title: "Expert Matching", desc: "We connect you with the right industry specialist.", icon: Compass, color: THEME.accent2 },
-  { title: "Strategy Session", desc: "60–90 minute deep advisory conversation.", icon: Briefcase, color: THEME.accent3 },
+  { title: "Strategy Session", desc: "60-90 minute deep advisory conversation.", icon: Briefcase, color: THEME.accent3 },
   { title: "Action Roadmap", desc: "You leave with a structured execution plan.", icon: FileCheck2, color: THEME.accent4 },
 ];
 
@@ -283,7 +268,7 @@ const sessionTypes = [
   {
     key: "career",
     name: "Career Strategy Session",
-    desc: "Ideal for students and professionals. Direction, skills, positioning.",
+    desc: "Ideal for students and professionals. Focus: direction, skills, positioning.",
     duration: "60 minutes",
     icon: Target,
     color: THEME.accent,
@@ -291,15 +276,15 @@ const sessionTypes = [
   {
     key: "ai",
     name: "AI Career Upgrade Session",
-    desc: "Integrate AI into your field. Tools, workflow, competitive advantage.",
-    duration: "60–90 minutes",
+    desc: "For professionals integrating AI into their field. Focus: tools, workflow, competitive advantage.",
+    duration: "60-90 minutes",
     icon: Zap,
     color: THEME.accent2,
   },
   {
     key: "startup",
     name: "Startup & Business Advisory",
-    desc: "Validation, scale, digital transition.",
+    desc: "For founders and business leaders. Focus: validation, scale, digital transition.",
     duration: "60 minutes",
     icon: Handshake,
     color: THEME.accent4,
@@ -307,62 +292,61 @@ const sessionTypes = [
   {
     key: "exec",
     name: "Executive Decision Lab",
-    desc: "High-level discussion for critical business decisions.",
+    desc: "High-level strategic discussion. Focus: critical business decisions.",
     duration: "60 minutes",
     icon: Shield,
     color: THEME.accent3,
   },
 ];
 
-// lightweight “experts” mock so the UI works immediately
 const experts = [
   {
     id: "e1",
     name: "Dr. Lina Schmitt",
-    title: "European Professor • Strategy & Innovation",
+    title: "European Professor - Strategy & Innovation",
     specialization: "Career Roadmaps, Executive Decisions",
     years: 12,
     industries: ["Consulting", "Education", "Technology"],
-    tags: ["Consulting", "Product"],
+    tags: ["Consulting", "Product", "Technology", "Tech"],
     badge: true,
   },
   {
     id: "e2",
     name: "Omar Haddad",
-    title: "Head of Data • Applied AI",
+    title: "Head of Data - Applied AI",
     specialization: "AI Upskilling, Workflow Integration",
     years: 10,
     industries: ["AI", "Healthcare", "Finance"],
-    tags: ["AI", "Technology", "Healthcare"],
+    tags: ["AI", "Technology", "Tech", "Healthcare", "Finance"],
     badge: true,
   },
   {
     id: "e3",
     name: "Sara Klein",
-    title: "Growth Advisor • Startup GTM",
+    title: "Growth Advisor - Startup GTM",
     specialization: "PMF, Go-to-market, Investor Prep",
     years: 9,
     industries: ["Entrepreneurship", "Marketing", "Technology"],
-    tags: ["Marketing", "Product", "Technology"],
+    tags: ["Marketing", "Product", "Technology", "Tech"],
     badge: false,
   },
   {
     id: "e4",
     name: "Daniel Weber",
-    title: "Senior Executive • Transformation",
+    title: "Senior Executive - Transformation",
     specialization: "Org Design, Digital Strategy",
     years: 15,
     industries: ["Consulting", "Government", "Technology"],
-    tags: ["Consulting", "Technology"],
+    tags: ["Consulting", "Technology", "Tech"],
     badge: true,
   },
 ];
 
-const expertFilters = ["All", "Technology", "AI", "Finance", "Product", "Marketing", "Consulting", "Healthcare"];
+const expertFilters = ["All", "Technology", "AI", "Finance", "Product", "Marketing", "Consulting", "Healthcare", "Tech"];
 
 const testimonials = [
   {
-    quote: "The session gave me clarity I couldn’t get in months alone.",
+    quote: "The session gave me clarity I couldn't get in months alone.",
     who: "Product Manager",
     where: "Berlin",
   },
@@ -371,19 +355,14 @@ const testimonials = [
     who: "Startup Founder",
     where: "Dubai",
   },
-  {
-    quote: "I left with a real plan, not generic advice. Exactly what I needed.",
-    who: "Senior Analyst",
-    where: "Amsterdam",
-  },
 ];
 
 const faqs = [
-  { q: "How are mentors selected?", a: "We match based on your goals, background, and the outcomes you want—then align you with the closest-fit expert." },
+  { q: "How are mentors selected?", a: "We match based on your goals, background, and outcomes, then align you with the closest-fit expert." },
   { q: "Can I choose my expert?", a: "Yes. You can browse experts and request a specific mentor, or ask us to recommend the best fit." },
   { q: "Are sessions recorded?", a: "Optional and only with your explicit consent. Default is privacy-first, not recording." },
   { q: "What happens after the session?", a: "You leave with an actionable roadmap, next steps, and recommended resources or follow-up options if you want continuity." },
-  { q: "Do you offer follow-up plans?", a: "Yes—multi-session roadmaps (3–5 sessions) for deeper execution, accountability, and iteration." },
+  { q: "Do you offer follow-up plans?", a: "Yes, multi-session roadmaps (3-5 sessions) for deeper execution, accountability, and iteration." },
 ];
 
 /** -------------------------------------------------------
@@ -403,10 +382,6 @@ export default function CareerMentorshipPage() {
 
   // sessions select
   const [activeSession, setActiveSession] = useState(sessionTypes[0].key);
-  const activeSessionObj = useMemo(
-    () => sessionTypes.find((s) => s.key === activeSession) || sessionTypes[0],
-    [activeSession]
-  );
 
   // testimonials carousel
   const [tIdx, setTIdx] = useState(0);
@@ -432,25 +407,30 @@ export default function CareerMentorshipPage() {
     status: "Working Professional",
     roleOrStudy: "",
     industry: "Technology",
-    exp: "3–5",
+    exp: "3-5",
     advisoryType: ["Career Direction & Roadmap"],
     objective: "",
     challenge: "",
     sessionType: "60-Minute Strategy Session",
-    mode: "Online (Zoom / Meet)",
-    timeline: "Within 2 weeks",
+    mode: "Online (Zoom)",
+    preferredDate: "",
+    timeline: "As soon as possible",
     timezone: "Europe/Berlin",
+    budgetRange: "Standard",
+    urgency: "Within 2 weeks",
     linkedin: "",
+    whyNow: "",
+    commitment: "Serious about execution",
+    uploadFile: null,
     previousMentor: "No",
     expertLevel: "Open to Recommendation",
     companyName: "",
-    companySize: "10–50",
+    companySize: "10-50",
     orgFocus: "AI Adoption Strategy",
     seriousness: false,
   });
 
   const isOrg = form.status === "Organization Representative";
-
   const progressPct = Math.round(((step + 1) / steps.length) * 100);
 
   function updateField(key, value) {
@@ -502,7 +482,7 @@ export default function CareerMentorshipPage() {
   function validateStep(s) {
     if (s === 0) return form.fullName && form.email && form.phone && form.roleOrStudy;
     if (s === 1) return form.objective;
-    if (s === 2) return form.sessionType && form.timeline && form.timezone;
+    if (s === 2) return form.sessionType && form.timeline && form.timezone && form.mode && form.budgetRange && form.urgency;
     if (s === 3) return form.seriousness;
     return true;
   }
@@ -566,57 +546,16 @@ export default function CareerMentorshipPage() {
         </div>
       </div>
 
-      {/* Sticky top nav */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)`,
-              }}
-            >
-              <span className="text-sm font-black tracking-widest">M</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">MENTORSHIP</div>
-              <div className="text-xs text-white/60">1-to-1 Advisory</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <Anchor href="#overview" label="Overview" />
-            <Anchor href="#who" label="Who It’s For" />
-            <Anchor href="#process" label="Process" />
-            <Anchor href="#sessions" label="Session Types" />
-            <Anchor href="#experts" label="Experts" />
-            <Anchor href="#book" label="Book" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#experts"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
-            >
-              Browse Experts
-            </a>
-            <GradientButton href="#book">Book a Session</GradientButton>
-          </div>
-        </div>
-      </header>
-
       {/* HERO */}
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Sparkles className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>PREMIUM • STRUCTURED • OUTCOME-DRIVEN</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
-              Your Career Deserves{" "}
-              <span style={{ color: THEME.pink }}>Strategy</span> — Not Guesswork.
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <h1 className="mt-1 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+              Your Career Deserves Strategy - Not Guesswork.
             </h1>
 
             <p className="mt-5 max-w-xl text-balance text-base text-white/70 sm:text-lg">
@@ -624,7 +563,7 @@ export default function CareerMentorshipPage() {
             </p>
 
             <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-white/65">
-              From career pivots to executive decisions — get clarity, structure, and an action plan.
+              From career pivots to executive decisions - get clarity, structure, and an action plan.
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -632,24 +571,6 @@ export default function CareerMentorshipPage() {
               <GradientButton href="#experts" variant="secondary">
                 Browse Experts
               </GradientButton>
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              <Pill label="High-trust advisory" />
-              <Pill label="Structured frameworks" />
-              <Pill label="Decision-driven" />
-              <Pill label="Roadmap output" />
-            </div>
-
-            <div className="mt-8 flex items-center gap-4 text-sm text-white/65">
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                <BadgeCheck className="h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
-                <span>No generic advice</span>
-              </div>
-              <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                <FileCheck2 className="h-4 w-4" style={{ color: THEME.accent4 }} {...iconStrongProps} />
-                <span>Action roadmap</span>
-              </div>
             </div>
           </motion.div>
 
@@ -689,18 +610,16 @@ export default function CareerMentorshipPage() {
                 <div className="flex flex-col justify-between rounded-[36px] bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
                   <div>
                     <div className="text-xs font-semibold tracking-widest text-white/60">WHAT THIS IS</div>
-                    <div className="mt-2 text-xl font-semibold text-white">
-                      Strategic mentorship for serious professionals.
-                    </div>
-                    <p className="mt-3 text-sm leading-relaxed text-white/70">
-                      Not motivational coaching. Structured advisory designed to define direction, identify skill gaps, build roadmaps, and improve decision quality.
-                    </p>
+                    <div className="mt-2 text-xl font-semibold text-white">Strategic Mentorship for Serious Professionals</div>
+                    <p className="mt-3 text-sm leading-relaxed text-white/70">This is not motivational coaching. This is structured advisory designed to:</p>
                   </div>
 
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    <MiniTag icon={Target} label="Direction" color={THEME.accent} />
-                    <MiniTag icon={LineChart} label="Roadmap" color={THEME.accent3} />
-                    <MiniTag icon={Shield} label="Decision quality" color={THEME.accent2} />
+                  <div className="mt-4 space-y-2 text-sm text-white/75">
+                    <div>Define your direction</div>
+                    <div>Identify skill gaps</div>
+                    <div>Build actionable roadmaps</div>
+                    <div>Improve decision quality</div>
+                    <div>Accelerate measurable outcomes</div>
                   </div>
                 </div>
 
@@ -712,24 +631,8 @@ export default function CareerMentorshipPage() {
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0B1220]/80 via-[#0B1220]/20 to-transparent" />
-
-                  <div className="absolute bottom-5 left-5 right-5 rounded-3xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur">
-                    <div className="flex items-center justify-between gap-3">
-                      <div>
-                        <div className="text-xs font-semibold tracking-widest text-white/60">OUTCOME</div>
-                        <div className="mt-1 text-sm font-semibold text-white">
-                          Clarity + strategy + a concrete action plan.
-                        </div>
-                      </div>
-                      <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                        <MapPin className="h-4 w-4" style={{ color: THEME.accent2 }} {...iconStrongProps} />
-                        <span>Online / In-person</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
-
             </div>
           </motion.div>
         </div>
@@ -738,12 +641,7 @@ export default function CareerMentorshipPage() {
       {/* WHO IT’S FOR */}
       <section id="who" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="WHO THIS IS FOR"
-            title="Mentorship designed for"
-            accentText="serious outcomes"
-            subtitle="Individuals and teams who want structured direction and measurable decision improvement."
-          />
+          <SectionTitle title="Who This Is For" />
 
           <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
             {whoFor.map((c, i) => {
@@ -773,16 +671,6 @@ export default function CareerMentorshipPage() {
                       <p className="mt-2 text-sm leading-relaxed text-[#0B1220]/70">{c.desc}</p>
                     </div>
                   </div>
-
-                  <div className="mt-6 flex items-center justify-between">
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">OUTCOME-DRIVEN</div>
-                    <a
-                      href="#book"
-                      className="inline-flex items-center gap-2 rounded-full bg-[#0B1220] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90"
-                    >
-                      Book <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                    </a>
-                  </div>
                 </motion.div>
               );
             })}
@@ -793,13 +681,7 @@ export default function CareerMentorshipPage() {
       {/* PROCESS */}
       <section id="process" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="HOW IT WORKS"
-            title="A clear 4-step process"
-            accentText="that builds proof"
-            subtitle="Assessment → matching → advisory session → action roadmap."
-            dark
-          />
+          <SectionTitle title="How the Mentorship Process Works" dark />
 
           <div className="mt-10 relative">
             <div
@@ -863,122 +745,72 @@ export default function CareerMentorshipPage() {
       {/* SESSION TYPES */}
       <section id="sessions" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="SESSION TYPES"
-            title="Pick the session that fits"
-            accentText="your objective"
-            subtitle="Select a type, then book or request matching based on your goals."
-          />
+          <SectionTitle title="Session Types" />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
-            <div className="lg:col-span-3">
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                {sessionTypes.map((s, i) => {
-                  const Icon = s.icon;
-                  const active = s.key === activeSession;
-                  return (
-                    <motion.button
-                      key={s.key}
-                      type="button"
-                      onClick={() => setActiveSession(s.key)}
-                      initial="hidden"
-                      whileInView="show"
-                      viewport={{ once: true, amount: 0.25 }}
-                      custom={i}
-                      variants={fadeUp}
-                      whileHover={{ y: -5 }}
-                      className={cx(
-                        "text-left relative overflow-hidden rounded-[32px] p-6 ring-1 transition",
-                        active ? "ring-[#0B1220]/15" : "ring-[#0B1220]/10"
-                      )}
-                      style={{
-                        background: active ? "rgba(255,255,255,0.70)" : "rgba(255,255,255,0.55)",
-                        boxShadow: active ? `0 18px 60px ${accent(0.12)}` : "none",
-                      }}
-                    >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-center gap-3">
-                          <IconBadge color={s.color}>
-                            <Icon className="h-5 w-5" {...iconStrongProps} />
-                          </IconBadge>
-                          <div>
-                            <div className="text-sm font-semibold text-[#0B1220]">{s.name}</div>
-                            <div className="mt-1 text-xs font-semibold tracking-widest text-[#0B1220]/55">
-                              {s.duration.toUpperCase()}
-                            </div>
-                          </div>
-                        </div>
-                        {active ? (
-                          <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                            style={{
-                              background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)`,
-                              color: "rgba(255,255,255,0.95)",
-                              borderColor: "rgba(255,255,255,0.14)",
-                              boxShadow: `0 10px 26px ${accent(0.18)}`,
-                            }}
-                          >
-                            Selected <CheckCircle2 className="h-4 w-4" {...iconStrongProps} />
-                          </span>
-                        ) : (
-                          <span className="text-xs font-semibold text-[#0B1220]/50">Select</span>
-                        )}
-                      </div>
-
-                      <p className="mt-4 text-sm leading-relaxed text-[#0B1220]/70" style={clampStyle(3)}>
-                        {s.desc}
-                      </p>
-
-                      <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 hover:opacity-100">
-                        <div className="shine" />
-                      </div>
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="lg:col-span-2">
-              <div
-                className="relative h-full overflow-hidden rounded-[36px] p-7 ring-1 ring-[#0B1220]/10"
-                style={{
-                  background:
-                    "radial-gradient(900px circle at 20% 20%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 60%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
-                }}
-              >
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">SELECTED TYPE</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight">{activeSessionObj.name}</div>
-                <p className="mt-4 text-sm leading-relaxed text-[#0B1220]/70">{activeSessionObj.desc}</p>
-
-                <div className="mt-6 space-y-3">
-                  <Bullet icon={ClockIcon} text={`Duration: ${activeSessionObj.duration}`} color={THEME.accent3} />
-                  <Bullet icon={FileCheck2} text="Output: structured action roadmap" color={THEME.accent4} />
-                  <Bullet icon={BadgeCheck} text="Expert matching available" color={THEME.accent2} />
-                </div>
-
-                <div className="mt-7 flex flex-col gap-3 sm:flex-row">
-                  <a
-                    href="#book"
-                    className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
+          <div className="mt-10">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {sessionTypes.map((s, i) => {
+                const Icon = s.icon;
+                const active = s.key === activeSession;
+                return (
+                  <motion.button
+                    key={s.key}
+                    type="button"
+                    onClick={() => setActiveSession(s.key)}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.25 }}
+                    custom={i}
+                    variants={fadeUp}
+                    whileHover={{ y: -5 }}
+                    className={cx(
+                      "text-left relative overflow-hidden rounded-[32px] p-6 ring-1 transition",
+                      active ? "ring-[#0B1220]/15" : "ring-[#0B1220]/10"
+                    )}
                     style={{
-                      background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
+                      background: active ? "rgba(255,255,255,0.70)" : "rgba(255,255,255,0.55)",
+                      boxShadow: active ? `0 18px 60px ${accent(0.12)}` : "none",
                     }}
                   >
-                    Book this session <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                  </a>
-                  <a
-                    href="#experts"
-                    className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/10 transition hover:bg-white/70"
-                    style={{ background: "rgba(255,255,255,0.55)" }}
-                  >
-                    Browse experts <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                  </a>
-                </div>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <IconBadge color={s.color}>
+                          <Icon className="h-5 w-5" {...iconStrongProps} />
+                        </IconBadge>
+                        <div>
+                          <div className="text-sm font-semibold text-[#0B1220]">{s.name}</div>
+                          <div className="mt-1 text-xs font-semibold tracking-widest text-[#0B1220]/55">
+                            {s.duration.toUpperCase()}
+                          </div>
+                        </div>
+                      </div>
+                      {active ? (
+                        <span
+                          className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ring-1"
+                          style={{
+                            background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)`,
+                            color: "rgba(255,255,255,0.95)",
+                            borderColor: "rgba(255,255,255,0.14)",
+                            boxShadow: `0 10px 26px ${accent(0.18)}`,
+                          }}
+                        >
+                          Selected <CheckCircle2 className="h-4 w-4" {...iconStrongProps} />
+                        </span>
+                      ) : (
+                        <span className="text-xs font-semibold text-[#0B1220]/50">Select</span>
+                      )}
+                    </div>
 
-                <div
-                  className="pointer-events-none absolute -bottom-20 -right-24 h-72 w-72 rounded-full blur-3xl"
-                  style={{ background: "rgba(11,18,32,0.07)" }}
-                />
-              </div>
+                    <p className="mt-4 text-sm leading-relaxed text-[#0B1220]/70" style={clampStyle(3)}>
+                      {s.desc}
+                    </p>
+
+                    <div className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 hover:opacity-100">
+                      <div className="shine" />
+                    </div>
+                  </motion.button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -987,13 +819,7 @@ export default function CareerMentorshipPage() {
       {/* EXPERTS + FILTER */}
       <section id="experts" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="MEET OUR EXPERTS"
-            title="High-trust advisors with"
-            accentText="real experience"
-            subtitle="Filter by domain and book directly. Verified expert badges available."
-            dark
-          />
+          <SectionTitle title="Meet Our Experts" dark />
 
           <div className="mt-10 flex flex-col gap-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -1086,15 +912,10 @@ export default function CareerMentorshipPage() {
       {/* VALUE PROPOSITION + STATS */}
       <section id="value" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={statsInView.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="WHY THIS IS DIFFERENT"
-            title="Premium advisory built on"
-            accentText="frameworks"
-            subtitle="Real industry leaders • European academic advisors • decision-driven approach • no generic advice."
-            dark
-          />
+          <SectionTitle title="Why Our Mentorship Is Different" dark />
 
-          <div className="mt-10 relative overflow-hidden rounded-[36px] ring-1 ring-white/10"
+          <div
+            className="mt-10 relative overflow-hidden rounded-[36px] ring-1 ring-white/10"
             style={{
               background: "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)",
               boxShadow: "0 26px 90px rgba(0,0,0,0.35)",
@@ -1105,9 +926,11 @@ export default function CareerMentorshipPage() {
 
             <div className="relative p-6 sm:p-8">
               <div className="grid grid-cols-1 gap-3 lg:grid-cols-3">
-                <ValueBullet icon={BadgeCheck} title="Real industry leaders" desc="Practitioner-grade advice built on real constraints." color={THEME.accent3} />
-                <ValueBullet icon={GraduationCap} title="European academic advisors" desc="High-rigor thinking and structured strategy." color={THEME.accent2} />
-                <ValueBullet icon={Target} title="Decision-driven approach" desc="Clear options, tradeoffs, and next steps." color={THEME.accent4} />
+                <ValueBullet icon={BadgeCheck} title="Real industry leaders" desc={null} color={THEME.accent3} />
+                <ValueBullet icon={GraduationCap} title="European academic advisors" desc={null} color={THEME.accent2} />
+                <ValueBullet icon={ClipboardCheck} title="Structured frameworks" desc={null} color={THEME.accent} />
+                <ValueBullet icon={Target} title="Decision-driven approach" desc={null} color={THEME.accent4} />
+                <ValueBullet icon={Shield} title="No generic advice" desc={null} color={THEME.star} />
               </div>
 
               <div className="mt-6 grid grid-cols-1 gap-0 overflow-hidden rounded-3xl ring-1 ring-white/10 sm:grid-cols-2">
@@ -1124,80 +947,53 @@ export default function CareerMentorshipPage() {
       {/* TESTIMONIALS */}
       <section id="testimonials" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="TESTIMONIALS"
-            title="Professional outcomes"
-            accentText="people can feel"
-            subtitle="Carousel-style—short, direct, high-trust statements."
-          />
+          <SectionTitle title="Testimonials" />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
-            <div className="lg:col-span-3">
-              <div className="relative overflow-hidden rounded-[36px] bg-white/55 p-8 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                <div className="pointer-events-none absolute inset-0 opacity-[0.12]"
-                  style={{
-                    backgroundImage:
-                      "repeating-linear-gradient(135deg, rgba(11,18,32,0.12) 0px, rgba(11,18,32,0.12) 14px, transparent 14px, transparent 30px)",
-                  }}
-                />
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={tIdx}
-                    initial={{ opacity: 0, y: 10, scale: 0.99 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.99 }}
-                    transition={{ duration: 0.45, ease: "easeOut" }}
-                    className="relative"
-                  >
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">CLIENT NOTE</div>
-                    <div className="mt-4 text-2xl font-semibold leading-tight text-[#0B1220]">
-                      “{testimonials[tIdx].quote}”
-                    </div>
-                    <div className="mt-5 text-sm font-semibold text-[#0B1220]/70">
-                      — {testimonials[tIdx].who}, {testimonials[tIdx].where}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-
-                <div className="mt-7 flex items-center gap-2">
-                  {testimonials.map((_, i) => {
-                    const active = i === tIdx;
-                    return (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => setTIdx(i)}
-                        className="h-2.5 w-2.5 rounded-full transition"
-                        style={{
-                          background: active ? THEME.pink : "rgba(11,18,32,0.18)",
-                          boxShadow: active ? `0 0 0 6px rgba(201,29,103,0.12)` : "none",
-                        }}
-                        aria-label={`Testimonial ${i + 1}`}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-2">
+          <div className="mt-10">
+            <div className="relative overflow-hidden rounded-[36px] bg-white/55 p-8 ring-1 ring-[#0B1220]/10 backdrop-blur">
               <div
-                className="relative h-full overflow-hidden rounded-[36px] p-7 ring-1 ring-[#0B1220]/10"
+                className="pointer-events-none absolute inset-0 opacity-[0.12]"
                 style={{
-                  background:
-                    "radial-gradient(900px circle at 30% 15%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 70%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
+                  backgroundImage:
+                    "repeating-linear-gradient(135deg, rgba(11,18,32,0.12) 0px, rgba(11,18,32,0.12) 14px, transparent 14px, transparent 30px)",
                 }}
-              >
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHAT YOU GET</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight">
-                  A structured plan, not a motivational talk.
-                </div>
-                <div className="mt-5 space-y-3">
-                  <Bullet icon={ClipboardCheck} text="Clear objective definition" color={THEME.accent3} />
-                  <Bullet icon={Compass} text="Expert matching" color={THEME.accent2} />
-                  <Bullet icon={Briefcase} text="Deep advisory conversation" color={THEME.accent4} />
-                  <Bullet icon={FileCheck2} text="Execution roadmap" color={THEME.accent} />
-                </div>
+              />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={tIdx}
+                  initial={{ opacity: 0, y: 10, scale: 0.99 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10, scale: 0.99 }}
+                  transition={{ duration: 0.45, ease: "easeOut" }}
+                  className="relative"
+                >
+                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">CLIENT NOTE</div>
+                  <div className="mt-4 text-2xl font-semibold leading-tight text-[#0B1220]">
+                    "{testimonials[tIdx].quote}"
+                  </div>
+                  <div className="mt-5 text-sm font-semibold text-[#0B1220]/70">
+                    - {testimonials[tIdx].who}, {testimonials[tIdx].where}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+
+              <div className="mt-7 flex items-center gap-2">
+                {testimonials.map((_, i) => {
+                  const active = i === tIdx;
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setTIdx(i)}
+                      className="h-2.5 w-2.5 rounded-full transition"
+                      style={{
+                        background: active ? THEME.pink : "rgba(11,18,32,0.18)",
+                        boxShadow: active ? `0 0 0 6px rgba(201,29,103,0.12)` : "none",
+                      }}
+                      aria-label={`Testimonial ${i + 1}`}
+                    />
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -1207,14 +1003,10 @@ export default function CareerMentorshipPage() {
       {/* BOOKING FORM */}
       <section id="book" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="BOOKING"
-            title="Book your private mentorship session"
-            subtitle="Multi-step form with progress indicator—filters unserious applicants and captures strategic context."
-          />
+          <SectionTitle eyebrow="BOOKING" title="Book Your Private Mentorship Session" />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
-            <div className="lg:col-span-3">
+          <div className="mt-10">
+            <div>
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1253,7 +1045,10 @@ export default function CareerMentorshipPage() {
                       <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">PROGRESS</div>
                       <div className="text-xs font-semibold text-[#0B1220]/60">{progressPct}%</div>
                     </div>
-                    <div className="mt-2 h-2 w-full overflow-hidden rounded-full ring-1 ring-[#0B1220]/10" style={{ background: "rgba(255,255,255,0.6)" }}>
+                    <div
+                      className="mt-2 h-2 w-full overflow-hidden rounded-full ring-1 ring-[#0B1220]/10"
+                      style={{ background: "rgba(255,255,255,0.6)" }}
+                    >
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: `${progressPct}%` }}
@@ -1377,7 +1172,7 @@ export default function CareerMentorshipPage() {
                               iconColor={THEME.accent4}
                               value={form.exp}
                               onChange={(v) => updateField("exp", v)}
-                              options={["0–1", "1–3", "3–5", "5–10", "10+"]}
+                              options={["0-1", "1-3", "3-5", "5-10", "10+"]}
                             />
                           </Field>
                         </div>
@@ -1423,7 +1218,7 @@ export default function CareerMentorshipPage() {
                           />
                         </Field>
 
-                        <Field label="Key Challenge You’re Facing">
+                        <Field label="Key Challenge You're Facing">
                           <Textarea
                             value={form.challenge}
                             onChange={(e) => updateField("challenge", e.target.value)}
@@ -1445,7 +1240,7 @@ export default function CareerMentorshipPage() {
                               options={[
                                 "60-Minute Strategy Session",
                                 "90-Minute Deep Advisory Session",
-                                "Multi-Session Roadmap (3–5 sessions)",
+                                "Multi-Session Roadmap (3-5 sessions)",
                                 "Corporate Advisory (Team/Company)",
                               ]}
                             />
@@ -1457,12 +1252,22 @@ export default function CareerMentorshipPage() {
                               iconColor={THEME.accent2}
                               value={form.mode}
                               onChange={(v) => updateField("mode", v)}
-                              options={["Online (Zoom / Meet)", "In-Person (If Available)"]}
+                              options={["Online (Zoom)", "In-person (If applicable)"]}
                             />
                           </Field>
                         </div>
 
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                          <Field label="Preferred Date">
+                            <Input
+                              icon={Calendar}
+                              iconColor={THEME.accent4}
+                              type="date"
+                              value={form.preferredDate}
+                              onChange={(e) => updateField("preferredDate", e.target.value)}
+                            />
+                          </Field>
+
                           <Field label="Preferred Timeline" required>
                             <Select
                               icon={Compass}
@@ -1472,17 +1277,39 @@ export default function CareerMentorshipPage() {
                               options={["As soon as possible", "Within 2 weeks", "Within 1 month", "Flexible"]}
                             />
                           </Field>
+                        </div>
 
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                           <Field label="Time Zone" required>
-                            <Input
+                            <Select
                               icon={MapPin}
                               iconColor={THEME.accent4}
                               value={form.timezone}
-                              onChange={(e) => updateField("timezone", e.target.value)}
-                              placeholder="e.g., Europe/Berlin"
+                              onChange={(v) => updateField("timezone", v)}
+                              options={["Europe/Berlin", "Europe/London", "Asia/Dubai", "America/New_York", "UTC"]}
+                            />
+                          </Field>
+
+                          <Field label="Budget Range">
+                            <Select
+                              icon={Wallet}
+                              iconColor={THEME.accent2}
+                              value={form.budgetRange}
+                              onChange={(v) => updateField("budgetRange", v)}
+                              options={["Standard", "Premium Expert", "Executive Advisory"]}
                             />
                           </Field>
                         </div>
+
+                        <Field label="Urgency">
+                          <Select
+                            icon={Zap}
+                            iconColor={THEME.accent}
+                            value={form.urgency}
+                            onChange={(v) => updateField("urgency", v)}
+                            options={["Immediate", "Within 2 weeks", "Within 1 month"]}
+                          />
+                        </Field>
 
                         {isOrg ? (
                           <div className="mt-2 rounded-[28px] bg-white/55 p-5 ring-1 ring-[#0B1220]/10">
@@ -1507,7 +1334,7 @@ export default function CareerMentorshipPage() {
                                   iconColor={THEME.accent3}
                                   value={form.companySize}
                                   onChange={(v) => updateField("companySize", v)}
-                                  options={["1–10", "10–50", "50–200", "200+"]}
+                                  options={["1-10", "10-50", "50-200", "200+"]}
                                 />
                               </Field>
                             </div>
@@ -1546,6 +1373,17 @@ export default function CareerMentorshipPage() {
                             />
                           </Field>
 
+                          <Field label="CV / Company Deck Upload" hint="Optional">
+                            <Input
+                              icon={FileCheck2}
+                              iconColor={THEME.accent3}
+                              type="file"
+                              onChange={(e) => updateField("uploadFile", e.target.files?.[0] || null)}
+                            />
+                          </Field>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                           <Field label="Have You Previously Worked with a Mentor?">
                             <Select
                               icon={HeartPulse}
@@ -1555,20 +1393,38 @@ export default function CareerMentorshipPage() {
                               options={["Yes", "No"]}
                             />
                           </Field>
+
+                          <Field label="What Level of Expert Are You Looking For?">
+                            <Select
+                              icon={BadgeCheck}
+                              iconColor={THEME.accent4}
+                              value={form.expertLevel}
+                              onChange={(v) => updateField("expertLevel", v)}
+                              options={[
+                                "Industry Practitioner",
+                                "European Academic Expert",
+                                "Senior Executive",
+                                "Open to Recommendation",
+                              ]}
+                            />
+                          </Field>
                         </div>
 
-                        <Field label="What Level of Expert Are You Looking For?">
+                        <Field label="Why Are You Seeking This Mentorship Now?">
+                          <Textarea
+                            value={form.whyNow}
+                            onChange={(e) => updateField("whyNow", e.target.value)}
+                            placeholder="Share what makes this the right moment for advisory support."
+                          />
+                        </Field>
+
+                        <Field label="How Committed Are You to Implementing the Strategy?">
                           <Select
-                            icon={BadgeCheck}
-                            iconColor={THEME.accent4}
-                            value={form.expertLevel}
-                            onChange={(v) => updateField("expertLevel", v)}
-                            options={[
-                              "Industry Practitioner",
-                              "European Academic Expert",
-                              "Senior Executive",
-                              "Open to Recommendation",
-                            ]}
+                            icon={Target}
+                            iconColor={THEME.accent}
+                            value={form.commitment}
+                            onChange={(v) => updateField("commitment", v)}
+                            options={["Exploring options", "Serious about execution", "Ready to take immediate action"]}
                           />
                         </Field>
 
@@ -1582,10 +1438,7 @@ export default function CareerMentorshipPage() {
                             />
                             <div>
                               <div className="text-sm font-semibold text-[#0B1220]">
-                                I confirm I am serious about this mentorship session.
-                              </div>
-                              <div className="mt-1 text-xs text-[#0B1220]/60">
-                                This is structured professional advisory (premium, outcome-driven).
+                                I understand this is a structured professional advisory service and I am serious about participating.
                               </div>
                             </div>
                           </label>
@@ -1621,7 +1474,7 @@ export default function CareerMentorshipPage() {
                         className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/10 transition hover:bg-white/70"
                         style={{ background: "rgba(255,255,255,0.55)" }}
                       >
-                        Schedule Intro Call <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                        Schedule Consultation Call <ArrowRight className="h-4 w-4" {...iconStrongProps} />
                       </a>
 
                       {step < steps.length - 1 ? (
@@ -1651,7 +1504,7 @@ export default function CareerMentorshipPage() {
                             background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
                           }}
                         >
-                          {submitting ? "Submitting..." : "Request Session"}
+                          {submitting ? "Submitting..." : "Request Advisory Matching"}
                           <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
                             <span className="shine" />
                           </span>
@@ -1661,7 +1514,7 @@ export default function CareerMentorshipPage() {
                   </div>
 
                   <p className="mt-4 text-center text-xs text-[#0B1220]/60">
-                    After submission: success message + matching within 24–48 hours.
+                    After submission: success message + matching within 24-48 hours.
                   </p>
                 </div>
               </motion.div>
@@ -1702,41 +1555,11 @@ export default function CareerMentorshipPage() {
                 </div>
               </div>
             </div>
-
-            {/* right rail */}
-            <div className="lg:col-span-2">
-              <div
-                className="rounded-[36px] p-7 ring-1 ring-[#0B1220]/10 lg:sticky lg:top-24"
-                style={{
-                  background:
-                    "radial-gradient(900px circle at 30% 15%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 70%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
-                }}
-              >
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">POSITIONING</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight">
-                  Executive-level advisory, not casual coaching.
-                </div>
-
-                <div className="mt-5 space-y-3">
-                  <Bullet icon={BadgeCheck} text="Real experts, not influencers" color={THEME.accent3} />
-                  <Bullet icon={ClipboardCheck} text="Structured frameworks & roadmaps" color={THEME.accent2} />
-                  <Bullet icon={Shield} text="High-trust, decision-grade" color={THEME.accent4} />
-                  <Bullet icon={FileCheck2} text="Measurable outcomes" color={THEME.accent} />
-                </div>
-
-                <div className="mt-7 rounded-3xl bg-white/55 p-5 ring-1 ring-[#0B1220]/10">
-                  <div className="text-sm font-semibold">Tip</div>
-                  <p className="mt-2 text-sm text-[#0B1220]/70">
-                    Write your objective as a deliverable: “After this session I will have a roadmap for ___ with 3 next actions.”
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
 
           {/* FAQ */}
           <div className="mt-14">
-            <SectionTitle eyebrow="FAQ" title="Quick answers" accentText="before you book" subtitle="Accordion style—short and professional." />
+            <SectionTitle title="Frequently Asked Questions" />
             <div className="mt-8 grid grid-cols-1 gap-4">
               {faqs.map((f, i) => {
                 const open = i === openFaq;
@@ -1788,8 +1611,7 @@ export default function CareerMentorshipPage() {
                 }}
               />
               <div className="relative mx-auto max-w-6xl text-white">
-                <div className="text-xs font-semibold text-white/80 sm:text-sm">Premium • Strategic • High-trust</div>
-                <div className="mt-3 text-3xl font-semibold md:text-4xl">Clarity changes trajectories.</div>
+                <div className="mt-3 text-3xl font-semibold md:text-4xl">Clarity Changes Trajectories.</div>
                 <p className="mx-auto mt-4 max-w-4xl text-sm font-medium text-white/80">
                   Book the conversation that moves you forward.
                 </p>
@@ -1799,12 +1621,6 @@ export default function CareerMentorshipPage() {
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95"
                   >
                     Book Your Strategy Session <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                  </a>
-                  <a
-                    href="#experts"
-                    className="inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15"
-                  >
-                    Browse Experts <ArrowRight className="h-4 w-4" {...iconStrongProps} />
                   </a>
                 </div>
               </div>
@@ -1821,21 +1637,6 @@ export default function CareerMentorshipPage() {
 /** -------------------------------------------------------
  *  SUB-COMPONENTS
  *  ------------------------------------------------------ */
-function MiniTag({ icon: Icon, label, color }) {
-  return (
-    <span
-      className="inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold ring-1"
-      style={{
-        background: "rgba(255,255,255,0.06)",
-        borderColor: "rgba(255,255,255,0.12)",
-        color: "rgba(255,255,255,0.86)",
-      }}
-    >
-      <Icon className="h-4 w-4" style={{ color }} {...iconStrongProps} />
-      {label}
-    </span>
-  );
-}
 
 function ValueBullet({ icon: Icon, title, desc, color }) {
   return (
@@ -1996,23 +1797,12 @@ function ExpertCard({ expert, index = 0 }) {
                 boxShadow: `0 14px 35px ${accent(0.18)}`,
               }}
             >
-              Book <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+              Book Session <ArrowRight className="h-4 w-4" {...iconStrongProps} />
             </a>
           </div>
         </div>
       </div>
     </motion.div>
-  );
-}
-
-function Bullet({ icon: Icon, text, color }) {
-  return (
-    <div className="flex items-start gap-3">
-      <IconBadge color={color}>
-        <Icon className="h-4 w-4" {...iconStrongProps} />
-      </IconBadge>
-      <div className="text-sm text-[#0B1220]/75">{text}</div>
-    </div>
   );
 }
 
@@ -2108,13 +1898,10 @@ function Select({ value, onChange, options, icon: Icon, iconColor = THEME.accent
 }
 
 /** -------------------------------------------------------
- *  SMALL ICON HELPERS (so we don't import more)
+ *  SMALL ICON HELPERS
  *  ------------------------------------------------------ */
 function RocketIcon(props) {
   return <Zap {...props} />;
-}
-function ClockIcon(props) {
-  return <Calendar {...props} />;
 }
 
 /** -------------------------------------------------------
@@ -2165,5 +1952,3 @@ const css = `
   100%{ background-position: 0% 50%; }
 }
 `;
-
-

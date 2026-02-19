@@ -123,17 +123,6 @@ function Pill({ label, tone = "dark" }) {
   );
 }
 
-function Anchor({ href, label }) {
-  return (
-    <a
-      href={href}
-      className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white"
-    >
-      {label}
-    </a>
-  );
-}
-
 function SectionTitle({ eyebrow, title, subtitle, dark, accentWord }) {
   return (
     <div className={cx("mx-auto max-w-5xl", dark ? "text-white" : "text-[#0B1220]")}>
@@ -153,7 +142,7 @@ function SectionTitle({ eyebrow, title, subtitle, dark, accentWord }) {
 
       <h2
         className={cx(
-          "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          eyebrow ? "mt-5 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl" : "mt-0 text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
           dark ? "text-white" : "text-[#0B1220]"
         )}
       >
@@ -389,20 +378,6 @@ function SplitImperative() {
   return (
     <div className="mt-10">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <div className="max-w-2xl">
-          <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">
-            DESIGN SUGGESTION
-          </div>
-          <div className="mt-2 text-2xl font-semibold text-[#0B1220]">
-            Animated transition:{" "}
-            <span style={{ color: THEME.pink }}>Unstructured</span> →{" "}
-            <span style={{ color: THEME.accent }}>Strategic</span>
-          </div>
-          <p className="mt-3 text-sm leading-relaxed text-[#0B1220]/70">
-            Switch to preview the shift from ad-hoc AI usage to a structured adoption approach.
-          </p>
-        </div>
-
         <div className="inline-flex items-center rounded-full bg-white/70 p-1 ring-1 ring-[#0B1220]/10">
           <button
             type="button"
@@ -625,11 +600,6 @@ function TrackCard({ item, index }) {
           ))}
         </div>
 
-        <div className="mt-6 flex flex-wrap gap-2">
-          <Pill label="Implementation focus" />
-          <Pill label="Expert-led" />
-          <Pill label="Executive-ready" />
-        </div>
       </div>
     </motion.div>
   );
@@ -893,61 +863,16 @@ export default function AIForOrganizationsLanding() {
         </div>
       </div>
 
-      {/* nav */}
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-[#0B1220]/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <div className="flex items-center gap-3">
-            <div
-              className="flex h-10 w-10 items-center justify-center rounded-2xl ring-1 ring-white/10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 70%)`,
-              }}
-            >
-              <span className="text-sm font-black tracking-widest">P</span>
-            </div>
-            <div>
-              <div className="text-sm font-semibold">PRAKTIX</div>
-              <div className="text-xs text-white/60">AI for Organizations</div>
-            </div>
-          </div>
-
-          <nav className="hidden items-center gap-1 md:flex">
-            <Anchor href="#overview" label="Overview" />
-            <Anchor href="#imperative" label="Imperative" />
-            <Anchor href="#model" label="Model" />
-            <Anchor href="#programs" label="Programs" />
-            <Anchor href="#format" label="Format" />
-            <Anchor href="#experts" label="Experts" />
-            <Anchor href="#consult" label="Consultation" />
-          </nav>
-
-          <div className="flex items-center gap-3">
-            <a
-              href="#programs"
-              className="hidden rounded-full px-4 py-2 text-sm font-semibold text-white/70 ring-1 ring-white/15 transition hover:bg-white/5 md:inline-flex"
-            >
-              Explore Programs
-            </a>
-            <GradientButton href="#consult">Request AI Consultation</GradientButton>
-          </div>
-        </div>
-      </header>
-
       {/* HERO */}
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
         <NetworkBackground />
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-14 lg:grid-cols-2 lg:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-14 pt-8 lg:grid-cols-2 lg:pb-20 lg:pt-12">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: reduce ? 0 : 0.65, ease: "easeOut" }}
           >
-            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold tracking-widest text-white/75 ring-1 ring-white/10">
-              <Building2 className="h-4 w-4" style={{ color: THEME.sand }} {...iconStrongProps} />
-              <span>FOR ORGANIZATIONS</span>
-            </div>
-
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+            <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
               AI-Ready Organizations
               <br />
               <span style={{ color: THEME.pink }}>Win Faster</span>.
@@ -971,12 +896,6 @@ export default function AIForOrganizationsLanding() {
               </GradientButton>
             </div>
 
-            <div className="mt-7 flex flex-wrap gap-2">
-              <Pill label="1–2 Week Intensive" />
-              <Pill label="European Experts" />
-              <Pill label="Practical Implementation" />
-              <Pill label="Executive Tone" />
-            </div>
           </motion.div>
 
           <motion.div
@@ -985,7 +904,7 @@ export default function AIForOrganizationsLanding() {
             transition={{ duration: reduce ? 0 : 0.75, ease: "easeOut", delay: 0.05 }}
             className="relative"
           >
-            <div className="relative mx-auto w-full max-w-[620px] min-h-[520px] overflow-hidden rounded-[44px] ring-1 ring-white/10 sm:min-h-[640px]">
+            <div className="relative mx-auto w-full max-w-[620px] min-h-[440px] overflow-hidden rounded-[44px] ring-1 ring-white/10 sm:min-h-[540px]">
               <div
                 className="absolute inset-0"
                 style={{
@@ -995,14 +914,7 @@ export default function AIForOrganizationsLanding() {
               />
               <div className="absolute inset-0 opacity-[0.18]" style={{ backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)" }} />
               <div className="absolute inset-0 flex flex-col p-6 sm:p-8">
-                <div className="flex items-center justify-between">
-                  <div className="text-xs font-semibold tracking-widest text-white/60">EXECUTIVE LAYOUT</div>
-                  <span className="rounded-full px-3 py-1 text-xs font-semibold ring-1 ring-white/15 text-white/80">
-                    Subtle animations
-                  </span>
-                </div>
-
-                <div className="mt-6 grid grid-cols-1 gap-3">
+                <div className="grid grid-cols-1 gap-3">
                   {[
                     { icon: Compass, t: "Capability + clarity", d: "From hype → strategy", c: THEME.accent2 },
                     { icon: ClipboardCheck, t: "Risk-aware adoption", d: "Governance + guardrails", c: THEME.accent3 },
@@ -1033,18 +945,6 @@ export default function AIForOrganizationsLanding() {
                   })}
                 </div>
 
-                <div className="mt-auto rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
-                  <div className="text-xs font-semibold tracking-widest text-white/60">PRIMARY CTA</div>
-                  <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="text-sm font-semibold text-white">Request AI Consultation</div>
-                    <a
-                      href="#consult"
-                      className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/5"
-                    >
-                      Schedule session <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                    </a>
-                  </div>
-                </div>
               </div>
 
               {/* subtle moving shine */}
@@ -1062,7 +962,6 @@ export default function AIForOrganizationsLanding() {
       <section id="imperative" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="THE ORGANIZATIONAL AI IMPERATIVE"
             title="AI Is Not the Future. It’s the Standard."
             subtitle="Organizations face a critical reality: capability gaps, strategy confusion, and adoption risk. Advantage comes from structured integration."
           />
@@ -1074,7 +973,6 @@ export default function AIForOrganizationsLanding() {
       <section id="model" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="OUR AI ACCELERATION MODEL"
             title="From Awareness to Execution —"
             accentWord="Fast."
             subtitle="Intensive AI sprints (1–2 weeks) focused on real implementation."
@@ -1146,11 +1044,6 @@ export default function AIForOrganizationsLanding() {
               })}
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              <Pill label="Hover expands" />
-              <Pill label="Smooth transitions" />
-              <Pill label="Executive spacing" />
-            </div>
           </div>
 
           {/* selected info */}
@@ -1263,7 +1156,6 @@ export default function AIForOrganizationsLanding() {
       >
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="PROGRAM FORMAT & DURATION"
             title="1 to 2 Weeks"
             accentWord="Intensive."
             subtitle="Online cohorts, hybrid delivery, fully on-site corporate delivery, or government-level strategic workshops."
@@ -1355,7 +1247,6 @@ export default function AIForOrganizationsLanding() {
       <section id="experts" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="DELIVERED BY EUROPEAN EXPERTS"
             title="Led by practitioners"
             accentWord="and academic specialists"
             subtitle="Each engagement includes simulations, modeling, risk discussions, and implementation planning."
@@ -1419,27 +1310,6 @@ export default function AIForOrganizationsLanding() {
             })}
           </div>
 
-          <div className="mt-8 rounded-[36px] bg-white/5 p-7 ring-1 ring-white/10">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-              <div>
-                <div className="text-xs font-semibold tracking-widest text-white/60">
-                  OPTIONAL
-                </div>
-                <div className="mt-1 text-xl font-semibold text-white">
-                  Post-program advisory follow-up
-                </div>
-                <p className="mt-2 text-sm text-white/70">
-                  Extend outcomes into a longer-term advisory partnership if needed.
-                </p>
-              </div>
-              <a
-                href="#consult"
-                className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/5"
-              >
-                Discuss advisory options <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-              </a>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -1450,7 +1320,6 @@ export default function AIForOrganizationsLanding() {
       >
         <div ref={outcomesInView.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="MEASURABLE ORGANIZATIONAL OUTCOMES"
             title="Beyond learning."
             accentWord="Toward capability."
             subtitle="Assessments, playbooks, strategy briefs, and implementation roadmaps designed for real adoption."
@@ -1538,7 +1407,6 @@ export default function AIForOrganizationsLanding() {
       <section id="consult" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            eyebrow="AI CONSULTATION"
             title="Request an Organizational"
             accentWord="AI Strategy Session"
             subtitle="Share your context and we’ll propose the right sprint format and outcomes."
@@ -1590,10 +1458,6 @@ export default function AIForOrganizationsLanding() {
                     }}
                     className="space-y-6"
                   >
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">
-                      ORGANIZATION DETAILS
-                    </div>
-
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <Field label="Organization Name" required>
                         <Input icon={Building2} iconColor={THEME.accent2} placeholder="Organization name" />
@@ -1736,9 +1600,6 @@ export default function AIForOrganizationsLanding() {
                         ) : null}
                       </motion.button>
 
-                      <p className="mt-3 text-center text-xs text-[#0B1220]/60">
-                        Executive tone · premium spacing · subtle animations · high-credibility layout
-                      </p>
                     </div>
                   </form>
                 </div>
