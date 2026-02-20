@@ -25,10 +25,12 @@ import {
   Wallet,
   HeartPulse,
   CheckCircle2,
+  Check,
   Users,
   Layers,
   Lightbulb,
   Workflow,
+  X,
 } from "lucide-react";
 
 /* =========================
@@ -150,6 +152,17 @@ function useInViewOnce(threshold = 0.2, rootMargin = "0px 0px -10% 0px") {
   }, [threshold, rootMargin]);
 
   return { ref, inView };
+}
+
+function useLockBodyScroll(locked) {
+  useEffect(() => {
+    if (!locked) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [locked]);
 }
 
 /* =========================
@@ -328,13 +341,41 @@ const TRACKS = [
     icon: Zap,
     image: IMG.tech,
     programs: [
-      "AI for Developers: Productivity & Automation",
-      "AI Development Tools & Prompt Engineering",
-      "Building & Deploying AI Agents",
-      "RAG & Agentic AI Systems",
-      "Build Real-Time AI Applications",
-      "AI-Enhanced Observability",
-      "Redefining Data Engineering in the Age of AI",
+      {
+        title: "AI for Developers: Productivity & Automation",
+        description:
+          "Learn how to achieve 50% productivity improvement using AI coding assistants, prompt engineering, and workflow automation.",
+      },
+      {
+        title: "AI Development Tools & Prompt Engineering",
+        description:
+          "Master AI coding tools, advanced prompting techniques, and structured model interaction.",
+      },
+      {
+        title: "Building & Deploying AI Agents",
+        description:
+          "Design, build, and deploy AI agents for real-world automation tasks.",
+      },
+      {
+        title: "RAG & Agentic AI Systems",
+        description:
+          "Implement retrieval-augmented generation and agent-based architectures.",
+      },
+      {
+        title: "Build Real-Time AI Applications",
+        description:
+          "Develop scalable real-time AI-powered applications.",
+      },
+      {
+        title: "AI-Enhanced Observability",
+        description:
+          "Integrate AI into monitoring, system optimization, and debugging workflows.",
+      },
+      {
+        title: "Redefining Data Engineering in the Age of AI",
+        description:
+          "Modern AI-ready data pipelines and architecture.",
+      },
     ],
   },
   {
@@ -346,11 +387,31 @@ const TRACKS = [
     icon: PenTool,
     image: IMG.product,
     programs: [
-      "AI for Product Management",
-      "AI for UX Research",
-      "Digital Product Design & AI",
-      "Design Thinking & Innovation with AI",
-      "Agile Delivery Meets AI",
+      {
+        title: "AI for Product Management",
+        description:
+          "Use AI to optimize roadmaps, user research, feature prioritization, and product analytics.",
+      },
+      {
+        title: "AI for UX Research",
+        description:
+          "Enhance user testing, behavior analysis, and feedback synthesis using AI.",
+      },
+      {
+        title: "Digital Product Design & AI",
+        description:
+          "Design AI-powered products and intelligent user experiences.",
+      },
+      {
+        title: "Design Thinking & Innovation with AI",
+        description:
+          "Combine structured innovation frameworks with AI-driven ideation.",
+      },
+      {
+        title: "Agile Delivery Meets AI",
+        description:
+          "Apply AI within sprint planning, backlog management, and delivery optimization.",
+      },
     ],
   },
   {
@@ -362,13 +423,41 @@ const TRACKS = [
     icon: Target,
     image: IMG.biz,
     programs: [
-      "Artificial Intelligence for Business Strategy",
-      "AI Adoption: Driving Business Value",
-      "Leading the AI-Driven Organization",
-      "Strategic Decision-Making Through AI",
-      "Machine Learning in Business",
-      "Generative AI Business Sprint",
-      "Become the AI Leader in Your Organization",
+      {
+        title: "Artificial Intelligence for Business Strategy",
+        description:
+          "Understand AI implications, value creation models, and competitive positioning.",
+      },
+      {
+        title: "AI Adoption: Driving Business Value",
+        description:
+          "Frameworks to implement AI responsibly and effectively.",
+      },
+      {
+        title: "Leading the AI-Driven Organization",
+        description:
+          "Organizational transformation, governance, and AI readiness.",
+      },
+      {
+        title: "Strategic Decision-Making Through AI",
+        description:
+          "How AI sharpens testing, forecasting, and scenario planning.",
+      },
+      {
+        title: "Machine Learning in Business",
+        description:
+          "Practical ML applications without technical overload.",
+      },
+      {
+        title: "Generative AI Business Sprint",
+        description:
+          "Rapid implementation strategies for business use cases.",
+      },
+      {
+        title: "Become the AI Leader in Your Organization",
+        description:
+          "AI transformation leadership for senior professionals.",
+      },
     ],
   },
   {
@@ -380,14 +469,46 @@ const TRACKS = [
     icon: Building2,
     image: IMG.industry,
     programs: [
-      "AI for Financial Services",
-      "AI in Pharma & Biotech",
-      "AI for Healthcare",
-      "AI for HR",
-      "AI for Internal Audit",
-      "AI in Customer Onboarding & Data Migration",
-      "AI for Researchers",
-      "AI for Family Businesses",
+      {
+        title: "AI for Financial Services",
+        description:
+          "AI tools, opportunities, and risk in banking and finance.",
+      },
+      {
+        title: "AI in Pharma & Biotech",
+        description:
+          "Applications in research, drug development, and data modeling.",
+      },
+      {
+        title: "AI for Healthcare",
+        description:
+          "Clinical systems, predictive health analytics, and digital transformation.",
+      },
+      {
+        title: "AI for HR",
+        description:
+          "Talent analytics, workforce planning, and AI-assisted HR operations.",
+      },
+      {
+        title: "AI for Internal Audit",
+        description:
+          "How AI reshapes risk assessment, audit automation, and compliance.",
+      },
+      {
+        title: "AI in Customer Onboarding & Data Migration",
+        description:
+          "Automating operational transformation processes.",
+      },
+      {
+        title: "AI for Researchers",
+        description:
+          "AI tools for academic and applied research workflows.",
+      },
+      {
+        title: "AI for Family Businesses",
+        description:
+          "Strategic AI adoption for legacy organizations.",
+      },
     ],
   },
   {
@@ -399,10 +520,26 @@ const TRACKS = [
     icon: Layers,
     image: IMG.foundations,
     programs: [
-      "AI Essentials: Accelerating Impactful Adoption",
-      "AI Beyond Tech Roles",
-      "Navigating AI: Business Impact & Human Capability",
-      "No-Code AI & Machine Learning",
+      {
+        title: "AI Essentials: Accelerating Impactful Adoption",
+        description:
+          "Fundamentals for responsible and practical AI integration.",
+      },
+      {
+        title: "AI Beyond Tech Roles",
+        description:
+          "How non-technical professionals use AI effectively.",
+      },
+      {
+        title: "Navigating AI: Business Impact & Human Capability",
+        description:
+          "Balancing automation and human skills.",
+      },
+      {
+        title: "No-Code AI & Machine Learning",
+        description:
+          "Build ML-powered solutions without programming.",
+      },
     ],
   },
 ];
@@ -466,25 +603,39 @@ const OUTCOMES = [
   "Practical automation workflows",
 ];
 
-/* =========================
-   TRACK CARD (MEMO)
-========================= */
-const TrackCard = React.memo(function TrackCard({ track, index = 0 }) {
+function getProgramPrice(title = "") {
+  let h = 0;
+  for (let i = 0; i < title.length; i += 1) {
+    h = (h * 31 + title.charCodeAt(i)) % 601;
+  }
+  return 1000 + h;
+}
+
+const PROGRAM_COVERS = [
+  "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80",
+  "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80",
+];
+
+function getProgramCover(trackKey = "", title = "", index = 0) {
+  let base = 0;
+  for (let i = 0; i < trackKey.length; i += 1) {
+    base = (base * 31 + trackKey.charCodeAt(i)) % PROGRAM_COVERS.length;
+  }
+  return PROGRAM_COVERS[(base + index) % PROGRAM_COVERS.length];
+}
+
+const AIProgramCard = React.memo(function AIProgramCard({ track, program, index = 0, onApply }) {
   const Icon = track.icon;
-  const reduce = useReducedMotion();
-
-  const itemV = useMemo(
-    () => ({
-      hidden: { opacity: 0, y: 10 },
-      show: (i) => ({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.45, ease: EASE_OUT, delay: 0.06 + i * 0.03 },
-      }),
-    }),
-    []
-  );
-
+  const cover = program.image || getProgramCover(track.key, program.title, index);
+  const price = getProgramPrice(program.title);
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
@@ -492,118 +643,526 @@ const TrackCard = React.memo(function TrackCard({ track, index = 0 }) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: EASE_OUT, delay: Math.min(index * 0.03, 0.15) }}
       whileHover={{ y: -6, scale: 1.01 }}
-      className={cx("group relative w-[380px] md:w-[440px] shrink-0 overflow-hidden rounded-3xl ring-1", "bg-white/5 backdrop-blur")}
-      style={{
-        borderColor: "rgba(255,255,255,0.10)",
-        boxShadow: "0 18px 70px rgba(0,0,0,0.35)",
-      }}
+      className="group relative w-[380px] md:w-[440px] shrink-0 overflow-hidden rounded-3xl ring-1 bg-white/5 backdrop-blur"
+      style={{ borderColor: "rgba(255,255,255,0.10)", boxShadow: "0 18px 70px rgba(0,0,0,0.35)" }}
     >
-      <div className="relative h-[160px] overflow-hidden">
-        <motion.img
-          src={track.image}
-          alt={track.label}
-          className="h-full w-full object-cover"
-          initial={{ scale: 1.05 }}
-          whileHover={{ scale: 1.12 }}
-          transition={{ duration: 0.9, ease: "easeOut" }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(11,18,32,0.20) 0%, rgba(11,18,32,0.68) 85%, rgba(11,18,32,0.90) 100%)",
-          }}
-        />
-        <div
-          className="absolute inset-x-0 top-0 h-1"
-          style={{
-            background: `linear-gradient(90deg, ${track.accent} 0%, rgba(255,255,255,0.0) 80%)`,
-            opacity: 0.95,
-          }}
-        />
-        <div className="pointer-events-none absolute inset-0 opacity-40">
-          <div className="shine" />
-        </div>
-
+      <div className="relative h-[180px] overflow-hidden">
+        <img src={cover} alt={program.title} className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.06]" />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(11,18,32,0.15) 0%, rgba(11,18,32,0.70) 85%, rgba(11,18,32,0.90) 100%)" }} />
+        <div className="absolute inset-x-0 top-0 h-[2px]" style={{ background: `linear-gradient(90deg, ${track.accent} 0%, rgba(255,255,255,0) 80%)` }} />
         <div className="absolute left-5 top-5 flex items-center gap-3">
           <IconBadge color={track.accent}>
             <Icon className="h-5 w-5" {...iconStrongProps} />
           </IconBadge>
-          <div className="text-xs font-semibold tracking-widest text-white/75">TRACK</div>
-        </div>
-
-        <div className="absolute bottom-4 left-5 right-5 flex items-end justify-between gap-3">
-          <div className="text-lg font-semibold text-white" style={clampStyle(2)}>
-            {track.label}
-          </div>
           <span
-            className="shrink-0 rounded-full px-3 py-1 text-xs font-semibold ring-1"
-            style={{
-              background: track.accentSoft,
-              borderColor: "rgba(255,255,255,0.14)",
-              color: "rgba(255,255,255,0.92)",
-            }}
+            className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+            style={{ background: track.accentSoft, borderColor: "rgba(255,255,255,0.14)", color: "rgba(255,255,255,0.92)" }}
           >
-            3–7 Weeks
+            {track.label}
           </span>
+        </div>
+        <div className="absolute right-5 top-5 rounded-full px-3 py-1 text-xs font-semibold text-white ring-1" style={{ background: "rgba(11,18,32,0.55)", borderColor: "rgba(255,255,255,0.22)" }}>
+          EUR {price.toFixed(2)}
         </div>
       </div>
 
-      <div className="relative flex h-[520px] flex-col p-6">
-        <p className="text-sm leading-relaxed text-white/70" style={clampStyle(3)}>
-          {track.desc}
+      <div className="p-6">
+        <div className="text-lg font-semibold text-white" style={clampStyle(2)}>
+          {program.title}
+        </div>
+        <p className="mt-2 text-sm leading-relaxed text-white/70" style={clampStyle(4)}>
+          {program.description}
         </p>
-
-        <div className="mt-5 rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.04)" }}>
-          <div className="text-xs font-semibold tracking-widest text-white/55">PROGRAMS</div>
-
-          <motion.div
-            className="mt-3 space-y-2"
-            variants={vStagger}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.4 }}
-          >
-            {track.programs.slice(0, 8).map((p, i) => (
-              <motion.div
-                key={p}
-                custom={i}
-                variants={itemV}
-                className="flex items-start gap-3"
-                whileHover={reduce ? undefined : { x: 2 }}
-                transition={{ duration: 0.2 }}
-              >
-                <span
-                  className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full ring-1"
-                  style={{
-                    background: "rgba(255,255,255,0.08)",
-                    borderColor: "rgba(255,255,255,0.12)",
-                  }}
-                >
-                  <span className="h-2 w-2 rounded-full" style={{ background: track.accent, opacity: 0.9 }} />
-                </span>
-                <div className="text-sm text-white/85" style={clampStyle(2)}>
-                  {p}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+        <div className="mt-4 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+          <div className="text-[11px] font-semibold tracking-widest text-white/55">PROGRAM FEE</div>
+          <div className="mt-1 text-base font-semibold text-white">EUR {price.toFixed(2)}</div>
         </div>
 
-        <div className="mt-auto pt-5">
-          <div className="flex items-center justify-between">
-            <a
-              href="#apply"
-              className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/15 transition-all hover:bg-white/5"
-            >
-              Apply for this track <ChevronRight className="h-4 w-4" {...iconStrongProps} />
-            </a>
-          </div>
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={() => onApply?.(track, program)}
+            className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white"
+            style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)` }}
+          >
+            Apply for this program <ChevronRight className="h-4 w-4" {...iconStrongProps} />
+          </button>
         </div>
       </div>
     </motion.div>
   );
 });
+
+function ApplyProgramModal({
+  open,
+  onClose,
+  selectedTrack,
+  selectedProgram,
+  fullName,
+  setFullName,
+  email,
+  setEmail,
+  phone,
+  setPhone,
+  roleTitle,
+  setRoleTitle,
+  industry,
+  setIndustry,
+  experience,
+  setExperience,
+  interestTracks,
+  setInterestTracks,
+  goal,
+  setGoal,
+  knowledge,
+  setKnowledge,
+  challenge,
+  setChallenge,
+  startTime,
+  setStartTime,
+  timeCommitment,
+  setTimeCommitment,
+  weeklyAvail,
+  setWeeklyAvail,
+  applyingAs,
+  setApplyingAs,
+  outcomes,
+  setOutcomes,
+  linkedin,
+  setLinkedin,
+  consent,
+  setConsent,
+}) {
+  useLockBodyScroll(open);
+  const [step, setStep] = useState(0);
+  const [formStep, setFormStep] = useState(0);
+  const [method, setMethod] = useState("Stripe");
+
+  useEffect(() => {
+    if (!open) return;
+    setStep(0);
+    setFormStep(0);
+    setMethod("Stripe");
+  }, [open, selectedProgram]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  const formStepLabels = FORM_STEPS;
+  const formProgress = Math.round(((formStep + 1) / formStepLabels.length) * 100);
+  const price = getProgramPrice(selectedProgram || selectedTrack || "AI Program");
+  const vat = Number((price * 0.19).toFixed(2));
+  const total = Number((price + vat).toFixed(2));
+
+  const canNextForm = useMemo(() => {
+    if (formStep === 0) return fullName.trim() && email.trim() && phone.trim() && roleTitle.trim();
+    if (formStep === 1) return interestTracks.size > 0 && goal && knowledge;
+    if (formStep === 2) return startTime && timeCommitment && weeklyAvail && applyingAs;
+    if (formStep === 3) return outcomes.size > 0;
+    if (formStep === 4) return consent;
+    return true;
+  }, [formStep, fullName, email, phone, roleTitle, interestTracks, goal, knowledge, startTime, timeCommitment, weeklyAvail, applyingAs, outcomes, consent]);
+
+  const next = () => {
+    if (step === 0) {
+      if (!canNextForm) return;
+      if (formStep < formStepLabels.length - 1) setFormStep((s) => s + 1);
+      else setStep(1);
+      return;
+    }
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+    alert(`Proceeding with ${method} payment for EUR${total.toFixed(2)}.`);
+    onClose?.();
+  };
+
+  const back = () => {
+    if (step === 2) {
+      setStep(1);
+      return;
+    }
+    if (step === 1) {
+      setStep(0);
+      setFormStep(formStepLabels.length - 1);
+      return;
+    }
+    if (formStep > 0) {
+      setFormStep((s) => s - 1);
+      return;
+    }
+    onClose?.();
+  };
+
+  if (!open) return null;
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[90] bg-[#040B1D]/75 px-4 py-6 backdrop-blur-sm"
+        onClick={onClose}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.98 }}
+          transition={{ duration: 0.28, ease: EASE_OUT }}
+          className="mx-auto max-h-[92vh] w-full max-w-[980px] overflow-hidden rounded-[28px] bg-[#ECEEF3] text-[#0B1220] shadow-[0_30px_120px_rgba(0,0,0,0.45)]"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="border-b border-[#0B1220]/12 px-6 pb-5 pt-6">
+            <div className="flex items-start justify-between gap-5">
+              <div>
+                <div className="text-xs font-semibold tracking-[0.18em] text-[#0B1220]/55">APPLICATION FLOW</div>
+                <h3 className="mt-2 text-2xl font-semibold leading-tight">
+                  Apply for {selectedProgram || selectedTrack || "AI Program"}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/65 ring-1 ring-[#0B1220]/14 transition hover:bg-white"
+                aria-label="Close modal"
+              >
+                <X className="h-6 w-6 text-[#0B1220]" {...iconStrongProps} />
+              </button>
+            </div>
+          </div>
+
+          <div className="max-h-[calc(92vh-104px)] overflow-y-auto px-6 py-6">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              {["Form", "Review", "Pay"].map((label, idx) => {
+                const active = idx === step;
+                return (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => (idx <= step ? setStep(idx) : null)}
+                    className={cx(
+                      "rounded-full border px-4 py-2 text-center text-sm font-semibold transition",
+                      active ? "border-transparent text-white" : "border-[#0B1220]/12 bg-white/60 text-[#0B1220]/60"
+                    )}
+                    style={active ? { background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)` } : undefined}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {step === 0 ? (
+              <div className="mt-6 space-y-5">
+                <div>
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">FORM PROGRESS</div>
+                    <div className="text-xs font-semibold text-[#0B1220]/70">{formProgress}%</div>
+                  </div>
+                  <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-[#0B1220]/10">
+                    <motion.div
+                      initial={false}
+                      animate={{ width: `${formProgress}%` }}
+                      transition={{ duration: 0.45, ease: EASE_OUT }}
+                      className="h-full rounded-full"
+                      style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)` }}
+                    />
+                  </div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {formStepLabels.map((s, i) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => (i <= formStep ? setFormStep(i) : null)}
+                        className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+                        style={{
+                          background: i === formStep ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "rgba(11,18,32,0.06)",
+                          color: i === formStep ? "rgba(255,255,255,0.95)" : "rgba(11,18,32,0.70)",
+                          borderColor: "rgba(11,18,32,0.10)",
+                        }}
+                      >
+                        {i + 1}. {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {formStep === 0 ? (
+                  <>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Full Name" required>
+                        <Input icon={BadgeCheck} iconColor={THEME.accent2} placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                      </Field>
+                      <Field label="Email Address" required>
+                        <Input icon={Globe2} iconColor={THEME.accent} placeholder="name@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                      </Field>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Phone Number (with country code)" required>
+                        <Input icon={Briefcase} iconColor={THEME.accent3} placeholder="+962 ..." value={phone} onChange={(e) => setPhone(e.target.value)} />
+                      </Field>
+                      <Field label="Current Role / Title" required>
+                        <Input icon={Briefcase} iconColor={THEME.accent4} placeholder="Software Engineer, Marketing Manager, Finance Analyst" value={roleTitle} onChange={(e) => setRoleTitle(e.target.value)} />
+                      </Field>
+                    </div>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Industry" required>
+                        <Select
+                          icon={Building2}
+                          iconColor={THEME.accent2}
+                          value={industry}
+                          onChange={setIndustry}
+                          options={["Technology", "Finance", "Healthcare", "Education", "Government", "Manufacturing", "Consulting", "Marketing", "HR", "Research", "Startup / Entrepreneurship", "Other"]}
+                        />
+                      </Field>
+                      <Field label="Years of Experience" required>
+                        <Select icon={Calendar} iconColor={THEME.accent} value={experience} onChange={setExperience} options={["Student", "0–2 Years", "3–5 Years", "6–10 Years", "10+ Years"]} />
+                      </Field>
+                    </div>
+                  </>
+                ) : null}
+
+                {formStep === 1 ? (
+                  <>
+                    <Field label="Which AI Track Are You Interested In?" required hint="Multi-select">
+                      <TogglePills
+                        options={TRACK_LABELS}
+                        valueSet={interestTracks}
+                        onChange={(nextSet) => {
+                          if (nextSet.has("Not Sure – Recommend for Me") && nextSet.size > 1) nextSet.delete("Not Sure – Recommend for Me");
+                          setInterestTracks(nextSet);
+                        }}
+                      />
+                    </Field>
+                    <Field label="What Is Your Primary Goal?" required>
+                      <RadioRow
+                        options={["Increase productivity in my current job", "Lead AI transformation in my organization", "Transition into an AI-related role", "Build AI-powered products", "Strengthen decision-making with AI", "Future-proof my career", "Other"]}
+                        value={goal}
+                        onChange={setGoal}
+                      />
+                    </Field>
+                    <Field label="Current AI Knowledge Level" required>
+                      <RadioRow options={["Beginner", "Intermediate", "Advanced", "Technical AI Background"]} value={knowledge} onChange={setKnowledge} />
+                    </Field>
+                    <Field label="Describe a challenge you want AI to help you solve" hint="Optional (max ~400 chars)">
+                      <Textarea value={challenge} onChange={(e) => setChallenge(e.target.value.slice(0, 400))} placeholder="e.g., automate reporting, improve customer onboarding, speed up research synthesis..." />
+                      <div className="mt-2 text-xs text-[#0B1220]/55">{challenge.length}/400</div>
+                    </Field>
+                  </>
+                ) : null}
+
+                {formStep === 2 ? (
+                  <>
+                    <Field label="Preferred Start Time" required>
+                      <RadioRow options={["Next Cohort (Immediate)", "Within 1 Month", "Within 2–3 Months", "Just Exploring for Now"]} value={startTime} onChange={setStartTime} />
+                    </Field>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <Field label="Preferred Time Commitment" required>
+                        <Select icon={Calendar} iconColor={THEME.accent4} value={timeCommitment} onChange={setTimeCommitment} options={["3 Weeks Intensive", "4–5 Weeks Balanced", "6–7 Weeks Advanced Track", "Flexible"]} />
+                      </Field>
+                      <Field label="Weekly Availability" required>
+                        <Select icon={ListChecks} iconColor={THEME.accent3} value={weeklyAvail} onChange={setWeeklyAvail} options={["3–5 hours/week", "6–8 hours/week", "8–12 hours/week"]} />
+                      </Field>
+                    </div>
+                    <Field label="Are You Applying As" required>
+                      <RadioRow options={["Individual Self-Sponsored", "Company-Sponsored", "Considering Team Enrollment"]} value={applyingAs} onChange={setApplyingAs} />
+                    </Field>
+                  </>
+                ) : null}
+
+                {formStep === 3 ? (
+                  <>
+                    <Field label="What Outcome Matters Most to You?" required hint="Multi-select">
+                      <TogglePills options={OUTCOMES} valueSet={outcomes} onChange={setOutcomes} />
+                    </Field>
+                    <Field label="LinkedIn Profile" hint="Optional but recommended">
+                      <Input icon={Rocket} iconColor={THEME.accent2} placeholder="https://linkedin.com/in/" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} />
+                    </Field>
+                    <div className="rounded-3xl bg-white/50 p-5 ring-1 ring-[#0B1220]/10">
+                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">TRACK CONTEXT</div>
+                      <div className="mt-2 text-sm text-[#0B1220]/75">Selected track family: <span className="font-semibold">{selectedTrack || "—"}</span></div>
+                      <div className="mt-1 text-sm text-[#0B1220]/75">Selected program: <span className="font-semibold">{selectedProgram || "—"}</span></div>
+                    </div>
+                  </>
+                ) : null}
+
+                {formStep === 4 ? (
+                  <motion.button
+                    type="button"
+                    onClick={() => setConsent((v) => !v)}
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.99 }}
+                    className="flex w-full items-center justify-between rounded-2xl bg-white/60 px-4 py-4 text-left ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
+                  >
+                    <div className="flex items-start gap-3">
+                      <span
+                        className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-md ring-1"
+                        style={{
+                          background: consent ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "transparent",
+                          borderColor: "rgba(11,18,32,0.18)",
+                        }}
+                      >
+                        {consent ? <CheckCircle2 className="h-4 w-4 text-white" {...iconStrongProps} /> : null}
+                      </span>
+                      <div>
+                        <div className="text-sm font-semibold text-[#0B1220]">I agree to be contacted regarding AI program enrollment and updates.</div>
+                        <div className="mt-1 text-xs text-[#0B1220]/55">Required to proceed.</div>
+                      </div>
+                    </div>
+                    <span className="text-xs font-semibold text-[#0B1220]/55">{consent ? "Enabled" : "Disabled"}</span>
+                  </motion.button>
+                ) : null}
+              </div>
+            ) : null}
+
+            {step === 1 ? (
+              <div className="mt-6 space-y-4">
+                <div className="rounded-[22px] bg-white p-5 ring-1 ring-[#0B1220]/10">
+                  <div className="text-lg font-semibold text-[#0B1220]">Review Application</div>
+                  <div className="mt-3 space-y-1 text-sm text-[#0B1220]/80">
+                    <div><span className="font-semibold">Name:</span> {fullName || "-"}</div>
+                    <div><span className="font-semibold">Email:</span> {email || "-"}</div>
+                    <div><span className="font-semibold">Phone:</span> {phone || "-"}</div>
+                    <div><span className="font-semibold">Role:</span> {roleTitle || "-"}</div>
+                    <div><span className="font-semibold">Industry:</span> {industry || "-"}</div>
+                    <div><span className="font-semibold">Experience:</span> {experience || "-"}</div>
+                    <div><span className="font-semibold">Interested tracks:</span> {[...interestTracks].join(", ") || "-"}</div>
+                    <div><span className="font-semibold">Goal:</span> {goal || "-"}</div>
+                    <div><span className="font-semibold">AI knowledge:</span> {knowledge || "-"}</div>
+                    <div><span className="font-semibold">Challenge:</span> {challenge || "-"}</div>
+                    <div><span className="font-semibold">Start:</span> {startTime || "-"}</div>
+                    <div><span className="font-semibold">Time commitment:</span> {timeCommitment || "-"}</div>
+                    <div><span className="font-semibold">Weekly availability:</span> {weeklyAvail || "-"}</div>
+                    <div><span className="font-semibold">Applying as:</span> {applyingAs || "-"}</div>
+                    <div><span className="font-semibold">Outcomes:</span> {[...outcomes].join(", ") || "-"}</div>
+                    <div><span className="font-semibold">LinkedIn:</span> {linkedin || "-"}</div>
+                    <div><span className="font-semibold">Program:</span> {selectedProgram || "-"}</div>
+                  </div>
+                </div>
+                <div className="rounded-[22px] bg-white p-5 ring-1 ring-[#0B1220]/10">
+                  <div className="text-sm font-semibold tracking-widest text-[#0B1220]/55">INCLUDES</div>
+                  <div className="mt-3 space-y-2">
+                    {["Live expert sessions", "Applied assignments", "Certificate of completion"].map((x) => (
+                      <div key={x} className="flex items-start gap-3 text-sm text-[#0B1220]/75">
+                        <Check className="mt-0.5 h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
+                        <span>{x}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {step === 2 ? (
+              <div className="mt-6 space-y-5">
+                <div className="rounded-[22px] bg-gradient-to-br from-[#0B1220] to-[#152238] p-7 text-center ring-1 ring-[#0B1220]/20">
+                  <div className="text-4xl font-semibold leading-tight text-white sm:text-5xl">Complete Your Purchase</div>
+                  <div className="mt-2 text-sm text-white/70">Secure checkout with VAT-inclusive pricing.</div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.1fr_1fr]">
+                  <div className="rounded-[22px] bg-white p-7 ring-1 ring-[#0B1220]/10">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="text-2xl font-semibold text-[#0B1220]">{selectedProgram || "AI Program"}</div>
+                      <div className="text-2xl font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</div>
+                    </div>
+                    <div className="mt-6 space-y-2">
+                      {["Live expert sessions", "Applied assignments", "Certificate of completion"].map((x) => (
+                        <div key={x} className="flex items-start gap-3 text-sm text-[#0B1220]/75">
+                          <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full" style={{ background: THEME.accent3 }}>
+                            <Check className="h-3.5 w-3.5 text-white" {...iconStrongProps} />
+                          </span>
+                          <span>{x}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="rounded-[22px] bg-white p-6 ring-1 ring-[#0B1220]/10">
+                      <div className="text-2xl font-semibold text-[#0B1220]">Order Summary</div>
+                      <div className="mt-4 space-y-2 text-base text-[#0B1220]/80">
+                        <div className="flex items-center justify-between"><span>Ticket Price</span><span className="font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</span></div>
+                        <div className="flex items-center justify-between"><span>Price before VAT</span><span className="font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</span></div>
+                        <div className="flex items-center justify-between"><span>VAT (19%)</span><span className="font-semibold text-[#0B1220]">EUR{vat.toFixed(2)}</span></div>
+                        <div className="border-t border-[#0B1220]/12 pt-3">
+                          <div className="flex items-center justify-between text-xl font-semibold text-[#0B1220]"><span>Total Amount</span><span>EUR{total.toFixed(2)}</span></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-[22px] bg-white p-6 ring-1 ring-[#0B1220]/10">
+                      <div className="text-lg font-semibold text-[#0B1220]">Payment Method</div>
+                      <div className="mt-3 space-y-3">
+                        {["Stripe", "PayPal"].map((m) => {
+                          const active = method === m;
+                          return (
+                            <button
+                              key={m}
+                              type="button"
+                              onClick={() => setMethod(m)}
+                              className={cx(
+                                "w-full rounded-2xl border px-4 py-4 text-left transition",
+                                active ? "border-blue-500 bg-blue-50 shadow-[0_8px_24px_rgba(59,130,246,0.12)]" : "border-[#0B1220]/15 bg-white hover:bg-[#F8FAFC]"
+                              )}
+                            >
+                              <div className="flex items-center gap-3">
+                                <span className={cx("inline-flex h-5 w-5 rounded-full border", active ? "border-blue-500" : "border-[#0B1220]/30")}>
+                                  {active ? <span className="m-auto h-2.5 w-2.5 rounded-full bg-blue-500" /> : null}
+                                </span>
+                                <div>
+                                  <div className="text-base font-semibold text-[#0B1220]">{m === "Stripe" ? "Secure payment with Stripe" : "Pay with PayPal"}</div>
+                                  <div className="text-xs text-[#0B1220]/60">Card checkout | 19% VAT included</div>
+                                </div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
+              <button
+                type="button"
+                onClick={back}
+                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/12 transition hover:bg-[#E5E7EB]"
+              >
+                {step === 0 && formStep === 0 ? "Cancel" : "Back"}
+              </button>
+              <button
+                type="button"
+                onClick={next}
+                className={cx(
+                  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white",
+                  step === 0 && !canNextForm ? "cursor-not-allowed opacity-60" : ""
+                )}
+                disabled={step === 0 && !canNextForm}
+                style={step === 2 ? { background: "#0B1220" } : { background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
+              >
+                {step === 0 ? (formStep === formStepLabels.length - 1 ? "Continue to Review" : "Continue") : null}
+                {step === 1 ? "Continue to Pay" : null}
+                {step === 2 ? `Proceed to Secure Payment • EUR${total.toFixed(2)}` : null}
+                {step < 2 ? <ChevronRight className="h-4 w-4" {...iconStrongProps} /> : null}
+              </button>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
 
 /* =========================
    FORM COMPONENTS
@@ -905,6 +1464,9 @@ export default function AIForRealWorldCareersPage() {
 
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
+  const [selectedProgramTitle, setSelectedProgramTitle] = useState("");
+  const [selectedTrackLabel, setSelectedTrackLabel] = useState(track.label);
 
   // Step 1
   const [fullName, setFullName] = useState("");
@@ -967,22 +1529,37 @@ export default function AIForRealWorldCareersPage() {
     return label;
   }
 
+  const trackKeyFromLabel = useCallback((label) => {
+    if (label.includes("Technology")) return "tech";
+    if (label.includes("Product")) return "product";
+    if (label.includes("Business")) return "biz";
+    if (label.includes("Industry")) return "industry";
+    if (label.includes("Foundations")) return "foundations";
+    return TRACKS[0].key;
+  }, []);
+
+  const openApplyModal = useCallback((targetTrack, targetProgram) => {
+    const nextTrackLabel = targetTrack?.label || track.label;
+    const nextProgramTitle = targetProgram?.title || "";
+
+    setSelectedTrackLabel(nextTrackLabel);
+    setSelectedProgramTitle(nextProgramTitle);
+    setInterestTracks(new Set([nextTrackLabel]));
+    if (nextProgramTitle) {
+      setRoleTitle(nextProgramTitle);
+    }
+    setActiveTrack(trackKeyFromLabel(nextTrackLabel));
+    setIsApplyModalOpen(true);
+  }, [track.label, trackKeyFromLabel]);
+
   const applyDiagnosticRecommendation = useCallback((reco) => {
     const normalized = normalizeTrackLabel(reco);
     const next = new Set([normalized]);
     setInterestTracks(next);
 
-    const match =
-      normalized.includes("Technology") ? "tech" :
-      normalized.includes("Product") ? "product" :
-      normalized.includes("Business") ? "biz" :
-      normalized.includes("Industry") ? "industry" :
-      normalized.includes("Foundations") ? "foundations" :
-      TRACKS[0].key;
-
-    setActiveTrack(match);
+    setActiveTrack(trackKeyFromLabel(normalized));
     document.querySelector("#apply")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, []);
+  }, [trackKeyFromLabel]);
 
   const resetAndSubmit = useCallback(() => {
     setSubmitting(true);
@@ -1231,12 +1808,13 @@ export default function AIForRealWorldCareersPage() {
                 <div className="mt-1 text-sm text-white/65">{track.desc}</div>
               </div>
 
-              <a
-                href="#apply"
+              <button
+                type="button"
+                onClick={() => openApplyModal(track)}
                 className="mt-2 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/5 sm:mt-0"
               >
                 Apply for this track <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-              </a>
+              </button>
             </div>
 
             <div className="relative overflow-visible">
@@ -1273,9 +1851,9 @@ export default function AIForRealWorldCareersPage() {
               </motion.button>
 
               <div ref={sliderRef} className="no-scrollbar flex gap-5 overflow-x-auto pb-2" style={{ scrollSnapType: "x mandatory" }}>
-                {TRACKS.map((t, idx) => (
-                  <div key={t.key} style={{ scrollSnapAlign: "start" }} data-track-card>
-                    <TrackCard track={t} index={idx} />
+                {track.programs.map((p, idx) => (
+                  <div key={p.title} style={{ scrollSnapAlign: "start" }} data-track-card>
+                    <AIProgramCard track={track} program={p} index={idx} onApply={openApplyModal} />
                   </div>
                 ))}
               </div>
@@ -1378,7 +1956,7 @@ export default function AIForRealWorldCareersPage() {
 
                   <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div className="text-sm text-white/70">Built for real work environments — not generic exercises.</div>
-                    <GradientButton href="#apply">Apply Now</GradientButton>
+                    <GradientButton onClick={() => openApplyModal(track)}>Apply Now</GradientButton>
                   </div>
                 </div>
               </Reveal>
@@ -1432,9 +2010,13 @@ export default function AIForRealWorldCareersPage() {
                     </div>
 
                     <div className="mt-7">
-                      <a href="#apply" className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15">
+                      <button
+                        type="button"
+                        onClick={() => openApplyModal(track)}
+                        className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15"
+                      >
                         Speak With an AI Advisor <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                      </a>
+                      </button>
                     </div>
                   </div>
 
@@ -1482,407 +2064,46 @@ export default function AIForRealWorldCareersPage() {
         </div>
       </section>
 
-      <section className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <div
-            className="relative overflow-hidden rounded-[32px] border border-white/10 px-6 py-10 text-center sm:px-10"
-            style={{
-              background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)`,
-              boxShadow: "0 24px 90px rgba(0,0,0,0.16)",
-            }}
-          >
-            <div
-              className="pointer-events-none absolute inset-0 opacity-[0.16]"
-              style={{
-                backgroundImage: "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)",
-              }}
-            />
-            <div className="relative mx-auto max-w-5xl text-white">
-              <div className="text-xs font-semibold text-white/80 sm:text-sm">Future-proof, market-aligned</div>
-              <div className="mt-3 text-3xl font-semibold md:text-4xl">Future-Proof Your Career With AI.</div>
-              <p className="mx-auto mt-4 max-w-4xl text-sm font-medium text-white/80">Every industry is evolving. Make sure you evolve with it.</p>
-              <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-                <a href="#tracks" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95">
-                  Explore AI Tracks <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                </a>
-                <a href="#apply" className="inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15">
-                  Speak With an AI Advisor <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="diagnostic" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <SectionTitle title="AI Career Diagnostic" accentWord="(3 minutes)" subtitle="A fast way to find your best-fit track — then apply with confidence." dark />
-          <div className="mt-10">
-            <AIDiagnostic onResult={applyDiagnosticRecommendation} />
-          </div>
-        </div>
-      </section>
-
-      <section id="apply" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <SectionTitle title="Apply for an AI Track" subtitle="Tell us about your background and goals. We’ll match you with the right AI program." />
-
-          <div className="mt-10 mx-auto max-w-[900px]">
-            <motion.div
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.25 }}
-              variants={{
-                hidden: { opacity: 0, y: 14 },
-                show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE_OUT } },
-              }}
-              className="relative rounded-[40px] p-[1px]"
-              style={{
-                background: "#FFFFFF",
-                backgroundSize: "200% 200%",
-                animation: "gradMove 10s ease-in-out infinite",
-                boxShadow: "0 26px 90px rgba(0,0,0,0.18)",
-              }}
-            >
-              <div className="relative rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                <AnimatePresence>
-                  {submitted ? (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                      className="pointer-events-none absolute right-6 top-6 rounded-full px-4 py-2 text-xs font-semibold ring-1"
-                      style={{
-                        background: "rgba(52,211,153,0.18)",
-                        borderColor: "rgba(52,211,153,0.30)",
-                        color: "rgba(11,18,32,0.85)",
-                      }}
-                    >
-                      <span className="inline-flex items-center gap-2">
-                        <CheckCircle2 className="h-4 w-4" {...iconStrongProps} />
-                        Thank you. Your request has been received.
-                      </span>
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
-
-                <div className="mb-6">
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">PROGRESS</div>
-                    <div className="text-xs font-semibold text-[#0B1220]/70">{progress}%</div>
-                  </div>
-                  <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-[#0B1220]/10">
-                    <motion.div
-                      initial={false}
-                      animate={{ width: `${progress}%` }}
-                      transition={{ duration: 0.45, ease: EASE_OUT }}
-                      className="h-full rounded-full"
-                      style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)` }}
-                    />
-                  </div>
-
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {steps.map((s, i) => (
-                      <span
-                        key={s}
-                        className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                        style={{
-                          background: i === step ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "rgba(11,18,32,0.06)",
-                          color: i === step ? "rgba(255,255,255,0.95)" : "rgba(11,18,32,0.70)",
-                          borderColor: "rgba(11,18,32,0.10)",
-                        }}
-                      >
-                        {i + 1}. {s}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-5">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={step}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      transition={{ duration: 0.25, ease: EASE_OUT }}
-                      className="space-y-5"
-                    >
-                      {step === 0 ? (
-                        <>
-                          <div className="text-lg font-semibold">Step 1 — Professional Background</div>
-
-                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <Field label="Full Name" required>
-                              <Input icon={BadgeCheck} iconColor={THEME.accent2} placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                            </Field>
-                            <Field label="Email Address" required>
-                              <Input icon={Globe2} iconColor={THEME.accent} placeholder="name@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                            </Field>
-                          </div>
-
-                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <Field label="Phone Number (with country code)" required>
-                              <Input icon={Briefcase} iconColor={THEME.accent3} placeholder="+962 ..." value={phone} onChange={(e) => setPhone(e.target.value)} />
-                            </Field>
-                            <Field label="Current Role / Title" required>
-                              <Input icon={Briefcase} iconColor={THEME.accent4} placeholder="Software Engineer, Marketing Manager, Finance Analyst" value={roleTitle} onChange={(e) => setRoleTitle(e.target.value)} />
-                            </Field>
-                          </div>
-
-                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <Field label="Industry" required>
-                              <Select
-                                icon={Building2}
-                                iconColor={THEME.accent2}
-                                value={industry}
-                                onChange={setIndustry}
-                                options={[
-                                  "Technology",
-                                  "Finance",
-                                  "Healthcare",
-                                  "Education",
-                                  "Government",
-                                  "Manufacturing",
-                                  "Consulting",
-                                  "Marketing",
-                                  "HR",
-                                  "Research",
-                                  "Startup / Entrepreneurship",
-                                  "Other",
-                                ]}
-                              />
-                            </Field>
-                            <Field label="Years of Experience" required>
-                              <Select icon={Calendar} iconColor={THEME.accent} value={experience} onChange={setExperience} options={["Student", "0–2 Years", "3–5 Years", "6–10 Years", "10+ Years"]} />
-                            </Field>
-                          </div>
-                        </>
-                      ) : null}
-
-                      {step === 1 ? (
-                        <>
-                          <div className="text-lg font-semibold">Step 2 — AI Goals & Interests</div>
-
-                          <Field label="Which AI Track Are You Interested In?" required hint="Multi-select">
-                            <TogglePills
-                              options={TRACK_LABELS}
-                              valueSet={interestTracks}
-                              onChange={(next) => {
-                                if (next.has("Not Sure – Recommend for Me") && next.size > 1) {
-                                  next.delete("Not Sure – Recommend for Me");
-                                }
-                                setInterestTracks(next);
-                              }}
-                            />
-                          </Field>
-
-                          <Field label="What Is Your Primary Goal?" required>
-                            <RadioRow
-                              options={[
-                                "Increase productivity in my current job",
-                                "Lead AI transformation in my organization",
-                                "Transition into an AI-related role",
-                                "Build AI-powered products",
-                                "Strengthen decision-making with AI",
-                                "Future-proof my career",
-                                "Other",
-                              ]}
-                              value={goal}
-                              onChange={setGoal}
-                            />
-                          </Field>
-
-                          <Field label="Current AI Knowledge Level" required>
-                            <RadioRow options={["Beginner", "Intermediate", "Advanced", "Technical AI Background"]} value={knowledge} onChange={setKnowledge} />
-                          </Field>
-
-                          <Field label="Describe a challenge you want AI to help you solve" hint="Optional (max ~400 chars)">
-                            <Textarea value={challenge} onChange={(e) => setChallenge(e.target.value.slice(0, 400))} placeholder="e.g., automate reporting, improve customer onboarding, speed up research synthesis..." />
-                            <div className="mt-2 text-xs text-[#0B1220]/55">{challenge.length}/400</div>
-                          </Field>
-                        </>
-                      ) : null}
-
-                      {step === 2 ? (
-                        <>
-                          <div className="text-lg font-semibold">Step 3 — Program Preferences</div>
-
-                          <Field label="Preferred Start Time" required>
-                            <RadioRow
-                              options={["Next Cohort (Immediate)", "Within 1 Month", "Within 2–3 Months", "Just Exploring for Now"]}
-                              value={startTime}
-                              onChange={setStartTime}
-                            />
-                          </Field>
-
-                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <Field label="Preferred Time Commitment" required>
-                              <Select
-                                icon={Calendar}
-                                iconColor={THEME.accent4}
-                                value={timeCommitment}
-                                onChange={setTimeCommitment}
-                                options={["3 Weeks Intensive", "4–5 Weeks Balanced", "6–7 Weeks Advanced Track", "Flexible"]}
-                              />
-                            </Field>
-                            <Field label="Weekly Availability" required>
-                              <Select icon={ListChecks} iconColor={THEME.accent3} value={weeklyAvail} onChange={setWeeklyAvail} options={["3–5 hours/week", "6–8 hours/week", "8–12 hours/week"]} />
-                            </Field>
-                          </div>
-
-                          <Field label="Are You Applying As" required>
-                            <RadioRow options={["Individual Self-Sponsored", "Company-Sponsored", "Considering Team Enrollment"]} value={applyingAs} onChange={setApplyingAs} />
-                          </Field>
-                        </>
-                      ) : null}
-
-                      {step === 3 ? (
-                        <>
-                          <div className="text-lg font-semibold">Step 4 — Professional Impact</div>
-
-                          <Field label="What Outcome Matters Most to You?" required hint="Multi-select">
-                            <TogglePills options={OUTCOMES} valueSet={outcomes} onChange={setOutcomes} />
-                          </Field>
-
-                          <Field label="LinkedIn Profile" hint="Optional but recommended">
-                            <Input icon={Rocket} iconColor={THEME.accent2} placeholder="https://linkedin.com/in/" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} />
-                          </Field>
-
-                          <div className="rounded-3xl bg-white/50 p-5 ring-1 ring-[#0B1220]/10">
-                            <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">TRACK CONTEXT</div>
-                            <div className="mt-2 text-sm text-[#0B1220]/75">
-                              Selected track family: <span className="font-semibold">{track.label}</span>
-                            </div>
-                            <div className="mt-1 text-sm text-[#0B1220]/65">{track.desc}</div>
-                          </div>
-                        </>
-                      ) : null}
-
-                      {step === 4 ? (
-                        <>
-                          <div className="text-lg font-semibold">Step 5 — Final Confirmation</div>
-
-                          <div className="rounded-3xl bg-white/60 p-5 ring-1 ring-[#0B1220]/10">
-                            <div className="text-sm font-semibold">Review summary</div>
-                            <div className="mt-3 grid grid-cols-1 gap-3 text-sm text-[#0B1220]/75 sm:grid-cols-2">
-                              <div><span className="font-semibold">Name:</span> {fullName || "—"}</div>
-                              <div><span className="font-semibold">Email:</span> {email || "—"}</div>
-                              <div><span className="font-semibold">Role:</span> {roleTitle || "—"}</div>
-                              <div><span className="font-semibold">Industry:</span> {industry}</div>
-                              <div className="sm:col-span-2">
-                                <span className="font-semibold">Interested tracks:</span> {[...interestTracks].join(", ") || "—"}
-                              </div>
-                              <div className="sm:col-span-2">
-                                <span className="font-semibold">Outcomes:</span> {[...outcomes].join(", ") || "—"}
-                              </div>
-                            </div>
-                          </div>
-
-                          <motion.button
-                            type="button"
-                            onClick={() => setConsent((v) => !v)}
-                            whileHover={{ y: -1 }}
-                            whileTap={{ scale: 0.99 }}
-                            className="flex w-full items-center justify-between rounded-2xl bg-white/60 px-4 py-4 text-left ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
-                          >
-                            <div className="flex items-start gap-3">
-                              <span
-                                className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-md ring-1"
-                                style={{
-                                  background: consent ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "transparent",
-                                  borderColor: "rgba(11,18,32,0.18)",
-                                }}
-                              >
-                                {consent ? <CheckCircle2 className="h-4 w-4 text-white" {...iconStrongProps} /> : null}
-                              </span>
-                              <div>
-                                <div className="text-sm font-semibold text-[#0B1220]">I agree to be contacted regarding AI program enrollment and updates.</div>
-                                <div className="mt-1 text-xs text-[#0B1220]/55">Required to proceed.</div>
-                              </div>
-                            </div>
-                            <span className="text-xs font-semibold text-[#0B1220]/55">{consent ? "Enabled" : "Disabled"}</span>
-                          </motion.button>
-                        </>
-                      ) : null}
-                    </motion.div>
-                  </AnimatePresence>
-
-                  <div className="pt-2">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                      <button
-                        type="button"
-                        onClick={goBack}
-                        disabled={step === 0 || submitting}
-                        className={cx(
-                          "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ring-1 transition",
-                          step === 0 || submitting ? "cursor-not-allowed opacity-50" : "hover:bg-[#0B1220]/5",
-                          "bg-white/60 text-[#0B1220] ring-[#0B1220]/10"
-                        )}
-                      >
-                        <ChevronLeft className="h-4 w-4" {...iconStrongProps} />
-                        Back
-                      </button>
-
-                      {step < steps.length - 1 ? (
-                        <motion.button
-                          type="button"
-                          whileHover={{ scale: canNext ? 1.01 : 1 }}
-                          whileTap={{ scale: canNext ? 0.99 : 1 }}
-                          onClick={goNext}
-                          disabled={!canNext || submitting}
-                          className={cx(
-                            "relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition sm:w-auto",
-                            !canNext || submitting ? "cursor-not-allowed opacity-60" : ""
-                          )}
-                          style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
-                        >
-                          <span className="relative z-10 inline-flex items-center gap-2">
-                            Next <ChevronRight className="h-4 w-4" {...iconStrongProps} />
-                          </span>
-                          <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
-                            <span className="shine" />
-                          </span>
-                        </motion.button>
-                      ) : (
-                        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                          <a
-                            href="#"
-                            onClick={(e) => e.preventDefault()}
-                            className="inline-flex items-center justify-center gap-2 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/10 transition hover:bg-white/70"
-                          >
-                            Schedule AI Consultation <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                          </a>
-                          <motion.button
-                            type="button"
-                            whileHover={{ scale: canNext && !submitting ? 1.01 : 1 }}
-                            whileTap={{ scale: canNext && !submitting ? 0.99 : 1 }}
-                            onClick={() => canNext && !submitting && resetAndSubmit()}
-                            disabled={!canNext || submitting}
-                            className={cx(
-                              "relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition sm:w-auto",
-                              !canNext || submitting ? "cursor-not-allowed opacity-60" : ""
-                            )}
-                            style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
-                          >
-                            <span className="relative z-10 inline-flex items-center gap-2">
-                              {submitting ? "Submitting..." : "Apply Now"}
-                              <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                            </span>
-                            <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
-                              <span className="shine" />
-                            </span>
-                          </motion.button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
+      <ApplyProgramModal
+        open={isApplyModalOpen}
+        onClose={() => setIsApplyModalOpen(false)}
+        selectedTrack={selectedTrackLabel}
+        selectedProgram={selectedProgramTitle}
+        fullName={fullName}
+        setFullName={setFullName}
+        email={email}
+        setEmail={setEmail}
+        phone={phone}
+        setPhone={setPhone}
+        roleTitle={roleTitle}
+        setRoleTitle={setRoleTitle}
+        industry={industry}
+        setIndustry={setIndustry}
+        experience={experience}
+        setExperience={setExperience}
+        interestTracks={interestTracks}
+        setInterestTracks={setInterestTracks}
+        goal={goal}
+        setGoal={setGoal}
+        knowledge={knowledge}
+        setKnowledge={setKnowledge}
+        challenge={challenge}
+        setChallenge={setChallenge}
+        startTime={startTime}
+        setStartTime={setStartTime}
+        timeCommitment={timeCommitment}
+        setTimeCommitment={setTimeCommitment}
+        weeklyAvail={weeklyAvail}
+        setWeeklyAvail={setWeeklyAvail}
+        applyingAs={applyingAs}
+        setApplyingAs={setApplyingAs}
+        outcomes={outcomes}
+        setOutcomes={setOutcomes}
+        linkedin={linkedin}
+        setLinkedin={setLinkedin}
+        consent={consent}
+        setConsent={setConsent}
+      />
 
       <style>{css}</style>
     </div>

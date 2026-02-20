@@ -32,6 +32,7 @@ import {
   MessageCircle,
   Download,
   Send,
+  X,
 } from "lucide-react";
 
 /**
@@ -789,6 +790,335 @@ function StepPills({ step, steps, onJump }) {
   );
 }
 
+const DEFAULT_APPLY_OFFER = {
+  title: "Institutional Partnership Package",
+  type: "General Partnership",
+  points: ["Tailored program scope", "Structured milestones", "Expert-led delivery", "Outcome reporting"],
+  price: 1499,
+};
+
+function ApplyFlowModal({ open, offer, onClose }) {
+  const selectedOffer = offer || DEFAULT_APPLY_OFFER;
+  const [step, setStep] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState("Stripe");
+  const [errors, setErrors] = useState({});
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    country: "",
+    persona: "University Student",
+    academicYear: "Final Year",
+    specialization: "",
+    preferredCategory: selectedOffer.type || "Engineering & Technology",
+    startTimeline: "Within 1 Month",
+    selectedProgram: selectedOffer.title,
+  });
+
+  useEffect(() => {
+    if (!open) return;
+    setStep(0);
+    setPaymentMethod("Stripe");
+    setErrors({});
+    setForm({
+      fullName: "",
+      email: "",
+      phone: "",
+      country: "",
+      persona: "University Student",
+      academicYear: "Final Year",
+      specialization: "",
+      preferredCategory: selectedOffer.type || "Engineering & Technology",
+      startTimeline: "Within 1 Month",
+      selectedProgram: selectedOffer.title,
+    });
+  }, [open, selectedOffer.title, selectedOffer.type]);
+
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  const price = Number(selectedOffer.price || 1499);
+  const vat = Number((price * 0.19).toFixed(2));
+  const total = Number((price + vat).toFixed(2));
+
+  const set = (k, v) => setForm((p) => ({ ...p, [k]: v }));
+
+  const validateStepOne = () => {
+    const e = {};
+    if (!form.fullName.trim()) e.fullName = "Full name is required.";
+    if (!form.email.trim()) e.email = "Email is required.";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const next = () => {
+    if (step === 0 && !validateStepOne()) return;
+    setStep((p) => Math.min(p + 1, 2));
+  };
+
+  const back = () => setStep((p) => Math.max(p - 1, 0));
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[120] bg-[#0B1220]/70 p-4 backdrop-blur-sm sm:p-6"
+      >
+        <div className="mx-auto max-h-[95vh] w-full max-w-3xl overflow-y-auto rounded-[28px] bg-[#F3F4F6] ring-1 ring-[#0B1220]/10">
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#0B1220]/10 bg-[#F3F4F6] px-6 py-5">
+            <div>
+              <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">APPLICATION FLOW</div>
+              <div className="mt-1 text-xl font-semibold text-[#0B1220]">Apply for {selectedOffer.title}</div>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white ring-1 ring-[#0B1220]/10 transition hover:bg-[#E5E7EB]"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5 text-[#0B1220]" {...iconStrongProps} />
+            </button>
+          </div>
+
+          <div className="px-6 py-6">
+            <div className="mb-6 grid grid-cols-3 gap-2">
+              {["Form", "Review", "Pay"].map((label, idx) => {
+                const active = idx === step;
+                const done = idx < step;
+                return (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => (idx <= step ? setStep(idx) : null)}
+                    className={cx(
+                      "rounded-full px-3 py-2 text-xs font-semibold ring-1 transition",
+                      active ? "text-white" : "text-[#0B1220]/70",
+                      active ? "ring-transparent" : "ring-[#0B1220]/10"
+                    )}
+                    style={active ? { background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 100%)` } : { background: done ? "rgba(52,211,153,0.16)" : "white" }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {step === 0 ? (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <Field label="Full Name" required>
+                    <Input value={form.fullName} onChange={(e) => set("fullName", e.target.value)} placeholder="Your full name" icon={Users} iconColor={THEME.accent2} />
+                    {errors.fullName ? <p className="mt-2 text-xs text-rose-600">{errors.fullName}</p> : null}
+                  </Field>
+                  <Field label="Email Address" required>
+                    <Input type="email" value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="name@email.com" icon={Globe2} iconColor={THEME.accent} />
+                    {errors.email ? <p className="mt-2 text-xs text-rose-600">{errors.email}</p> : null}
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <Field label="Phone Number">
+                    <Input value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="+20 000 000 000" icon={Briefcase} iconColor={THEME.accent3} />
+                  </Field>
+                  <Field label="Country">
+                    <Input value={form.country} onChange={(e) => set("country", e.target.value)} placeholder="Country" icon={MapPin} iconColor={THEME.accent4} />
+                  </Field>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <Field label="Are You?">
+                    <Select value={form.persona} onChange={(v) => set("persona", v)} options={["University Student", "Graduate"]} icon={GraduationCap} iconColor={THEME.accent3} />
+                  </Field>
+                  <Field label="Current Academic Year">
+                    <Select value={form.academicYear} onChange={(v) => set("academicYear", v)} options={["1st", "2nd", "3rd", "Final Year"]} icon={Calendar} iconColor={THEME.accent} />
+                  </Field>
+                </div>
+
+                <Field label="Field of Study / Specialization">
+                  <Input value={form.specialization} onChange={(e) => set("specialization", e.target.value)} placeholder="e.g., Software Engineering, Business, Finance" icon={Sparkles} iconColor={THEME.accent2} />
+                </Field>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <Field label="Preferred Internship Category">
+                    <Select
+                      value={form.preferredCategory}
+                      onChange={(v) => set("preferredCategory", v)}
+                      options={["Engineering & Technology", "Business, Finance & Consulting", "Digital Health & Emerging Fields", selectedOffer.type || "Custom"]}
+                      icon={Briefcase}
+                      iconColor={THEME.accent4}
+                    />
+                  </Field>
+                  <Field label="Preferred Start Timeline">
+                    <Select
+                      value={form.startTimeline}
+                      onChange={(v) => set("startTimeline", v)}
+                      options={["Immediately", "Within 1 Month", "Within 2-3 Months"]}
+                      icon={Calendar}
+                      iconColor={THEME.accent}
+                    />
+                  </Field>
+                </div>
+
+                <Field label="Selected Program">
+                  <Input value={form.selectedProgram} readOnly icon={BadgeCheck} iconColor={THEME.pink} />
+                </Field>
+              </div>
+            ) : null}
+
+            {step === 1 ? (
+              <div className="space-y-4">
+                <div className="rounded-[22px] bg-white p-5 ring-1 ring-[#0B1220]/10">
+                  <div className="text-lg font-semibold text-[#0B1220]">Review Application</div>
+                  <div className="mt-4 grid grid-cols-1 gap-3 text-sm text-[#0B1220]/80 sm:grid-cols-2">
+                    <div><span className="font-semibold">Full Name:</span> {form.fullName}</div>
+                    <div><span className="font-semibold">Email:</span> {form.email}</div>
+                    <div><span className="font-semibold">Phone:</span> {form.phone}</div>
+                    <div><span className="font-semibold">Country:</span> {form.country}</div>
+                    <div><span className="font-semibold">Are You?:</span> {form.persona}</div>
+                    <div><span className="font-semibold">Academic Year:</span> {form.academicYear}</div>
+                    <div><span className="font-semibold">Specialization:</span> {form.specialization || "-"}</div>
+                    <div><span className="font-semibold">Preferred Category:</span> {form.preferredCategory}</div>
+                    <div><span className="font-semibold">Start Timeline:</span> {form.startTimeline}</div>
+                    <div><span className="font-semibold">Selected Program:</span> {form.selectedProgram}</div>
+                  </div>
+                </div>
+
+                <div className="rounded-[22px] bg-white p-5 ring-1 ring-[#0B1220]/10">
+                  <div className="text-sm font-semibold tracking-widest text-[#0B1220]/55">SELECTED PROGRAM DETAILS</div>
+                  <div className="mt-3 text-lg font-semibold text-[#0B1220]">{selectedOffer.title}</div>
+                  <div className="mt-3 space-y-2">
+                    {(selectedOffer.points || []).slice(0, 6).map((point) => (
+                      <div key={point} className="flex items-start gap-3 text-sm text-[#0B1220]/75">
+                        <Check className="mt-0.5 h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
+                        <span>{point}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {step === 2 ? (
+              <div className="space-y-5">
+                <div className="rounded-[22px] bg-gradient-to-br from-[#0B1220] to-[#152238] p-7 text-center ring-1 ring-[#0B1220]/20">
+                  <div className="text-4xl font-semibold leading-tight text-white sm:text-5xl">Complete Your Purchase</div>
+                  <div className="mt-2 text-sm text-white/70">Secure checkout with VAT-inclusive pricing.</div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.1fr_1fr]">
+                  <div className="rounded-[22px] bg-white p-7 ring-1 ring-[#0B1220]/10">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="text-2xl font-semibold text-[#0B1220]">{selectedOffer.title}</div>
+                      <div className="text-2xl font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</div>
+                    </div>
+
+                    <div className="mt-6 space-y-2">
+                      {(selectedOffer.points || []).slice(0, 8).map((point) => (
+                        <div key={point} className="flex items-start gap-3 text-sm text-[#0B1220]/75">
+                          <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full" style={{ background: THEME.accent3 }}>
+                            <Check className="h-3.5 w-3.5 text-white" {...iconStrongProps} />
+                          </span>
+                          <span>{point}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="rounded-[22px] bg-white p-6 ring-1 ring-[#0B1220]/10">
+                      <div className="text-2xl font-semibold text-[#0B1220]">Order Summary</div>
+                      <div className="mt-4 space-y-2 text-base text-[#0B1220]/80">
+                        <div className="flex items-center justify-between"><span>Ticket Price</span><span className="font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</span></div>
+                        <div className="flex items-center justify-between"><span>Price before VAT</span><span className="font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</span></div>
+                        <div className="flex items-center justify-between"><span>VAT (19%)</span><span className="font-semibold text-[#0B1220]">EUR{vat.toFixed(2)}</span></div>
+                        <div className="border-t border-[#0B1220]/12 pt-3">
+                          <div className="flex items-center justify-between text-xl font-semibold text-[#0B1220]"><span>Total Amount</span><span>EUR{total.toFixed(2)}</span></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-[22px] bg-white p-6 ring-1 ring-[#0B1220]/10">
+                      <div className="text-lg font-semibold text-[#0B1220]">Payment Method</div>
+                      <div className="mt-3 space-y-3">
+                        {["Stripe", "PayPal"].map((m) => {
+                          const active = paymentMethod === m;
+                          return (
+                            <button
+                              key={m}
+                              type="button"
+                              onClick={() => setPaymentMethod(m)}
+                              className={cx(
+                                "w-full rounded-2xl border px-4 py-4 text-left transition",
+                                active ? "border-blue-500 bg-blue-50 shadow-[0_8px_24px_rgba(59,130,246,0.12)]" : "border-[#0B1220]/15 bg-white hover:bg-[#F8FAFC]"
+                              )}
+                            >
+                              <div className="flex items-center gap-3">
+                                <span className={cx("inline-flex h-5 w-5 rounded-full border", active ? "border-blue-500" : "border-[#0B1220]/30")}>
+                                  {active ? <span className="m-auto h-2.5 w-2.5 rounded-full bg-blue-500" /> : null}
+                                </span>
+                                <div>
+                                  <div className="text-base font-semibold text-[#0B1220]">{m === "Stripe" ? "Secure payment with Stripe" : "Pay with PayPal"}</div>
+                                  <div className="text-xs text-[#0B1220]/60">Card checkout | 19% VAT included</div>
+                                </div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
+              <button
+                type="button"
+                onClick={step === 0 ? onClose : back}
+                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/12 transition hover:bg-[#E5E7EB]"
+              >
+                {step === 0 ? "Cancel" : "Back"}
+              </button>
+              {step < 2 ? (
+                <button
+                  type="button"
+                  onClick={next}
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+                  style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
+                >
+                  {step === 1 ? "Continue to Pay" : "Continue"}
+                  <ChevronRight className="h-4 w-4" {...iconStrongProps} />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    alert(`Proceeding with ${paymentMethod} payment for EUR${total.toFixed(2)}.`);
+                    onClose();
+                  }}
+                  className="inline-flex items-center justify-center rounded-full bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-95"
+                >
+                  Proceed to Secure Payment • EUR{total.toFixed(2)}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
+
 function uid() {
   return Math.random().toString(16).slice(2) + "-" + Date.now().toString(16);
 }
@@ -1388,6 +1718,13 @@ export default function OrganizationsLanding() {
   const expertsRef = useInViewOnce(0.2);
   const deliveryRef = useInViewOnce(0.2);
   const whyRef = useInViewOnce(0.2);
+  const [isApplyOpen, setIsApplyOpen] = useState(false);
+  const [selectedOffer, setSelectedOffer] = useState(DEFAULT_APPLY_OFFER);
+
+  const openApply = (offer) => {
+    setSelectedOffer({ ...DEFAULT_APPLY_OFFER, ...offer });
+    setIsApplyOpen(true);
+  };
 
 
   return (
@@ -1446,7 +1783,7 @@ export default function OrganizationsLanding() {
             </p>
 
             <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <GradientButton href="#form">Partner With Us</GradientButton>
+              <GradientButton onClick={() => openApply(DEFAULT_APPLY_OFFER)}>Partner With Us</GradientButton>
               <GradientButton href="#universities" variant="secondary" icon={ArrowRight}>
                 Explore Institutional Programs
               </GradientButton>
@@ -1556,6 +1893,23 @@ export default function OrganizationsLanding() {
                       <span className="font-semibold">Duration:</span> 3–6 months · <span className="font-semibold">Start cycles:</span> 4 times / year
                     </div>
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      openApply({
+                        title: g.group,
+                        type: "University Program",
+                        points: g.items,
+                        price: 1499,
+                      })
+                    }
+                    className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
+                    style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
+                  >
+                    Apply
+                    <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                  </button>
                 </motion.div>
               );
             })}
@@ -1593,6 +1947,23 @@ export default function OrganizationsLanding() {
                 <div className="text-xs font-semibold tracking-widest text-white/70">IMPACT</div>
                 <div className="mt-1 text-sm font-semibold">Strengthens institutional reputation + improves employability metrics.</div>
               </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  openApply({
+                    title: "Institutional Co-Hosting Partnership",
+                    type: "University Partnership",
+                    points: ["Campus facilities", "Academic integration", "Alignment with graduation projects", "Joint program branding"],
+                    price: 1499,
+                  })
+                }
+                className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
+                style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
+              >
+                Apply
+                <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+              </button>
             </div>
 
             <div className="rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
@@ -1625,6 +1996,27 @@ export default function OrganizationsLanding() {
                 </div>
                 <div className="mt-2 text-sm font-semibold text-[#0B1220]">Students do not only learn — they build.</div>
               </div>
+              <button
+                type="button"
+                onClick={() =>
+                  openApply({
+                    title: "Industrial Courses",
+                    type: "University Program",
+                    points: [
+                      "AI-Enhanced Data Analytics Projects",
+                      "Software Engineering Practical Systems",
+                      "Business Strategy Simulations",
+                      "Digital Product Development",
+                    ],
+                    price: 1499,
+                  })
+                }
+                className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
+                style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
+              >
+                Apply
+                <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+              </button>
             </div>
           </div>
         </div>
@@ -1669,6 +2061,23 @@ export default function OrganizationsLanding() {
                       </div>
                     ))}
                   </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      openApply({
+                        title: p.title,
+                        type: "Company Program",
+                        points: p.bullets,
+                        price: 1499,
+                      })
+                    }
+                    className="mt-6 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white"
+                    style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
+                  >
+                    Apply
+                    <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                  </button>
                 </motion.div>
               );
             })}
@@ -1685,7 +2094,7 @@ export default function OrganizationsLanding() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-3 sm:flex-row">
-                  <GradientButton href="#form">Request Partnership Discussion</GradientButton>
+                  <GradientButton onClick={() => openApply(DEFAULT_APPLY_OFFER)}>Request Partnership Discussion</GradientButton>
                   <GradientButton href="#delivery" variant="secondary">
                     See Delivery Model
                   </GradientButton>
@@ -1886,12 +2295,13 @@ export default function OrganizationsLanding() {
                 </p>
 
                 <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-                  <a
-                    href="#form"
+                  <button
+                    type="button"
+                    onClick={() => openApply(DEFAULT_APPLY_OFFER)}
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95"
                   >
                     Request Partnership Discussion <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                  </a>
+                  </button>
                   <a
                     href="#"
                     onClick={(e) => {
@@ -1906,23 +2316,21 @@ export default function OrganizationsLanding() {
               </div>
             </div>
           </div>
-
-          {/* FORM */}
-          <div id="form" className="mt-10">
-            <PartnershipForm />
-          </div>
         </div>
       </section>
 
       {/* Sticky button */}
-      <a
-        href="#form"
+      <button
+        type="button"
+        onClick={() => openApply(DEFAULT_APPLY_OFFER)}
         className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
         style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
       >
         <Handshake className="h-4 w-4" {...iconStrongProps} />
         Partner With Us
-      </a>
+      </button>
+
+      <ApplyFlowModal open={isApplyOpen} offer={selectedOffer} onClose={() => setIsApplyOpen(false)} />
 
       <style>{css}</style>
     </div>

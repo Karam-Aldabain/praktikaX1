@@ -12,6 +12,7 @@ import {
   Briefcase,
   Building2,
   Calendar,
+  Check,
   ChevronLeft,
   ChevronRight,
   ClipboardCheck,
@@ -66,8 +67,14 @@ const ACCENT_RGB = "201,29,103";
 const accent = (a) => `rgba(${ACCENT_RGB}, ${a})`;
 
 const IMAGES = {
-  heroMain: "/istockphoto-471247592-612x612.jpg",
-  germany: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=1400&q=60",
+  heroMain: "https://images.unsplash.com/photo-1664575602554-2087b04935a5?auto=format&fit=crop&w=1200&q=80",
+  germany: "/munich-08.webp",
+};
+
+const CATEGORY_PRICES = {
+  eng: 1400,
+  business: 1200,
+  health: 1300,
 };
 
 const categories = [
@@ -109,6 +116,70 @@ const categories = [
         cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=60",
       },
       {
+        name: "Digital Twin Engineering",
+        description:
+          "Build simulation-driven systems with IoT integration, predictive analysis, and optimization loops.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Mentor Rating",
+        rating: 4.9,
+        includes: ["Functional Digital Twin Prototype", "Executive Demo Presentation"],
+        deliverable: "Digital twin prototype connected to real system signals",
+        careers: ["Digital Twin Engineer", "IoT Solutions Engineer", "Simulation Analyst"],
+        icon: Boxes,
+        accent: THEME.accent4,
+        cover: "https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Cybersecurity",
+        description:
+          "Apply vulnerability assessment, secure auth layers, encryption patterns, and baseline penetration workflows.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Mentor Rating",
+        rating: 4.9,
+        includes: ["Security Audit", "Hardened System Framework"],
+        deliverable: "Security assessment report and hardened architecture baseline",
+        careers: ["Cybersecurity Analyst", "Security Engineer", "SOC Associate"],
+        icon: Shield,
+        accent: THEME.accent2,
+        cover: "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Mobile App Development",
+        description:
+          "Develop and deploy cross-platform applications with API integration and performance optimization.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Mentor Rating",
+        rating: 4.8,
+        includes: ["Functional Mobile Application", "Deployment Demo"],
+        deliverable: "Production-ready mobile app with deployment pipeline",
+        careers: ["Mobile Developer", "React Native Developer", "App Engineer"],
+        icon: Laptop,
+        accent: THEME.accent3,
+        cover: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Web Development Internship",
+        description:
+          "Ship responsive web experiences with backend integration, CMS workflows, and SEO fundamentals.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Professional Rating",
+        rating: 4.7,
+        includes: ["Live Website", "CMS Deployment"],
+        deliverable: "Live website with cross-device validation and CMS setup",
+        careers: ["Web Developer", "Frontend Developer", "CMS Specialist"],
+        icon: Globe2,
+        accent: THEME.accent,
+        cover: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
         name: "AI & Machine Learning Internship",
         description:
           "Train and deploy ML models, optimize inference performance, and ship applied AI solutions.",
@@ -124,6 +195,22 @@ const categories = [
         accent: THEME.accent2,
         cover: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1400&q=60",
       },
+      {
+        name: "Game Development Internship",
+        description:
+          "Create gameplay systems, tune physics and performance, and prototype interactive game experiences.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.7,
+        includes: ["Playable Demo", "Game Prototype"],
+        deliverable: "Playable game prototype with optimized mechanics",
+        careers: ["Game Developer", "Gameplay Programmer", "Technical Designer"],
+        icon: Rocket,
+        accent: THEME.accent4,
+        cover: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1400&q=60",
+      },
     ],
   },
   {
@@ -132,15 +219,47 @@ const categories = [
     kicker: "Commercial problem solving with measurable strategic outcomes",
     programs: [
       {
-        name: "Business Consulting Internship",
+        name: "Data Analysis & Business Intelligence",
         description:
-          "Work on market analysis, growth strategy, customer segmentation, and executive recommendations.",
+          "Transform raw data into SQL models, executive dashboards, and predictive business insights.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Mentor Evaluation Score",
+        rating: 4.9,
+        includes: ["Interactive Dashboard", "Insight Report"],
+        deliverable: "Decision-ready BI dashboard with insight narrative",
+        careers: ["Data Analyst", "BI Analyst", "Reporting Specialist"],
+        icon: LineChart,
+        accent: THEME.accent,
+        cover: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Digital Transformation",
+        description:
+          "Audit workflows, map efficiency gaps, and build practical transformation roadmaps for teams.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
         ratingLabel: "Mentor Evaluation Score",
         rating: 4.8,
-        includes: ["Strategic Plan", "Presentation Deck"],
+        includes: ["Transformation Roadmap", "Executive Presentation"],
+        deliverable: "Transformation plan with measurable implementation phases",
+        careers: ["Transformation Analyst", "Business Operations Analyst", "Digital Strategy Associate"],
+        icon: Compass,
+        accent: THEME.accent3,
+        cover: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Business Consulting",
+        description:
+          "Work on market analysis, growth strategy, customer segmentation, and executive recommendations.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Consulting Rating",
+        rating: 4.8,
+        includes: ["Consulting Report", "Executive Presentation"],
         deliverable: "Client-ready growth strategy and executive presentation",
         careers: ["Business Analyst", "Consulting Associate", "Strategy Analyst"],
         icon: Target,
@@ -148,36 +267,164 @@ const categories = [
         cover: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=60",
       },
       {
-        name: "Financial Analysis & Planning",
+        name: "Finance & Financial Modeling",
         description:
-          "Develop valuation models, forecasting sheets, and performance reporting with scenario planning.",
+          "Build forecasting models, budgeting scenarios, and investment analysis frameworks for decision making.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
-        ratingLabel: "Industry Mentor Rating",
-        rating: 4.7,
-        includes: ["Financial Model", "Investment Memo"],
-        deliverable: "Decision-ready financial model and planning memo",
+        ratingLabel: "Financial Expert Rating",
+        rating: 4.8,
+        includes: ["Financial Model", "Analytical Report"],
+        deliverable: "Comprehensive financial model with analytical report",
         careers: ["Financial Analyst", "FP&A Associate", "Investment Analyst"],
         icon: Wallet,
         accent: THEME.accent2,
         cover: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=1400&q=60",
       },
       {
-        name: "Marketing & Growth Operations",
+        name: "Digital Marketing",
         description:
-          "Plan campaigns, analyze funnel data, and optimize growth with structured experimentation.",
+          "Execute data-driven campaigns with A/B testing, funnel optimization, and conversion analytics.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
-        ratingLabel: "Campaign Performance Score",
-        rating: 4.7,
-        includes: ["Growth Plan", "Performance Dashboard"],
-        deliverable: "Channel strategy with KPI dashboard and optimization loop",
+        ratingLabel: "Mentor Rating",
+        rating: 4.8,
+        includes: ["Performance Campaign Report"],
+        deliverable: "Campaign optimization plan with measurable conversion outcomes",
         careers: ["Growth Analyst", "Marketing Associate", "Performance Specialist"],
         icon: Megaphone,
         accent: THEME.accent3,
         cover: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Business Development",
+        description:
+          "Map partnerships, model revenue opportunities, and define strategic market expansion plans.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.8,
+        includes: ["Expansion Strategy Report"],
+        deliverable: "Structured expansion model with partnership strategy",
+        careers: ["Business Development Associate", "Partnership Analyst", "Growth Executive"],
+        icon: Handshake,
+        accent: THEME.accent4,
+        cover: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Supply Chain Management Internship",
+        description:
+          "Improve forecasting, inventory strategy, and bottleneck handling with operational analytics.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.7,
+        includes: ["Operational Efficiency Report"],
+        deliverable: "Supply chain optimization report with implementation priorities",
+        careers: ["Supply Chain Analyst", "Operations Analyst", "Logistics Associate"],
+        icon: Boxes,
+        accent: THEME.accent2,
+        cover: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Entrepreneurship & Startup Building",
+        description:
+          "Validate startup ideas, build MVP strategy, and structure investor-ready growth narratives.",
+        level: "Advanced",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Innovation Mentor Rating",
+        rating: 4.9,
+        includes: ["Startup Prototype", "Investor Pitch Deck"],
+        deliverable: "Startup concept package with MVP and investor pitch assets",
+        careers: ["Founder Associate", "Venture Analyst", "Startup Operator"],
+        icon: Rocket,
+        accent: THEME.accent,
+        cover: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Project Management",
+        description:
+          "Plan milestones, manage risks, and execute stakeholder communication with delivery rigor.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Professional Rating",
+        rating: 4.8,
+        includes: ["Execution Plan", "Project Documentation"],
+        deliverable: "Execution blueprint with documented governance model",
+        careers: ["Project Coordinator", "PMO Analyst", "Project Manager"],
+        icon: ListChecks,
+        accent: THEME.accent3,
+        cover: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Sales & Marketing",
+        description:
+          "Design CRM-driven lead funnels, pitch structures, and repeatable revenue playbooks.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Industry Rating",
+        rating: 4.7,
+        includes: ["Sales Strategy Model"],
+        deliverable: "Sales system model with lead-to-close framework",
+        careers: ["Sales Analyst", "Revenue Associate", "Growth Operations Associate"],
+        icon: Briefcase,
+        accent: THEME.accent4,
+        cover: "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Digital Economics",
+        description:
+          "Analyze digital ecosystems, platform economics, and market trends through structured research.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Research Rating",
+        rating: 4.7,
+        includes: ["Market Research Study"],
+        deliverable: "Digital market study with forecast-backed recommendations",
+        careers: ["Research Analyst", "Market Intelligence Analyst", "Economic Analyst"],
+        icon: Target,
+        accent: THEME.accent2,
+        cover: "https://images.unsplash.com/photo-1551135049-8a33b5883817?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "FinTech Engineering",
+        description:
+          "Combine financial logic with product architecture, dashboards, and risk simulation models.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Financial Tech Rating",
+        rating: 4.8,
+        includes: ["FinTech Prototype", "Financial Dashboard"],
+        deliverable: "FinTech solution prototype with real metrics dashboard",
+        careers: ["FinTech Analyst", "Financial Systems Associate", "Product Analyst"],
+        icon: Wallet,
+        accent: THEME.accent,
+        cover: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1400&q=60",
+      },
+      {
+        name: "Content Writing Internship",
+        description:
+          "Produce SEO-optimized professional content using editorial workflows and conversion-focused messaging.",
+        level: "Professional",
+        duration: "3-4 Months",
+        intakes: "4 Intakes / Year",
+        ratingLabel: "Editorial Rating",
+        rating: 4.7,
+        includes: ["Published Portfolio Collection"],
+        deliverable: "Curated writing portfolio with search-ready content assets",
+        careers: ["Content Writer", "SEO Content Specialist", "Editorial Associate"],
+        icon: PenTool,
+        accent: THEME.accent3,
+        cover: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1400&q=60",
       },
     ],
   },
@@ -187,15 +434,15 @@ const categories = [
     kicker: "Interdisciplinary internships for future-facing sectors",
     programs: [
       {
-        name: "Digital Health Operations",
+        name: "Digital Health Management Internship",
         description:
           "Improve workflows, metrics, and service quality in data-driven healthcare operations.",
         level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
-        ratingLabel: "Mentor Evaluation Score",
+        ratingLabel: "Expert Rating",
         rating: 4.8,
-        includes: ["Operational Dashboard", "Process Improvement Plan"],
+        includes: ["Health Management Dashboard"],
         deliverable: "Healthcare KPI dashboard with process optimization roadmap",
         careers: ["Health Operations Analyst", "Digital Health Associate", "Program Coordinator"],
         icon: HeartPulse,
@@ -203,36 +450,20 @@ const categories = [
         cover: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=60",
       },
       {
-        name: "Product & Innovation Internship",
+        name: "UI/UX Product Design",
         description:
-          "Translate user problems into feature roadmaps, prototypes, and measurable product outcomes.",
-        level: "Advanced",
+          "Turn research into wireframes, interactive prototypes, and validated interface systems.",
+        level: "Professional",
         duration: "3-4 Months",
         intakes: "4 Intakes / Year",
-        ratingLabel: "Product Review Score",
+        ratingLabel: "Expert Rating",
         rating: 4.8,
-        includes: ["Product Spec", "Prototype + Validation"],
-        deliverable: "Validated product concept with roadmap and KPI framework",
-        careers: ["Product Analyst", "Associate Product Manager", "Innovation Associate"],
-        icon: Rocket,
+        includes: ["High-Fidelity Prototype", "Design Case Study"],
+        deliverable: "Validated UI/UX case study with high-fidelity prototype",
+        careers: ["UI/UX Designer", "Product Designer", "UX Research Associate"],
+        icon: PenTool,
         accent: THEME.accent,
         cover: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1400&q=60",
-      },
-      {
-        name: "Research & Applied Innovation",
-        description:
-          "Structure applied research, develop experiments, and communicate findings for practical adoption.",
-        level: "Advanced",
-        duration: "3-4 Months",
-        intakes: "4 Intakes / Year",
-        ratingLabel: "Supervisor Rating",
-        rating: 4.7,
-        includes: ["Research Brief", "Applied Prototype"],
-        deliverable: "Applied research report with implementation recommendations",
-        careers: ["Research Associate", "Innovation Analyst", "Program Researcher"],
-        icon: PenTool,
-        accent: THEME.accent2,
-        cover: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=1400&q=60",
       },
     ],
   },
@@ -657,7 +888,7 @@ function SoftGlass({ children, className, style }) {
 }
 
 /* -------------------- Program Modal -------------------- */
-function ProgramModal({ open, program, onClose }) {
+function ProgramModal({ open, program, onClose, onApply }) {
   useLockBodyScroll(open);
 
   useEffect(() => {
@@ -808,12 +1039,14 @@ function ProgramModal({ open, program, onClose }) {
               </div>
 
               <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <a
-                  href="#apply"
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/5"
+                <button
+                  type="button"
+                  onClick={() => onApply?.(program)}
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white transition hover:brightness-105"
+                  style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)` }}
                 >
                   Apply for this program <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                </a>
+                </button>
 
                 <button
                   type="button"
@@ -834,6 +1067,7 @@ function ProgramModal({ open, program, onClose }) {
 /* -------------------- Program Card (New) -------------------- */
 function ProgramCard({ program, index = 0, onOpen }) {
   const Icon = program.icon;
+  const displayPrice = Number(program.price || 0);
   return (
     <motion.div
       initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
@@ -903,89 +1137,365 @@ function ProgramCard({ program, index = 0, onOpen }) {
 
       {/* Body */}
       <div className="relative p-5">
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
-            <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
-              <Calendar className="h-4 w-4" style={{ color: program.accent }} {...iconStrongProps} />
-              <span>Duration</span>
-            </div>
-            <div className="mt-1 text-sm font-semibold text-white">{program.duration}</div>
-          </div>
-          <div className="rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
-            <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
-              <GraduationCap className="h-4 w-4" style={{ color: program.accent }} {...iconStrongProps} />
-              <span>Intakes</span>
-            </div>
-            <div className="mt-1 text-sm font-semibold text-white">{program.intakes}</div>
-          </div>
+        <div className="rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+          <div className="text-xs font-semibold tracking-widest text-white/55">PROGRAM FEE</div>
+          <div className="mt-1 text-base font-semibold text-white">EUR {displayPrice.toFixed(2)}</div>
+          <div className="mt-1 text-xs text-white/65">Click learn more to view full program data.</div>
         </div>
 
-        <div className="mt-4 rounded-2xl bg-white/5 p-3 ring-1 ring-white/10">
-          <div className="text-xs font-semibold tracking-widest text-white/55">DELIVERABLE</div>
-          <div className="mt-1 text-sm font-semibold text-white" style={clampStyle(2)}>
-            {program.deliverable}
-          </div>
-        </div>
-
-        <div className="mt-4">
-          <div className="text-xs font-semibold tracking-widest text-white/55">CAREER PATHS</div>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {program.careers.slice(0, 3).map((c) => (
-              <span
-                key={c}
-                className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                style={{
-                  background: "rgba(255,255,255,0.04)",
-                  color: "rgba(255,255,255,0.82)",
-                  borderColor: "rgba(255,255,255,0.10)",
-                }}
-              >
-                {c}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-5 flex items-center justify-between">
-          <button
-            type="button"
-            className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/15 transition-all hover:bg-white/5"
-            onClick={() => onOpen?.(program)}
-          >
-            View Details
-            <ChevronRight className="h-4 w-4" {...iconStrongProps} />
-          </button>
-
-          <div className="text-xs font-semibold text-white/55">Includes:</div>
-        </div>
-
-        <div className="mt-3 flex flex-wrap gap-2">
-          {program.includes.map((i, includeIdx) => (
-            <span
-              key={i}
-              className="include-pill rounded-full px-3 py-1 text-xs font-semibold ring-1"
-              style={{
-                ...(includeIdx % 2 === 0
-                  ? {
-                      background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)`,
-                      color: "rgba(255,255,255,0.96)",
-                      borderColor: "rgba(255,255,255,0.14)",
-                      boxShadow: `0 10px 26px ${accent(0.18)}`,
-                    }
-                  : {
-                      background:
-                        "linear-gradient(135deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.07) 100%)",
-                      color: "rgba(255,255,255,0.85)",
-                      borderColor: "rgba(255,255,255,0.16)",
-                    }),
-              }}
-            >
-              {i}
-            </span>
-          ))}
-        </div>
+        <button
+          type="button"
+          className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-full px-4 py-3 text-sm font-semibold text-white transition-all hover:brightness-105"
+          style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)` }}
+          onClick={() => onOpen?.(program)}
+        >
+          Learn More
+          <ChevronRight className="h-4 w-4" {...iconStrongProps} />
+        </button>
       </div>
     </motion.div>
+  );
+}
+
+function ApplyFlowModal({ open, program, onClose }) {
+  useLockBodyScroll(open);
+  const selected = program || categories[0].programs[0];
+  const [step, setStep] = useState(0);
+  const [method, setMethod] = useState("Stripe");
+  const [form, setForm] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    country: "",
+    persona: "University Student",
+    academicYear: "Final Year",
+    specialization: "",
+    preferredCategory: "Engineering & Technology",
+    startTimeline: "Within 1 Month",
+  });
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (!open) return;
+    setStep(0);
+    setMethod("Stripe");
+    setErrors({});
+    setForm({
+      fullName: "",
+      email: "",
+      phone: "",
+      country: "",
+      persona: "University Student",
+      academicYear: "Final Year",
+      specialization: "",
+      preferredCategory: "Engineering & Technology",
+      startTimeline: "Within 1 Month",
+    });
+  }, [open, selected?.name]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose?.();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  if (!open || !selected) return null;
+
+  const price = Number(selected.price || CATEGORY_PRICES.eng);
+  const vat = Number((price * 0.19).toFixed(2));
+  const total = Number((price + vat).toFixed(2));
+
+  const validateForm = () => {
+    const e = {};
+    if (!form.fullName.trim()) e.fullName = "Full name is required.";
+    if (!form.email.trim()) e.email = "Email is required.";
+    setErrors(e);
+    return Object.keys(e).length === 0;
+  };
+
+  const next = () => {
+    if (step === 0 && !validateForm()) return;
+    setStep((p) => Math.min(p + 1, 2));
+  };
+
+  const back = () => setStep((p) => Math.max(p - 1, 0));
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[90] bg-[#0B1220]/70 p-4 backdrop-blur-sm sm:p-6"
+      >
+        <div className="mx-auto max-h-[95vh] w-full max-w-3xl overflow-y-auto rounded-[28px] bg-[#F3F4F6] ring-1 ring-[#0B1220]/10">
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#0B1220]/10 bg-[#F3F4F6] px-6 py-5">
+            <div>
+              <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">APPLICATION FLOW</div>
+              <div className="mt-1 text-xl font-semibold text-[#0B1220]">Apply for {selected.name}</div>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white ring-1 ring-[#0B1220]/10 transition hover:bg-[#E5E7EB]"
+            >
+              <X className="h-5 w-5 text-[#0B1220]" {...iconStrongProps} />
+            </button>
+          </div>
+
+          <div className="px-6 py-6">
+            <div className="mb-6 grid grid-cols-3 gap-2">
+              {["Form", "Review", "Pay"].map((label, idx) => {
+                const active = idx === step;
+                return (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => (idx <= step ? setStep(idx) : null)}
+                    className={cx(
+                      "rounded-full px-3 py-2 text-xs font-semibold ring-1 transition",
+                      active ? "text-white ring-transparent" : "text-[#0B1220]/70 ring-[#0B1220]/10"
+                    )}
+                    style={active ? { background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 100%)` } : { background: "white" }}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {step === 0 ? (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <div className="mb-2 text-sm font-semibold text-[#0B1220]">Full Name <span style={{ color: THEME.pink }}>*</span></div>
+                    <Input icon={BadgeCheck} iconColor={THEME.accent2} placeholder="Your full name" value={form.fullName} onChange={(e) => setForm((p) => ({ ...p, fullName: e.target.value }))} />
+                    {errors.fullName ? <p className="mt-2 text-xs text-rose-600">{errors.fullName}</p> : null}
+                  </div>
+                  <div>
+                    <div className="mb-2 text-sm font-semibold text-[#0B1220]">Email Address <span style={{ color: THEME.pink }}>*</span></div>
+                    <Input icon={Globe2} iconColor={THEME.accent} placeholder="name@email.com" value={form.email} onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))} />
+                    {errors.email ? <p className="mt-2 text-xs text-rose-600">{errors.email}</p> : null}
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <div className="mb-2 text-sm font-semibold text-[#0B1220]">Phone Number</div>
+                    <Input icon={Briefcase} iconColor={THEME.accent3} placeholder="+20 000 000 000" value={form.phone} onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))} />
+                    {errors.phone ? <p className="mt-2 text-xs text-rose-600">{errors.phone}</p> : null}
+                  </div>
+                  <div>
+                    <div className="mb-2 text-sm font-semibold text-[#0B1220]">Country</div>
+                    <Input icon={MapPin} iconColor={THEME.accent4} placeholder="Country" value={form.country} onChange={(e) => setForm((p) => ({ ...p, country: e.target.value }))} />
+                    {errors.country ? <p className="mt-2 text-xs text-rose-600">{errors.country}</p> : null}
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <div className="mb-2 text-sm font-semibold text-[#0B1220]">Are You?</div>
+                    <Select
+                      icon={GraduationCap}
+                      iconColor={THEME.accent3}
+                      value={form.persona}
+                      onChange={(v) => setForm((p) => ({ ...p, persona: v }))}
+                      options={["University Student", "Graduate"]}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 text-sm font-semibold text-[#0B1220]">Current Academic Year</div>
+                    <Select
+                      icon={Calendar}
+                      iconColor={THEME.accent}
+                      value={form.academicYear}
+                      onChange={(v) => setForm((p) => ({ ...p, academicYear: v }))}
+                      options={["1st", "2nd", "3rd", "Final Year"]}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="mb-2 text-sm font-semibold text-[#0B1220]">Field of Study / Specialization</div>
+                  <Input
+                    icon={Sparkles}
+                    iconColor={THEME.accent2}
+                    placeholder="e.g., Software Engineering, Business, Finance"
+                    value={form.specialization}
+                    onChange={(e) => setForm((p) => ({ ...p, specialization: e.target.value }))}
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <div className="mb-2 text-sm font-semibold text-[#0B1220]">Preferred Internship Category</div>
+                    <Select
+                      icon={Briefcase}
+                      iconColor={THEME.accent4}
+                      value={form.preferredCategory}
+                      onChange={(v) => setForm((p) => ({ ...p, preferredCategory: v }))}
+                      options={[
+                        "Engineering & Technology",
+                        "Business, Finance & Consulting",
+                        "Digital Health & Emerging Fields",
+                      ]}
+                    />
+                  </div>
+                  <div>
+                    <div className="mb-2 text-sm font-semibold text-[#0B1220]">Preferred Start Timeline</div>
+                    <Select
+                      icon={Calendar}
+                      iconColor={THEME.accent}
+                      value={form.startTimeline}
+                      onChange={(v) => setForm((p) => ({ ...p, startTimeline: v }))}
+                      options={["Immediately", "Within 1 Month", "Within 2-3 Months"]}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <div className="mb-2 text-sm font-semibold text-[#0B1220]">Selected Program</div>
+                  <Input icon={Sparkles} iconColor={THEME.pink} value={selected.name} readOnly />
+                </div>
+              </div>
+            ) : null}
+
+            {step === 1 ? (
+              <div className="space-y-4">
+                <div className="rounded-[22px] bg-white p-5 ring-1 ring-[#0B1220]/10">
+                  <div className="text-lg font-semibold text-[#0B1220]">Review Application</div>
+                  <div className="mt-3 space-y-1 text-sm text-[#0B1220]/80">
+                    <div><span className="font-semibold">Name:</span> {form.fullName}</div>
+                    <div><span className="font-semibold">Email:</span> {form.email}</div>
+                    <div><span className="font-semibold">Phone:</span> {form.phone}</div>
+                    <div><span className="font-semibold">Country:</span> {form.country}</div>
+                    <div><span className="font-semibold">Are You?:</span> {form.persona}</div>
+                    <div><span className="font-semibold">Academic Year:</span> {form.academicYear}</div>
+                    <div><span className="font-semibold">Specialization:</span> {form.specialization || "-"}</div>
+                    <div><span className="font-semibold">Preferred Category:</span> {form.preferredCategory}</div>
+                    <div><span className="font-semibold">Start Timeline:</span> {form.startTimeline}</div>
+                    <div><span className="font-semibold">Program:</span> {selected.name}</div>
+                  </div>
+                </div>
+                <div className="rounded-[22px] bg-white p-5 ring-1 ring-[#0B1220]/10">
+                  <div className="text-sm font-semibold tracking-widest text-[#0B1220]/55">INCLUDES</div>
+                  <div className="mt-3 space-y-2">
+                    {selected.includes.map((x) => (
+                      <div key={x} className="flex items-start gap-3 text-sm text-[#0B1220]/75">
+                        <Check className="mt-0.5 h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
+                        <span>{x}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            {step === 2 ? (
+              <div className="space-y-5">
+                <div className="rounded-[22px] bg-gradient-to-br from-[#0B1220] to-[#152238] p-7 text-center ring-1 ring-[#0B1220]/20">
+                  <div className="text-4xl font-semibold leading-tight text-white sm:text-5xl">Complete Your Purchase</div>
+                  <div className="mt-2 text-sm text-white/70">Secure checkout with VAT-inclusive pricing.</div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.1fr_1fr]">
+                  <div className="rounded-[22px] bg-white p-7 ring-1 ring-[#0B1220]/10">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="text-2xl font-semibold text-[#0B1220]">{selected.name}</div>
+                      <div className="text-2xl font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</div>
+                    </div>
+                    <div className="mt-6 space-y-2">
+                      {selected.includes.map((x) => (
+                        <div key={x} className="flex items-start gap-3 text-sm text-[#0B1220]/75">
+                          <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full" style={{ background: THEME.accent3 }}>
+                            <Check className="h-3.5 w-3.5 text-white" {...iconStrongProps} />
+                          </span>
+                          <span>{x}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="rounded-[22px] bg-white p-6 ring-1 ring-[#0B1220]/10">
+                      <div className="text-2xl font-semibold text-[#0B1220]">Order Summary</div>
+                      <div className="mt-4 space-y-2 text-base text-[#0B1220]/80">
+                        <div className="flex items-center justify-between"><span>Ticket Price</span><span className="font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</span></div>
+                        <div className="flex items-center justify-between"><span>Price before VAT</span><span className="font-semibold text-[#0B1220]">EUR{price.toFixed(2)}</span></div>
+                        <div className="flex items-center justify-between"><span>VAT (19%)</span><span className="font-semibold text-[#0B1220]">EUR{vat.toFixed(2)}</span></div>
+                        <div className="border-t border-[#0B1220]/12 pt-3">
+                          <div className="flex items-center justify-between text-xl font-semibold text-[#0B1220]"><span>Total Amount</span><span>EUR{total.toFixed(2)}</span></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="rounded-[22px] bg-white p-6 ring-1 ring-[#0B1220]/10">
+                      <div className="text-lg font-semibold text-[#0B1220]">Payment Method</div>
+                      <div className="mt-3 space-y-3">
+                        {["Stripe", "PayPal"].map((m) => {
+                          const active = method === m;
+                          return (
+                            <button
+                              key={m}
+                              type="button"
+                              onClick={() => setMethod(m)}
+                              className={cx(
+                                "w-full rounded-2xl border px-4 py-4 text-left transition",
+                                active ? "border-blue-500 bg-blue-50 shadow-[0_8px_24px_rgba(59,130,246,0.12)]" : "border-[#0B1220]/15 bg-white hover:bg-[#F8FAFC]"
+                              )}
+                            >
+                              <div className="flex items-center gap-3">
+                                <span className={cx("inline-flex h-5 w-5 rounded-full border", active ? "border-blue-500" : "border-[#0B1220]/30")}>
+                                  {active ? <span className="m-auto h-2.5 w-2.5 rounded-full bg-blue-500" /> : null}
+                                </span>
+                                <div>
+                                  <div className="text-base font-semibold text-[#0B1220]">{m === "Stripe" ? "Secure payment with Stripe" : "Pay with PayPal"}</div>
+                                  <div className="text-xs text-[#0B1220]/60">Card checkout | 19% VAT included</div>
+                                </div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
+
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
+              <button
+                type="button"
+                onClick={step === 0 ? onClose : back}
+                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/12 transition hover:bg-[#E5E7EB]"
+              >
+                {step === 0 ? "Cancel" : "Back"}
+              </button>
+              {step < 2 ? (
+                <button
+                  type="button"
+                  onClick={next}
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white"
+                  style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
+                >
+                  {step === 1 ? "Continue to Pay" : "Continue"}
+                  <ChevronRight className="h-4 w-4" {...iconStrongProps} />
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => {
+                    alert(`Proceeding with ${method} payment for EUR${total.toFixed(2)}.`);
+                    onClose();
+                  }}
+                  className="inline-flex items-center justify-center rounded-full bg-[#0B1220] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-95"
+                >
+                  Proceed to Secure Payment • EUR{total.toFixed(2)}
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -1391,6 +1901,7 @@ export default function StudentsGraduatesLanding() {
   const impact = useInViewOnce(0.25);
 
   const [openProgram, setOpenProgram] = useState(null);
+  const [applyProgram, setApplyProgram] = useState(null);
 
   const sliderRef = useRef(null);
   const scrollSlider = (dir) => {
@@ -1427,13 +1938,10 @@ export default function StudentsGraduatesLanding() {
               </motion.h1>
 
               <motion.p variants={fadeUp} className="mt-5 max-w-xl text-balance text-base text-white/70 sm:text-lg">
-                Real industry internships supervised by European experts and university professors.
-              </motion.p>
+Real internships, guided by European experts and university mentors.
+Turn theory into market-ready skills through hands-on projects.             </motion.p>
 
-              <motion.p variants={fadeUp} className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-white/65">
-                We bridge the gap between academic theory and real market execution through structured, project-based internships.
-              </motion.p>
-
+             
               <motion.div variants={fadeUp} className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <GradientButton href="#apply">Apply Now</GradientButton>
                 <GradientButton href="#programs" variant="secondary">
@@ -1541,12 +2049,7 @@ export default function StudentsGraduatesLanding() {
                 <div className="text-xl font-semibold text-white">{cat.label}</div>
                 <div className="mt-1 text-sm text-white/65">{cat.kicker}</div>
               </div>
-              <a
-                href="#apply"
-                className="mt-2 inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/15 transition hover:bg-white/5 sm:mt-0"
-              >
-                Apply for this track <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-              </a>
+             
             </div>
 
             {/* Slider */}
@@ -1590,7 +2093,11 @@ export default function StudentsGraduatesLanding() {
               >
                 {cat.programs.map((p, idx) => (
                   <div key={p.name} style={{ scrollSnapAlign: "start" }}>
-                    <ProgramCard program={p} index={idx} onOpen={setOpenProgram} />
+                    <ProgramCard
+                      program={{ ...p, price: CATEGORY_PRICES[cat.key] }}
+                      index={idx}
+                      onOpen={setOpenProgram}
+                    />
                   </div>
                 ))}
               </div>
@@ -1668,217 +2175,6 @@ export default function StudentsGraduatesLanding() {
         </div>
       </section>
 
-      {/* APPLICATION FORM */}
-      <section id="apply" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
-        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-20">
-          <SectionHeader title="Apply for an Industry Internship" subtitle="Start building real experience today." />
-
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
-            <div className="lg:col-span-3">
-              <motion.div
-                variants={formWrapV}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.25 }}
-                className="relative rounded-[44px] p-[1px]"
-                style={{
-                  background: `linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.70))`,
-                  boxShadow: "0 30px 110px rgba(0,0,0,0.18)",
-                }}
-              >
-                <div className="relative rounded-[42px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                  <AnimatePresence>
-                    {submitted ? (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                        className="pointer-events-none absolute right-6 top-6 rounded-full px-4 py-2 text-xs font-semibold ring-1"
-                        style={{
-                          background: "rgba(52,211,153,0.18)",
-                          borderColor: "rgba(52,211,153,0.30)",
-                          color: "rgba(11,18,32,0.85)",
-                        }}
-                      >
-                        Application received
-                      </motion.div>
-                    ) : null}
-                  </AnimatePresence>
-
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      setSubmitting(true);
-                      setTimeout(() => {
-                        setSubmitting(false);
-                        setSubmitted(true);
-                        setTimeout(() => setSubmitted(false), 2800);
-                      }, 650);
-                    }}
-                    className="space-y-5"
-                  >
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <Field label="Full Name" required>
-                        <Input icon={BadgeCheck} iconColor={THEME.accent2} placeholder="Your full name" />
-                      </Field>
-                      <Field label="Email Address" required>
-                        <Input icon={Globe2} iconColor={THEME.accent} placeholder="name@email.com" type="email" />
-                      </Field>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <Field label="Phone Number">
-                        <Input icon={Briefcase} iconColor={THEME.accent3} placeholder="+20 000 000 000" />
-                      </Field>
-                      <Field label="Country">
-                        <Input icon={MapPin} iconColor={THEME.accent4} placeholder="Country" />
-                      </Field>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <Field label="Are You?">
-                        <Select icon={GraduationCap} iconColor={THEME.accent3} value={persona} onChange={setPersona} options={["University Student", "Graduate"]} />
-                      </Field>
-                      <Field label="Current Academic Year" hint={persona === "Graduate" ? "(hidden for graduates)" : undefined}>
-                        {persona === "University Student" ? (
-                          <Select icon={Calendar} iconColor={THEME.accent} value={year} onChange={setYear} options={["1st", "2nd", "3rd", "Final Year"]} />
-                        ) : (
-                          <div className="rounded-2xl bg-white/50 px-4 py-3 text-sm text-[#0B1220]/60 ring-1 ring-[#0B1220]/10">Not applicable</div>
-                        )}
-                      </Field>
-                    </div>
-
-                    <Field label="Field of Study / Specialization">
-                      <Input icon={Sparkles} iconColor={THEME.accent2} placeholder="e.g., Software Engineering, Business, Finance" />
-                    </Field>
-
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <Field label="Preferred Internship Category">
-                        <Select
-                          icon={Briefcase}
-                          iconColor={THEME.accent4}
-                          value={cat.label}
-                          onChange={(v) => {
-                            const match = categories.find((x) => x.label === v);
-                            if (match) setActiveCat(match.key);
-                          }}
-                          options={categories.map((c) => c.label)}
-                        />
-                      </Field>
-                      <Field label="Preferred Start Timeline">
-                        <Select icon={Calendar} iconColor={THEME.accent} value="Within 1 Month" onChange={() => null} options={["Immediately", "Within 1 Month", "Within 2-3 Months"]} />
-                      </Field>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <Field label="Preferred Cohort Intake">
-                        <Select icon={Compass} iconColor={THEME.accent3} value="Q2" onChange={() => null} options={["Q1", "Q2", "Q3", "Q4"]} />
-                      </Field>
-                      <Field label="LinkedIn Profile" hint="Optional but recommended">
-                        <Input icon={Rocket} iconColor={THEME.accent2} placeholder="https://linkedin.com/in/" />
-                      </Field>
-                    </div>
-
-                    <Field label="Your Career Goal">
-                      <Textarea placeholder="Tell us your target role, industry, and what success looks like." />
-                    </Field>
-
-                    <Field label="Upload CV" hint="Optional">
-                      <FilePicker onFile={setCv} />
-                      {cv ? <p className="mt-2 text-xs text-[#0B1220]/55">Selected: {cv.name}</p> : null}
-                    </Field>
-
-                    <div className="pt-2">
-                      <motion.button
-                        type="submit"
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.99 }}
-                        className="relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition"
-                        style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
-                      >
-                        <span className="relative z-10">{submitting ? "Submitting..." : "Submit Application"}</span>
-                        <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
-                          <span className="card-shine" />
-                        </span>
-                      </motion.button>
-                    </div>
-                  </form>
-                </div>
-              </motion.div>
-            </div>
-
-            <div className="lg:col-span-2">
-              <div
-                className="rounded-[40px] p-7 ring-1 ring-[#0B1220]/10 lg:sticky lg:top-24"
-                style={{
-                  background:
-                    "radial-gradient(900px circle at 30% 15%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 70%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
-                  boxShadow: "0 22px 80px rgba(0,0,0,0.10)",
-                }}
-              >
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHY PRAKTIX IS DIFFERENT</div>
-                <div className="mt-2 text-2xl font-semibold leading-tight">Structured, measurable internship capability.</div>
-
-                <div className="mt-5 space-y-3">
-                  <Bullet icon={ClipboardCheck} text="Structured Supervision: Industry experts + European professors" color={THEME.accent4} />
-                  <Bullet icon={Briefcase} text="Real Production-Level Projects: No simulations. No fake assignments" color={THEME.accent3} />
-                  <Bullet icon={FileCheck2} text="Measurable Output: Portfolio-ready deliverables" color={THEME.accent} />
-                  <Bullet icon={BadgeCheck} text="Professional Evaluation: Documented performance reports" color={THEME.accent2} />
-                </div>
-
-                <div className="mt-7 rounded-3xl bg-white/55 p-5 ring-1 ring-[#0B1220]/10">
-                  <div className="text-sm font-semibold">Selected track</div>
-                  <p className="mt-2 text-sm text-[#0B1220]/70">
-                    Selected: <span className="font-semibold">{cat.label}</span>
-                  </p>
-                  <p className="mt-1 text-sm text-[#0B1220]/70">{cat.kicker}</p>
-
-                  <div className="mt-4">
-                    <a href="#programs" className="inline-flex items-center gap-2 rounded-full bg-[#0B1220] px-4 py-2 text-sm font-semibold text-white transition hover:opacity-90">
-                      Browse programs <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer CTA */}
-          <div className="mt-12">
-            <div
-              className="relative overflow-hidden rounded-[34px] border border-white/10 px-6 py-8 text-center sm:px-10 sm:py-10"
-              style={{
-                background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)`,
-                boxShadow: "0 28px 110px rgba(0,0,0,0.16)",
-              }}
-            >
-              <div
-                className="pointer-events-none absolute inset-0 opacity-[0.16]"
-                style={{
-                  backgroundImage:
-                    "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0px, rgba(255,255,255,0.22) 12px, transparent 12px, transparent 28px)",
-                }}
-              />
-              <div className="relative mx-auto max-w-6xl text-white">
-                <div className="text-xs font-semibold text-white/80 sm:text-sm">High credibility • European-standard • outcome-focused</div>
-                <div className="mt-3 text-3xl font-semibold md:text-4xl">Ready to Build Real Capability?</div>
-                <p className="mx-auto mt-4 max-w-4xl text-sm font-medium text-white/80">
-                  Start your internship journey with structured programs and measurable professional output.
-                </p>
-                <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
-                  <a href="#apply" className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] transition hover:opacity-95">
-                    Start Your Internship Journey <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                  </a>
-                  <a href="#programs" className="inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15">
-                    Explore Programs <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Sticky Apply Button */}
       <a
         href="#apply"
@@ -1889,7 +2185,16 @@ export default function StudentsGraduatesLanding() {
       </a>
 
       {/* Modal */}
-      <ProgramModal open={!!openProgram} program={openProgram} onClose={() => setOpenProgram(null)} />
+      <ProgramModal
+        open={!!openProgram}
+        program={openProgram}
+        onClose={() => setOpenProgram(null)}
+        onApply={(p) => {
+          setOpenProgram(null);
+          setApplyProgram(p);
+        }}
+      />
+      <ApplyFlowModal open={!!applyProgram} program={applyProgram} onClose={() => setApplyProgram(null)} />
 
       <style>{css}</style>
     </div>
