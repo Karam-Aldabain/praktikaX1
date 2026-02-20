@@ -689,8 +689,84 @@ const styles = `
   .ppTwoCol{ grid-template-columns: 1fr; }
 }
 
+@media (max-width: 768px){
+  .ppRoot{
+    padding: 10px 0 32px;
+  }
+
+  .ppHero{
+    padding: 10px 12px 8px;
+  }
+
+  .ppGrid{
+    padding: 10px 12px 0;
+    gap: 14px;
+  }
+
+  .ppSidebar{
+    gap: 12px;
+  }
+
+  .ppNavCard{
+    border-radius: 20px;
+    padding: 12px;
+  }
+
+  .ppNavCard.light{
+    display: none;
+  }
+
+  .ppNavLinks{
+    gap: 8px;
+    max-height: 42vh;
+    overflow: auto;
+    padding-right: 2px;
+  }
+
+  .ppNavLink{
+    padding: 9px 10px;
+    border-radius: 12px;
+  }
+
+  .ppCreamPanel{
+    border-radius: 20px;
+    padding: 14px 12px 12px;
+  }
+
+  .ppCreamTitle{
+    font-size: 21px;
+    margin-bottom: 10px;
+  }
+
+  .ppRightsIntro{
+    border-radius: 20px;
+    padding: 12px;
+  }
+
+  .ppRightsTitle{
+    font-size: 19px;
+  }
+
+  .ppAccItem{
+    border-radius: 18px;
+  }
+
+  .ppAccBtn{
+    padding: 12px;
+  }
+
+  .ppAccBtnText{
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 520px){
-  .ppTitle{ font-size: 38px; }
+  .ppTitle{ font-size: 34px; line-height: 1.08; }
+  .ppSubtitle{ font-size: 13px; }
+  .ppUnderline{ width: 100%; max-width: 240px; }
+  .ppText, .ppList, .ppInfoMuted, .ppDarkList{ font-size: 14px; }
+  .ppInfoTitle{ font-size: 17px; }
+  .ppDot{ margin-top: 6px; }
 }
 `;
 

@@ -617,21 +617,6 @@ export default function ImpactOutcomesPage() {
               </GradientButton>
             </div>
 
-            <div className="mt-7 flex flex-wrap gap-2">
-              {["Animated counters", "Evidence-based ROI", "Verified evaluation", "Admin-editable stats"].map((t) => (
-                <span
-                  key={t}
-                  className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
-                  style={{
-                    background: "rgba(255,255,255,0.08)",
-                    color: "rgba(255,255,255,0.84)",
-                    border: "1px solid rgba(255,255,255,0.12)",
-                  }}
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
           </motion.div>
 
           {/* Hero Visual / Animated Data Preview */}
@@ -676,38 +661,9 @@ export default function ImpactOutcomesPage() {
                   <GhostStat label="SATISFACTION" value="90%" />
                 </div>
 
-                <div className="relative mt-5 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-xs font-semibold tracking-widest text-white/60">POSITIONING</div>
-                      <div className="mt-1 text-sm font-semibold text-white">Impact that’s documented — not claimed.</div>
-                    </div>
-                    <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                      <Sparkles className="h-4 w-4" style={{ color: THEME.accent2 }} {...iconStrongProps} />
-                      <span>Verified Outcomes</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <GradientButton href="#verification" variant="secondary" icon={ClipboardCheck}>
-                      How we verify
-                    </GradientButton>
-                    <GradientButton
-                      href="/institutional-impact-summary.pdf"
-                      icon={Download}
-                      onClick={(e) => {
-                        // leave as a plain link; user can map to actual file later
-                      }}
-                    >
-                      Download Impact Summary
-                    </GradientButton>
-                  </div>
-                </div>
               </div>
 
-              <div className="mt-4 text-center text-xs text-white/55">
-                Subtle motion + glow + data preview to communicate “evidence-first”.
-              </div>
+            
             </div>
           </motion.div>
         </div>
@@ -718,7 +674,6 @@ export default function ImpactOutcomesPage() {
         <div ref={counters.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Measurable outcomes that hiring teams recognize"
-            subtitle="Animated counters + gradient bars + tooltips. Toggle Edit Mode to change values locally."
             dark
           />
 
@@ -782,30 +737,6 @@ export default function ImpactOutcomesPage() {
             <div ref={trend.ref}>
               <MiniTrend inView={trend.inView} />
             </div>
-
-            <div className="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10">
-              <div className="text-xs font-semibold tracking-widest text-white/60">DATA NOTE</div>
-              <div className="mt-2 text-2xl font-semibold text-white">Impact is tracked like a product KPI.</div>
-              <p className="mt-3 text-sm leading-relaxed text-white/65">
-                Counters animate on scroll, visuals trigger on viewport, and stats are designed to be editable from an admin
-                dashboard later. This is the “evidence-first” vibe of the page.
-              </p>
-              <div className="mt-5 flex flex-wrap gap-2">
-                {["Scroll-triggered animations", "Tooltips for sources", "Clean hierarchy", "Portfolio signals"].map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                    style={{
-                      background: "rgba(255,255,255,0.04)",
-                      color: "rgba(255,255,255,0.82)",
-                      borderColor: "rgba(255,255,255,0.10)",
-                    }}
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -815,14 +746,12 @@ export default function ImpactOutcomesPage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="From internship to career progression"
-            subtitle="Placement impact + professional growth + portfolio strength — presented in a clear 3-column system with animated progression."
             dark
           />
 
           {/* progression rail */}
           <div className="mt-10 rounded-[36px] bg-white/5 p-6 ring-1 ring-white/10">
             <div className="relative overflow-hidden rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
-              <div className="text-xs font-semibold tracking-widest text-white/60">PROGRESSION</div>
               <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 {["Assessment", "Placement", "Execution", "Evaluation", "Career Signal"].map((s, i) => (
                   <motion.div
@@ -867,7 +796,6 @@ export default function ImpactOutcomesPage() {
                         <Icon className="h-5 w-5" {...iconStrongProps} />
                       </IconBadge>
                       <div>
-                        <div className="text-xs font-semibold tracking-widest text-white/60">CATEGORY</div>
                         <div className="mt-1 text-lg font-semibold text-white">{b.title}</div>
                       </div>
                     </div>
@@ -897,8 +825,7 @@ export default function ImpactOutcomesPage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Institutional Impact & ROI"
-            subtitle="Designed for measurable value — not theoretical exposure."
-          />
+subtitle={"Designed for measurable value — not theoretical exposure."}          />
 
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
             {ROI_BLOCKS.map((r, idx) => {
@@ -919,7 +846,6 @@ export default function ImpactOutcomesPage() {
                       <Icon className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">AUDIENCE</div>
                       <div className="mt-1 text-lg font-semibold text-[#0B1220]">{r.title}</div>
                     </div>
                   </div>
@@ -951,7 +877,6 @@ export default function ImpactOutcomesPage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Outcome categories across tracks"
-            subtitle="Hover tiles expand slightly and preview a sample deliverable."
             dark
           />
 
@@ -986,25 +911,6 @@ export default function ImpactOutcomesPage() {
                     </div>
                   </div>
 
-                  <div className="relative mt-5 rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
-                    <div className="text-xs font-semibold tracking-widest text-white/60">SAMPLE DELIVERABLE</div>
-                    <div className="mt-2 text-sm font-semibold text-white">{t.sample}</div>
-                  </div>
-
-                  <div className="relative mt-5 flex items-center justify-between">
-                    <div className="text-xs font-semibold text-white/55">Quick preview</div>
-                    <span
-                      className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                      style={{
-                        background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)`,
-                        borderColor: "rgba(255,255,255,0.14)",
-                        color: "rgba(255,255,255,0.96)",
-                        boxShadow: `0 10px 24px ${accent(0.16)}`,
-                      }}
-                    >
-                      Verified
-                    </span>
-                  </div>
                 </motion.div>
               );
             })}
@@ -1017,7 +923,6 @@ export default function ImpactOutcomesPage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="How we verify outcomes"
-            subtitle="A three-step system: execution → supervision → evaluation."
           />
 
           <div className="mt-10 rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
@@ -1087,12 +992,10 @@ export default function ImpactOutcomesPage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Where our participants advance"
-            subtitle="Scrolling ticker of roles (swap for logo grid later)."
             dark
           />
 
           <div className="mt-10 overflow-hidden rounded-[36px] bg-white/5 p-6 ring-1 ring-white/10">
-            <div className="text-xs font-semibold tracking-widest text-white/60">ROLE DESTINATIONS</div>
 
             <div className="mt-4 relative">
               <div className="marquee">
@@ -1121,12 +1024,7 @@ export default function ImpactOutcomesPage() {
               <div className="pointer-events-none absolute inset-y-0 right-0 w-16" style={{ background: "linear-gradient(270deg, rgba(11,18,32,1), transparent)" }} />
             </div>
 
-            <div className="mt-6 rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
-              <div className="text-sm font-semibold text-white">Optional: add company logos</div>
-              <p className="mt-2 text-sm text-white/65">
-                Replace the ticker with a badge grid or logo wall once you have permissioned partner brands.
-              </p>
-            </div>
+          
           </div>
         </div>
       </section>
@@ -1271,7 +1169,7 @@ export default function ImpactOutcomesPage() {
       {/* Floating CTA */}
       <a
         href="#summary"
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+        className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
         style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
       >
         <Briefcase className="h-4 w-4" {...iconStrongProps} />

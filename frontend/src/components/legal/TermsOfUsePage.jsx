@@ -1239,9 +1239,87 @@ body{
   .tuRow{ grid-template-columns: 46px 1fr; }
   .tuRowValue{ grid-column: 2 / -1; }
 }
+
+@media (max-width: 768px){
+  .tuRoot{
+    padding: 10px 0 32px;
+  }
+
+  .tuHero{
+    padding: 10px 12px 8px;
+  }
+
+  .tuGrid{
+    padding: 10px 12px 0;
+    gap: 14px;
+  }
+
+  .tuSidebar{
+    gap: 12px;
+  }
+
+  .tuNavCard{
+    border-radius: 20px;
+    padding: 12px;
+  }
+
+  .tuNavCard.dark{
+    display: block;
+  }
+
+  .tuNavCard.light{
+    display: none;
+  }
+
+  .tuNavLinks{
+    gap: 8px;
+    max-height: 42vh;
+    overflow: auto;
+    padding-right: 2px;
+  }
+
+  .tuNavLink{
+    padding: 9px 10px;
+    border-radius: 12px;
+  }
+
+  .tuCreamPanel{
+    border-radius: 20px;
+    padding: 14px 12px 12px;
+  }
+
+  .tuCreamTitle{
+    font-size: 21px;
+    margin-bottom: 10px;
+  }
+
+  .tuDarkShell{
+    border-radius: 20px;
+    padding: 12px;
+  }
+
+  .tuDarkShellTitle{
+    font-size: 19px;
+  }
+
+  .tuDarkAccItem{
+    border-radius: 18px;
+  }
+
+  .tuDarkAccBtn{
+    padding: 12px;
+  }
+
+  .tuDarkAccTitle{
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 520px){
-  .tuH1{ font-size: 38px; }
-  .tuUnderline{ width: 260px; }
+  .tuH1{ font-size: 34px; line-height: 1.08; }
+  .tuUnderline{ width: 100%; max-width: 240px; }
+  .tuMetaText, .tuText, .tuBullet, .tuRowValue, .tuDarkAccPanelInner{ font-size: 14px; }
+  .tuCreamTitle{ font-size: 19px; }
 }
 @media (prefers-reduced-motion: reduce){
   .tuShape{ animation: none; }

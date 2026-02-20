@@ -1031,7 +1031,7 @@ function FormWizard() {
                 initial={{ opacity: 0, x: 24, y: 24, scale: 0.96 }}
                 animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
                 exit={{ opacity: 0, x: 24, y: 24, scale: 0.96 }}
-                className="fixed bottom-4 left-1/2 z-[95] w-[min(92vw,560px)] -translate-x-1/2"
+                className="fixed bottom-4 left-1/2 z-[95] hidden w-[min(92vw,560px)] -translate-x-1/2 sm:block"
               >
                 <div className="rounded-2xl border border-[#C51F5D]/40 bg-gradient-to-r from-[#0B1220]/95 via-[#1A2340]/95 to-[#0B1220]/95 p-4 text-white shadow-[0_18px_55px_rgba(197,31,93,0.35)] backdrop-blur">
                   <p className="text-sm leading-relaxed text-white/95">
@@ -2111,7 +2111,7 @@ export default function PartnershipsPage() {
       {/* floating action */}
       <a
         href="#apply"
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+        className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
         style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)` }}
       >
         <Handshake className="h-4 w-4" {...iconStrongProps} />

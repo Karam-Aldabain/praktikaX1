@@ -310,7 +310,7 @@ export default function Navbar({ dir = "ltr" }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const { theme, toggle: toggleTheme } = useLocalTheme();
-  const brandLogoSrc = theme === "dark" ? "/navbar-logo-dark.png" : "/navbar-logo.png";
+  const brandLogoSrc = "/navbar-logo-dark.png";
   const navRef = useRef(null);
   const closeTimer = useRef(null);
   const previewTimer = useRef(null);
@@ -422,11 +422,7 @@ export default function Navbar({ dir = "ltr" }) {
         <div className="px-container">
           {/* LEFT: Brand */}
           <a className="px-brand" href="/" onClick={onNavLink} aria-label="Praktix Home">
-            <img
-              className={`px-brandLogo ${theme === "dark" ? "darkAsset" : ""}`}
-              src={brandLogoSrc}
-              alt="Praktix logo"
-            />
+            <img className="px-brandLogo darkAsset" src={brandLogoSrc} alt="Praktix logo" />
           </a>
 
           {/* CENTER: Desktop nav (perfectly centered) */}

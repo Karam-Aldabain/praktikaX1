@@ -1358,7 +1358,7 @@ export default function LandingPage() {
   return (
     <div
       data-theme={theme}
-      className="min-h-screen"
+      className="min-h-screen overflow-x-hidden"
       style={{
         ["--accent"]: COLORS.accent,
       }}

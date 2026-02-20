@@ -1033,8 +1033,84 @@ body{
   .ixRow{ grid-template-columns: 46px 1fr; }
   .ixRowValue{ grid-column: 2 / -1; }
 }
+
+@media (max-width: 768px){
+  .ixRoot{
+    padding: 10px 0 32px;
+  }
+
+  .ixHero{
+    padding: 10px 12px 8px;
+  }
+
+  .ixGrid{
+    padding: 10px 12px 0;
+    gap: 14px;
+  }
+
+  .ixSidebar{
+    gap: 12px;
+  }
+
+  .ixNavCard{
+    border-radius: 20px;
+    padding: 12px;
+  }
+
+  .ixNavCard.light{
+    display: none;
+  }
+
+  .ixNavLinks{
+    gap: 8px;
+    max-height: 42vh;
+    overflow: auto;
+    padding-right: 2px;
+  }
+
+  .ixNavLink{
+    padding: 9px 10px;
+    border-radius: 12px;
+  }
+
+  .ixCreamPanel{
+    border-radius: 20px;
+    padding: 14px 12px 12px;
+  }
+
+  .ixCreamTitle{
+    font-size: 21px;
+    margin-bottom: 10px;
+  }
+
+  .ixDarkShell{
+    border-radius: 20px;
+    padding: 12px;
+  }
+
+  .ixDarkShellTitle{
+    font-size: 19px;
+  }
+
+  .ixDarkAccItem{
+    border-radius: 18px;
+  }
+
+  .ixDarkAccBtn{
+    padding: 12px;
+  }
+
+  .ixDarkAccTitle{
+    font-size: 16px;
+  }
+}
+
 @media (max-width: 520px){
-  .ixH1{ font-size: 38px; }
+  .ixH1{ font-size: 34px; line-height: 1.08; }
+  .ixUnderline{ width: 100%; max-width: 240px; }
+  .ixCreamTitle{ font-size: 19px; }
+  .ixNavText, .ixRowValue, .ixBullet, .ixInsetMuted, .ixDarkAccPanelInner{ font-size: 14px; }
+  .ixDot{ margin-top: 6px; }
 }
 `;
 

@@ -1361,7 +1361,7 @@ export default function AboutMissionVisionPage() {
       {/* sticky CTA */}
       <a
         href="#closing"
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+        className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
         style={{
           background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)`,
         }}

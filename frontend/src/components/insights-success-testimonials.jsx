@@ -18,7 +18,6 @@ import {
   MapPin,
   Shield,
   Sparkles,
-  Star,
   Target,
   Zap,
   Laptop,
@@ -155,21 +154,6 @@ function IconBadge({ color, children }) {
       style={POWER_ICON_SHELL}
     >
       <span style={{ color }}>{children}</span>
-    </span>
-  );
-}
-
-function Pill({ label }) {
-  return (
-    <span
-      className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
-      style={{
-        background: "rgba(255,255,255,0.08)",
-        color: "rgba(255,255,255,0.84)",
-        border: "1px solid rgba(255,255,255,0.12)",
-      }}
-    >
-      {label}
     </span>
   );
 }
@@ -431,8 +415,7 @@ function StatGrid({ inView }) {
       </div>
 
       <div className="mt-5 text-sm text-white/70">
-        Evidence is tracked as ongoing operational signals, not one-time vanity metrics.
-      </div>
+We track outcomes — not attendance.      </div>
     </div>
   );
 }
@@ -563,7 +546,6 @@ function StoryCard({ story, index, onOpen }) {
           >
             Expand story <ChevronRight className="h-4 w-4" {...iconStrongProps} />
           </button>
-          <div className="text-xs font-semibold text-white/55">Featured</div>
         </div>
       </div>
     </motion.div>
@@ -752,73 +734,31 @@ function TestimonialsMasonry() {
       {/* rotating spotlight */}
       {!reduce ? (
         <motion.div
-          className="pointer-events-none absolute -top-10 left-1/2 h-40 w-[520px] -translate-x-1/2 rounded-full blur-3xl"
+          className="pointer-events-none absolute -top-10 left-1/2 h-40 w-[820px] -translate-x-1/2 rounded-full blur-3xl"
           style={{ background: `linear-gradient(90deg, rgba(34,211,238,0.16), ${accent(0.12)}, rgba(167,139,250,0.16))` }}
           animate={{ opacity: [0.35, 0.6, 0.35], scale: [1, 1.05, 1] }}
           transition={{ duration: 5.6, repeat: Infinity, ease: "easeInOut" }}
         />
       ) : null}
 
-      <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
-        <div className="lg:col-span-1">
-          <div className="rounded-[36px] p-6 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
-            <div className="text-xs font-semibold tracking-widest text-white/55">SPOTLIGHT</div>
-            <div className="mt-3 text-2xl font-semibold text-white leading-tight">
-              What participants say <span style={{ color: THEME.pink }}>in two lines</span>.
-            </div>
-            <div className="mt-4 rounded-3xl p-5 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active}
-                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -10, scale: 0.98 }}
-                  transition={{ duration: 0.22, ease: "easeOut" }}
-                  className="text-base font-medium text-white/85"
-                >
-                  {TESTIMONIALS[active]}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            <div className="mt-5 flex flex-wrap gap-2">
-              <Pill label="Smooth rotation" />
-              <Pill label="Masonry grid" />
-              <Pill label="Hover depth" />
-            </div>
-          </div>
+      <div className="rounded-[36px] p-6 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
+        <div className="text-xs font-semibold tracking-widest text-white/55">SPOTLIGHT</div>
+        <div className="mt-3 text-2xl font-semibold leading-tight text-white">
+          What participants say <span style={{ color: THEME.pink }}>in one line</span>.
         </div>
-
-        <div className="lg:col-span-2">
-          <div className="masonry rounded-[36px] p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
-            {TESTIMONIALS.concat(TESTIMONIALS).map((t, i) => (
-              <motion.div
-                key={`${t}-${i}`}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ duration: 0.45, ease: "easeOut", delay: Math.min(i * 0.03, 0.18) }}
-                whileHover={{ y: -4 }}
-                className="masonry-item overflow-hidden rounded-3xl p-5 ring-1 ring-white/10"
-                style={{
-                  background:
-                    i % 3 === 0
-                      ? `linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)`
-                      : "rgba(255,255,255,0.03)",
-                }}
-              >
-                <div className="flex items-start gap-3">
-                  <IconBadge color={i % 2 ? THEME.accent2 : THEME.accent}>
-                    <Star className="h-4 w-4" style={{ color: THEME.star, fill: THEME.star }} strokeWidth={2.2} />
-                  </IconBadge>
-                  <div className="text-sm font-semibold text-white/85">{t}</div>
-                </div>
-                <div className="pointer-events-none relative mt-4 h-[1px] w-full">
-                  <div className="absolute inset-0 opacity-[0.45]" style={{ background: `linear-gradient(90deg, transparent 0%, ${accent(0.28)} 40%, transparent 100%)` }} />
-                </div>
-              </motion.div>
-            ))}
-          </div>
+        <div className="mt-4 rounded-3xl p-5 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={active}
+              initial={{ opacity: 0, y: 10, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              className="text-base font-medium text-white/85"
+            >
+              {TESTIMONIALS[active]}
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
     </div>
@@ -832,8 +772,6 @@ function MapRoute() {
       <div className="relative p-6 sm:p-7">
         <div className="flex items-center justify-between gap-3">
           <div>
-            <div className="text-xs font-semibold tracking-widest text-white/55">FROM LOCAL PROJECTS</div>
-            <div className="mt-2 text-xl font-semibold text-white">To Global Stage</div>
             <div className="mt-2 text-sm text-white/70">
               Selected high-performing teams were invited for a premium, outcome-driven exposure.
             </div>
@@ -871,8 +809,6 @@ function MapRoute() {
 
           <div className="lg:col-span-2">
             <div className="relative h-full overflow-hidden rounded-[32px] p-5 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
-              <div className="text-xs font-semibold tracking-widest text-white/55">ROUTE VISUAL</div>
-              <div className="mt-3 text-sm text-white/70">Animated map route (placeholder) + event imagery slot.</div>
 
               <div className="mt-4 rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
                 <svg viewBox="0 0 520 220" className="h-[180px] w-full">
@@ -937,8 +873,6 @@ function MapRoute() {
               </div>
 
               <div className="mt-4 rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
-                <div className="text-xs font-semibold tracking-widest text-white/55">IMAGERY PLACEHOLDER</div>
-                <div className="mt-2 text-sm text-white/65">Drop in event photos later (kept neutral).</div>
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   {Array.from({ length: 3 }).map((_, i) => (
                     <div
@@ -1026,9 +960,7 @@ function InstitutionPanel() {
                     <div className="mt-1 text-lg font-semibold text-white">{b.title}</div>
                   </div>
                 </div>
-                <div className="rounded-full bg-white/5 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                  Logo placeholder
-                </div>
+               
               </div>
 
               <div className="mt-5 space-y-3">
@@ -1097,7 +1029,6 @@ function CareerMetricGrid() {
                 <Icon className="h-4 w-4" {...iconStrongProps} />
               </IconBadge>
               <div>
-                <div className="text-xs font-semibold tracking-widest text-white/55">METRIC</div>
                 <div className="mt-1 text-sm font-semibold text-white/85" style={clampStyle(2)}>
                   {m.label}
                 </div>
@@ -1114,11 +1045,22 @@ function CareerMetricGrid() {
 export default function SuccessTestimonialsPage() {
   const progress = useScrollProgress();
   const impact = useInViewOnce(0.25);
+  const reduce = useReducedMotion();
+  const realPhrases = ["participants", "execution", "career movement"];
 
   const sliderRef = useRef(null);
   useDragScroll(sliderRef);
 
   const [activeStory, setActiveStory] = useState(null);
+  const [activeRealPhrase, setActiveRealPhrase] = useState(0);
+
+  useEffect(() => {
+    if (reduce) return;
+    const id = setInterval(() => {
+      setActiveRealPhrase((x) => (x + 1) % realPhrases.length);
+    }, 1900);
+    return () => clearInterval(id);
+  }, [reduce, realPhrases.length]);
 
   const scrollSlider = (dir) => {
     const el = sliderRef.current;
@@ -1191,10 +1133,22 @@ export default function SuccessTestimonialsPage() {
               Louder Than Promises.
             </h1>
 
-            <div className="mt-5 max-w-xl space-y-1 text-base text-white/70 sm:text-lg">
-              <div>Real participants.</div>
-              <div>Real execution.</div>
-              <div>Real career movement.</div>
+            <div className="mt-5 max-w-xl text-base text-white/70 sm:text-lg">
+              <div className="inline-flex items-baseline gap-2">
+                <span className="whitespace-nowrap">Real</span>
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={activeRealPhrase}
+                    initial={{ opacity: 0, y: 8, filter: "blur(1px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, y: -8, filter: "blur(1px)" }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="whitespace-nowrap"
+                  >
+                    {realPhrases[activeRealPhrase]}.
+                  </motion.span>
+                </AnimatePresence>
+              </div>
             </div>
 
             <p className="mt-4 max-w-xl text-balance text-sm leading-relaxed text-white/65">
@@ -1206,12 +1160,6 @@ export default function SuccessTestimonialsPage() {
               <GradientButton href="#impact" variant="secondary">
                 View Impact Metrics
               </GradientButton>
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              <Pill label="Subtle fade-in testimonials" />
-              <Pill label="Motion gradient background" />
-              <Pill label="Numbers animate on view" />
             </div>
 
             <div className="mt-8 flex items-center gap-4 text-sm text-white/65">
@@ -1294,9 +1242,8 @@ export default function SuccessTestimonialsPage() {
       <section id="impact" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={impact.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            title="Outcome Signals"
-            accentWord="This Quarter"
-            subtitle="A timeline-style proof view showing momentum, validation, and hiring-relevant movement."
+            title="Measured Progress"
+            accentWord="Across Programs"
             dark
           />
           <div className="mt-10">
@@ -1311,7 +1258,6 @@ export default function SuccessTestimonialsPage() {
           <SectionTitle
             title="Stories that show"
             accentWord="real movement"
-            subtitle="Consistent framework: profile → program → before/during/outcome → quote. Drag to explore."
             dark
           />
 
@@ -1361,16 +1307,7 @@ export default function SuccessTestimonialsPage() {
                 ))}
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
-                <div className="text-sm text-white/70">
-                  Tip: drag the carousel on desktop, swipe on mobile.
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <Pill label="Expandable cards" />
-                  <Pill label="Hover depth" />
-                  <Pill label="Shine pass" />
-                </div>
-              </div>
+           
             </div>
           </div>
 
@@ -1382,9 +1319,7 @@ export default function SuccessTestimonialsPage() {
       <section id="institutions" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            title="Impact for"
             accentWord="Universities & Organizations"
-            subtitle="Two-column layout with logo placeholders and clear challenge/solution/results."
             dark
           />
           <div className="mt-10">
@@ -1399,7 +1334,6 @@ export default function SuccessTestimonialsPage() {
           <SectionTitle
             title="From Local Projects"
             accentWord="to Global Stage"
-            subtitle="Map animation + event blocks + mini quotes."
             dark
           />
           <div className="mt-10">
@@ -1413,8 +1347,6 @@ export default function SuccessTestimonialsPage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="What Participants Say"
-            accentWord="(short & real)"
-            subtitle="Masonry grid with smooth slide animation + rotating spotlight."
             dark
           />
           <div className="mt-10">
@@ -1449,7 +1381,6 @@ export default function SuccessTestimonialsPage() {
               }}
             />
             <div className="relative mx-auto max-w-6xl text-white">
-              <div className="text-xs font-semibold text-white/80 sm:text-sm">Closing Section</div>
               <div className="mt-3 text-3xl font-semibold md:text-4xl">
                 Your Story Can Be Next.
               </div>
@@ -1473,16 +1404,13 @@ export default function SuccessTestimonialsPage() {
             </div>
           </div>
 
-          <div className="mt-10 text-center text-xs text-white/50">
-            Built with your theme colors + upgraded animation system.
-          </div>
         </div>
       </section>
 
       {/* Sticky CTA */}
       <a
         href="#apply"
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+        className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
         style={{
           background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 90%)`,
         }}
@@ -1573,5 +1501,3 @@ const css = `
   margin-bottom: 14px;
 }
 `;
-
-

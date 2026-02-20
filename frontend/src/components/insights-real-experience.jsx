@@ -586,9 +586,7 @@ function LifecycleTimeline() {
       </div>
 
       <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="text-sm text-[#0B1220]/70">
-          Optional: Download Sample Project Framework (placeholder)
-        </div>
+        
         <GradientButton
           href="#"
           variant="primary"
@@ -639,9 +637,7 @@ function CategoryGrid() {
                   <div className="text-sm font-semibold text-white" style={clampStyle(2)}>
                     {c.title}
                   </div>
-                  <div className="mt-2 text-xs text-white/65" style={clampStyle(2)}>
-                    Click to expand objective, deliverable, and skill focus.
-                  </div>
+                  
                 </div>
                 <ChevronRight className="h-4 w-4 text-white/60 transition group-hover:text-white" />
               </div>
@@ -938,15 +934,8 @@ function SupervisionParallax() {
         />
 
         <div className="relative p-6 sm:p-8">
-          <div className="text-xs font-semibold tracking-widest text-white/60">
-            SUPERVISION FRAMEWORK
-          </div>
-          <div className="mt-2 text-2xl font-semibold text-white">
-            Supervision that builds capability.
-          </div>
-          <div className="mt-2 text-sm text-white/65">
-            Layered support designed like a real delivery environment.
-          </div>
+         
+       
 
           <div className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-3">
             {layers.map((l) => {
@@ -1122,11 +1111,6 @@ function Testimonials() {
             </AnimatePresence>
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-2">
-            <Pill label="Real supervision" />
-            <Pill label="Accountability loops" />
-            <Pill label="Reviewable deliverables" />
-          </div>
         </div>
 
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full blur-3xl"
@@ -1147,9 +1131,8 @@ function GlobalExposure() {
               <Globe2 className="h-5 w-5" {...iconStrongProps} />
             </IconBadge>
             <div>
-              <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">EXPOSURE</div>
               <div className="mt-1 text-lg font-semibold">
-                Experience beyond borders (selected teams).
+                Experience beyond borders.
               </div>
             </div>
           </div>
@@ -1321,13 +1304,6 @@ export default function RealExperiencePage() {
               </GradientButton>
             </motion.div>
 
-            <motion.div variants={fadeUp} className="mt-6 flex flex-wrap gap-2">
-              <Pill label="Visual storytelling" />
-              <Pill label="Project breakdown" />
-              <Pill label="System clarity" />
-              <Pill label="Scroll-triggered motion" />
-            </motion.div>
-
             <motion.div variants={fadeUp} className="mt-8 flex flex-wrap items-center gap-3 text-sm text-white/65">
               <div className="inline-flex items-center gap-2 rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
                 <BadgeCheck className="h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} />
@@ -1420,7 +1396,6 @@ export default function RealExperiencePage() {
           <SectionTitle
             title="Not Simulation."
             accent="Not Case Studies."
-            subtitle="Three pillars that make experience the core operating model."
             dark
           />
           <MeaningThree />
@@ -1432,7 +1407,6 @@ export default function RealExperiencePage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="How real projects are structured"
-            subtitle="A clear lifecycle: define → scope → execute → review → deliver."
           />
           <LifecycleTimeline />
         </div>
@@ -1444,7 +1418,6 @@ export default function RealExperiencePage() {
           <SectionTitle
             title="Project categories"
             accent="across disciplines"
-            subtitle="Click any card to expand objective, typical deliverable, and skill focus."
             dark
           />
           <CategoryGrid />
@@ -1456,7 +1429,6 @@ export default function RealExperiencePage() {
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="What participants actually build"
-            subtitle="A slider-style preview with clean navigation and high polish."
             dark
           />
           <DeliverablesSlider />
@@ -1469,7 +1441,6 @@ export default function RealExperiencePage() {
           <SectionTitle
             title="Supervision"
             accent="that builds capability"
-            subtitle="Layered support with parallax depth — like stacked review layers."
             dark
           />
           <SupervisionParallax />
@@ -1482,7 +1453,6 @@ export default function RealExperiencePage() {
           <SectionTitle
             title="The difference"
             accent="is structural"
-            subtitle="Two columns: old model vs execution-first system."
           />
           <Comparison />
         </div>
@@ -1494,7 +1464,6 @@ export default function RealExperiencePage() {
           <SectionTitle
             title="Experience"
             accent="beyond borders"
-            subtitle="For selected high-performing teams: Germany invitation + ecosystem exposure."
           />
           <GlobalExposure />
         </div>
@@ -1560,7 +1529,7 @@ export default function RealExperiencePage() {
       {/* Sticky CTA */}
       <a
         href="#closing"
-        className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+        className="fixed bottom-6 right-6 z-50 hidden items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)] sm:inline-flex"
         style={{
           background: `linear-gradient(135deg, ${THEME.pink} 0%, ${pinkRGBA(0.74)} 90%)`,
         }}
