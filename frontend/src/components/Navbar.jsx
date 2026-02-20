@@ -191,6 +191,11 @@ const NAV = [
             href: "/about/ecosystem",
             desc: "A connected environment integrating experts, institutions, and industry",
           },
+          {
+            label: "Partnerships",
+            href: "/about/partnerships",
+            desc: "Institutional collaborations, co-hosting models, and European network partnerships",
+          },
         ],
       },
     ],
