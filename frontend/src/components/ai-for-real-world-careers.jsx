@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
@@ -14,7 +14,6 @@ import {
   Globe2,
   GraduationCap,
   LineChart,
-  Shield,
   Sparkles,
   Target,
   Zap,
@@ -29,7 +28,6 @@ import {
   Users,
   Layers,
   Lightbulb,
-  Crown,
   Workflow,
 } from "lucide-react";
 
@@ -62,38 +60,73 @@ function cx(...classes) {
    (Unsplash hotlinks are fine for mock)
 ========================= */
 const IMG = {
-  hero:
-    "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80",
-  tech:
-    "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1600&q=80",
-  product:
-    "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=80",
-  biz:
-    "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1600&q=80",
-  industry:
-    "https://images.unsplash.com/photo-1581091215367-59ab6b6f3d2b?auto=format&fit=crop&w=1600&q=80",
-  foundations:
-    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
-  outcomes:
-    "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
-  diff1:
-    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80",
-  diff2:
-    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
-  diff3:
-    "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1400&q=80",
+  hero: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80",
+  tech: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1600&q=80",
+  product: "https://images.unsplash.com/photo-1559028012-481c04fa702d?auto=format&fit=crop&w=1600&q=80",
+  biz: "https://images.unsplash.com/photo-1551836022-4c4c79ecde51?auto=format&fit=crop&w=1600&q=80",
+  industry: "https://images.unsplash.com/photo-1581091215367-59ab6b6f3d2b?auto=format&fit=crop&w=1600&q=80",
+  foundations: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80",
+  outcomes: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1600&q=80",
+  diff1: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1400&q=80",
+  diff2: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
+  diff3: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1400&q=80",
 };
 
-const formWrapV = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: "easeOut", when: "beforeChildren", staggerChildren: 0.06 },
-  },
+/* =========================
+   MOTION HELPERS
+========================= */
+const EASE_OUT = [0.16, 1, 0.3, 1];
+
+const vFadeUp = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT } },
 };
 
-function useInViewOnce(threshold = 0.2) {
+const vFade = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT } },
+};
+
+const vStagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06, delayChildren: 0.02 } },
+};
+
+function Reveal({
+  children,
+  delay = 0,
+  amount = 0.25,
+  y = 14,
+  duration = 0.5,
+  className,
+  once = true,
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once, amount }}
+      transition={{ duration, ease: EASE_OUT, delay }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function clampStyle(lines) {
+  return {
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: lines,
+    overflow: "hidden",
+  };
+}
+
+/* =========================
+   OBSERVER
+========================= */
+function useInViewOnce(threshold = 0.2, rootMargin = "0px 0px -10% 0px") {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
 
@@ -110,15 +143,18 @@ function useInViewOnce(threshold = 0.2) {
           }
         }
       },
-      { threshold }
+      { threshold, rootMargin }
     );
     obs.observe(el);
     return () => obs.disconnect();
-  }, [threshold]);
+  }, [threshold, rootMargin]);
 
   return { ref, inView };
 }
 
+/* =========================
+   ANIMATED NUMBER
+========================= */
 function AnimatedNumber({ value, suffix, durationMs = 900 }) {
   const reduce = useReducedMotion();
   const [n, setN] = useState(reduce ? value : 0);
@@ -151,6 +187,9 @@ function AnimatedNumber({ value, suffix, durationMs = 900 }) {
   );
 }
 
+/* =========================
+   VISUAL ATOMS
+========================= */
 const POWER_ICON_SHELL = {
   background: "linear-gradient(145deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.07) 100%)",
   border: "1px solid rgba(255,255,255,0.22)",
@@ -172,7 +211,9 @@ function SectionTitle({ eyebrow, title, accentWord, subtitle, dark }) {
         <div
           className={cx(
             "inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-widest",
-            dark ? "bg-white/10 text-white/80 ring-1 ring-white/10" : "bg-[#0B1220]/5 text-[#0B1220]/70 ring-1 ring-[#0B1220]/10"
+            dark
+              ? "bg-white/10 text-white/80 ring-1 ring-white/10"
+              : "bg-[#0B1220]/5 text-[#0B1220]/70 ring-1 ring-[#0B1220]/10"
           )}
         >
           <Sparkles className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} />
@@ -180,7 +221,13 @@ function SectionTitle({ eyebrow, title, accentWord, subtitle, dark }) {
         </div>
       ) : null}
 
-      <h2 className={cx(eyebrow ? "mt-5" : "mt-0", "text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl", dark ? "text-white" : "text-[#0B1220]")}>
+      <h2
+        className={cx(
+          eyebrow ? "mt-5" : "mt-0",
+          "text-balance text-3xl font-semibold leading-tight sm:text-4xl lg:text-5xl",
+          dark ? "text-white" : "text-[#0B1220]"
+        )}
+      >
         {title}{" "}
         {accentWord ? (
           <span style={{ color: THEME.pink }}>
@@ -195,29 +242,6 @@ function SectionTitle({ eyebrow, title, accentWord, subtitle, dark }) {
         </p>
       ) : null}
     </div>
-  );
-}
-
-function Pill({ label }) {
-  return (
-    <span
-      className="inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold"
-      style={{
-        background: "rgba(255,255,255,0.08)",
-        color: "rgba(255,255,255,0.84)",
-        border: "1px solid rgba(255,255,255,0.12)",
-      }}
-    >
-      {label}
-    </span>
-  );
-}
-
-function Anchor({ href, label }) {
-  return (
-    <a href={href} className="rounded-full px-3 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/5 hover:text-white">
-      {label}
-    </a>
   );
 }
 
@@ -247,25 +271,19 @@ function GradientButton({ children, href, onClick, variant = "primary", iconRigh
   );
 }
 
-function clampStyle(lines) {
-  return {
-    display: "-webkit-box",
-    WebkitBoxOrient: "vertical",
-    WebkitLineClamp: lines,
-    overflow: "hidden",
-  };
-}
-
 /* =========================
    LIVING BACKGROUND
 ========================= */
 function AmbientOrbs() {
   const reduce = useReducedMotion();
-  const ORBS = [
-    { top: "8%", left: "6%", size: 420, color: `rgba(34,211,238,0.16)`, dx: 60, dy: 40, dur: 12 },
-    { top: "18%", left: "70%", size: 520, color: `rgba(167,139,250,0.14)`, dx: -80, dy: 55, dur: 15 },
-    { top: "70%", left: "20%", size: 520, color: `rgba(201,29,103,0.16)`, dx: 70, dy: -55, dur: 16 },
-  ];
+  const ORBS = useMemo(
+    () => [
+      { top: "8%", left: "6%", size: 420, color: `rgba(34,211,238,0.16)`, dx: 60, dy: 40, dur: 12 },
+      { top: "18%", left: "70%", size: 520, color: `rgba(167,139,250,0.14)`, dx: -80, dy: 55, dur: 15 },
+      { top: "70%", left: "20%", size: 520, color: `rgba(201,29,103,0.16)`, dx: 70, dy: -55, dur: 16 },
+    ],
+    []
+  );
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -287,7 +305,7 @@ function AmbientOrbs() {
               : {
                   x: [0, o.dx, 0],
                   y: [0, o.dy, 0],
-                  scale: [1, 1.05, 1],
+                  scale: [1, 1.06, 1],
                 }
           }
           transition={{ duration: o.dur, repeat: Infinity, ease: "easeInOut" }}
@@ -298,7 +316,7 @@ function AmbientOrbs() {
 }
 
 /* =========================
-   DATA
+   DATA (UNCHANGED)
 ========================= */
 const TRACKS = [
   {
@@ -389,15 +407,6 @@ const TRACKS = [
   },
 ];
 
-const INDUSTRY_FLOATERS = [
-  { icon: Wallet, label: "Finance", color: THEME.accent4 },
-  { icon: HeartPulse, label: "Healthcare", color: THEME.accent3 },
-  { icon: Laptop, label: "Tech", color: THEME.accent },
-  { icon: Users, label: "HR", color: THEME.accent2 },
-  { icon: PenTool, label: "Product", color: THEME.accent2 },
-  { icon: GraduationCap, label: "Research", color: THEME.accent4 },
-];
-
 const OVERVIEW_FACTS = [
   { icon: Globe2, title: "Online", color: THEME.accent },
   { icon: Calendar, title: "3–7 Weeks", color: THEME.accent4 },
@@ -434,69 +443,54 @@ const WHY_EXISTS_CARDS = [
   },
 ];
 
-function StatMini({ label, value, suffix, icon: Icon, color, inView }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
-      whileHover={{ scale: 1.01 }}
-      className="rounded-3xl p-5 ring-1 ring-white/10"
-      style={{ background: "rgba(255,255,255,0.04)" }}
-    >
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-3 text-xs font-semibold tracking-widest text-white/60">
-            <IconBadge color={color}>
-              <Icon className="h-4 w-4" {...iconStrongProps} />
-            </IconBadge>
-            <span>{label.toUpperCase()}</span>
-          </div>
-          <div className="mt-3 text-3xl font-semibold text-white">
-            {inView ? <AnimatedNumber value={value} suffix={suffix} /> : <span>0</span>}
-          </div>
-          <div className="mt-1 text-sm text-white/70">Structured, capability-focused tracks.</div>
-        </div>
+/* =========================
+   FORM CONSTANTS (UNCHANGED STRINGS)
+========================= */
+const FORM_STEPS = ["Professional Background", "AI Goals & Interests", "Program Preferences", "Professional Impact", "Final Confirmation"];
 
-        <div className="hidden sm:block">
-          <div className="h-12 w-1 rounded-full" style={{ background: color, opacity: 0.7 }} />
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+const TRACK_LABELS = [
+  "AI for Technology & Developers",
+  "AI for Product & UX",
+  "AI for Business & Strategy",
+  "AI for Industry Applications",
+  "AI Foundations (Non-Technical)",
+  "Not Sure – Recommend for Me",
+];
 
-function FloatingIcon({ icon: Icon, label, color, delay = 0 }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.65, ease: "easeOut", delay }}
-      className="rounded-3xl bg-white/5 p-4 ring-1 ring-white/10 backdrop-blur"
-      style={{ boxShadow: "0 18px 60px rgba(0,0,0,0.28)" }}
-    >
-      <div className="flex items-center gap-3">
-        <IconBadge color={color}>
-          <Icon className="h-4 w-4" {...iconStrongProps} />
-        </IconBadge>
-        <div>
-          <div className="text-sm font-semibold text-white">{label}</div>
-          <div className="mt-1 text-xs text-white/65">Soft-signal relevance</div>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
+const OUTCOMES = [
+  "AI implementation framework",
+  "Executive-level certification",
+  "Portfolio case study",
+  "Productivity optimization toolkit",
+  "AI strategy blueprint",
+  "Practical automation workflows",
+];
 
-function TrackCard({ track, index = 0 }) {
+/* =========================
+   TRACK CARD (MEMO)
+========================= */
+const TrackCard = React.memo(function TrackCard({ track, index = 0 }) {
   const Icon = track.icon;
+  const reduce = useReducedMotion();
+
+  const itemV = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: 10 },
+      show: (i) => ({
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.45, ease: EASE_OUT, delay: 0.06 + i * 0.03 },
+      }),
+    }),
+    []
+  );
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, ease: "easeOut", delay: Math.min(index * 0.03, 0.15) }}
+      transition={{ duration: 0.5, ease: EASE_OUT, delay: Math.min(index * 0.03, 0.15) }}
       whileHover={{ y: -6, scale: 1.01 }}
       className={cx("group relative w-[380px] md:w-[440px] shrink-0 overflow-hidden rounded-3xl ring-1", "bg-white/5 backdrop-blur")}
       style={{
@@ -504,7 +498,6 @@ function TrackCard({ track, index = 0 }) {
         boxShadow: "0 18px 70px rgba(0,0,0,0.35)",
       }}
     >
-      {/* Top image */}
       <div className="relative h-[160px] overflow-hidden">
         <motion.img
           src={track.image}
@@ -563,9 +556,23 @@ function TrackCard({ track, index = 0 }) {
 
         <div className="mt-5 rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.04)" }}>
           <div className="text-xs font-semibold tracking-widest text-white/55">PROGRAMS</div>
-          <div className="mt-3 space-y-2">
-            {track.programs.slice(0, 8).map((p) => (
-              <div key={p} className="flex items-start gap-3">
+
+          <motion.div
+            className="mt-3 space-y-2"
+            variants={vStagger}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.4 }}
+          >
+            {track.programs.slice(0, 8).map((p, i) => (
+              <motion.div
+                key={p}
+                custom={i}
+                variants={itemV}
+                className="flex items-start gap-3"
+                whileHover={reduce ? undefined : { x: 2 }}
+                transition={{ duration: 0.2 }}
+              >
                 <span
                   className="mt-1 inline-flex h-6 w-6 items-center justify-center rounded-full ring-1"
                   style={{
@@ -578,9 +585,9 @@ function TrackCard({ track, index = 0 }) {
                 <div className="text-sm text-white/85" style={clampStyle(2)}>
                   {p}
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
 
         <div className="mt-auto pt-5">
@@ -592,12 +599,11 @@ function TrackCard({ track, index = 0 }) {
               Apply for this track <ChevronRight className="h-4 w-4" {...iconStrongProps} />
             </a>
           </div>
-
         </div>
       </div>
     </motion.div>
   );
-}
+});
 
 /* =========================
    FORM COMPONENTS
@@ -702,7 +708,7 @@ function TogglePills({ options, valueSet, onChange }) {
       {options.map((o) => {
         const active = valueSet.has(o);
         return (
-          <button
+          <motion.button
             key={o}
             type="button"
             onClick={() => {
@@ -711,7 +717,12 @@ function TogglePills({ options, valueSet, onChange }) {
               else next.add(o);
               onChange(next);
             }}
-            className={cx("rounded-full px-4 py-2 text-sm font-semibold ring-1 transition", active ? "text-white" : "text-[#0B1220]/70 hover:bg-[#0B1220]/5")}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
+            className={cx(
+              "rounded-full px-4 py-2 text-sm font-semibold ring-1 transition",
+              active ? "text-white" : "text-[#0B1220]/70 hover:bg-[#0B1220]/5"
+            )}
             style={
               active
                 ? { background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 75%)`, borderColor: "rgba(11,18,32,0.10)" }
@@ -719,7 +730,7 @@ function TogglePills({ options, valueSet, onChange }) {
             }
           >
             {o}
-          </button>
+          </motion.button>
         );
       })}
     </div>
@@ -732,17 +743,25 @@ function RadioRow({ options, value, onChange }) {
       {options.map((o) => {
         const checked = value === o;
         return (
-          <button
+          <motion.button
             key={o}
             type="button"
             onClick={() => onChange(o)}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.99 }}
             className="flex w-full items-center justify-between rounded-2xl bg-white/60 px-4 py-3 text-left ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
           >
             <div className="text-sm font-semibold text-[#0B1220]">{o}</div>
             <span className="inline-flex h-6 w-6 items-center justify-center rounded-full ring-1 ring-[#0B1220]/10">
-              <span className="h-3 w-3 rounded-full" style={{ background: checked ? THEME.pink : "transparent", border: checked ? "none" : "2px solid rgba(11,18,32,0.25)" }} />
+              <span
+                className="h-3 w-3 rounded-full"
+                style={{
+                  background: checked ? THEME.pink : "transparent",
+                  border: checked ? "none" : "2px solid rgba(11,18,32,0.25)",
+                }}
+              />
             </span>
-          </button>
+          </motion.button>
         );
       })}
     </div>
@@ -777,6 +796,7 @@ function AIDiagnostic({ onResult }) {
           <div className="mt-4 text-2xl font-semibold text-white">Find your AI path in 3 minutes</div>
           <p className="mt-2 text-sm text-white/70">Answer 3 quick questions and we’ll recommend a best-fit track.</p>
         </div>
+
         <motion.div
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut" }}
@@ -847,7 +867,18 @@ function AIDiagnostic({ onResult }) {
             <BadgeCheck className="h-5 w-5" {...iconStrongProps} />
           </IconBadge>
           <div>
-            <div className="mt-1 text-lg font-semibold text-white">{result}</div>
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={result}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.25, ease: EASE_OUT }}
+                className="mt-1 text-lg font-semibold text-white"
+              >
+                {result}
+              </motion.div>
+            </AnimatePresence>
             <div className="mt-1 text-sm text-white/70">Use this to pre-fill your application.</div>
           </div>
         </div>
@@ -859,65 +890,17 @@ function AIDiagnostic({ onResult }) {
 }
 
 /* =========================
-   EXTRA: Motion image strip (keeps page alive)
-========================= */
-function ImageTriptych({ dark = false }) {
-  const reduce = useReducedMotion();
-  const imgs = [IMG.diff1, IMG.diff2, IMG.diff3];
-
-  return (
-    <div className="mt-10 grid grid-cols-1 gap-4 lg:grid-cols-3">
-      {imgs.map((src, i) => (
-        <motion.div
-          key={src}
-          className={cx(
-            "relative overflow-hidden rounded-[28px] ring-1",
-            dark ? "ring-white/10 bg-white/5" : "ring-[#0B1220]/10 bg-white/60"
-          )}
-          whileHover={{ y: -4 }}
-          transition={{ duration: 0.25 }}
-        >
-          <motion.img
-            src={src}
-            alt="Program visual"
-            className="h-56 w-full object-cover"
-            animate={reduce ? {} : { scale: [1.02, 1.06, 1.02] }}
-            transition={{ duration: 10 + i * 2, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <div className="absolute inset-0" style={{ background: dark ? "linear-gradient(180deg, rgba(11,18,32,0.15) 0%, rgba(11,18,32,0.72) 100%)" : "linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(11,18,32,0.08) 100%)" }} />
-          <div className="absolute bottom-4 left-4 right-4">
-            <div className={cx("inline-flex items-center gap-2 rounded-full px-3 py-2 text-xs font-semibold ring-1", dark ? "bg-white/10 text-white/80 ring-white/10" : "bg-[#0B1220]/5 text-[#0B1220]/70 ring-[#0B1220]/10")}>
-              {i === 0 ? <Workflow className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} /> : null}
-              {i === 1 ? <LineChart className="h-4 w-4" style={{ color: THEME.accent4 }} {...iconStrongProps} /> : null}
-              {i === 2 ? <Crown className="h-4 w-4" style={{ color: THEME.accent3 }} {...iconStrongProps} /> : null}
-              <span>{i === 0 ? "Workflows" : i === 1 ? "Decisions" : "Leadership"}</span>
-            </div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-/* =========================
    PAGE
 ========================= */
 export default function AIForRealWorldCareersPage() {
+  const reduce = useReducedMotion();
+
   const [activeTrack, setActiveTrack] = useState(TRACKS[0].key);
   const track = useMemo(() => TRACKS.find((t) => t.key === activeTrack) || TRACKS[0], [activeTrack]);
 
-  const impact = useInViewOnce(0.25);
   const sliderRef = useRef(null);
 
-  const scrollSlider = (dir) => {
-    const el = sliderRef.current;
-    if (!el) return;
-    const dx = dir === "left" ? -380 : 380;
-    el.scrollBy({ left: dx, behavior: "smooth" });
-  };
-
-  /* -------- Multi-step form state -------- */
-  const steps = ["Professional Background", "AI Goals & Interests", "Program Preferences", "Professional Impact", "Final Confirmation"];
+  const steps = FORM_STEPS;
   const [step, setStep] = useState(0);
 
   const [submitted, setSubmitted] = useState(false);
@@ -932,14 +915,6 @@ export default function AIForRealWorldCareersPage() {
   const [experience, setExperience] = useState("0–2 Years");
 
   // Step 2
-  const TRACK_LABELS = [
-    "AI for Technology & Developers",
-    "AI for Product & UX",
-    "AI for Business & Strategy",
-    "AI for Industry Applications",
-    "AI Foundations (Non-Technical)",
-    "Not Sure – Recommend for Me",
-  ];
   const [interestTracks, setInterestTracks] = useState(new Set(["Not Sure – Recommend for Me"]));
   const [goal, setGoal] = useState("Increase productivity in my current job");
   const [knowledge, setKnowledge] = useState("Beginner");
@@ -952,14 +927,6 @@ export default function AIForRealWorldCareersPage() {
   const [applyingAs, setApplyingAs] = useState("Individual Self-Sponsored");
 
   // Step 4
-  const OUTCOMES = [
-    "AI implementation framework",
-    "Executive-level certification",
-    "Portfolio case study",
-    "Productivity optimization toolkit",
-    "AI strategy blueprint",
-    "Practical automation workflows",
-  ];
   const [outcomes, setOutcomes] = useState(new Set(["Executive-level certification", "Practical automation workflows"]));
   const [linkedin, setLinkedin] = useState("");
 
@@ -977,6 +944,20 @@ export default function AIForRealWorldCareersPage() {
     return true;
   }, [step, fullName, email, phone, roleTitle, interestTracks, goal, knowledge, startTime, timeCommitment, weeklyAvail, applyingAs, outcomes, consent]);
 
+  const scrollSlider = useCallback((dir) => {
+    const el = sliderRef.current;
+    if (!el) return;
+
+    // dynamic step based on card width (no hardcoding)
+    const first = el.querySelector("[data-track-card]");
+    const cardW = first ? first.getBoundingClientRect().width : 420;
+    const styles = window.getComputedStyle(el);
+    const gap = parseFloat(styles.columnGap || styles.gap || "20") || 20;
+
+    const dx = (cardW + gap) * (dir === "left" ? -1 : 1);
+    el.scrollBy({ left: dx, behavior: "smooth" });
+  }, []);
+
   function normalizeTrackLabel(label) {
     if (label.includes("Technology")) return "AI for Technology & Developers";
     if (label.includes("Product")) return "AI for Product, UX & Design";
@@ -986,7 +967,7 @@ export default function AIForRealWorldCareersPage() {
     return label;
   }
 
-  function applyDiagnosticRecommendation(reco) {
+  const applyDiagnosticRecommendation = useCallback((reco) => {
     const normalized = normalizeTrackLabel(reco);
     const next = new Set([normalized]);
     setInterestTracks(next);
@@ -998,12 +979,12 @@ export default function AIForRealWorldCareersPage() {
       normalized.includes("Industry") ? "industry" :
       normalized.includes("Foundations") ? "foundations" :
       TRACKS[0].key;
+
     setActiveTrack(match);
-
     document.querySelector("#apply")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+  }, []);
 
-  function resetAndSubmit() {
+  const resetAndSubmit = useCallback(() => {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
@@ -1011,7 +992,16 @@ export default function AIForRealWorldCareersPage() {
       setTimeout(() => setSubmitted(false), 2600);
       setStep(0);
     }, 650);
-  }
+  }, []);
+
+  const goNext = useCallback(() => {
+    if (!canNext) return;
+    setStep((s) => Math.min(steps.length - 1, s + 1));
+  }, [canNext, steps.length]);
+
+  const goBack = useCallback(() => {
+    setStep((s) => Math.max(0, s - 1));
+  }, []);
 
   return (
     <div
@@ -1023,7 +1013,6 @@ export default function AIForRealWorldCareersPage() {
           "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji",
       }}
     >
-      {/* Global decorative background (more alive) */}
       <div className="pointer-events-none fixed inset-0 -z-10">
         <AmbientOrbs />
 
@@ -1049,11 +1038,15 @@ export default function AIForRealWorldCareersPage() {
         <div className="absolute inset-0 noise" />
       </div>
 
-     
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 py-10 lg:grid-cols-2 lg:py-14">
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}>
-            <h1 className="mt-1 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
+          <motion.div variants={vFadeUp} initial="hidden" animate="show">
+            <motion.h1
+              className="mt-1 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: EASE_OUT, delay: 0.05 }}
+            >
               AI Is Not a Skill.
               <br />
               It’s a{" "}
@@ -1061,33 +1054,41 @@ export default function AIForRealWorldCareersPage() {
                 Career Multiplier
               </span>
               .
-            </h1>
+            </motion.h1>
 
-            <p className="mt-4 max-w-xl text-balance text-base text-white/70 sm:text-lg">
-             Practical AI programs designed for professionals across every industry — so you don’t
-get replaced by AI. You lead with it
-            </p>
+            <motion.p
+              className="mt-4 max-w-xl text-balance text-base text-white/70 sm:text-lg"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: EASE_OUT, delay: 0.12 }}
+            >
+              Practical AI programs designed for professionals across every industry — so you don’t
+              get replaced by AI. You lead with it
+            </motion.p>
 
-            <p className="mt-4 max-w-2xl text-sm text-white/65">
+            <motion.p
+              className="mt-4 max-w-2xl text-sm text-white/65"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: EASE_OUT, delay: 0.18 }}
+            >
               Online · 3-7 Weeks · Monthly & Bi-Monthly Intakes · Built for Working Professionals
-            </p>
+            </motion.p>
 
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <motion.div
+              className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: EASE_OUT, delay: 0.25 }}
+            >
               <GradientButton href="#tracks">Explore AI Tracks</GradientButton>
               <GradientButton href="#diagnostic" variant="secondary">
                 Find Your AI Path
               </GradientButton>
-            </div>
-
+            </motion.div>
           </motion.div>
 
-          {/* Hero photo visual + floating icons + neural overlay */}
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: "easeOut", delay: 0.05 }}
-            className="relative"
-          >
+          <motion.div variants={vFadeUp} initial="hidden" animate="show" transition={{ delay: 0.08 }} className="relative">
             <div className="relative mx-auto aspect-[4/3] w-full max-w-[560px]">
               <div className="absolute inset-0 overflow-hidden rounded-[44px] ring-1 ring-white/10">
                 <motion.img
@@ -1095,7 +1096,7 @@ get replaced by AI. You lead with it
                   alt="Professionals using AI"
                   className="h-full w-full object-cover"
                   initial={{ scale: 1.05 }}
-                  animate={{ scale: [1.05, 1.09, 1.05] }}
+                  animate={reduce ? { scale: 1.05 } : { scale: [1.05, 1.09, 1.05] }}
                   transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
                 />
                 <div
@@ -1105,16 +1106,13 @@ get replaced by AI. You lead with it
                       "linear-gradient(180deg, rgba(11,18,32,0.30) 0%, rgba(11,18,32,0.66) 65%, rgba(11,18,32,0.90) 100%)",
                   }}
                 />
+                <div className="absolute inset-0 neural opacity-60" />
               </div>
-
-              
-           
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* WHY THIS PAGE EXISTS */}
       <section className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle title="Why AI for Real-World Careers?" dark />
@@ -1122,106 +1120,97 @@ get replaced by AI. You lead with it
             {WHY_EXISTS_CARDS.map((item, i) => {
               const Icon = item.icon;
               return (
-                <motion.div
-                  key={item.text}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.45, ease: "easeOut", delay: i * 0.06 }}
-                  whileHover={{ y: -8, scale: 1.01 }}
-                  className="relative overflow-hidden rounded-[30px] p-6 ring-1 ring-white/10 backdrop-blur"
-                  style={{ background: item.bg, boxShadow: "0 18px 42px rgba(0,0,0,0.24)" }}
-                >
-                  <div className="pointer-events-none absolute inset-0 opacity-35">
-                    <div className="shine" />
-                  </div>
-                  <div className="relative flex items-start gap-4">
-                    <motion.div
-                      animate={{ y: [0, -4, 0], rotate: [0, -3, 0] }}
-                      transition={{ duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut" }}
-                      className="mt-0.5"
-                    >
-                      <IconBadge color={item.color}>
-                        <Icon className="h-5 w-5" {...iconStrongProps} />
-                      </IconBadge>
-                    </motion.div>
-                    <div className="flex-1">
-                      <p className="text-base leading-relaxed text-white/85">{item.text}</p>
-                      <motion.div
-                        className="mt-4 h-1.5 w-16 rounded-full"
-                        style={{ background: item.color }}
-                        animate={{ width: [64, 96, 64], opacity: [0.6, 1, 0.6] }}
-                        transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
-                      />
+                <Reveal key={item.text} delay={i * 0.06} amount={0.3}>
+                  <motion.div
+                    whileHover={{ y: -8, scale: 1.01 }}
+                    className="relative overflow-hidden rounded-[30px] p-6 ring-1 ring-white/10 backdrop-blur"
+                    style={{ background: item.bg, boxShadow: "0 18px 42px rgba(0,0,0,0.24)" }}
+                  >
+                    <div className="pointer-events-none absolute inset-0 opacity-35">
+                      <div className="shine" />
                     </div>
-                  </div>
-                  <motion.span
-                    className="absolute right-5 top-5 h-2.5 w-2.5 rounded-full"
-                    style={{ background: item.color }}
-                    animate={{ scale: [1, 1.6, 1], opacity: [0.5, 1, 0.5] }}
-                    transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.18 }}
-                  />
-                </motion.div>
+                    <div className="relative flex items-start gap-4">
+                      <motion.div
+                        animate={reduce ? undefined : { y: [0, -4, 0], rotate: [0, -3, 0] }}
+                        transition={{ duration: 3 + i * 0.4, repeat: Infinity, ease: "easeInOut" }}
+                        className="mt-0.5"
+                      >
+                        <IconBadge color={item.color}>
+                          <Icon className="h-5 w-5" {...iconStrongProps} />
+                        </IconBadge>
+                      </motion.div>
+                      <div className="flex-1">
+                        <p className="text-base leading-relaxed text-white/85">{item.text}</p>
+                        <motion.div
+                          className="mt-4 h-1.5 w-16 rounded-full"
+                          style={{ background: item.color }}
+                          animate={reduce ? undefined : { width: [64, 96, 64], opacity: [0.6, 1, 0.6] }}
+                          transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut", delay: i * 0.2 }}
+                        />
+                      </div>
+                    </div>
+                    <motion.span
+                      className="absolute right-5 top-5 h-2.5 w-2.5 rounded-full"
+                      style={{ background: item.color }}
+                      animate={reduce ? undefined : { scale: [1, 1.6, 1], opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: i * 0.18 }}
+                    />
+                  </motion.div>
+                </Reveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* PROGRAM STRUCTURE OVERVIEW */}
       <section className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <SectionTitle
-            title="Choose Your AI Track"
-            dark
-          />
+          <SectionTitle title="Choose Your AI Track" dark />
 
           <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {OVERVIEW_FACTS.map((f) => {
+            {OVERVIEW_FACTS.map((f, i) => {
               const Icon = f.icon;
               return (
-                <motion.div
-                  key={f.title}
-                  whileHover={{ y: -4 }}
-                  transition={{ duration: 0.25 }}
-                  className="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur"
-                >
-                  <div className="flex items-start gap-3">
-                    <IconBadge color={f.color}>
-                      <Icon className="h-5 w-5" {...iconStrongProps} />
-                    </IconBadge>
-                    <div>
-                      <div className="text-sm font-semibold text-white">{f.title}</div>
+                <Reveal key={f.title} delay={i * 0.04} amount={0.25}>
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    transition={{ duration: 0.25 }}
+                    className="rounded-3xl bg-white/5 p-6 ring-1 ring-white/10 backdrop-blur"
+                  >
+                    <div className="flex items-start gap-3">
+                      <IconBadge color={f.color}>
+                        <Icon className="h-5 w-5" {...iconStrongProps} />
+                      </IconBadge>
+                      <div>
+                        <div className="text-sm font-semibold text-white">{f.title}</div>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </Reveal>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* TRACKS */}
       <section id="tracks" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <SectionTitle
-            title="Categorized AI Tracks"
-            subtitle="We do not present 30 random courses. We present clear categories."
-            dark
-          />
+          <SectionTitle title="Categorized AI Tracks" subtitle="We do not present 30 random courses. We present clear categories." dark />
 
           <div className="mt-10 flex flex-col gap-5">
             <div className="flex flex-wrap gap-2">
               {TRACKS.map((t) => {
                 const active = t.key === activeTrack;
                 return (
-                  <button
+                  <motion.button
                     key={t.key}
                     type="button"
                     onClick={() => {
                       setActiveTrack(t.key);
                       sliderRef.current?.scrollTo({ left: 0, behavior: "smooth" });
                     }}
+                    whileHover={{ y: -1 }}
+                    whileTap={{ scale: 0.98 }}
                     className={cx(
                       "rounded-full px-4 py-2 text-sm font-semibold ring-1 transition",
                       active ? "text-white" : "text-white/70 hover:bg-white/5",
@@ -1230,7 +1219,7 @@ get replaced by AI. You lead with it
                     style={active ? { background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 75%)` } : undefined}
                   >
                     {t.label}
-                  </button>
+                  </motion.button>
                 );
               })}
             </div>
@@ -1285,7 +1274,7 @@ get replaced by AI. You lead with it
 
               <div ref={sliderRef} className="no-scrollbar flex gap-5 overflow-x-auto pb-2" style={{ scrollSnapType: "x mandatory" }}>
                 {TRACKS.map((t, idx) => (
-                  <div key={t.key} style={{ scrollSnapAlign: "start" }}>
+                  <div key={t.key} style={{ scrollSnapAlign: "start" }} data-track-card>
                     <TrackCard track={t} index={idx} />
                   </div>
                 ))}
@@ -1295,16 +1284,13 @@ get replaced by AI. You lead with it
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
       <section
         id="how"
         className="relative"
         style={{ background: `linear-gradient(180deg, rgba(233,231,223,1) 0%, rgba(233,231,223,0.85) 100%)`, color: THEME.deep }}
       >
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <SectionTitle
-            title="How It Works"
-          />
+          <SectionTitle title="How It Works" />
 
           <div className="mt-10 grid grid-cols-1 gap-4">
             {[
@@ -1315,160 +1301,151 @@ get replaced by AI. You lead with it
             ].map((s, i) => {
               const Icon = s.icon;
               return (
-                <motion.div
-                  key={s.title}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.35 }}
-                  transition={{ duration: 0.5, ease: "easeOut", delay: i * 0.05 }}
-                  whileHover={{ y: -3 }}
-                  className="relative rounded-[36px] bg-white/55 p-6 ring-1 ring-[#0B1220]/10"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="mt-1">
-                      <IconBadge color={s.color}>
-                        <Icon className="h-5 w-5" {...iconStrongProps} />
-                      </IconBadge>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between gap-3">
-                        <div className="text-lg font-semibold text-[#0B1220]">{s.title}</div>
-                        <span
-                          className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                          style={{
-                            background: "rgba(11,18,32,0.06)",
-                            color: "rgba(11,18,32,0.70)",
-                            borderColor: "rgba(11,18,32,0.10)",
-                          }}
-                        >
-                          Step {i + 1}
-                        </span>
+                <Reveal key={s.title} delay={i * 0.05} amount={0.35}>
+                  <motion.div whileHover={{ y: -3 }} className="relative rounded-[36px] bg-white/55 p-6 ring-1 ring-[#0B1220]/10">
+                    <div className="flex items-start gap-4">
+                      <div className="mt-1">
+                        <IconBadge color={s.color}>
+                          <Icon className="h-5 w-5" {...iconStrongProps} />
+                        </IconBadge>
                       </div>
-                      <div className="mt-2 text-sm leading-relaxed text-[#0B1220]/70">{s.desc}</div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between gap-3">
+                          <div className="text-lg font-semibold text-[#0B1220]">{s.title}</div>
+                          <span
+                            className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+                            style={{
+                              background: "rgba(11,18,32,0.06)",
+                              color: "rgba(11,18,32,0.70)",
+                              borderColor: "rgba(11,18,32,0.10)",
+                            }}
+                          >
+                            Step {i + 1}
+                          </span>
+                        </div>
+                        <div className="mt-2 text-sm leading-relaxed text-[#0B1220]/70">{s.desc}</div>
+                      </div>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
+                </Reveal>
               );
             })}
           </div>
-
         </div>
       </section>
 
-      {/* OUTCOMES (removed "Built to signal..." + removed NOT FOR block) */}
       <section id="outcomes" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <SectionTitle
-            title="You leave with proof"
-            accentWord="not attendance"
-            subtitle="Verified capability + a practical portfolio you can use in real work."
-            dark
-          />
+          <SectionTitle title="You leave with proof" accentWord="not attendance" subtitle="Verified capability + a practical portfolio you can use in real work." dark />
 
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-5">
             <div className="lg:col-span-3">
-              <div className="rounded-[36px] bg-white/5 p-7 ring-1 ring-white/10 backdrop-blur">
-                <div className="flex items-center gap-3">
-                  <IconBadge color={THEME.accent3}>
-                    <FileCheck2 className="h-5 w-5" {...iconStrongProps} />
-                  </IconBadge>
-                  <div>
-                    <div className="text-xs font-semibold tracking-widest text-white/60">PARTICIPANTS RECEIVE</div>
-                    <div className="mt-1 text-lg font-semibold text-white">Deliverables designed for real workflows</div>
-                  </div>
-                </div>
-
-                <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {[
-                    { icon: BadgeCheck, text: "Verified AI Capability Certificate", color: THEME.accent3 },
-                    { icon: Briefcase, text: "Practical AI Use Case Portfolio", color: THEME.accent },
-                    { icon: ClipboardCheck, text: "Implementation Framework Templates", color: THEME.accent2 },
-                    { icon: Layers, text: "AI Workflow Blueprints", color: THEME.accent4 },
-                    { icon: LineChart, text: "Executive Summary Toolkit (for leaders)", color: THEME.accent3 },
-                  ].map((b) => {
-                    const Icon = b.icon;
-                    return (
-                      <motion.div key={b.text} whileHover={{ y: -3 }} transition={{ duration: 0.25 }} className="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
-                        <div className="flex items-start gap-3">
-                          <IconBadge color={b.color}>
-                            <Icon className="h-4 w-4" {...iconStrongProps} />
-                          </IconBadge>
-                          <div className="text-sm font-semibold text-white">{b.text}</div>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="text-sm text-white/70">Built for real work environments — not generic exercises.</div>
-                  <GradientButton href="#apply">Apply Now</GradientButton>
-                </div>
-              </div>
-            </div>
-
-            <div className="lg:col-span-2">
-              <div className="relative h-full overflow-hidden rounded-[36px] p-7 ring-1 ring-white/10">
-                <motion.img
-                  src={IMG.outcomes}
-                  alt="Outcomes visual"
-                  className="absolute inset-0 h-full w-full object-cover"
-                  initial={{ scale: 1.05 }}
-                  animate={{ scale: [1.05, 1.10, 1.05] }}
-                  transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(180deg, rgba(11,18,32,0.35) 0%, rgba(11,18,32,0.75) 75%, rgba(11,18,32,0.92) 100%)",
-                  }}
-                />
-
-                <div className="relative">
-                  <div className="text-xs font-semibold tracking-widest text-white/70">WHO THIS IS FOR</div>
-                  <div className="mt-2 text-2xl font-semibold leading-tight text-white">
-                    Professionals who want AI leverage inside their role.
+              <Reveal amount={0.25}>
+                <div className="rounded-[36px] bg-white/5 p-7 ring-1 ring-white/10 backdrop-blur">
+                  <div className="flex items-center gap-3">
+                    <IconBadge color={THEME.accent3}>
+                      <FileCheck2 className="h-5 w-5" {...iconStrongProps} />
+                    </IconBadge>
+                    <div>
+                      <div className="text-xs font-semibold tracking-widest text-white/60">PARTICIPANTS RECEIVE</div>
+                      <div className="mt-1 text-lg font-semibold text-white">Deliverables designed for real workflows</div>
+                    </div>
                   </div>
 
-                  <div className="mt-6 space-y-3">
+                  <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {[
-                      { icon: Briefcase, text: "Working professionals", color: THEME.accent },
-                      { icon: Target, text: "Managers & decision-makers", color: THEME.accent3 },
-                      { icon: Zap, text: "Developers", color: THEME.accent2 },
-                      { icon: GraduationCap, text: "Researchers", color: THEME.accent4 },
-                      { icon: Handshake, text: "Consultants & sector specialists", color: THEME.accent3 },
-                    ].map((b) => {
+                      { icon: BadgeCheck, text: "Verified AI Capability Certificate", color: THEME.accent3 },
+                      { icon: Briefcase, text: "Practical AI Use Case Portfolio", color: THEME.accent },
+                      { icon: ClipboardCheck, text: "Implementation Framework Templates", color: THEME.accent2 },
+                      { icon: Layers, text: "AI Workflow Blueprints", color: THEME.accent4 },
+                      { icon: LineChart, text: "Executive Summary Toolkit (for leaders)", color: THEME.accent3 },
+                    ].map((b, i) => {
                       const Icon = b.icon;
                       return (
-                        <motion.div key={b.text} initial={{ opacity: 0, x: 10 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.5 }} transition={{ duration: 0.45, ease: "easeOut" }}>
-                          <div className="flex items-start gap-3">
-                            <IconBadge color={b.color}>
-                              <Icon className="h-4 w-4" {...iconStrongProps} />
-                            </IconBadge>
-                            <div className="text-sm text-white/85">{b.text}</div>
-                          </div>
-                        </motion.div>
+                        <Reveal key={b.text} delay={i * 0.04} amount={0.25}>
+                          <motion.div whileHover={{ y: -3 }} className="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
+                            <div className="flex items-start gap-3">
+                              <IconBadge color={b.color}>
+                                <Icon className="h-4 w-4" {...iconStrongProps} />
+                              </IconBadge>
+                              <div className="text-sm font-semibold text-white">{b.text}</div>
+                            </div>
+                          </motion.div>
+                        </Reveal>
                       );
                     })}
                   </div>
 
-                  <div className="mt-7">
-                    <a href="#apply" className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15">
-                      Speak With an AI Advisor <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                    </a>
+                  <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div className="text-sm text-white/70">Built for real work environments — not generic exercises.</div>
+                    <GradientButton href="#apply">Apply Now</GradientButton>
                   </div>
-                 
                 </div>
+              </Reveal>
+            </div>
 
-                <div className="pointer-events-none absolute -bottom-20 -right-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(255,255,255,0.08)" }} />
-              </div>
+            <div className="lg:col-span-2">
+              <Reveal amount={0.25} delay={0.05}>
+                <div className="relative h-full overflow-hidden rounded-[36px] p-7 ring-1 ring-white/10">
+                  <motion.img
+                    src={IMG.outcomes}
+                    alt="Outcomes visual"
+                    className="absolute inset-0 h-full w-full object-cover"
+                    initial={{ scale: 1.05 }}
+                    animate={reduce ? { scale: 1.05 } : { scale: [1.05, 1.10, 1.05] }}
+                    transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(11,18,32,0.35) 0%, rgba(11,18,32,0.75) 75%, rgba(11,18,32,0.92) 100%)",
+                    }}
+                  />
+
+                  <div className="relative">
+                    <div className="text-xs font-semibold tracking-widest text-white/70">WHO THIS IS FOR</div>
+                    <div className="mt-2 text-2xl font-semibold leading-tight text-white">
+                      Professionals who want AI leverage inside their role.
+                    </div>
+
+                    <div className="mt-6 space-y-3">
+                      {[
+                        { icon: Briefcase, text: "Working professionals", color: THEME.accent },
+                        { icon: Target, text: "Managers & decision-makers", color: THEME.accent3 },
+                        { icon: Zap, text: "Developers", color: THEME.accent2 },
+                        { icon: GraduationCap, text: "Researchers", color: THEME.accent4 },
+                        { icon: Handshake, text: "Consultants & sector specialists", color: THEME.accent3 },
+                      ].map((b, i) => {
+                        const Icon = b.icon;
+                        return (
+                          <Reveal key={b.text} delay={i * 0.04} amount={0.5} y={10}>
+                            <div className="flex items-start gap-3">
+                              <IconBadge color={b.color}>
+                                <Icon className="h-4 w-4" {...iconStrongProps} />
+                              </IconBadge>
+                              <div className="text-sm text-white/85">{b.text}</div>
+                            </div>
+                          </Reveal>
+                        );
+                      })}
+                    </div>
+
+                    <div className="mt-7">
+                      <a href="#apply" className="inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15">
+                        Speak With an AI Advisor <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="pointer-events-none absolute -bottom-20 -right-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(255,255,255,0.08)" }} />
+                </div>
+              </Reveal>
             </div>
           </div>
         </div>
       </section>
 
-      {/* DIFFERENTIATION */}
       <section className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <SectionTitle
@@ -1482,29 +1459,29 @@ get replaced by AI. You lead with it
               { icon: Target, title: "Strategic layer", desc: "Better prioritization, planning, and competitive moves.", color: THEME.accent3 },
               { icon: LineChart, title: "Decision system", desc: "Sharper analysis, scenarios, and forecasting.", color: THEME.accent4 },
               { icon: Workflow, title: "Workflow multiplier", desc: "Embed AI directly into role-specific execution.", color: THEME.accent2 },
-            ].map((c) => {
+            ].map((c, i) => {
               const Icon = c.icon;
               return (
-                <motion.div key={c.title} whileHover={{ y: -4 }} transition={{ duration: 0.25 }} className="rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                  <div className="flex items-center gap-3">
-                    <IconBadge color={c.color}>
-                      <Icon className="h-5 w-5" {...iconStrongProps} />
-                    </IconBadge>
-                    <div>
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">AI BECOMES</div>
-                      <div className="mt-1 text-lg font-semibold">{c.title}</div>
+                <Reveal key={c.title} delay={i * 0.05}>
+                  <motion.div whileHover={{ y: -4 }} className="rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
+                    <div className="flex items-center gap-3">
+                      <IconBadge color={c.color}>
+                        <Icon className="h-5 w-5" {...iconStrongProps} />
+                      </IconBadge>
+                      <div>
+                        <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">AI BECOMES</div>
+                        <div className="mt-1 text-lg font-semibold">{c.title}</div>
+                      </div>
                     </div>
-                  </div>
-                  <p className="mt-5 text-sm leading-relaxed text-[#0B1220]/70">{c.desc}</p>
-                </motion.div>
+                    <p className="mt-5 text-sm leading-relaxed text-[#0B1220]/70">{c.desc}</p>
+                  </motion.div>
+                </Reveal>
               );
             })}
           </div>
-
         </div>
       </section>
 
-      {/* ENROLLMENT CTA */}
       <section className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
           <div
@@ -1537,329 +1514,350 @@ get replaced by AI. You lead with it
         </div>
       </section>
 
-      {/* DIAGNOSTIC */}
       <section id="diagnostic" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <SectionTitle
-            title="AI Career Diagnostic"
-            accentWord="(3 minutes)"
-            subtitle="A fast way to find your best-fit track — then apply with confidence."
-            dark
-          />
+          <SectionTitle title="AI Career Diagnostic" accentWord="(3 minutes)" subtitle="A fast way to find your best-fit track — then apply with confidence." dark />
           <div className="mt-10">
             <AIDiagnostic onResult={applyDiagnosticRecommendation} />
           </div>
         </div>
       </section>
 
-      {/* APPLICATION FORM (Multi-step) */}
       <section id="apply" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-12 sm:py-14">
-          <SectionTitle
-            title="Apply for an AI Track"
-            subtitle="Tell us about your background and goals. We’ll match you with the right AI program."
-          />
+          <SectionTitle title="Apply for an AI Track" subtitle="Tell us about your background and goals. We’ll match you with the right AI program." />
 
           <div className="mt-10 mx-auto max-w-[900px]">
-            <div>
-              <motion.div
-                variants={formWrapV}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, amount: 0.25 }}
-                className="relative rounded-[40px] p-[1px]"
-                style={{
-                  background: "#FFFFFF",
-                  backgroundSize: "200% 200%",
-                  animation: "gradMove 10s ease-in-out infinite",
-                  boxShadow: "0 26px 90px rgba(0,0,0,0.18)",
-                }}
-              >
-                <div className="relative rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
-                  <AnimatePresence>
-                    {submitted ? (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                        className="pointer-events-none absolute right-6 top-6 rounded-full px-4 py-2 text-xs font-semibold ring-1"
-                        style={{
-                          background: "rgba(52,211,153,0.18)",
-                          borderColor: "rgba(52,211,153,0.30)",
-                          color: "rgba(11,18,32,0.85)",
-                        }}
-                      >
-                        <span className="inline-flex items-center gap-2">
-                          <CheckCircle2 className="h-4 w-4" {...iconStrongProps} />
-                          Thank you. Your request has been received.
-                        </span>
-                      </motion.div>
-                    ) : null}
-                  </AnimatePresence>
+            <motion.div
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, amount: 0.25 }}
+              variants={{
+                hidden: { opacity: 0, y: 14 },
+                show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE_OUT } },
+              }}
+              className="relative rounded-[40px] p-[1px]"
+              style={{
+                background: "#FFFFFF",
+                backgroundSize: "200% 200%",
+                animation: "gradMove 10s ease-in-out infinite",
+                boxShadow: "0 26px 90px rgba(0,0,0,0.18)",
+              }}
+            >
+              <div className="relative rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
+                <AnimatePresence>
+                  {submitted ? (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 10, scale: 0.98 }}
+                      className="pointer-events-none absolute right-6 top-6 rounded-full px-4 py-2 text-xs font-semibold ring-1"
+                      style={{
+                        background: "rgba(52,211,153,0.18)",
+                        borderColor: "rgba(52,211,153,0.30)",
+                        color: "rgba(11,18,32,0.85)",
+                      }}
+                    >
+                      <span className="inline-flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4" {...iconStrongProps} />
+                        Thank you. Your request has been received.
+                      </span>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
 
-                  {/* Progress */}
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between">
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">PROGRESS</div>
-                      <div className="text-xs font-semibold text-[#0B1220]/70">{progress}%</div>
-                    </div>
-                    <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-[#0B1220]/10">
-                      <motion.div
-                        initial={false}
-                        animate={{ width: `${progress}%` }}
-                        transition={{ duration: 0.45, ease: "easeOut" }}
-                        className="h-full rounded-full"
-                        style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)` }}
-                      />
-                    </div>
-
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {steps.map((s, i) => (
-                        <span
-                          key={s}
-                          className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                          style={{
-                            background: i === step ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "rgba(11,18,32,0.06)",
-                            color: i === step ? "rgba(255,255,255,0.95)" : "rgba(11,18,32,0.70)",
-                            borderColor: "rgba(11,18,32,0.10)",
-                          }}
-                        >
-                          {i + 1}. {s}
-                        </span>
-                      ))}
-                    </div>
+                <div className="mb-6">
+                  <div className="flex items-center justify-between">
+                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">PROGRESS</div>
+                    <div className="text-xs font-semibold text-[#0B1220]/70">{progress}%</div>
+                  </div>
+                  <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-[#0B1220]/10">
+                    <motion.div
+                      initial={false}
+                      animate={{ width: `${progress}%` }}
+                      transition={{ duration: 0.45, ease: EASE_OUT }}
+                      className="h-full rounded-full"
+                      style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)` }}
+                    />
                   </div>
 
-                  {/* Step content */}
-                  <div className="space-y-5">
-                    {/* STEP 1 */}
-                    {step === 0 ? (
-                      <>
-                        <div className="text-lg font-semibold">Step 1 — Professional Background</div>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {steps.map((s, i) => (
+                      <span
+                        key={s}
+                        className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+                        style={{
+                          background: i === step ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "rgba(11,18,32,0.06)",
+                          color: i === step ? "rgba(255,255,255,0.95)" : "rgba(11,18,32,0.70)",
+                          borderColor: "rgba(11,18,32,0.10)",
+                        }}
+                      >
+                        {i + 1}. {s}
+                      </span>
+                    ))}
+                  </div>
+                </div>
 
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                          <Field label="Full Name" required>
-                            <Input icon={BadgeCheck} iconColor={THEME.accent2} placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
-                          </Field>
-                          <Field label="Email Address" required>
-                            <Input icon={Globe2} iconColor={THEME.accent} placeholder="name@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                          </Field>
-                        </div>
+                <div className="space-y-5">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={step}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      transition={{ duration: 0.25, ease: EASE_OUT }}
+                      className="space-y-5"
+                    >
+                      {step === 0 ? (
+                        <>
+                          <div className="text-lg font-semibold">Step 1 — Professional Background</div>
 
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                          <Field label="Phone Number (with country code)" required>
-                            <Input icon={Briefcase} iconColor={THEME.accent3} placeholder="+962 ..." value={phone} onChange={(e) => setPhone(e.target.value)} />
-                          </Field>
-                          <Field label="Current Role / Title" required>
-                            <Input icon={Briefcase} iconColor={THEME.accent4} placeholder="Software Engineer, Marketing Manager, Finance Analyst" value={roleTitle} onChange={(e) => setRoleTitle(e.target.value)} />
-                          </Field>
-                        </div>
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <Field label="Full Name" required>
+                              <Input icon={BadgeCheck} iconColor={THEME.accent2} placeholder="Your full name" value={fullName} onChange={(e) => setFullName(e.target.value)} />
+                            </Field>
+                            <Field label="Email Address" required>
+                              <Input icon={Globe2} iconColor={THEME.accent} placeholder="name@email.com" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            </Field>
+                          </div>
 
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                          <Field label="Industry" required>
-                            <Select
-                              icon={Building2}
-                              iconColor={THEME.accent2}
-                              value={industry}
-                              onChange={setIndustry}
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <Field label="Phone Number (with country code)" required>
+                              <Input icon={Briefcase} iconColor={THEME.accent3} placeholder="+962 ..." value={phone} onChange={(e) => setPhone(e.target.value)} />
+                            </Field>
+                            <Field label="Current Role / Title" required>
+                              <Input icon={Briefcase} iconColor={THEME.accent4} placeholder="Software Engineer, Marketing Manager, Finance Analyst" value={roleTitle} onChange={(e) => setRoleTitle(e.target.value)} />
+                            </Field>
+                          </div>
+
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <Field label="Industry" required>
+                              <Select
+                                icon={Building2}
+                                iconColor={THEME.accent2}
+                                value={industry}
+                                onChange={setIndustry}
+                                options={[
+                                  "Technology",
+                                  "Finance",
+                                  "Healthcare",
+                                  "Education",
+                                  "Government",
+                                  "Manufacturing",
+                                  "Consulting",
+                                  "Marketing",
+                                  "HR",
+                                  "Research",
+                                  "Startup / Entrepreneurship",
+                                  "Other",
+                                ]}
+                              />
+                            </Field>
+                            <Field label="Years of Experience" required>
+                              <Select icon={Calendar} iconColor={THEME.accent} value={experience} onChange={setExperience} options={["Student", "0–2 Years", "3–5 Years", "6–10 Years", "10+ Years"]} />
+                            </Field>
+                          </div>
+                        </>
+                      ) : null}
+
+                      {step === 1 ? (
+                        <>
+                          <div className="text-lg font-semibold">Step 2 — AI Goals & Interests</div>
+
+                          <Field label="Which AI Track Are You Interested In?" required hint="Multi-select">
+                            <TogglePills
+                              options={TRACK_LABELS}
+                              valueSet={interestTracks}
+                              onChange={(next) => {
+                                if (next.has("Not Sure – Recommend for Me") && next.size > 1) {
+                                  next.delete("Not Sure – Recommend for Me");
+                                }
+                                setInterestTracks(next);
+                              }}
+                            />
+                          </Field>
+
+                          <Field label="What Is Your Primary Goal?" required>
+                            <RadioRow
                               options={[
-                                "Technology",
-                                "Finance",
-                                "Healthcare",
-                                "Education",
-                                "Government",
-                                "Manufacturing",
-                                "Consulting",
-                                "Marketing",
-                                "HR",
-                                "Research",
-                                "Startup / Entrepreneurship",
+                                "Increase productivity in my current job",
+                                "Lead AI transformation in my organization",
+                                "Transition into an AI-related role",
+                                "Build AI-powered products",
+                                "Strengthen decision-making with AI",
+                                "Future-proof my career",
                                 "Other",
                               ]}
+                              value={goal}
+                              onChange={setGoal}
                             />
                           </Field>
-                          <Field label="Years of Experience" required>
-                            <Select icon={Calendar} iconColor={THEME.accent} value={experience} onChange={setExperience} options={["Student", "0–2 Years", "3–5 Years", "6–10 Years", "10+ Years"]} />
+
+                          <Field label="Current AI Knowledge Level" required>
+                            <RadioRow options={["Beginner", "Intermediate", "Advanced", "Technical AI Background"]} value={knowledge} onChange={setKnowledge} />
                           </Field>
-                        </div>
-                      </>
-                    ) : null}
 
-                    {/* STEP 2 */}
-                    {step === 1 ? (
-                      <>
-                        <div className="text-lg font-semibold">Step 2 — AI Goals & Interests</div>
+                          <Field label="Describe a challenge you want AI to help you solve" hint="Optional (max ~400 chars)">
+                            <Textarea value={challenge} onChange={(e) => setChallenge(e.target.value.slice(0, 400))} placeholder="e.g., automate reporting, improve customer onboarding, speed up research synthesis..." />
+                            <div className="mt-2 text-xs text-[#0B1220]/55">{challenge.length}/400</div>
+                          </Field>
+                        </>
+                      ) : null}
 
-                        <Field label="Which AI Track Are You Interested In?" required hint="Multi-select">
-                          <TogglePills
-                            options={TRACK_LABELS}
-                            valueSet={interestTracks}
-                            onChange={(next) => {
-                              if (next.has("Not Sure – Recommend for Me") && next.size > 1) {
-                                next.delete("Not Sure – Recommend for Me");
-                              }
-                              setInterestTracks(next);
-                            }}
-                          />
-                        </Field>
+                      {step === 2 ? (
+                        <>
+                          <div className="text-lg font-semibold">Step 3 — Program Preferences</div>
 
-                        <Field label="What Is Your Primary Goal?" required>
-                          <RadioRow
-                            options={[
-                              "Increase productivity in my current job",
-                              "Lead AI transformation in my organization",
-                              "Transition into an AI-related role",
-                              "Build AI-powered products",
-                              "Strengthen decision-making with AI",
-                              "Future-proof my career",
-                              "Other",
-                            ]}
-                            value={goal}
-                            onChange={setGoal}
-                          />
-                        </Field>
-
-                        <Field label="Current AI Knowledge Level" required>
-                          <RadioRow options={["Beginner", "Intermediate", "Advanced", "Technical AI Background"]} value={knowledge} onChange={setKnowledge} />
-                        </Field>
-
-                        <Field label="Describe a challenge you want AI to help you solve" hint="Optional (max ~400 chars)">
-                          <Textarea value={challenge} onChange={(e) => setChallenge(e.target.value.slice(0, 400))} placeholder="e.g., automate reporting, improve customer onboarding, speed up research synthesis..." />
-                          <div className="mt-2 text-xs text-[#0B1220]/55">{challenge.length}/400</div>
-                        </Field>
-                      </>
-                    ) : null}
-
-                    {/* STEP 3 */}
-                    {step === 2 ? (
-                      <>
-                        <div className="text-lg font-semibold">Step 3 — Program Preferences</div>
-
-                        <Field label="Preferred Start Time" required>
-                          <RadioRow
-                            options={["Next Cohort (Immediate)", "Within 1 Month", "Within 2–3 Months", "Just Exploring for Now"]}
-                            value={startTime}
-                            onChange={setStartTime}
-                          />
-                        </Field>
-
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                          <Field label="Preferred Time Commitment" required>
-                            <Select
-                              icon={Calendar}
-                              iconColor={THEME.accent4}
-                              value={timeCommitment}
-                              onChange={setTimeCommitment}
-                              options={["3 Weeks Intensive", "4–5 Weeks Balanced", "6–7 Weeks Advanced Track", "Flexible"]}
+                          <Field label="Preferred Start Time" required>
+                            <RadioRow
+                              options={["Next Cohort (Immediate)", "Within 1 Month", "Within 2–3 Months", "Just Exploring for Now"]}
+                              value={startTime}
+                              onChange={setStartTime}
                             />
                           </Field>
-                          <Field label="Weekly Availability" required>
-                            <Select icon={ListChecks} iconColor={THEME.accent3} value={weeklyAvail} onChange={setWeeklyAvail} options={["3–5 hours/week", "6–8 hours/week", "8–12 hours/week"]} />
+
+                          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            <Field label="Preferred Time Commitment" required>
+                              <Select
+                                icon={Calendar}
+                                iconColor={THEME.accent4}
+                                value={timeCommitment}
+                                onChange={setTimeCommitment}
+                                options={["3 Weeks Intensive", "4–5 Weeks Balanced", "6–7 Weeks Advanced Track", "Flexible"]}
+                              />
+                            </Field>
+                            <Field label="Weekly Availability" required>
+                              <Select icon={ListChecks} iconColor={THEME.accent3} value={weeklyAvail} onChange={setWeeklyAvail} options={["3–5 hours/week", "6–8 hours/week", "8–12 hours/week"]} />
+                            </Field>
+                          </div>
+
+                          <Field label="Are You Applying As" required>
+                            <RadioRow options={["Individual Self-Sponsored", "Company-Sponsored", "Considering Team Enrollment"]} value={applyingAs} onChange={setApplyingAs} />
                           </Field>
-                        </div>
+                        </>
+                      ) : null}
 
-                        <Field label="Are You Applying As" required>
-                          <RadioRow
-                            options={["Individual Self-Sponsored", "Company-Sponsored", "Considering Team Enrollment"]}
-                            value={applyingAs}
-                            onChange={setApplyingAs}
-                          />
-                        </Field>
-                      </>
-                    ) : null}
+                      {step === 3 ? (
+                        <>
+                          <div className="text-lg font-semibold">Step 4 — Professional Impact</div>
 
-                    {/* STEP 4 */}
-                    {step === 3 ? (
-                      <>
-                        <div className="text-lg font-semibold">Step 4 — Professional Impact</div>
+                          <Field label="What Outcome Matters Most to You?" required hint="Multi-select">
+                            <TogglePills options={OUTCOMES} valueSet={outcomes} onChange={setOutcomes} />
+                          </Field>
 
-                        <Field label="What Outcome Matters Most to You?" required hint="Multi-select">
-                          <TogglePills options={OUTCOMES} valueSet={outcomes} onChange={setOutcomes} />
-                        </Field>
+                          <Field label="LinkedIn Profile" hint="Optional but recommended">
+                            <Input icon={Rocket} iconColor={THEME.accent2} placeholder="https://linkedin.com/in/" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} />
+                          </Field>
 
-                        <Field label="LinkedIn Profile" hint="Optional but recommended">
-                          <Input icon={Rocket} iconColor={THEME.accent2} placeholder="https://linkedin.com/in/" value={linkedin} onChange={(e) => setLinkedin(e.target.value)} />
-                        </Field>
-
-                        <div className="rounded-3xl bg-white/50 p-5 ring-1 ring-[#0B1220]/10">
-                          <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">TRACK CONTEXT</div>
-                          <div className="mt-2 text-sm text-[#0B1220]/75">
-                            Selected track family: <span className="font-semibold">{track.label}</span>
-                          </div>
-                          <div className="mt-1 text-sm text-[#0B1220]/65">{track.desc}</div>
-                        </div>
-                      </>
-                    ) : null}
-
-                    {/* STEP 5 */}
-                    {step === 4 ? (
-                      <>
-                        <div className="text-lg font-semibold">Step 5 — Final Confirmation</div>
-
-                        <div className="rounded-3xl bg-white/60 p-5 ring-1 ring-[#0B1220]/10">
-                          <div className="text-sm font-semibold">Review summary</div>
-                          <div className="mt-3 grid grid-cols-1 gap-3 text-sm text-[#0B1220]/75 sm:grid-cols-2">
-                            <div><span className="font-semibold">Name:</span> {fullName || "—"}</div>
-                            <div><span className="font-semibold">Email:</span> {email || "—"}</div>
-                            <div><span className="font-semibold">Role:</span> {roleTitle || "—"}</div>
-                            <div><span className="font-semibold">Industry:</span> {industry}</div>
-                            <div className="sm:col-span-2">
-                              <span className="font-semibold">Interested tracks:</span> {[...interestTracks].join(", ") || "—"}
+                          <div className="rounded-3xl bg-white/50 p-5 ring-1 ring-[#0B1220]/10">
+                            <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">TRACK CONTEXT</div>
+                            <div className="mt-2 text-sm text-[#0B1220]/75">
+                              Selected track family: <span className="font-semibold">{track.label}</span>
                             </div>
-                            <div className="sm:col-span-2">
-                              <span className="font-semibold">Outcomes:</span> {[...outcomes].join(", ") || "—"}
+                            <div className="mt-1 text-sm text-[#0B1220]/65">{track.desc}</div>
+                          </div>
+                        </>
+                      ) : null}
+
+                      {step === 4 ? (
+                        <>
+                          <div className="text-lg font-semibold">Step 5 — Final Confirmation</div>
+
+                          <div className="rounded-3xl bg-white/60 p-5 ring-1 ring-[#0B1220]/10">
+                            <div className="text-sm font-semibold">Review summary</div>
+                            <div className="mt-3 grid grid-cols-1 gap-3 text-sm text-[#0B1220]/75 sm:grid-cols-2">
+                              <div><span className="font-semibold">Name:</span> {fullName || "—"}</div>
+                              <div><span className="font-semibold">Email:</span> {email || "—"}</div>
+                              <div><span className="font-semibold">Role:</span> {roleTitle || "—"}</div>
+                              <div><span className="font-semibold">Industry:</span> {industry}</div>
+                              <div className="sm:col-span-2">
+                                <span className="font-semibold">Interested tracks:</span> {[...interestTracks].join(", ") || "—"}
+                              </div>
+                              <div className="sm:col-span-2">
+                                <span className="font-semibold">Outcomes:</span> {[...outcomes].join(", ") || "—"}
+                              </div>
                             </div>
                           </div>
-                        </div>
 
-                        <button
-                          type="button"
-                          onClick={() => setConsent((v) => !v)}
-                          className="flex w-full items-center justify-between rounded-2xl bg-white/60 px-4 py-4 text-left ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
-                        >
-                          <div className="flex items-start gap-3">
-                            <span
-                              className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-md ring-1"
-                              style={{
-                                background: consent ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "transparent",
-                                borderColor: "rgba(11,18,32,0.18)",
-                              }}
-                            >
-                              {consent ? <CheckCircle2 className="h-4 w-4 text-white" {...iconStrongProps} /> : null}
-                            </span>
-                            <div>
-                              <div className="text-sm font-semibold text-[#0B1220]">I agree to be contacted regarding AI program enrollment and updates.</div>
-                              <div className="mt-1 text-xs text-[#0B1220]/55">Required to proceed.</div>
-                            </div>
-                          </div>
-                          <span className="text-xs font-semibold text-[#0B1220]/55">{consent ? "Enabled" : "Disabled"}</span>
-                        </button>
-                      </>
-                    ) : null}
-
-                    {/* Actions */}
-                    <div className="pt-2">
-                      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                        <button
-                          type="button"
-                          onClick={() => setStep((s) => Math.max(0, s - 1))}
-                          disabled={step === 0 || submitting}
-                          className={cx(
-                            "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ring-1 transition",
-                            step === 0 || submitting ? "cursor-not-allowed opacity-50" : "hover:bg-[#0B1220]/5",
-                            "bg-white/60 text-[#0B1220] ring-[#0B1220]/10"
-                          )}
-                        >
-                          <ChevronLeft className="h-4 w-4" {...iconStrongProps} />
-                          Back
-                        </button>
-
-                        {step < steps.length - 1 ? (
                           <motion.button
                             type="button"
-                            whileHover={{ scale: canNext ? 1.01 : 1 }}
-                            whileTap={{ scale: canNext ? 0.99 : 1 }}
-                            onClick={() => canNext && setStep((s) => Math.min(steps.length - 1, s + 1))}
+                            onClick={() => setConsent((v) => !v)}
+                            whileHover={{ y: -1 }}
+                            whileTap={{ scale: 0.99 }}
+                            className="flex w-full items-center justify-between rounded-2xl bg-white/60 px-4 py-4 text-left ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
+                          >
+                            <div className="flex items-start gap-3">
+                              <span
+                                className="mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-md ring-1"
+                                style={{
+                                  background: consent ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "transparent",
+                                  borderColor: "rgba(11,18,32,0.18)",
+                                }}
+                              >
+                                {consent ? <CheckCircle2 className="h-4 w-4 text-white" {...iconStrongProps} /> : null}
+                              </span>
+                              <div>
+                                <div className="text-sm font-semibold text-[#0B1220]">I agree to be contacted regarding AI program enrollment and updates.</div>
+                                <div className="mt-1 text-xs text-[#0B1220]/55">Required to proceed.</div>
+                              </div>
+                            </div>
+                            <span className="text-xs font-semibold text-[#0B1220]/55">{consent ? "Enabled" : "Disabled"}</span>
+                          </motion.button>
+                        </>
+                      ) : null}
+                    </motion.div>
+                  </AnimatePresence>
+
+                  <div className="pt-2">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                      <button
+                        type="button"
+                        onClick={goBack}
+                        disabled={step === 0 || submitting}
+                        className={cx(
+                          "inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold ring-1 transition",
+                          step === 0 || submitting ? "cursor-not-allowed opacity-50" : "hover:bg-[#0B1220]/5",
+                          "bg-white/60 text-[#0B1220] ring-[#0B1220]/10"
+                        )}
+                      >
+                        <ChevronLeft className="h-4 w-4" {...iconStrongProps} />
+                        Back
+                      </button>
+
+                      {step < steps.length - 1 ? (
+                        <motion.button
+                          type="button"
+                          whileHover={{ scale: canNext ? 1.01 : 1 }}
+                          whileTap={{ scale: canNext ? 0.99 : 1 }}
+                          onClick={goNext}
+                          disabled={!canNext || submitting}
+                          className={cx(
+                            "relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition sm:w-auto",
+                            !canNext || submitting ? "cursor-not-allowed opacity-60" : ""
+                          )}
+                          style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
+                        >
+                          <span className="relative z-10 inline-flex items-center gap-2">
+                            Next <ChevronRight className="h-4 w-4" {...iconStrongProps} />
+                          </span>
+                          <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
+                            <span className="shine" />
+                          </span>
+                        </motion.button>
+                      ) : (
+                        <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+                          <a
+                            href="#"
+                            onClick={(e) => e.preventDefault()}
+                            className="inline-flex items-center justify-center gap-2 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/10 transition hover:bg-white/70"
+                          >
+                            Schedule AI Consultation <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                          </a>
+                          <motion.button
+                            type="button"
+                            whileHover={{ scale: canNext && !submitting ? 1.01 : 1 }}
+                            whileTap={{ scale: canNext && !submitting ? 0.99 : 1 }}
+                            onClick={() => canNext && !submitting && resetAndSubmit()}
                             disabled={!canNext || submitting}
                             className={cx(
                               "relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition sm:w-auto",
@@ -1868,51 +1866,20 @@ get replaced by AI. You lead with it
                             style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
                           >
                             <span className="relative z-10 inline-flex items-center gap-2">
-                              Next <ChevronRight className="h-4 w-4" {...iconStrongProps} />
+                              {submitting ? "Submitting..." : "Apply Now"}
+                              <ArrowRight className="h-4 w-4" {...iconStrongProps} />
                             </span>
                             <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
                               <span className="shine" />
                             </span>
                           </motion.button>
-                        ) : (
-                          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-                            <a
-                              href="#"
-                              onClick={(e) => e.preventDefault()}
-                              className="inline-flex items-center justify-center gap-2 rounded-full bg-white/60 px-5 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/10 transition hover:bg-white/70"
-                            >
-                              Schedule AI Consultation <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                            </a>
-                            <motion.button
-                              type="button"
-                              whileHover={{ scale: canNext && !submitting ? 1.01 : 1 }}
-                              whileTap={{ scale: canNext && !submitting ? 0.99 : 1 }}
-                              onClick={() => canNext && !submitting && resetAndSubmit()}
-                              disabled={!canNext || submitting}
-                              className={cx(
-                                "relative w-full overflow-hidden rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition sm:w-auto",
-                                !canNext || submitting ? "cursor-not-allowed opacity-60" : ""
-                              )}
-                              style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
-                            >
-                              <span className="relative z-10 inline-flex items-center gap-2">
-                                {submitting ? "Submitting..." : "Apply Now"}
-                                <ArrowRight className="h-4 w-4" {...iconStrongProps} />
-                              </span>
-                              <span className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 hover:opacity-100">
-                                <span className="shine" />
-                              </span>
-                            </motion.button>
-                          </div>
-                        )}
-                      </div>
-
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            </div>
-
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -1923,7 +1890,7 @@ get replaced by AI. You lead with it
 }
 
 /* =========================
-   CSS
+   CSS (COLORS UNCHANGED, ADDED ONLY ANIMATION UTILS)
 ========================= */
 const css = `
   .light-streak{
@@ -1972,37 +1939,12 @@ const css = `
     display: none;
   }
 
-  .include-pill{
-    position: relative;
-    overflow: hidden;
-    transition: transform 220ms ease, filter 220ms ease;
-  }
-  .include-pill:hover{
-    transform: translateY(-1px);
-    filter: brightness(1.04);
-  }
-  .include-pill::after{
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.20) 45%, transparent 70%);
-    transform: translateX(-120%);
-    animation: includeShine 3.2s ease-in-out infinite;
-    pointer-events: none;
-    opacity: 0.55;
-  }
-  @keyframes includeShine{
-    0%, 62%, 100%{ transform: translateX(-120%); }
-    78%{ transform: translateX(120%); }
-  }
-
   @keyframes gradMove{
     0%{ background-position: 0% 50%; }
     50%{ background-position: 100% 50%; }
     100%{ background-position: 0% 50%; }
   }
 
-  /* Neural lines */
   .neural{
     position:absolute;
     inset:-40% -40%;
@@ -2023,29 +1965,9 @@ const css = `
     100%{ transform: translateX(-2%) translateY(0%) rotate(-8deg); }
   }
 
-  /* Subtle film grain */
   .noise{
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E");
     opacity: .08;
     mix-blend-mode: overlay;
-  }
-
-  /* Marquee */
-  .marquee{
-    display:flex;
-    gap:22px;
-    white-space:nowrap;
-    width:max-content;
-    animation: marquee 14s linear infinite;
-  }
-  .marquee span{
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.10);
-    background: rgba(255,255,255,0.06);
-  }
-  @keyframes marquee{
-    0%{ transform: translateX(0); }
-    100%{ transform: translateX(-50%); }
   }
 `;
