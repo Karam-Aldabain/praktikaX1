@@ -904,7 +904,7 @@ function ProgramModal({ open, program, onClose, onApply }) {
     <AnimatePresence>
       {open && program ? (
         <motion.div
-          className="fixed inset-0 z-[80] grid place-items-center px-4"
+          className="fixed inset-0 z-[80] overflow-y-auto px-3 py-3 sm:grid sm:place-items-center sm:px-4 sm:py-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -921,7 +921,7 @@ function ProgramModal({ open, program, onClose, onApply }) {
           />
 
           <motion.div
-            className="relative w-full max-w-3xl overflow-hidden rounded-[44px] ring-1 ring-white/10"
+            className="relative w-full max-w-3xl overflow-hidden rounded-[32px] ring-1 ring-white/10 sm:rounded-[44px]"
             initial={{ y: 18, opacity: 0, scale: 0.985 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 18, opacity: 0, scale: 0.985 }}
@@ -930,6 +930,7 @@ function ProgramModal({ open, program, onClose, onApply }) {
               background: "linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.05) 100%)",
               boxShadow: "0 40px 140px rgba(0,0,0,0.55)",
               backdropFilter: "blur(14px)",
+              maxHeight: "calc(100dvh - 24px)",
             }}
           >
             {/* Cover */}
@@ -959,7 +960,7 @@ function ProgramModal({ open, program, onClose, onApply }) {
             </div>
 
             {/* Body */}
-            <div className="p-6 sm:p-7">
+            <div className="max-h-[calc(100dvh-244px)] overflow-y-auto p-4 sm:max-h-[calc(92vh-220px)] sm:p-7">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div className="rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
                   <div className="flex items-center gap-2 text-xs font-semibold text-white/65">
@@ -1038,7 +1039,8 @@ function ProgramModal({ open, program, onClose, onApply }) {
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="sticky bottom-0 -mx-4 mt-6 border-t border-white/10 bg-[#0B1220]/85 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-6 sm:border-0 sm:bg-transparent sm:p-0">
+                <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <button
                   type="button"
                   onClick={() => onApply?.(program)}
@@ -1055,6 +1057,7 @@ function ProgramModal({ open, program, onClose, onApply }) {
                 >
                   Close
                 </button>
+                </div>
               </div>
             </div>
           </motion.div>
