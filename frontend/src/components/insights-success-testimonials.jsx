@@ -809,8 +809,8 @@ function MapRoute() {
           <div className="lg:col-span-2">
             <div className="relative h-full overflow-hidden rounded-[32px] p-5 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
 
-              <div className="mt-4 rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
-                <svg viewBox="0 0 520 220" className="h-[180px] w-full">
+              <div className="mt-4 rounded-3xl p-3 ring-1 ring-white/10 sm:p-4" style={{ background: "rgba(255,255,255,0.03)" }}>
+                <svg viewBox="0 0 520 220" className="h-[150px] w-full sm:h-[180px]">
                   <defs>
                     <linearGradient id="routeGrad" x1="0" y1="0" x2="1" y2="0">
                       <stop offset="0%" stopColor={THEME.accent} stopOpacity="0.95" />
@@ -872,16 +872,29 @@ function MapRoute() {
               </div>
 
               <div className="mt-4 rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
-                <div className="mt-3 grid grid-cols-3 gap-2">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-white/10"
-                      style={{
-                        background:
-                          "linear-gradient(135deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 100%)",
-                      }}
-                    />
+                <div className="no-scrollbar mt-3 grid grid-flow-col auto-cols-[78%] gap-3 overflow-x-auto sm:grid-flow-row sm:auto-cols-auto sm:grid-cols-3 sm:gap-2 sm:overflow-visible">
+                  {[
+                    {
+                      src: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                      alt: "Learners collaborating in a practical workshop",
+                    },
+                    {
+                      src: "https://images.pexels.com/photos/8197544/pexels-photo-8197544.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                      alt: "Student presenting ideas to a team",
+                    },
+                    {
+                      src: "https://images.pexels.com/photos/1181406/pexels-photo-1181406.jpeg?auto=compress&cs=tinysrgb&w=1200",
+                      alt: "Hands-on project review on laptops",
+                    },
+                  ].map((photo, i) => (
+                    <div key={i} className="aspect-[16/10] overflow-hidden rounded-2xl ring-1 ring-white/10 sm:aspect-[4/3]">
+                      <img
+                        src={photo.src}
+                        alt={photo.alt}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
                   ))}
                 </div>
               </div>
