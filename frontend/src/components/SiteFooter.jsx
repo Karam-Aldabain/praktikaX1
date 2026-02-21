@@ -26,19 +26,19 @@ export default function SiteFooter() {
           </p>
 
           <div className="mt-4 flex items-center gap-2">
-            <SocialLink href="#" label="Facebook" dark={isDark}>
+            <SocialLink href="https://www.facebook.com/share/1LF6ieK5oA/" label="Facebook" dark={isDark}>
               <Facebook size={17} />
             </SocialLink>
-            <SocialLink href="mailto:info@praktix.eu" label="Email" dark={isDark}>
+            <SocialLink href="mailto:info@praktix.hopn.eu" label="Email" dark={isDark}>
               <Mail size={17} />
             </SocialLink>
             <SocialLink href="#" label="WhatsApp" dark={isDark}>
               <WhatsAppIcon />
             </SocialLink>
-            <SocialLink href="#" label="LinkedIn" dark={isDark}>
+            <SocialLink href="https://www.linkedin.com/company/praktixx/" label="LinkedIn" dark={isDark}>
               <Linkedin size={17} />
             </SocialLink>
-            <SocialLink href="#" label="Instagram" dark={isDark}>
+            <SocialLink href="https://www.instagram.com/praktix.eu?igsh=dXp2Mm4ydXlmNnF4" label="Instagram" dark={isDark}>
               <Instagram size={17} />
             </SocialLink>
           </div>

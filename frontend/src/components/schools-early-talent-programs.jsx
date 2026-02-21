@@ -1289,20 +1289,73 @@ export default function SchoolsEarlyTalentLanding() {
                 </motion.div>
               ))}
 
-              <div className="absolute inset-x-4 top-5 grid grid-cols-1 gap-2 sm:hidden">
-                {heroIcons.map((x) => (
-                  <div
-                    key={`mobile-${x.label}`}
-                    className="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/12 backdrop-blur"
-                    style={{ boxShadow: "0 12px 36px rgba(0,0,0,0.24)" }}
+              <div className="absolute inset-0 sm:hidden">
+                <svg className="pointer-events-none absolute inset-0 h-full w-full" viewBox="0 0 320 260" fill="none" preserveAspectRatio="none">
+                  <motion.path
+                    d="M76 68 C 124 62, 166 62, 230 68"
+                    stroke={accent(0.62)}
+                    strokeWidth="2.6"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0.2, opacity: 0.2 }}
+                    animate={{ pathLength: [0.2, 1, 0.2], opacity: [0.2, 0.85, 0.2] }}
+                    transition={{ duration: 5.8, ease: "easeInOut", repeat: Infinity }}
+                  />
+                  <motion.path
+                    d="M76 68 C 70 114, 72 144, 76 176"
+                    stroke="rgba(34,211,238,0.62)"
+                    strokeWidth="2.6"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0.2, opacity: 0.2 }}
+                    animate={{ pathLength: [0.2, 1, 0.2], opacity: [0.2, 0.85, 0.2] }}
+                    transition={{ duration: 5.2, ease: "easeInOut", repeat: Infinity, delay: 0.35 }}
+                  />
+                  <motion.path
+                    d="M230 68 C 238 118, 242 146, 234 176"
+                    stroke="rgba(52,211,153,0.58)"
+                    strokeWidth="2.6"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0.2, opacity: 0.2 }}
+                    animate={{ pathLength: [0.2, 1, 0.2], opacity: [0.2, 0.8, 0.2] }}
+                    transition={{ duration: 6.4, ease: "easeInOut", repeat: Infinity, delay: 0.65 }}
+                  />
+                  <motion.path
+                    d="M76 176 C 126 188, 174 188, 234 176"
+                    stroke="rgba(167,139,250,0.56)"
+                    strokeWidth="2.6"
+                    strokeLinecap="round"
+                    initial={{ pathLength: 0.2, opacity: 0.2 }}
+                    animate={{ pathLength: [0.2, 1, 0.2], opacity: [0.2, 0.8, 0.2] }}
+                    transition={{ duration: 5.9, ease: "easeInOut", repeat: Infinity, delay: 0.5 }}
+                  />
+                </svg>
+
+                {[
+                  { x: heroIcons[0], left: "13%", top: "17%", delay: 0, width: "40%" },
+                  { x: heroIcons[1], left: "45%", top: "17%", delay: 0.15, width: "40%" },
+                  { x: heroIcons[2], left: "13%", top: "48%", delay: 0.3, width: "40%" },
+                  { x: heroIcons[3], left: "45%", top: "48%", delay: 0.45, width: "40%" },
+                ].map((n) => (
+                  <motion.div
+                    key={`mobile-node-${n.x.label}`}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, ease: "easeOut" }}
+                    className="absolute rounded-2xl bg-white/6 px-3 py-2.5 ring-1 ring-white/12 backdrop-blur"
+                    style={{ left: n.left, top: n.top, width: n.width, boxShadow: "0 12px 32px rgba(0,0,0,0.24)" }}
                   >
-                    <div className="flex items-center gap-3">
-                      <IconBadge color={x.color} size={32}>
-                        <x.Icon className="h-4 w-4" {...iconStrongProps} />
+                    <div className="flex items-center gap-2.5">
+                      <IconBadge color={n.x.color} size={28}>
+                        <n.x.Icon className="h-3.5 w-3.5" {...iconStrongProps} />
                       </IconBadge>
-                      <div className="text-sm font-semibold text-white">{x.label}</div>
+                      <div className="truncate text-lg font-semibold text-white">{n.x.label}</div>
                     </div>
-                  </div>
+                    <motion.span
+                      className="pointer-events-none absolute -right-1 -top-1 h-2.5 w-2.5 rounded-full"
+                      style={{ background: n.x.color, boxShadow: `0 0 12px ${n.x.color}` }}
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.7, 1, 0.7] }}
+                      transition={{ duration: 2.3, repeat: Infinity, ease: "easeInOut", delay: n.delay }}
+                    />
+                  </motion.div>
                 ))}
               </div>
 
@@ -1375,20 +1428,28 @@ export default function SchoolsEarlyTalentLanding() {
 
               <div className="mt-6 grid grid-cols-2 gap-4">
                 <div className="relative overflow-hidden rounded-3xl bg-white/70 p-4 ring-1 ring-[#0B1220]/10">
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">LEFT</div>
-                  <div className="mt-2 text-sm font-semibold text-[#0B1220]">Exploring</div>
-                  <div className="mt-2 text-xs text-[#0B1220]/60">Child experimenting with a tablet / kit.</div>
-                  <div className="mt-4 h-28 rounded-2xl bg-[#0B1220]/5" />
+                  <div className="mt-4 h-28 overflow-hidden rounded-2xl bg-[#0B1220]/5">
+                    <img
+                      src="https://images.pexels.com/photos/4145077/pexels-photo-4145077.jpeg?auto=compress&cs=tinysrgb&w=1200"
+                      alt="Child experimenting with a tablet"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
                   <div className="pointer-events-none absolute inset-0 opacity-25">
                     <div className="soft-sweep" />
                   </div>
                 </div>
 
                 <div className="relative overflow-hidden rounded-3xl bg-white/70 p-4 ring-1 ring-[#0B1220]/10">
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">RIGHT</div>
-                  <div className="mt-2 text-sm font-semibold text-[#0B1220]">Presenting</div>
-                  <div className="mt-2 text-xs text-[#0B1220]/60">Same student demoing a small project.</div>
-                  <div className="mt-4 h-28 rounded-2xl bg-[#0B1220]/5" />
+                  <div className="mt-4 h-28 overflow-hidden rounded-2xl bg-[#0B1220]/5">
+                    <img
+                      src="/curiosity-presenting.png"
+                      alt="Student demoing a small project"
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
                   <div className="pointer-events-none absolute inset-0 opacity-25">
                     <div className="soft-sweep" style={{ animationDelay: "1.4s" }} />
                   </div>
@@ -1416,8 +1477,6 @@ export default function SchoolsEarlyTalentLanding() {
                   </div>
 
                   <div className="mt-3 flex items-center justify-between text-xs font-semibold text-[#0B1220]/70">
-                    <span>Curiosity</span>
-                    <span>Capability</span>
                   </div>
                 </div>
               </div>

@@ -581,10 +581,38 @@ const companyPrograms = [
   },
 ];
 const expertCards = [
-  { name: "European Industry Experts", role: "Hands-on practitioners", icon: Building2, color: THEME.accent },
-  { name: "Top University Professors", role: "Academic rigor + relevance", icon: GraduationCap, color: THEME.accent2 },
-  { name: "Senior Consultants", role: "Field-proven delivery", icon: LineChart, color: THEME.accent3 },
-  { name: "Program Leads", role: "Structured milestones", icon: ListChecks, color: THEME.accent4 },
+  {
+    name: "European Industry Experts",
+    role: "Hands-on practitioners",
+    icon: Building2,
+    color: THEME.accent,
+    photo: "https://images.pexels.com/photos/1181396/pexels-photo-1181396.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photoPosition: "center 38%",
+  },
+  {
+    name: "Top University Professors",
+    role: "Academic rigor + relevance",
+    icon: GraduationCap,
+    color: THEME.accent2,
+    photo: "https://images.pexels.com/photos/5212700/pexels-photo-5212700.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photoPosition: "center 30%",
+  },
+  {
+    name: "Senior Consultants",
+    role: "Field-proven delivery",
+    icon: LineChart,
+    color: THEME.accent3,
+    photo: "https://images.pexels.com/photos/3184357/pexels-photo-3184357.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photoPosition: "center 20%",
+  },
+  {
+    name: "Program Leads",
+    role: "Structured milestones",
+    icon: ListChecks,
+    color: THEME.accent4,
+    photo: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    photoPosition: "center 45%",
+  },
 ];
 
 const deliveryItems = [
@@ -2155,19 +2183,19 @@ export default function OrganizationsLanding() {
                       <Icon className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
                     <div>
-                      <div className="mt-1 text-lg font-semibold text-[#0B1220]}">{c.name}</div>
+                      <div className="mt-1 text-lg font-semibold text-[#0B1220]">{c.name}</div>
                       <div className="mt-1 text-sm text-[#0B1220]/70">{c.role}</div>
                     </div>
                   </div>
 
                   <div className="mt-6 h-32 overflow-hidden rounded-3xl ring-1 ring-[#0B1220]/10">
-                    {/* Portrait grid placeholder */}
-                    <div
-                      className="h-full w-full"
-                      style={{
-                        background:
-                          "radial-gradient(120px circle at 25% 35%, rgba(34,211,238,0.18), transparent 60%), radial-gradient(120px circle at 70% 35%, rgba(167,139,250,0.16), transparent 60%), radial-gradient(120px circle at 45% 75%, rgba(52,211,153,0.14), transparent 60%), rgba(11,18,32,0.04)",
-                      }}
+                    <img
+                      src={c.photo}
+                      alt={c.name}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      style={{ objectPosition: c.photoPosition || "center" }}
                     />
                   </div>
 
