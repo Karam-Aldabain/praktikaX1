@@ -850,9 +850,7 @@ function DeliverablesSlider() {
                     <Icon className="h-5 w-5" {...iconStrongProps} />
                   </IconBadge>
                   <div className="flex-1">
-                    <div className="text-xs font-semibold tracking-widest text-white/60">
-                      DELIVERABLES
-                    </div>
+                   
                     <div className="mt-1 text-lg font-semibold text-white">{d.group}</div>
                   </div>
                 </div>
@@ -1186,7 +1184,6 @@ function GlobalExposure() {
               "radial-gradient(900px circle at 20% 20%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 60%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
           }}
         >
-          <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHY IT MATTERS</div>
           <div className="mt-2 text-2xl font-semibold leading-tight">
             Your work becomes a signal — not a line on a CV.
           </div>

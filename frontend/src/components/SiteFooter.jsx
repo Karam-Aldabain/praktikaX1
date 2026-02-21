@@ -13,7 +13,7 @@ export default function SiteFooter() {
         isDark ? "border-white/10 bg-[#141D26] text-[#E2E2D2]" : "border-black/10 bg-[#E2E2D2] text-[#141D26]",
       ].join(" ")}
     >
-      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-7 sm:px-6 lg:grid-cols-5 lg:gap-8 lg:px-8">
+      <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-7 sm:px-6 lg:grid-cols-4 lg:gap-8 lg:px-8">
         <div>
           <h3 className="text-2xl font-extrabold leading-tight">Praktix</h3>
           <p
@@ -43,13 +43,6 @@ export default function SiteFooter() {
             </SocialLink>
           </div>
         </div>
-
-        <FooterCol title="Explore">
-          <FooterLink href="/for-individuals" dark={isDark}>For Individuals</FooterLink>
-          <FooterLink href="/for-organizations" dark={isDark}>For Organizations</FooterLink>
-          <FooterLink href="/insights" dark={isDark}>Insights</FooterLink>
-          <FooterLink href="/about/mission-vision" dark={isDark}>About</FooterLink>
-        </FooterCol>
 
         <FooterCol title="Participate">
           <FooterLink href="/contact" dark={isDark}>Become a Partner</FooterLink>

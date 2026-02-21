@@ -407,11 +407,10 @@ function MergeScene() {
     offset: ["start 0.85", "end 0.45"],
   });
 
-  const leftX = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 140]);
-  const rightX = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -140]);
+  const leftX = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, 72]);
+  const rightX = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [0, -72]);
   const leftRot = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [-3, 0]);
   const rightRot = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [3, 0]);
-  const midOpacity = useTransform(scrollYProgress, [0.25, 0.85], [0, 1]);
   const midScale = useTransform(scrollYProgress, [0.25, 0.85], reduce ? [1, 1] : [0.96, 1]);
 
   return (
@@ -436,7 +435,6 @@ function MergeScene() {
                     <GraduationCap className="h-5 w-5" {...iconStrongProps} />
                   </IconBadge>
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">CLASSROOM</div>
                     <div className="mt-1 text-lg font-semibold text-[#0B1220]">Theory advances.</div>
                   </div>
                 </div>
@@ -478,7 +476,6 @@ function MergeScene() {
                     <Briefcase className="h-5 w-5" {...iconStrongProps} />
                   </IconBadge>
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">INDUSTRY</div>
                     <div className="mt-1 text-lg font-semibold text-[#0B1220]">Technology evolves.</div>
                   </div>
                 </div>
@@ -507,7 +504,6 @@ function MergeScene() {
         className="relative mt-6 overflow-hidden rounded-[36px] ring-1"
         style={{
           ...glassLight,
-          opacity: midOpacity,
           scale: midScale,
         }}
       >
@@ -548,7 +544,6 @@ function IntersectionDiagram() {
       <div className="relative">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <div className="text-xs font-semibold tracking-widest text-white/60">THE BIGGER PICTURE</div>
             <div className="mt-2 text-2xl font-semibold text-white">More than programs.</div>
             <p className="mt-2 max-w-2xl text-sm text-white/70">
               Praktix is a professional development system at the intersection of:
@@ -856,7 +851,6 @@ export default function AboutMissionVisionPage() {
                         <Compass className="h-5 w-5" {...iconStrongProps} />
                       </IconBadge>
                       <div>
-                        <div className="text-xs font-semibold tracking-widest text-white/60">SIGNAL</div>
                         <div className="mt-1 text-sm font-semibold text-white">
                           From learning → to deliverables
                         </div>
@@ -892,7 +886,6 @@ export default function AboutMissionVisionPage() {
                           <Shield className="h-5 w-5" {...iconStrongProps} />
                         </IconBadge>
                         <div>
-                          <div className="text-xs font-semibold tracking-widest text-white/85">PROMISE</div>
                           <div className="mt-1 text-sm font-semibold text-white">
                             Structured. Confident. Measurable.
                           </div>
@@ -918,7 +911,6 @@ export default function AboutMissionVisionPage() {
                         <RocketIcon className="h-5 w-5" {...iconStrongProps} />
                       </IconBadge>
                       <div>
-                        <div className="text-xs font-semibold tracking-widest text-white/60">OUTCOME</div>
                         <div className="mt-1 text-sm font-semibold text-white">
                           Professional performance readiness
                         </div>

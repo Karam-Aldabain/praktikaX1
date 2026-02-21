@@ -1007,13 +1007,7 @@ export default function AIForOrganizationsLanding() {
       {/* PROGRAM CATEGORIES */}
       <section id="programs" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle
-            eyebrow="CORE AI PROGRAM CATEGORIES"
-            title="Switch categories"
-            accentWord="and explore programs"
-            subtitle="Clickable switcher with horizontal scroll cards (executive-friendly)."
-            dark
-          />
+      
 
           {/* tabs */}
           <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

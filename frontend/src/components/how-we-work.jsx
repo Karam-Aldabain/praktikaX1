@@ -709,7 +709,6 @@ function Hero() {
             <CardShell className="p-6">
               <div className="flex items-center justify-between gap-4">
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-white/60">MODEL SIGNAL</div>
                   <div className="mt-2 text-xl font-semibold text-white">Execution-first outcomes</div>
                   <div className="mt-2 text-sm text-white/70">
                     A system designed to produce <span style={{ color: THEME.accent }}>performance</span>, not participation.
@@ -936,8 +935,6 @@ function PipelineBar({ color }) {
   return (
     <div className="rounded-3xl bg-white/5 p-5 ring-1 ring-white/10">
       <div className="flex items-center justify-between gap-4">
-        <div className="text-sm font-semibold text-white">Execution pipeline</div>
-        <div className="text-xs font-semibold text-white/60">Workflow moves left → right</div>
       </div>
 
       <div className="mt-4 overflow-hidden rounded-full bg-white/10 p-1">
@@ -1119,7 +1116,6 @@ function DeliveryFormats() {
                             <current.icon className="h-4 w-4" {...iconStrongProps} />
                           </IconBadge>
                           <div>
-                            <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">SELECTED FORMAT</div>
                             <div className="mt-1 text-xl font-semibold text-[#0B1220]">{current.label}</div>
                           </div>
                         </div>
@@ -1219,7 +1215,6 @@ function ExpertEcosystem() {
                           <Icon className="h-4.5 w-4.5" {...iconStrongProps} />
                         </IconBadge>
                         <div>
-                          <div className="text-xs font-semibold tracking-widest text-white/60">GUIDED BY</div>
                           <div className="mt-1 text-lg font-semibold text-white">{e.role}</div>
                         </div>
                       </div>
@@ -1270,7 +1265,6 @@ function AILayer() {
                     <Flame className="h-4.5 w-4.5" {...iconStrongProps} />
                   </IconBadge>
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">EMBEDDED LAYER</div>
                     <div className="mt-1 text-xl font-semibold text-[#0B1220]">AI is integrated — not isolated</div>
                   </div>
                 </div>
@@ -1330,12 +1324,10 @@ function AILayer() {
 
             <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="rounded-3xl bg-white/55 p-6 ring-1 ring-[#0B1220]/10">
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">PRINCIPLE</div>
                 <div className="mt-2 text-lg font-semibold text-[#0B1220]">AI is a layer</div>
                 <div className="mt-2 text-sm text-[#0B1220]/70">Not a standalone module — it’s applied inside real work.</div>
               </div>
               <div className="rounded-3xl bg-white/55 p-6 ring-1 ring-[#0B1220]/10">
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">RESULT</div>
                 <div className="mt-2 text-lg font-semibold text-[#0B1220]">Future-proof capability</div>
                 <div className="mt-2 text-sm text-[#0B1220]/70">Modern execution signals that hiring teams can validate.</div>
               </div>
@@ -1368,7 +1360,6 @@ function PartnershipArchitecture() {
               items={partnerships.map((p) => ({
                 id: p.key,
                 title: p.title,
-                subtitle: "Expandable scope",
                 icon: p.icon,
                 color: p.color,
                 items: p.items,
@@ -1481,7 +1472,7 @@ function Closing() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-6 right-6 z-10">
+      <div className="absolute bottom-6 right-6 z-10 hidden sm:block">
         <a
           href="#top"
           className="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_50px_rgba(0,0,0,0.35)]"

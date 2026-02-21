@@ -609,7 +609,6 @@ export default function CareerMentorshipPage() {
               <div className="absolute inset-6 grid grid-cols-2 gap-4">
                 <div className="flex flex-col justify-between rounded-[36px] bg-white/5 p-5 ring-1 ring-white/10 backdrop-blur">
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-white/60">WHAT THIS IS</div>
                     <div className="mt-2 text-xl font-semibold text-white">Strategic Mentorship for Serious Professionals</div>
                     <p className="mt-3 text-sm leading-relaxed text-white/70">This is not motivational coaching. This is structured advisory designed to:</p>
                   </div>
@@ -967,7 +966,6 @@ export default function CareerMentorshipPage() {
                   transition={{ duration: 0.45, ease: "easeOut" }}
                   className="relative"
                 >
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">CLIENT NOTE</div>
                   <div className="mt-4 text-2xl font-semibold leading-tight text-[#0B1220]">
                     "{testimonials[tIdx].quote}"
                   </div>
@@ -1003,7 +1001,6 @@ export default function CareerMentorshipPage() {
       {/* BOOKING FORM */}
       <section id="book" className="relative" style={{ background: "rgba(233,231,223,1)", color: THEME.deep }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
-          <SectionTitle eyebrow="BOOKING" title="Book Your Private Mentorship Session" />
 
           <div className="mt-10">
             <div>
@@ -1523,9 +1520,7 @@ export default function CareerMentorshipPage() {
               <div className="mt-6 rounded-[32px] bg-white/55 p-6 ring-1 ring-[#0B1220]/10">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">
-                      FOR ORGANIZATIONS
-                    </div>
+                  
                     <div className="mt-2 text-lg font-semibold text-[#0B1220]">
                       Bulk mentorship & team advisory
                     </div>

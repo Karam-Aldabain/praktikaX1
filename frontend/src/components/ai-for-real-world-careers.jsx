@@ -643,7 +643,7 @@ const AIProgramCard = React.memo(function AIProgramCard({ track, program, index 
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: EASE_OUT, delay: Math.min(index * 0.03, 0.15) }}
       whileHover={{ y: -6, scale: 1.01 }}
-      className="group relative w-[380px] md:w-[440px] shrink-0 overflow-hidden rounded-3xl ring-1 bg-white/5 backdrop-blur"
+      className="group relative w-[88vw] max-w-[380px] md:w-[440px] shrink-0 overflow-hidden rounded-3xl ring-1 bg-white/5 backdrop-blur"
       style={{ borderColor: "rgba(255,255,255,0.10)", boxShadow: "0 18px 70px rgba(0,0,0,0.35)" }}
     >
       <div className="relative h-[180px] overflow-hidden">
@@ -1850,7 +1850,7 @@ export default function AIForRealWorldCareersPage() {
                 <ChevronRight className="h-5 w-5 text-white" {...iconStrongProps} />
               </motion.button>
 
-              <div ref={sliderRef} className="no-scrollbar flex gap-5 overflow-x-auto pb-2" style={{ scrollSnapType: "x mandatory" }}>
+              <div ref={sliderRef} className="no-scrollbar flex gap-4 overflow-x-auto pb-2 pr-5 sm:gap-5 sm:pr-0" style={{ scrollSnapType: "x mandatory" }}>
                 {track.programs.map((p, idx) => (
                   <div key={p.title} style={{ scrollSnapAlign: "start" }} data-track-card>
                     <AIProgramCard track={track} program={p} index={idx} onApply={openApplyModal} />
@@ -1925,7 +1925,6 @@ export default function AIForRealWorldCareersPage() {
                       <FileCheck2 className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-white/60">PARTICIPANTS RECEIVE</div>
                       <div className="mt-1 text-lg font-semibold text-white">Deliverables designed for real workflows</div>
                     </div>
                   </div>
@@ -1982,7 +1981,6 @@ export default function AIForRealWorldCareersPage() {
                   />
 
                   <div className="relative">
-                    <div className="text-xs font-semibold tracking-widest text-white/70">WHO THIS IS FOR</div>
                     <div className="mt-2 text-2xl font-semibold leading-tight text-white">
                       Professionals who want AI leverage inside their role.
                     </div>
@@ -2051,7 +2049,6 @@ export default function AIForRealWorldCareersPage() {
                         <Icon className="h-5 w-5" {...iconStrongProps} />
                       </IconBadge>
                       <div>
-                        <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">AI BECOMES</div>
                         <div className="mt-1 text-lg font-semibold">{c.title}</div>
                       </div>
                     </div>

@@ -244,7 +244,7 @@ function NodeGraph() {
       <div className="pointer-events-none absolute inset-0 opacity-[0.14]" style={{ backgroundImage: "linear-gradient(rgba(233,231,223,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(233,231,223,0.12) 1px, transparent 1px)", backgroundSize: "52px 52px", maskImage: "radial-gradient(520px circle at 40% 35%, rgba(0,0,0,1), transparent 70%)" }} />
 
       {/* SVG lines */}
-      <div className="relative h-[360px] w-full sm:h-[420px]">
+      <div className="relative h-[320px] w-full sm:h-[420px]">
         <svg viewBox="0 0 100 100" className="absolute inset-0 h-full w-full">
           <defs>
             <linearGradient id="linkGrad" x1="0" y1="0" x2="1" y2="1">
@@ -305,7 +305,7 @@ function NodeGraph() {
                 transition={{ duration: 0.6, ease: "easeOut", delay: 0.10 + i * 0.08 }}
               >
                 <motion.div
-                  className="relative rounded-3xl bg-white/5 px-4 py-3 ring-1 ring-white/10 backdrop-blur"
+                  className="relative max-w-[44vw] rounded-3xl bg-white/5 px-3 py-2 ring-1 ring-white/10 backdrop-blur sm:max-w-none sm:px-4 sm:py-3"
                   whileHover={{ scale: 1.03, y: -2 }}
                   transition={{ type: "spring", stiffness: 260, damping: 18 }}
                   style={{ boxShadow: "0 18px 65px rgba(0,0,0,0.30)" }}
@@ -319,8 +319,8 @@ function NodeGraph() {
                     </div>
 
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-white/55">CONNECTED</div>
-                      <div className="mt-0.5 text-sm font-semibold text-white">{n.label}</div>
+                      <div className="text-[10px] font-semibold tracking-widest text-white/55 sm:text-xs">CONNECTED</div>
+                      <div className="mt-0.5 truncate text-xs font-semibold text-white sm:text-sm">{n.label}</div>
                     </div>
                   </div>
 
@@ -349,7 +349,6 @@ function NodeGraph() {
       <div className="border-t border-white/10 bg-white/5 p-5 backdrop-blur">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-xs font-semibold tracking-widest text-white/60">MODEL</div>
             <div className="mt-1 text-sm font-semibold text-white">University ↔ Industry ↔ Innovation, delivered with structured execution.</div>
           </div>
           <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
@@ -447,7 +446,6 @@ function SplitToneCard({ tone = "pink", title, bullets, icon }) {
           <span style={{ color: isDark ? "rgba(255,255,255,0.95)" : THEME.accent }}>{icon}</span>
         </div>
         <div>
-          <div className={cx("text-xs font-semibold tracking-widest", isDark ? "text-white/70" : "text-[#0B1220]/55")}>CONTEXT</div>
           <div className={cx("mt-1 text-lg font-semibold", isDark ? "text-white" : "text-[#0B1220]")}>{title}</div>
         </div>
       </div>
@@ -1862,7 +1860,6 @@ export default function OrganizationsLanding() {
                       <Icon className="h-5 w-5" {...iconStrongProps} />
                     </IconBadge>
                     <div>
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">PROGRAMS</div>
                       <div className="mt-1 text-lg font-semibold text-[#0B1220]">{g.group}</div>
                     </div>
                   </div>
@@ -1923,7 +1920,6 @@ export default function OrganizationsLanding() {
                   <Building2 className="h-5 w-5" {...iconStrongProps} />
                 </IconBadge>
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">OPTIONAL</div>
                   <div className="mt-1 text-lg font-semibold text-[#0B1220]">Institutional Co-Hosting Partnership</div>
                 </div>
               </div>
@@ -1972,7 +1968,6 @@ export default function OrganizationsLanding() {
                   <PenTool className="h-5 w-5" {...iconStrongProps} />
                 </IconBadge>
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">INDUSTRIAL COURSES</div>
                   <div className="mt-1 text-lg font-semibold text-[#0B1220]">From Theory to Application</div>
                 </div>
               </div>
@@ -2087,7 +2082,6 @@ export default function OrganizationsLanding() {
             <GlassCard>
               <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-white/60">DEPLOYMENT</div>
                   <div className="mt-2 text-2xl font-semibold text-white">Tailored to your organization’s goals — not generic training.</div>
                   <p className="mt-2 max-w-2xl text-sm text-white/70">
                     We translate strategic objectives into executable programs, with reporting and evaluation your leadership team can track.

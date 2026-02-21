@@ -645,7 +645,7 @@ function ReachMap() {
         <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-5">
           <div className="lg:col-span-3">
             <div className="relative overflow-hidden rounded-[32px] ring-1 ring-white/10 bg-white/5 backdrop-blur">
-              <svg viewBox="0 0 100 70" className="h-[320px] w-full">
+              <svg viewBox="0 0 100 70" className="h-[250px] w-full sm:h-[320px]">
                 {/* subtle "continent" blob */}
                 <defs>
                   <filter id="glow">
@@ -728,12 +728,12 @@ function ReachMap() {
               </svg>
 
               {/* legend */}
-              <div className="absolute left-4 bottom-4">
+              <div className="absolute left-3 bottom-3 sm:left-4 sm:bottom-4">
                 <div className="flex flex-col gap-2">
                   {points.map((p) => (
                     <div
                       key={p.id}
-                      className="flex items-center gap-3 rounded-2xl px-4 py-2.5 ring-1"
+                      className="flex items-center gap-2 rounded-2xl px-3 py-2 ring-1 sm:gap-3 sm:px-4 sm:py-2.5"
                       style={{
                         background: "rgba(255,255,255,0.06)",
                         borderColor: "rgba(255,255,255,0.10)",
@@ -743,7 +743,7 @@ function ReachMap() {
                         className="h-2.5 w-2.5 rounded-full"
                         style={{ background: p.color, boxShadow: `0 0 0 6px rgba(255,255,255,0.05)` }}
                       />
-                      <div className="text-sm font-semibold text-white">{p.label}</div>
+                      <div className="text-xs font-semibold text-white sm:text-sm">{p.label}</div>
                     </div>
                   ))}
                 </div>
@@ -853,7 +853,6 @@ function WhyPartner() {
             <Star className="h-5 w-5" style={{ color: THEME.star, fill: THEME.star }} strokeWidth={2.2} />
           </IconBadge>
           <div>
-            <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">WHY PARTNER</div>
             <div className="mt-1 text-lg font-semibold text-[#0B1220]">Why Institutions Choose Praktix</div>
           </div>
         </div>
@@ -1055,7 +1054,6 @@ function FormWizard() {
             </div>
 
             <div className="w-full sm:w-[280px]">
-              <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">PROGRESS</div>
               <div className="mt-2 h-2 overflow-hidden rounded-full bg-[#0B1220]/10">
                 <motion.div
                   className="h-full"
@@ -2078,7 +2076,6 @@ export default function PartnershipsPage() {
       <section id="impact" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
-            title="Partnership impact"
             accentText="on outcomes"
             subtitle=""
             dark

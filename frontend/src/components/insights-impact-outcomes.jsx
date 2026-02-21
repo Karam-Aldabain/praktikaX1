@@ -1045,7 +1045,6 @@ subtitle={"Designed for measurable value — not theoretical exposure."}        
                     <MapPin className="h-5 w-5" {...iconStrongProps} />
                   </IconBadge>
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">EXPERIENCE</div>
                     <div className="mt-1 text-lg font-semibold text-[#0B1220]">Network. Feedback. Global positioning.</div>
                   </div>
                 </div>
@@ -1090,7 +1089,6 @@ subtitle={"Designed for measurable value — not theoretical exposure."}        
                     "radial-gradient(900px circle at 20% 20%, rgba(255,255,255,0.10), transparent 55%), radial-gradient(900px circle at 80% 60%, rgba(255,255,255,0.06), transparent 55%), rgba(255,255,255,0.55)",
                 }}
               >
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">WHY IT MATTERS</div>
                 <div className="mt-2 text-2xl font-semibold leading-tight">
                   Your outcomes become a signal — not a line on a CV.
                 </div>

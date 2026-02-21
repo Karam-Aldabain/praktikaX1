@@ -934,7 +934,6 @@ function RegistrationForm() {
                   )}
 
                   <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="text-xs text-white/55">Keep it simple - we'll follow up with the right recommendations.</div>
                     <motion.button
                       type="button"
                       disabled={!canNext}
@@ -1212,7 +1211,7 @@ export default function SchoolsEarlyTalentLanding() {
             transition={{ duration: 0.75, ease: "easeOut", delay: 0.05 }}
             className="relative"
           >
-            <div className="relative mx-auto min-h-[520px] w-full max-w-[560px] overflow-hidden rounded-[44px] ring-1 ring-white/10 sm:aspect-[4/3] sm:min-h-0">
+            <div className="relative mx-auto min-h-[360px] w-full max-w-[560px] overflow-hidden rounded-[44px] ring-1 ring-white/10 sm:aspect-[4/3] sm:min-h-0">
               <div
                 className="absolute inset-0"
                 style={{
@@ -1740,7 +1739,6 @@ export default function SchoolsEarlyTalentLanding() {
                   <BadgeCheck className="h-5 w-5" {...iconStrongProps} />
                 </IconBadge>
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">DEMO DAY</div>
                   <div className="mt-1 text-lg font-semibold">A real milestone, not a worksheet</div>
                 </div>
               </div>
@@ -1755,18 +1753,9 @@ export default function SchoolsEarlyTalentLanding() {
               </div>
 
               <div className="mt-7 rounded-3xl bg-white/70 p-5 ring-1 ring-[#0B1220]/10">
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">TOP-PERFORMING STUDENTS RECEIVE</div>
-                <div className="mt-3 space-y-2">
-                  {[
-                    "Certificate of Excellence",
-                    "Advanced track invitation",
-                    "Early internship pathway (16+ age group)",
-                  ].map((x) => (
-                    <div key={x} className="flex items-start gap-3 text-sm text-[#0B1220]/75">
-                      <span className="mt-1 h-2 w-2 rounded-full" style={{ background: THEME.accent4 }} />
-                      <span>{x}</span>
-                    </div>
-                  ))}
+                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">OPTIONAL PATHWAYS</div>
+                <div className="mt-2 text-sm text-[#0B1220]/70">
+                  Top-performing students can receive an Advanced Track Invitation and (16+) Early Internship Pathway.
                 </div>
               </div>
             </motion.div>
@@ -1783,8 +1772,7 @@ export default function SchoolsEarlyTalentLanding() {
                   <Shield className="h-5 w-5" {...iconStrongProps} />
                 </IconBadge>
                 <div>
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">SAFETY & SUPERVISION</div>
-                  <div className="mt-1 text-lg font-semibold">Safe, Structured & Supervised</div>
+                  <div className="mt-1 text-lg font-semibold">Safe, structured & supervised</div>
                 </div>
               </div>
 
@@ -1803,6 +1791,10 @@ export default function SchoolsEarlyTalentLanding() {
                 ))}
               </div>
 
+              <div className="mt-7 rounded-3xl bg-white/70 p-5 ring-1 ring-[#0B1220]/10">
+                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">RESPONSIBLE AI</div>
+                <div className="mt-2 text-sm text-[#0B1220]/70">Students learn ethical use, digital safety, and responsible creation.</div>
+              </div>
             </motion.div>
           </div>
 
@@ -1811,12 +1803,8 @@ export default function SchoolsEarlyTalentLanding() {
           {/* Impact numbers */}
           <div className="mt-10 rounded-[36px] bg-white/55 p-7 ring-1 ring-[#0B1220]/10 backdrop-blur">
             <div className="flex items-center justify-between gap-3">
-              <div>
-                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/60">IMPACT NUMBERS</div>
-                <div className="mt-2 text-xl font-semibold text-[#0B1220]">Animated counters</div>
-              </div>
+            
 
-              <div className="rounded-full bg-[#0B1220] px-3 py-2 text-xs font-semibold text-white">Verified impact</div>
             </div>
 
             <div className="mt-6 grid grid-cols-1 overflow-hidden rounded-3xl ring-1 ring-[#0B1220]/10 sm:grid-cols-2 lg:grid-cols-4">
@@ -1831,7 +1819,7 @@ export default function SchoolsEarlyTalentLanding() {
                   <motion.div
                     key={s.label}
                     initial={{ opacity: 0, y: 10 }}
-                    animate={impactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                    animate={impactInView ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
                     transition={{ duration: 0.45, ease: "easeOut", delay: i * 0.05 }}
                     whileHover={{ scale: 1.01 }}
                     className="p-5"
@@ -1910,7 +1898,6 @@ export default function SchoolsEarlyTalentLanding() {
           <div id="register" className="mt-12">
             <SectionTitle
               title="Start the Journey"
-              subtitle="Smooth step transitions - max 5-6 visible fields - simple validation (email required)."
             />
             <RegistrationForm />
           </div>

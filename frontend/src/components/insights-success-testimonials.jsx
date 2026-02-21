@@ -742,7 +742,6 @@ function TestimonialsMasonry() {
       ) : null}
 
       <div className="rounded-[36px] p-6 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
-        <div className="text-xs font-semibold tracking-widest text-white/55">SPOTLIGHT</div>
         <div className="mt-3 text-2xl font-semibold leading-tight text-white">
           What participants say <span style={{ color: THEME.pink }}>in one line</span>.
         </div>
@@ -956,7 +955,6 @@ function InstitutionPanel() {
                     <Icon className="h-5 w-5" {...iconStrongProps} />
                   </IconBadge>
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-white/55">IMPACT FOR</div>
                     <div className="mt-1 text-lg font-semibold text-white">{b.title}</div>
                   </div>
                 </div>
