@@ -291,8 +291,8 @@ function NodeGraph() {
           })}
         </svg>
 
-        {/* Nodes */}
-        <div className="absolute inset-0">
+        {/* Nodes (desktop/tablet) */}
+        <div className="absolute inset-0 hidden sm:block">
           {nodes.map((n, i) => {
             const Icon = n.icon;
             return (
@@ -335,6 +335,30 @@ function NodeGraph() {
                   ) : null}
                 </motion.div>
               </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Mobile node legend to avoid clipping */}
+        <div className="absolute inset-x-3 bottom-3 grid grid-cols-1 gap-2 sm:hidden">
+          {nodes.map((n) => {
+            const Icon = n.icon;
+            return (
+              <div
+                key={`mobile-node-${n.id}`}
+                className="rounded-2xl bg-white/10 px-3 py-2 ring-1 ring-white/12 backdrop-blur"
+                style={{ boxShadow: "0 10px 26px rgba(0,0,0,0.25)" }}
+              >
+                <div className="flex items-center gap-2.5">
+                  <IconBadge color={n.c} size={30}>
+                    <Icon className="h-4 w-4" {...iconStrongProps} />
+                  </IconBadge>
+                  <div className="min-w-0">
+                    <div className="text-[10px] font-semibold tracking-widest text-white/55">CONNECTED</div>
+                    <div className="truncate text-xs font-semibold text-white">{n.label}</div>
+                  </div>
+                </div>
+              </div>
             );
           })}
         </div>
