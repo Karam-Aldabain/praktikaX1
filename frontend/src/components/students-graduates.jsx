@@ -960,7 +960,7 @@ function ProgramModal({ open, program, onClose, onApply }) {
             </div>
 
             {/* Body */}
-            <div className="max-h-[calc(100dvh-244px)] overflow-y-auto p-4 sm:max-h-[calc(92vh-220px)] sm:p-7">
+            <div className="max-h-[calc(100dvh-308px)] overflow-y-auto p-4 pb-6 sm:max-h-[calc(92vh-292px)] sm:p-7">
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div className="rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
                   <div className="flex items-center gap-2 text-xs font-semibold text-white/65">
@@ -1039,8 +1039,18 @@ function ProgramModal({ open, program, onClose, onApply }) {
                 </div>
               </div>
 
-              <div className="sticky bottom-0 -mx-4 mt-6 border-t border-white/10 bg-[#0B1220]/85 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-6 sm:border-0 sm:bg-transparent sm:p-0">
-                <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+            </div>
+
+            <div className="border-t border-white/10 bg-[#0B1220]/88 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur sm:bg-transparent sm:px-7 sm:py-5 sm:pb-5">
+              <div className="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white/85 ring-1 ring-white/15 transition hover:bg-white/5"
+                >
+                  Close
+                </button>
+
                 <button
                   type="button"
                   onClick={() => onApply?.(program)}
@@ -1049,15 +1059,6 @@ function ProgramModal({ open, program, onClose, onApply }) {
                 >
                   Apply for this program <ArrowRight className="h-4 w-4" {...iconStrongProps} />
                 </button>
-
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white/85 ring-1 ring-white/15 transition hover:bg-white/5"
-                >
-                  Close
-                </button>
-                </div>
               </div>
             </div>
           </motion.div>
@@ -1232,13 +1233,13 @@ function ApplyFlowModal({ open, program, onClose }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[90] bg-[#0B1220]/70 p-4 backdrop-blur-sm sm:p-6"
+        className="fixed inset-0 z-[90] overflow-y-auto bg-[#0B1220]/70 p-0 backdrop-blur-sm sm:p-6"
       >
-        <div className="mx-auto max-h-[95vh] w-full max-w-3xl overflow-y-auto rounded-[28px] bg-[#F3F4F6] ring-1 ring-[#0B1220]/10">
-          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#0B1220]/10 bg-[#F3F4F6] px-6 py-5">
+        <div className="mx-auto h-[100dvh] w-full max-w-3xl overflow-hidden rounded-none bg-[#F3F4F6] ring-1 ring-[#0B1220]/10 sm:mt-0 sm:h-auto sm:max-h-[95vh] sm:rounded-[28px]">
+          <div className="sticky top-0 z-10 flex items-center justify-between border-b border-[#0B1220]/10 bg-[#F3F4F6] px-4 py-4 sm:px-6 sm:py-5">
             <div>
               <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">APPLICATION FLOW</div>
-              <div className="mt-1 text-xl font-semibold text-[#0B1220]">Apply for {selected.name}</div>
+              <div className="mt-1 text-base font-semibold text-[#0B1220] sm:text-xl">Apply for {selected.name}</div>
             </div>
             <button
               type="button"
@@ -1249,7 +1250,7 @@ function ApplyFlowModal({ open, program, onClose }) {
             </button>
           </div>
 
-          <div className="px-6 py-6">
+          <div className="max-h-[calc(100dvh-84px)] overflow-y-auto px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:max-h-[calc(95vh-84px)] sm:px-6 sm:py-6">
             <div className="mb-6 grid grid-cols-3 gap-2">
               {["Form", "Review", "Pay"].map((label, idx) => {
                 const active = idx === step;
