@@ -339,24 +339,26 @@ function NodeGraph() {
           })}
         </div>
 
-        {/* Mobile node legend to avoid clipping */}
-        <div className="absolute inset-x-3 bottom-3 grid grid-cols-1 gap-2 sm:hidden">
-          {nodes.map((n) => {
+        {/* Mobile compact nodes */}
+        <div className="absolute inset-0 sm:hidden">
+          {[
+            { id: "u", label: "University", x: 30, y: 36, c: THEME.accent2, icon: GraduationCap },
+            { id: "i", label: "Industry", x: 70, y: 32, c: THEME.accent, icon: Building2 },
+            { id: "n", label: "Innovation", x: 70, y: 62, c: THEME.accent3, icon: Sparkles },
+            { id: "a", label: "AI", x: 30, y: 66, c: THEME.accent4, icon: Flame },
+          ].map((n) => {
             const Icon = n.icon;
             return (
               <div
                 key={`mobile-node-${n.id}`}
-                className="rounded-2xl bg-white/10 px-3 py-2 ring-1 ring-white/12 backdrop-blur"
-                style={{ boxShadow: "0 10px 26px rgba(0,0,0,0.25)" }}
+                className="absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl bg-white/10 px-3 py-2 ring-1 ring-white/12 backdrop-blur"
+                style={{ left: `${n.x}%`, top: `${n.y}%`, boxShadow: "0 10px 26px rgba(0,0,0,0.25)" }}
               >
-                <div className="flex items-center gap-2.5">
-                  <IconBadge color={n.c} size={30}>
-                    <Icon className="h-4 w-4" {...iconStrongProps} />
+                <div className="flex items-center gap-2">
+                  <IconBadge color={n.c} size={28}>
+                    <Icon className="h-3.5 w-3.5" {...iconStrongProps} />
                   </IconBadge>
-                  <div className="min-w-0">
-                    <div className="text-[10px] font-semibold tracking-widest text-white/55">CONNECTED</div>
-                    <div className="truncate text-xs font-semibold text-white">{n.label}</div>
-                  </div>
+                  <div className="text-xs font-semibold text-white">{n.label}</div>
                 </div>
               </div>
             );

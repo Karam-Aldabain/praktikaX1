@@ -809,7 +809,7 @@ function ApplyProgramModal({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[90] bg-[#040B1D]/75 px-4 py-6 backdrop-blur-sm"
+        className="fixed inset-0 z-[90] flex items-end bg-[#040B1D]/75 px-0 py-0 backdrop-blur-sm sm:block sm:px-4 sm:py-6"
         onClick={onClose}
       >
         <motion.div
@@ -817,30 +817,30 @@ function ApplyProgramModal({
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.98 }}
           transition={{ duration: 0.28, ease: EASE_OUT }}
-          className="mx-auto max-h-[92vh] w-full max-w-[980px] overflow-hidden rounded-[28px] bg-[#ECEEF3] text-[#0B1220] shadow-[0_30px_120px_rgba(0,0,0,0.45)]"
+          className="mx-auto h-[100dvh] max-h-[100dvh] w-full max-w-[980px] overflow-hidden rounded-none bg-[#ECEEF3] text-[#0B1220] shadow-[0_30px_120px_rgba(0,0,0,0.45)] sm:h-auto sm:max-h-[92vh] sm:rounded-[28px]"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="border-b border-[#0B1220]/12 px-6 pb-5 pt-6">
+          <div className="border-b border-[#0B1220]/12 px-4 pb-4 pt-4 sm:px-6 sm:pb-5 sm:pt-6">
             <div className="flex items-start justify-between gap-5">
               <div>
                 <div className="text-xs font-semibold tracking-[0.18em] text-[#0B1220]/55">APPLICATION FLOW</div>
-                <h3 className="mt-2 text-2xl font-semibold leading-tight">
+                <h3 className="mt-2 text-lg font-semibold leading-tight sm:text-2xl">
                   Apply for {selectedProgram || selectedTrack || "AI Program"}
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={onClose}
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white/65 ring-1 ring-[#0B1220]/14 transition hover:bg-white"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/65 ring-1 ring-[#0B1220]/14 transition hover:bg-white sm:h-12 sm:w-12"
                 aria-label="Close modal"
               >
-                <X className="h-6 w-6 text-[#0B1220]" {...iconStrongProps} />
+                <X className="h-5 w-5 text-[#0B1220] sm:h-6 sm:w-6" {...iconStrongProps} />
               </button>
             </div>
           </div>
 
-          <div className="max-h-[calc(92vh-104px)] overflow-y-auto px-6 py-6">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="max-h-[calc(100dvh-82px)] overflow-y-auto px-4 py-4 sm:max-h-[calc(92vh-104px)] sm:px-6 sm:py-6">
+            <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:pb-0">
               {["Form", "Review", "Pay"].map((label, idx) => {
                 const active = idx === step;
                 return (
@@ -849,7 +849,7 @@ function ApplyProgramModal({
                     type="button"
                     onClick={() => (idx <= step ? setStep(idx) : null)}
                     className={cx(
-                      "rounded-full border px-4 py-2 text-center text-sm font-semibold transition",
+                      "min-w-[120px] rounded-full border px-4 py-2 text-center text-sm font-semibold transition sm:min-w-0",
                       active ? "border-transparent text-white" : "border-[#0B1220]/12 bg-white/60 text-[#0B1220]/60"
                     )}
                     style={active ? { background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.74)} 100%)` } : undefined}
@@ -876,13 +876,13 @@ function ApplyProgramModal({
                       style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 100%)` }}
                     />
                   </div>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
                     {formStepLabels.map((s, i) => (
                       <button
                         key={s}
                         type="button"
                         onClick={() => (i <= formStep ? setFormStep(i) : null)}
-                        className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
+                        className="whitespace-nowrap rounded-full px-3 py-1 text-xs font-semibold ring-1"
                         style={{
                           background: i === formStep ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.70)} 100%)` : "rgba(11,18,32,0.06)",
                           color: i === formStep ? "rgba(255,255,255,0.95)" : "rgba(11,18,32,0.70)",
@@ -1063,8 +1063,8 @@ function ApplyProgramModal({
 
             {step === 2 ? (
               <div className="mt-6 space-y-5">
-                <div className="rounded-[22px] bg-gradient-to-br from-[#0B1220] to-[#152238] p-7 text-center ring-1 ring-[#0B1220]/20">
-                  <div className="text-4xl font-semibold leading-tight text-white sm:text-5xl">Complete Your Purchase</div>
+                <div className="rounded-[22px] bg-gradient-to-br from-[#0B1220] to-[#152238] p-5 text-center ring-1 ring-[#0B1220]/20 sm:p-7">
+                  <div className="text-2xl font-semibold leading-tight text-white sm:text-5xl">Complete Your Purchase</div>
                   <div className="mt-2 text-sm text-white/70">Secure checkout with VAT-inclusive pricing.</div>
                 </div>
 
@@ -1133,11 +1133,12 @@ function ApplyProgramModal({
               </div>
             ) : null}
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-between">
+            <div className="sticky bottom-0 -mx-4 mt-6 border-t border-[#0B1220]/12 bg-[#ECEEF3]/95 px-4 py-3 backdrop-blur sm:static sm:mx-0 sm:mt-7 sm:border-0 sm:bg-transparent sm:p-0">
+              <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-between">
               <button
                 type="button"
                 onClick={back}
-                className="inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/12 transition hover:bg-[#E5E7EB]"
+                className="inline-flex w-full items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0B1220] ring-1 ring-[#0B1220]/12 transition hover:bg-[#E5E7EB] sm:w-auto"
               >
                 {step === 0 && formStep === 0 ? "Cancel" : "Back"}
               </button>
@@ -1145,7 +1146,7 @@ function ApplyProgramModal({
                 type="button"
                 onClick={next}
                 className={cx(
-                  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white",
+                  "inline-flex w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white sm:w-auto",
                   step === 0 && !canNextForm ? "cursor-not-allowed opacity-60" : ""
                 )}
                 disabled={step === 0 && !canNextForm}
@@ -1156,6 +1157,7 @@ function ApplyProgramModal({
                 {step === 2 ? `Proceed to Secure Payment • EUR${total.toFixed(2)}` : null}
                 {step < 2 ? <ChevronRight className="h-4 w-4" {...iconStrongProps} /> : null}
               </button>
+              </div>
             </div>
           </div>
         </motion.div>
