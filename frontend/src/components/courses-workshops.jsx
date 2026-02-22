@@ -1,5 +1,7 @@
 ﻿import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useInView, useReducedMotion, useScroll, useSpring } from "framer-motion";
+
+const Motion = motion;
 import {
   ArrowRight,
   BadgeCheck,
@@ -186,7 +188,8 @@ function PaperCard({ children, className }) {
   );
 }
 
-function StatCard({ icon: Icon, value, suffix, label, bar = 0.78 }) {
+function StatCard({ icon, value, suffix, label, bar = 0.78 }) {
+  const Icon = icon;
   return (
     <PaperCard className="p-6">
       <div className="flex items-start justify-between gap-4">
@@ -209,7 +212,8 @@ function StatCard({ icon: Icon, value, suffix, label, bar = 0.78 }) {
   );
 }
 
-function MiniRow({ icon: Icon, label, value }) {
+function MiniRow({ icon, label, value }) {
+  const Icon = icon;
   return (
     <div className="flex items-center justify-between gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
       <div className="flex items-center gap-3">
@@ -720,7 +724,8 @@ export default function CoursesWorkshopsPage() {
 
 /** ---------- Small parts for fidelity ---------- */
 
-function DeliveryRow({ icon: Icon, title, desc }) {
+function DeliveryRow({ icon, title, desc }) {
+  const Icon = icon;
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
       <div className="flex items-start gap-3">
@@ -736,7 +741,8 @@ function DeliveryRow({ icon: Icon, title, desc }) {
   );
 }
 
-function OfferCard({ icon: Icon, title, desc, foot, bar = 0.72 }) {
+function OfferCard({ icon, title, desc, foot, bar = 0.72 }) {
+  const Icon = icon;
   return (
     <Reveal>
       <PaperCard className="p-6">
@@ -762,7 +768,8 @@ function OfferCard({ icon: Icon, title, desc, foot, bar = 0.72 }) {
   );
 }
 
-function PillarCard({ icon: Icon, title, desc }) {
+function PillarCard({ icon, title, desc }) {
+  const Icon = icon;
   return (
     <Reveal>
       <PaperCard className="p-5">
@@ -779,7 +786,8 @@ function PillarCard({ icon: Icon, title, desc }) {
   );
 }
 
-function DarkPill({ icon: Icon, children }) {
+function DarkPill({ icon, children }) {
+  const Icon = icon;
   return (
     <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-extrabold text-white/75">
       <Icon className="h-4 w-4 text-[color:var(--accent)]" />

@@ -6,6 +6,8 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+
+const Motion = motion;
 import {
   ArrowRight,
   BadgeCheck,
@@ -293,10 +295,7 @@ function AnimatedNumber({ value, suffix = "", durationMs = 900 }) {
   const [n, setN] = useState(reduce ? value : 0);
 
   useEffect(() => {
-    if (reduce) {
-      setN(value);
-      return;
-    }
+    if (reduce) return;
     let raf = 0;
     const start = performance.now();
     const from = 0;
@@ -313,9 +312,11 @@ function AnimatedNumber({ value, suffix = "", durationMs = 900 }) {
     return () => cancelAnimationFrame(raf);
   }, [value, durationMs, reduce]);
 
+  const display = reduce ? value : n;
+
   return (
     <span>
-      {typeof n === "number" ? n.toLocaleString() : n}
+      {typeof display === "number" ? display.toLocaleString() : display}
       {suffix}
     </span>
   );
@@ -546,8 +547,8 @@ function MiniTrend({ inView }) {
 export default function ImpactOutcomesPage() {
   const [metrics] = useState(DEFAULT_METRICS);
 
-  const trend = useInViewOnce(0.35);
-  const counters = useInViewOnce(0.35);
+  const { ref: trendRef, inView: trendVisible } = useInViewOnce(0.35);
+  const { ref: countersRef, inView: countersVisible } = useInViewOnce(0.35);
 
   const reduce = useReducedMotion();
 
@@ -671,7 +672,7 @@ export default function ImpactOutcomesPage() {
 
       {/* METRICS */}
       <section id="metrics" className="relative">
-        <div ref={counters.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={countersRef} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Measurable outcomes that hiring teams recognize"
             dark
@@ -706,7 +707,7 @@ export default function ImpactOutcomesPage() {
                       <div>
                         <div className="text-xs font-semibold tracking-widest text-white/55">{m.label.toUpperCase()}</div>
                         <div className="mt-2 text-4xl font-semibold text-white">
-                          {counters.inView ? (
+                          {countersVisible ? (
                             <AnimatedNumber value={m.value} suffix={m.suffix} durationMs={980 + idx * 70} />
                           ) : (
                             <span>0{m.suffix}</span>
@@ -724,7 +725,7 @@ export default function ImpactOutcomesPage() {
                         background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 70%, ${m.color} 140%)`,
                       }}
                       initial={{ width: 0 }}
-                      animate={reduce ? { width: `${m.bar}%` } : counters.inView ? { width: `${m.bar}%` } : { width: 0 }}
+                      animate={reduce ? { width: `${m.bar}%` } : countersVisible ? { width: `${m.bar}%` } : { width: 0 }}
                       transition={{ duration: 0.9, ease: "easeOut", delay: 0.08 + idx * 0.04 }}
                     />
                   </div>
@@ -734,8 +735,8 @@ export default function ImpactOutcomesPage() {
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2">
-            <div ref={trend.ref}>
-              <MiniTrend inView={trend.inView} />
+            <div ref={trendRef}>
+              <MiniTrend inView={trendVisible} />
             </div>
           </div>
         </div>
@@ -782,7 +783,7 @@ export default function ImpactOutcomesPage() {
             </div>
 
             <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-3">
-              {CAREER_BREAKDOWN.map((b, idx) => {
+              {CAREER_BREAKDOWN.map((b) => {
                 const Icon = b.icon;
                 return (
                   <TiltCard
@@ -1206,7 +1207,8 @@ function GhostStat({ label, value }) {
   );
 }
 
-function BulletLight({ icon: Icon, text, color }) {
+function BulletLight({ icon, text, color }) {
+  const Icon = icon;
   return (
     <div className="flex items-start gap-3">
       <IconBadge color={color}>

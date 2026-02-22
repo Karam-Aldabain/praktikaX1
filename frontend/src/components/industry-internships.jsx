@@ -8,6 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+const Motion = motion;
 import {
   ArrowRight,
   ChevronLeft,
@@ -55,7 +56,7 @@ const IMAGES = {
 const SOLUTIONS = [
   {
     title: "Real-World Projects",
-    desc: "Industry-driven challenges guided by professionals — built for proof, not theory.",
+    desc: "Industry-driven challenges guided by professionals ï¿½ built for proof, not theory.",
     img: IMAGES.solution1,
     tag1: "Outcome-based",
     tag2: "Hiring-ready",
@@ -76,7 +77,7 @@ const SOLUTIONS = [
   },
   {
     title: "University-Integrated",
-    desc: "Programs aligned with curricula and capstones — easy adoption for institutions.",
+    desc: "Programs aligned with curricula and capstones ï¿½ easy adoption for institutions.",
     img: IMAGES.solution4,
     tag1: "Curriculum fit",
     tag2: "Scalable",
@@ -94,7 +95,7 @@ const HOW_IT_WORKS = [
   {
     icon: "??",
     title: "Apply & Get Matched",
-    desc: "Submit your application and we’ll match you with opportunities aligned with your goals.",
+    desc: "Submit your application and weï¿½ll match you with opportunities aligned with your goals.",
   },
   {
     icon: "??",
@@ -183,7 +184,7 @@ const BENEFITS = [
   { icon: Users, title: "Professional Network", desc: "Connect with mentors, peers, and hiring teams across Europe and the GCC." },
   { icon: GraduationCap, title: "Skill Development", desc: "Hands-on work with modern tools and standards used by real teams." },
   { icon: Zap, title: "Career Acceleration", desc: "Move faster with real proof of work and verified outcomes." },
-  { icon: Handshake, title: "Mentorship Support", desc: "Guidance from people who’ve hired, led teams, and shipped work." },
+  { icon: Handshake, title: "Mentorship Support", desc: "Guidance from people whoï¿½ve hired, led teams, and shipped work." },
   { icon: LineChart, title: "Growth Opportunities", desc: "Pathways built around measurable achievement." },
   { icon: Trophy, title: "Recognition", desc: "Earn certifications and credibility with institutions and partners." },
 ];
@@ -357,7 +358,7 @@ function Stat({ value, label }) {
 /* ----------------------------- Navbar ----------------------------- */
 function NavBar({ activeId }) {
   const reduce = useReducedMotion();
-  const scrolled = useScrolled(6);
+  const _scrolled = useScrolled(6);
   const [open, setOpen] = useState(false);
 
   const links = [
@@ -386,7 +387,7 @@ function NavBar({ activeId }) {
       <div
         className={[
           "mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-2xl border border-black/10 bg-white/70 px-4 py-3 shadow-[0_22px_70px_rgba(20,29,38,.12)] backdrop-blur-xl",
-          scrolled ? "bg-white/80" : "",
+          _scrolled ? "bg-white/80" : "",
         ].join(" ")}
       >
         <button
@@ -559,7 +560,7 @@ function Testimonials() {
             </div>
 
             <div className="mt-3 text-lg font-extrabold leading-snug text-black/85">
-              “{TESTIMONIALS[index].quote}”
+              ï¿½{TESTIMONIALS[index].quote}ï¿½
             </div>
 
             <div className="mt-5 flex items-center gap-3">
@@ -571,7 +572,7 @@ function Testimonials() {
               <div>
                 <div className="font-extrabold text-black/85">{TESTIMONIALS[index].name}</div>
                 <div className="text-sm font-bold text-black/60">
-                  {TESTIMONIALS[index].role} · {TESTIMONIALS[index].org}
+                  {TESTIMONIALS[index].role} ï¿½ {TESTIMONIALS[index].org}
                 </div>
               </div>
             </div>
@@ -673,7 +674,7 @@ export default function LandingPage() {
   const heroArtY = useTransform(scrollY, [0, 900], [0, reduce ? 0 : -10]);
 
   const activeId = useActiveSection(["method", "tools", "journey", "experts", "stories", "faq", "contact"]);
-  const scrolled = useScrolled(6);
+  const _scrolled = useScrolled(6);
 
   const [selectedExpert, setSelectedExpert] = useState(EXPERTS[3]);
 
@@ -743,7 +744,7 @@ export default function LandingPage() {
                 </h1>
 
                 <p className="mt-3 max-w-[56ch] text-sm font-bold leading-relaxed text-black/60 sm:text-base">
-                  Real projects, mentor feedback, and portfolio-ready outcomes — built for students who want results.
+                  Real projects, mentor feedback, and portfolio-ready outcomes ï¿½ built for students who want results.
                 </p>
 
                 <div className="mt-6">
@@ -1117,7 +1118,7 @@ export default function LandingPage() {
                     Ready to Get Started?
                   </h3>
                   <p className="mt-3 text-sm font-bold leading-relaxed text-black/60 sm:text-base">
-                    Let’s talk partnerships, programs, and how Praktix can help your students or hiring pipeline.
+                    Letï¿½s talk partnerships, programs, and how Praktix can help your students or hiring pipeline.
                   </p>
 
                   <div className="mt-5 flex flex-wrap items-center gap-3">

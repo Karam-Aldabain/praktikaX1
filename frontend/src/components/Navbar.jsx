@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Backpack,
   BadgeCheck,
@@ -32,6 +32,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { useLocalTheme } from "../hooks/use-local-theme";
+import { useTranslation } from "react-i18next";
 import "./Navbar.css";
 
 const COLORS = {
@@ -295,6 +296,65 @@ const ICONS_BY_TITLE = {
   "Volunteer as an Expert": UserPlus,
 };
 
+const NAV_DESC_OVERRIDES = {
+  ar: {
+    individuals: {
+      "0.0": "تدريبات عملية مدمجة بالصناعة، ومسارات مهنية، وتعلّم قائم على ملف إنجاز.",
+      "0.1": "تطبيقات عملية للذكاء الاصطناعي عبر الأعمال والرعاية الصحية والهندسة والبيانات والتسويق وغيرها.",
+      "1.0": "وصول مباشر إلى خبراء الصناعة وأساتذة الجامعات.",
+    },
+    organizations: {
+      "0.0": "برامج صناعية مشتركة مدمجة ضمن الهياكل الأكاديمية.",
+      "0.1": "برامج تعريف مهني لطلاب المدارس الثانوية وأبناء الموظفين.",
+      "1.0": "أطر ذكاء اصطناعي تطبيقية مصممة لقطاعات الصناعة واحتياجات المؤسسات.",
+    },
+    insights: {
+      "0.0": "نتائج قائمة على البيانات، ونمو قابل للقياس، وتقدّم مهني.",
+      "0.1": "أمثلة تعلّم قائمة على حالات واقعية وتنفيذ مشاريع عملية.",
+      "1.0": "قصص خريجين ونتائج وآراء من المتعلمين والشركاء.",
+      "1.1": "كيف يصنع نظامنا قدرة عملية وقيمة طويلة الأمد.",
+    },
+    about: {
+      "0.0": "نبني أنظمة منهجية تُغلق الفجوة بين التعليم والصناعة.",
+      "0.1": "نهج قائم على النظام يجمع بين المشاريع والإرشاد والنتائج القابلة للقياس.",
+      "0.2": "منظومة مترابطة تدمج الخبراء والمؤسسات والصناعة.",
+      "0.3": "شراكات مؤسسية ونماذج استضافة مشتركة وشبكة تعاون أوروبية.",
+    },
+  },
+  de: {
+    individuals: {
+      "0.0": "Industrieintegrierte Praktika, Karrierepfade und portfoliobasiertes Lernen.",
+      "0.1": "Praktische KI-Anwendungen in Wirtschaft, Gesundheit, Technik, Daten, Marketing und mehr.",
+      "1.0": "Direkter Zugang zu Branchenexpert:innen und Hochschulprofessor:innen.",
+    },
+    organizations: {
+      "0.0": "Gemeinsam durchgefuehrte Industrieprogramme, die in akademische Strukturen integriert sind.",
+      "0.1": "Programme zur fruehen Berufsorientierung fuer Schueler:innen und Kinder von Mitarbeitenden.",
+      "1.0": "Angewandte KI-Frameworks, zugeschnitten auf Branchen und institutionelle Anforderungen.",
+    },
+    insights: {
+      "0.0": "Datengestuetzte Ergebnisse, messbares Wachstum und beruflicher Fortschritt.",
+      "0.1": "Fallbasierte Lernbeispiele und praktische Projektumsetzung.",
+      "1.0": "Absolventenwege, Ergebnisse und Feedback von Lernenden und Partnern.",
+      "1.1": "Wie unser Modell praktische Faehigkeiten und langfristigen Mehrwert schafft.",
+    },
+    about: {
+      "0.0": "Wir bauen strukturierte Systeme, die die Luecke zwischen Bildung und Industrie schliessen.",
+      "0.1": "Ein systembasierter Ansatz mit Projekten, Mentoring und messbaren Ergebnissen.",
+      "0.2": "Ein vernetztes Umfeld, das Expert:innen, Institutionen und Industrie verbindet.",
+      "0.3": "Institutionelle Kooperationen, Co-Hosting-Modelle und europaeische Netzwerkpartnerschaften.",
+    },
+  },
+};
+
+function getNavDescOverride(lang, groupId, colIdx, itemIdx) {
+  const langMap = NAV_DESC_OVERRIDES[lang];
+  if (!langMap) return null;
+  const groupMap = langMap[groupId];
+  if (!groupMap) return null;
+  return groupMap[`${colIdx}.${itemIdx}`] || null;
+}
+
 function ItemIcon({ title, active = false, className = "" }) {
   const Icon = ICONS_BY_TITLE[title];
   return (
@@ -305,6 +365,7 @@ function ItemIcon({ title, active = false, className = "" }) {
 }
 
 export default function Navbar({ dir = "ltr" }) {
+  const { t, i18n } = useTranslation();
   const [openId, setOpenId] = useState(null);
   const [previewByGroup, setPreviewByGroup] = useState({});
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -314,6 +375,37 @@ export default function Navbar({ dir = "ltr" }) {
   const navRef = useRef(null);
   const closeTimer = useRef(null);
   const previewTimer = useRef(null);
+  const navItems = useMemo(
+    () =>
+      NAV.map((group) => ({
+        ...group,
+        label: t(`nav.groups.${group.id}.label`, { defaultValue: group.label }),
+        columns: group.columns.map((col, colIdx) => ({
+          ...col,
+          title: t(`nav.groups.${group.id}.columns.${colIdx}.title`, { defaultValue: col.title }),
+          items: col.items.map((it, itemIdx) => ({
+            ...it,
+            label: t(`nav.groups.${group.id}.columns.${colIdx}.items.${itemIdx}.label`, { defaultValue: it.label }),
+            desc:
+              getNavDescOverride(i18n.resolvedLanguage || i18n.language, group.id, colIdx, itemIdx)
+              || t(`nav.groups.${group.id}.columns.${colIdx}.items.${itemIdx}.desc`, { defaultValue: it.desc }),
+            children: (it.children || []).map((sub, subIdx) => ({
+              ...sub,
+              label: t(`nav.groups.${group.id}.columns.${colIdx}.items.${itemIdx}.children.${subIdx}.label`, { defaultValue: sub.label }),
+              desc: t(`nav.groups.${group.id}.columns.${colIdx}.items.${itemIdx}.children.${subIdx}.desc`, { defaultValue: sub.desc }),
+            })),
+          })),
+        })),
+        promo: {
+          ...group.promo,
+          eyebrow: t(`nav.groups.${group.id}.promo.eyebrow`, { defaultValue: group.promo.eyebrow }),
+          title: t(`nav.groups.${group.id}.promo.title`, { defaultValue: group.promo.title }),
+          text: t(`nav.groups.${group.id}.promo.text`, { defaultValue: group.promo.text }),
+          cta: t(`nav.groups.${group.id}.promo.cta`, { defaultValue: group.promo.cta }),
+        },
+      })),
+    [t, i18n.language, i18n.resolvedLanguage]
+  );
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -422,12 +514,12 @@ export default function Navbar({ dir = "ltr" }) {
         <div className="px-container">
           {/* LEFT: Brand */}
           <a className="px-brand" href="/" onClick={onNavLink} aria-label="Praktix Home">
-            <img className="px-brandLogo darkAsset" src={brandLogoSrc} alt="Praktix logo" />
+            <img className="px-brandLogo" src={brandLogoSrc} alt="Praktix logo" />
           </a>
 
           {/* CENTER: Desktop nav (perfectly centered) */}
           <div className="px-center" onPointerLeave={() => !isMobile && scheduleClose()}>
-            {NAV.map((group) => {
+            {navItems.map((group) => {
               const open = openId === group.id;
               const defaultItem = group.columns?.[0]?.items?.[0];
               const defaultCategory = group.columns?.[0]?.title || group.label;
@@ -523,20 +615,20 @@ export default function Navbar({ dir = "ltr" }) {
                                       >
                                         <ItemIcon title={sub.label} className="sub" />
                                         <span>{sub.label}</span>
-                                        <span className="px-promoSubArrow">→</span>
+                                        <span className="px-promoSubArrow">-&gt;</span>
                                       </a>
                                     ))}
                                   </div>
                                 ) : null}
-                                <div className="px-promoCta">Learn More -&gt;</div>
+                                <div className="px-promoCta">{t("navbar.learnMore")}</div>
                               </>
                             ) : (
                               <>
-                                <div className="px-promoTitle">Hover an item</div>
+                                <div className="px-promoTitle">{t("navbar.hoverItem")}</div>
                                 <div className="px-promoText">
-                                  Move over an item card to preview its details in this panel.
+                                  {t("navbar.hoverItemText")}
                                 </div>
-                                <div className="px-promoCta">Preview panel</div>
+                                <div className="px-promoCta">{t("navbar.previewPanel")}</div>
                               </>
                             )}
                           </div>
@@ -556,18 +648,32 @@ export default function Navbar({ dir = "ltr" }) {
                 className="px-themeBtn"
                 type="button"
                 onClick={toggleTheme}
-                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                aria-label={theme === "dark" ? t("navbar.switchToLight") : t("navbar.switchToDark")}
                 aria-pressed={theme === "dark"}
               >
                 <ThemeIcon theme={theme} />
               </button>
 
+              <label className="px-langSelect notranslate" aria-label={t("common.language")} translate="no">
+                <Globe size={16} />
+                <select
+                  className="notranslate"
+                  translate="no"
+                  value={i18n.resolvedLanguage || "en"}
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
+                >
+                  <option value="en">{t("common.languages.en")}</option>
+                  <option value="de">{t("common.languages.de")}</option>
+                  <option value="ar">{t("common.languages.ar")}</option>
+                </select>
+              </label>
+
               <a className="px-cta" href="/portal" onClick={onNavLink}>
-                Login / Portal
+                {t("navbar.loginPortal")}
               </a>
             </div>
 
-            <button className="px-mobileBtn" type="button" aria-label="Toggle menu" onClick={toggleMobile}>
+            <button className="px-mobileBtn" type="button" aria-label={t("navbar.toggleMenu")} onClick={toggleMobile}>
               <MenuIcon open={mobileOpen} />
             </button>
           </div>
@@ -582,19 +688,33 @@ export default function Navbar({ dir = "ltr" }) {
                 className="px-themeBtn mobile"
                 type="button"
                 onClick={toggleTheme}
-                aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+                aria-label={theme === "dark" ? t("navbar.switchToLight") : t("navbar.switchToDark")}
                 aria-pressed={theme === "dark"}
               >
                 <ThemeIcon theme={theme} />
               </button>
 
+              <label className="px-langSelect mobile notranslate" aria-label={t("common.language")} translate="no">
+                <Globe size={16} />
+                <select
+                  className="notranslate"
+                  translate="no"
+                  value={i18n.resolvedLanguage || "en"}
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
+                >
+                  <option value="en">{t("common.languages.en")}</option>
+                  <option value="de">{t("common.languages.de")}</option>
+                  <option value="ar">{t("common.languages.ar")}</option>
+                </select>
+              </label>
+
               <a className="px-cta mobile" href="/portal" onClick={onNavLink}>
-                Login / Portal
+                {t("navbar.loginPortal")}
               </a>
               </div>
 
               <div className="px-accordion">
-                {NAV.map((group) => {
+                {navItems.map((group) => {
                   const open = openId === group.id;
                   const defaultItem = group.columns?.[0]?.items?.[0];
                   const defaultCategory = group.columns?.[0]?.title || group.label;
@@ -650,7 +770,7 @@ export default function Navbar({ dir = "ltr" }) {
                                 </div>
                               ) : null}
                               <a className="px-promoCta" href={activePreview.href || group.promo.href} onClick={onNavLink}>
-                                Learn More -&gt;
+                                {t("navbar.learnMore")}
                               </a>
                             </div>
                           ) : null}
@@ -663,11 +783,11 @@ export default function Navbar({ dir = "ltr" }) {
 
               <div className="px-mobileFooter">
                 <a className="px-mutedLink" href="/contact" onClick={onNavLink}>
-                  Contact
+                  {t("navbar.contact")}
                 </a>
-                <span className="px-dot">•</span>
+                <span className="px-dot">|</span>
                 <a className="px-mutedLink" href="/about/mission-vision" onClick={onNavLink}>
-                  About Praktix
+                  {t("navbar.aboutPraktix")}
                 </a>
               </div>
             </div>
@@ -677,6 +797,7 @@ export default function Navbar({ dir = "ltr" }) {
     </header>
   );
 }
+
 
 
 

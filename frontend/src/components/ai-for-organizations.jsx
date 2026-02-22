@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   Sparkles,
@@ -23,6 +24,8 @@ import {
   Handshake,
   ListChecks,
 } from "lucide-react";
+
+const Motion = motion;
 
 /** =======================
  *  THEME (from your code)
@@ -799,11 +802,58 @@ function Checkbox({ checked, onChange, label }) {
   );
 }
 
+const outcomesDeliverables = [
+  { icon: ClipboardCheck, t: "AI Capability Assessment", c: THEME.accent },
+  { icon: Shield, t: "Risk & Readiness Mapping", c: THEME.accent3 },
+  { icon: Target, t: "AI Adoption Framework", c: THEME.accent2 },
+  { icon: ListChecks, t: "Departmental AI Playbooks", c: THEME.accent4 },
+  { icon: Briefcase, t: "Executive-Level Strategy Brief", c: THEME.pink },
+  { icon: MapPin, t: "Implementation Roadmap", c: THEME.accent },
+];
+
+function OutcomesDeliverablesGrid({ inView, reduce }) {
+  return (
+    <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
+      {outcomesDeliverables.map((x, i) => {
+        const I = x.icon;
+        return (
+          <motion.div
+            key={x.t}
+            initial={{ opacity: 0, y: 12 }}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+            transition={{ duration: reduce ? 0 : 0.45, ease: "easeOut", delay: i * 0.05 }}
+            whileHover={{ y: -6 }}
+            className="rounded-[36px] bg-white/70 p-7 ring-1 ring-[#0B1220]/10"
+          >
+            <div className="flex items-start gap-4">
+              <IconBadge color={x.c}>
+                <I className="h-5 w-5" {...iconStrongProps} />
+              </IconBadge>
+              <div>
+                <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">
+                  DELIVERABLE
+                </div>
+                <div className="mt-1 text-lg font-semibold text-[#0B1220]">{x.t}</div>
+                <p className="mt-2 text-sm text-[#0B1220]/70">
+                  Executive-ready output designed for action, governance, and adoption.
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        );
+      })}
+    </div>
+  );
+}
+
 /** =======================
  *  MAIN PAGE
  *  ======================= */
 export default function AIForOrganizationsLanding() {
+  const { i18n } = useTranslation();
   const reduce = useReducedMotion();
+  const lang = i18n.resolvedLanguage || i18n.language || "en";
+  const pageDir = lang === "ar" ? "rtl" : "ltr";
 
   const [activeCat, setActiveCat] = useState(programCategories[0].key);
   const active = useMemo(
@@ -819,7 +869,7 @@ export default function AIForOrganizationsLanding() {
     el.scrollBy({ left: dx, behavior: "smooth" });
   };
 
-  const outcomesInView = useInViewOnce(0.25);
+  const { ref: outcomesRef, inView: outcomesVisible } = useInViewOnce(0.25);
 
   // form state
   const [submitted, setSubmitted] = useState(false);
@@ -842,6 +892,8 @@ export default function AIForOrganizationsLanding() {
   return (
     <div
       className="min-h-screen overflow-x-hidden"
+      dir={pageDir}
+      lang={lang}
       style={{
         background: THEME.deep,
         color: "white",
@@ -1312,50 +1364,14 @@ export default function AIForOrganizationsLanding() {
         className="relative"
         style={{ background: THEME.sand, color: THEME.deep }}
       >
-        <div ref={outcomesInView.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={outcomesRef} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Beyond learning."
             accentWord="Toward capability."
             subtitle="Assessments, playbooks, strategy briefs, and implementation roadmaps designed for real adoption."
           />
 
-          <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
-            {[
-              { icon: ClipboardCheck, t: "AI Capability Assessment", c: THEME.accent },
-              { icon: Shield, t: "Risk & Readiness Mapping", c: THEME.accent3 },
-              { icon: Target, t: "AI Adoption Framework", c: THEME.accent2 },
-              { icon: ListChecks, t: "Departmental AI Playbooks", c: THEME.accent4 },
-              { icon: Briefcase, t: "Executive-Level Strategy Brief", c: THEME.pink },
-              { icon: MapPin, t: "Implementation Roadmap", c: THEME.accent },
-            ].map((x, i) => {
-              const I = x.icon;
-              return (
-                <motion.div
-                  key={x.t}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={outcomesInView.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
-                  transition={{ duration: reduce ? 0 : 0.45, ease: "easeOut", delay: i * 0.05 }}
-                  whileHover={{ y: -6 }}
-                  className="rounded-[36px] bg-white/70 p-7 ring-1 ring-[#0B1220]/10"
-                >
-                  <div className="flex items-start gap-4">
-                    <IconBadge color={x.c}>
-                      <I className="h-5 w-5" {...iconStrongProps} />
-                    </IconBadge>
-                    <div>
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">
-                        DELIVERABLE
-                      </div>
-                      <div className="mt-1 text-lg font-semibold text-[#0B1220]">{x.t}</div>
-                      <p className="mt-2 text-sm text-[#0B1220]/70">
-                        Executive-ready output designed for action, governance, and adoption.
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
+          <OutcomesDeliverablesGrid inView={outcomesVisible} reduce={reduce} />
 
           <div className="mt-8 rounded-[36px] bg-white/70 p-7 ring-1 ring-[#0B1220]/10">
             <div className="flex items-start gap-4">

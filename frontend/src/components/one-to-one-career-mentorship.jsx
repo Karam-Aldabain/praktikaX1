@@ -29,10 +29,13 @@ import {
   Zap,
 } from "lucide-react";
 
+const Motion = motion;
+
 /** -------------------------------------------------------
  *  THEME (matches your provided code palette + vibe)
  *  ------------------------------------------------------ */
 const THEME = {
+
   deep: "#0B1220",
   slate: "#1E2A3A",
   sand: "#E9E7DF",
@@ -100,10 +103,7 @@ function AnimatedNumber({ value, suffix = "", durationMs = 900 }) {
   const [n, setN] = useState(reduce ? value : 0);
 
   useEffect(() => {
-    if (reduce) {
-      setN(value);
-      return;
-    }
+    if (reduce) return;
     let raf = 0;
     const start = performance.now();
     const from = 0;
@@ -117,9 +117,11 @@ function AnimatedNumber({ value, suffix = "", durationMs = 900 }) {
     return () => cancelAnimationFrame(raf);
   }, [value, durationMs, reduce]);
 
+  const display = reduce ? value : n;
+
   return (
     <span>
-      {n.toLocaleString()}
+      {display.toLocaleString()}
       {suffix}
     </span>
   );
@@ -370,7 +372,7 @@ const faqs = [
  *  ------------------------------------------------------ */
 export default function CareerMentorshipPage() {
   const sliderRef = useRef(null);
-  const statsInView = useInViewOnce(0.25);
+  const { ref: statsRef, inView: statsVisible } = useInViewOnce(0.25);
   const reduce = useReducedMotion();
 
   // experts filter
@@ -910,7 +912,7 @@ export default function CareerMentorshipPage() {
 
       {/* VALUE PROPOSITION + STATS */}
       <section id="value" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={statsInView.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={statsRef} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle title="Why Our Mentorship Is Different" dark />
 
           <div
@@ -933,10 +935,10 @@ export default function CareerMentorshipPage() {
               </div>
 
               <div className="mt-6 grid grid-cols-1 gap-0 overflow-hidden rounded-3xl ring-1 ring-white/10 sm:grid-cols-2">
-                <StatCell inView={statsInView.inView} label="Experts" value={120} suffix="+" icon={Users} color={THEME.accent} idx={0} />
-                <StatCell inView={statsInView.inView} label="Industries" value={18} suffix="+" icon={Globe2} color={THEME.accent2} idx={1} />
-                <StatCell inView={statsInView.inView} label="Advisory Sessions" value={1000} suffix="+" icon={FileCheck2} color={THEME.accent4} idx={2} />
-                <StatCell inView={statsInView.inView} label="Client Satisfaction" value={92} suffix="%" icon={Star} color={THEME.star} idx={3} />
+                <StatCell inView={statsVisible} label="Experts" value={120} suffix="+" icon={Users} color={THEME.accent} idx={0} />
+                <StatCell inView={statsVisible} label="Industries" value={18} suffix="+" icon={Globe2} color={THEME.accent2} idx={1} />
+                <StatCell inView={statsVisible} label="Advisory Sessions" value={1000} suffix="+" icon={FileCheck2} color={THEME.accent4} idx={2} />
+                <StatCell inView={statsVisible} label="Client Satisfaction" value={92} suffix="%" icon={Star} color={THEME.star} idx={3} />
               </div>
             </div>
           </div>
@@ -1633,7 +1635,8 @@ export default function CareerMentorshipPage() {
  *  SUB-COMPONENTS
  *  ------------------------------------------------------ */
 
-function ValueBullet({ icon: Icon, title, desc, color }) {
+function ValueBullet({ icon, title, desc, color }) {
+  const Icon = icon;
   return (
     <div className="rounded-3xl p-5 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
       <div className="flex items-start gap-3">
@@ -1649,7 +1652,8 @@ function ValueBullet({ icon: Icon, title, desc, color }) {
   );
 }
 
-function StatCell({ inView, label, value, suffix, icon: Icon, color, idx }) {
+function StatCell({ inView, label, value, suffix, icon, color, idx }) {
+  const Icon = icon;
   const border =
     idx === 0
       ? "border-b border-white/10 sm:border-b sm:border-r"

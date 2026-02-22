@@ -24,7 +24,7 @@
 .px-container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 4px clamp(18px, 3vw, 52px);
+  padding: 10px clamp(20px, 3vw, 56px);
 
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -38,7 +38,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0;
-  overflow: hidden;
+  overflow: visible;
   text-decoration: none;
   font-weight: 900;
   letter-spacing: -0.5px;
@@ -48,10 +48,11 @@
 
 .px-brandLogo {
   display: block;
-  height: 88px;
-  width: 88px;
+  height: 62px;
+  width: 168px;
   max-width: none;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -60,8 +61,7 @@
 }
 
 .px-brandLogo.darkAsset {
-  transform: translate(-54px, -16px) scale(2.2, 1.3);
-  transform-origin: top left;
+  transform: none;
 }
 
 .px-brandX {
@@ -74,7 +74,7 @@
   justify-self: center;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
 }
 
 /* RIGHT ACTIONS pinned */
@@ -88,7 +88,7 @@
 .px-actions {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 /* Desktop triggers */
@@ -101,9 +101,9 @@
   background: transparent;
   color: var(--px-deep);
   font-weight: 700;
-  font-size: 14px;
-  padding: 10px 10px;
-  border-radius: 12px;
+  font-size: 16px;
+  padding: 12px 12px;
+  border-radius: 14px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -144,8 +144,8 @@
 .px-iconBtn:focus-visible { outline: 3px solid color-mix(in srgb, var(--px-accent) 35%, transparent); outline-offset: 2px; }
 
 .px-themeBtn {
-  height: 40px;
-  width: 40px;
+  height: 46px;
+  width: 46px;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--px-deep) 14%, transparent);
   background: color-mix(in srgb, white 66%, var(--px-sand));
@@ -165,13 +165,41 @@
 }
 .px-themeBtn:focus-visible { outline: 3px solid color-mix(in srgb, var(--px-accent) 35%, transparent); outline-offset: 2px; }
 
+.px-langSelect {
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--px-deep) 14%, transparent);
+  background: color-mix(in srgb, white 66%, var(--px-sand));
+  color: var(--px-deep);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  backdrop-filter: blur(8px);
+}
+
+.px-langSelect select {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+}
+
+.px-langSelect.mobile {
+  height: 44px;
+  padding: 0 12px;
+}
+
 .px-cta {
   text-decoration: none;
   background: var(--px-accent);
   color: white;
   font-weight: 900;
-  font-size: 14px;
-  padding: 11px 14px;
+  font-size: 15px;
+  padding: 13px 18px;
   border-radius: 14px;
   box-shadow: 0 10px 22px color-mix(in srgb, var(--px-accent) 28%, transparent);
   transition: transform .12s ease, background .15s ease;
@@ -622,15 +650,15 @@
 
   .px-brandLogo {
     height: 54px;
-    width: 54px;
+    width: 144px;
   }
   
   .px-brandLogo.darkAsset {
-    transform: translate(-22px, -6px) scale(1.8, 1.12);
+    transform: none;
   }
 
   .px-container {
-    padding: 4px 14px;
+    padding: 8px 14px;
   }
 
   .px-mobileInner {
@@ -670,11 +698,11 @@
 @media (max-width: 480px) {
   .px-brandLogo {
     height: 48px;
-    width: 48px;
+    width: 126px;
   }
 
   .px-brandLogo.darkAsset {
-    transform: translate(-18px, -5px) scale(1.65, 1.08);
+    transform: none;
   }
 
   .px-mobileBtn {
@@ -753,6 +781,12 @@
 .px-header.dark .px-iconBtn,
 .px-header.dark .px-themeBtn,
 .px-header.dark .px-mobileBtn {
+  color: #e2e2d2;
+  border-color: rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.px-header.dark .px-langSelect {
   color: #e2e2d2;
   border-color: rgba(255, 255, 255, 0.14);
   background: rgba(255, 255, 255, 0.07);

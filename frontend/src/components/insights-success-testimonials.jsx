@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+
+const Motion = motion;
 import {
   ArrowRight,
   BadgeCheck,
@@ -113,10 +115,7 @@ function AnimatedNumber({ value, suffix, durationMs = 900 }) {
   const [n, setN] = useState(reduce ? value : 0);
 
   useEffect(() => {
-    if (reduce) {
-      setN(value);
-      return;
-    }
+    if (reduce) return;
     let raf = 0;
     const start = performance.now();
     const from = 0;
@@ -130,9 +129,11 @@ function AnimatedNumber({ value, suffix, durationMs = 900 }) {
     return () => cancelAnimationFrame(raf);
   }, [value, durationMs, reduce]);
 
+  const display = reduce ? value : n;
+
   return (
     <span>
-      {n.toLocaleString()}
+      {display.toLocaleString()}
       {suffix}
     </span>
   );
@@ -552,7 +553,8 @@ function StoryCard({ story, index, onOpen }) {
   );
 }
 
-function MiniBlock({ title, text, icon: Icon, color }) {
+function MiniBlock({ title, text, icon, color }) {
+  const Icon = icon;
   return (
     <div className="rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
       <div className="flex items-center gap-2 text-xs font-semibold tracking-widest text-white/55">
@@ -694,7 +696,8 @@ function StoryModal({ story, onClose }) {
   );
 }
 
-function DetailRow({ title, icon: Icon, color, text }) {
+function DetailRow({ title, icon, color, text }) {
+  const Icon = icon;
   return (
     <div className="rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
       <div className="flex items-center gap-2 text-xs font-semibold tracking-widest text-white/55">
@@ -706,7 +709,8 @@ function DetailRow({ title, icon: Icon, color, text }) {
   );
 }
 
-function ProofChip({ icon: Icon, label, color }) {
+function ProofChip({ icon, label, color }) {
+  const Icon = icon;
   return (
     <div className="flex items-start gap-3 rounded-3xl p-4 ring-1 ring-white/10" style={{ background: "rgba(255,255,255,0.03)" }}>
       <IconBadge color={color}>
@@ -1055,7 +1059,7 @@ function CareerMetricGrid() {
 /* ---------------- Main Page ---------------- */
 export default function SuccessTestimonialsPage() {
   const progress = useScrollProgress();
-  const impact = useInViewOnce(0.25);
+  const { ref: impactRef, inView: impactVisible } = useInViewOnce(0.25);
   const reduce = useReducedMotion();
   const realPhrases = ["participants", "execution", "career movement"];
 
@@ -1251,14 +1255,14 @@ export default function SuccessTestimonialsPage() {
 
       {/* IMPACT */}
       <section id="impact" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={impact.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={impactRef} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Measured Progress"
             accentWord="Across Programs"
             dark
           />
           <div className="mt-10">
-            <StatGrid inView={impact.inView} />
+            <StatGrid inView={impactVisible} />
           </div>
         </div>
       </section>

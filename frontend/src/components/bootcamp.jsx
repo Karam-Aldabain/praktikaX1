@@ -53,6 +53,7 @@ const COLORS = {
 const cn = (...c) => c.filter(Boolean).join(" ");
 
 function scrollToId(id) {
+  void motion;
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 

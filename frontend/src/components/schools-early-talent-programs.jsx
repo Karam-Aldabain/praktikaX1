@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
@@ -29,6 +29,8 @@ import {
   Wand2,
   Wrench,
 } from "lucide-react";
+
+const Motion = motion;
 
 /** =========================
  *  THEME (keep SAME palette)
@@ -97,10 +99,7 @@ function AnimatedNumber({ value, suffix = "", durationMs = 900 }) {
   const [n, setN] = useState(reduce ? value : 0);
 
   useEffect(() => {
-    if (reduce) {
-      setN(value);
-      return;
-    }
+    if (reduce) return;
     let raf = 0;
     const start = performance.now();
     const from = 0;
@@ -114,9 +113,11 @@ function AnimatedNumber({ value, suffix = "", durationMs = 900 }) {
     return () => cancelAnimationFrame(raf);
   }, [value, durationMs, reduce]);
 
+  const display = reduce ? value : n;
+
   return (
     <span>
-      {n.toLocaleString()}
+      {display.toLocaleString()}
       {suffix}
     </span>
   );
@@ -390,7 +391,8 @@ function SoftCard({ children, className, style }) {
   );
 }
 
-function Bullet({ icon: Icon, text, color, dark = false }) {
+function Bullet({ icon, text, color, dark = false }) {
+  const Icon = icon;
   return (
     <div className="flex items-start gap-3">
       <IconBadge color={color} size={36}>

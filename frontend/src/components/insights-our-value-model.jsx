@@ -1,5 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+
+const Motion = motion;
 import {
   ArrowRight,
   BadgeCheck,
@@ -298,13 +300,13 @@ export default function ValueModelPage() {
   const [activeStep, setActiveStep] = useState(PROCESS_STEPS[0].key);
 
   // In-view triggers
-  const inPhilosophy = useInViewOnce(0.2);
-  const inPillars = useInViewOnce(0.18);
-  const inProcess = useInViewOnce(0.18);
-  const inEvidence = useInViewOnce(0.18);
-  const inDifference = useInViewOnce(0.18);
+  const { ref: philosophyRef, inView: philosophyInView } = useInViewOnce(0.2);
+  const { ref: pillarsRef, inView: pillarsInView } = useInViewOnce(0.18);
+  const { ref: processRef, inView: processInView } = useInViewOnce(0.18);
+  const { ref: evidenceRef, inView: evidenceInView } = useInViewOnce(0.18);
+  const { ref: differenceRef, inView: differenceInView } = useInViewOnce(0.18);
 
-  const activeP = useMemo(
+  const _activeP = useMemo(
     () => PILLARS.find((x) => x.key === activePillar) || PILLARS[0],
     [activePillar]
   );
@@ -444,7 +446,7 @@ export default function ValueModelPage() {
         className="relative"
         style={{ background: THEME.sand, color: THEME.deep }}
       >
-        <div ref={inPhilosophy.ref} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
+        <div ref={philosophyRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="light"
             eyebrow="MODEL PHILOSOPHY"
@@ -455,7 +457,7 @@ export default function ValueModelPage() {
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12">
             <motion.div
               initial={{ opacity: 0, y: 14 }}
-              animate={inPhilosophy.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              animate={philosophyInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               transition={{ duration: 0.55, ease: "easeOut" }}
               className="lg:col-span-7"
             >
@@ -485,7 +487,7 @@ export default function ValueModelPage() {
                 </div>
 
                 <div className="mt-7">
-                  <LayerLadder inView={inPhilosophy.inView} />
+                  <LayerLadder inView={philosophyInView} />
                 </div>
 
                 <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -497,7 +499,7 @@ export default function ValueModelPage() {
 
             <motion.div
               initial={{ opacity: 0, y: 14 }}
-              animate={inPhilosophy.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+              animate={philosophyInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               transition={{ duration: 0.55, ease: "easeOut", delay: 0.06 }}
               className="lg:col-span-5"
             >
@@ -528,7 +530,7 @@ export default function ValueModelPage() {
 
       {/* PILLARS (new: full-width accordion rows) */}
       <section id="pillars" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={inPillars.ref} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
+        <div ref={pillarsRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="dark"
             eyebrow="SYSTEM DESIGN"
@@ -545,7 +547,7 @@ export default function ValueModelPage() {
                 <motion.div
                   key={p.key}
                   initial={{ opacity: 0, y: 12 }}
-                  animate={inPillars.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+                  animate={pillarsInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
                   transition={{ duration: 0.45, ease: "easeOut", delay: 0.06 + idx * 0.05 }}
                 >
                   <button
@@ -674,7 +676,7 @@ export default function ValueModelPage() {
         className="relative"
         style={{ background: THEME.sand, color: THEME.deep }}
       >
-        <div ref={inProcess.ref} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
+        <div ref={processRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="light"
             eyebrow="EXECUTION FLOW"
@@ -686,7 +688,7 @@ export default function ValueModelPage() {
             {/* Rail */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
-              animate={inProcess.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              animate={processInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ duration: 0.55, ease: "easeOut" }}
               className="lg:col-span-5"
             >
@@ -779,7 +781,7 @@ export default function ValueModelPage() {
             {/* Detail dock */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
-              animate={inProcess.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              animate={processInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ duration: 0.55, ease: "easeOut", delay: 0.06 }}
               className="lg:col-span-7"
             >
@@ -881,7 +883,7 @@ export default function ValueModelPage() {
 
       {/* EVIDENCE (new: gauges + standards strip) */}
       <section id="evidence" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={inEvidence.ref} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
+        <div ref={evidenceRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="dark"
             eyebrow="MEASUREMENT"
@@ -893,7 +895,7 @@ export default function ValueModelPage() {
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
-              animate={inEvidence.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              animate={evidenceInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ duration: 0.55, ease: "easeOut" }}
               className="lg:col-span-7"
             >
@@ -924,7 +926,7 @@ export default function ValueModelPage() {
                     <motion.div
                       key={m.label}
                       initial={{ opacity: 0, y: 10 }}
-                      animate={inEvidence.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                      animate={evidenceInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
                       transition={{ duration: 0.45, ease: "easeOut", delay: 0.06 + i * 0.05 }}
                     >
                       <GaugeCard metric={m} />
@@ -978,7 +980,7 @@ export default function ValueModelPage() {
 
             <motion.div
               initial={{ opacity: 0, y: 12 }}
-              animate={inEvidence.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              animate={evidenceInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
               transition={{ duration: 0.55, ease: "easeOut", delay: 0.06 }}
               className="lg:col-span-5"
             >
@@ -1013,7 +1015,7 @@ export default function ValueModelPage() {
         className="relative"
         style={{ background: THEME.sand, color: THEME.deep }}
       >
-        <div ref={inDifference.ref} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
+        <div ref={differenceRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="light"
             eyebrow="DIFFERENTIATOR"
@@ -1022,7 +1024,7 @@ export default function ValueModelPage() {
           />
 
           <div className="mt-10">
-            <CompareDock inView={inDifference.inView} />
+            <CompareDock inView={differenceInView} />
           </div>
 
           {/* closing CTA */}
@@ -1182,7 +1184,8 @@ function IconBadge({ color, children }) {
   );
 }
 
-function SignalCard({ icon: Icon, title, desc, color }) {
+function SignalCard({ icon, title, desc, color }) {
+  const Icon = icon;
   return (
     <div className="relative overflow-hidden rounded-[28px] bg-white/5 p-5 ring-1 ring-white/10">
       <div className="flex items-start gap-3">
@@ -1524,7 +1527,8 @@ function LayerLadder({ inView }) {
   );
 }
 
-function LightChip({ icon: Icon, title, desc, color }) {
+function LightChip({ icon, title, desc, color }) {
+  const Icon = icon;
   return (
     <div
       className="rounded-3xl p-4 ring-1"
@@ -1552,7 +1556,8 @@ function LightChip({ icon: Icon, title, desc, color }) {
   );
 }
 
-function InsightCard({ title, icon: Icon, color, text }) {
+function InsightCard({ title, icon, color, text }) {
+  const Icon = icon;
   return (
     <div
       className="relative overflow-hidden rounded-[36px] p-6 ring-1"
@@ -1643,7 +1648,8 @@ function GaugeCard({ metric }) {
   );
 }
 
-function DarkNote({ title, icon: Icon, color, text }) {
+function DarkNote({ title, icon, color, text }) {
+  const Icon = icon;
   return (
     <div className="relative overflow-hidden rounded-[36px] bg-white/5 p-6 ring-1 ring-white/10">
       <div className="flex items-center gap-3">

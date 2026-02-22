@@ -34,6 +34,8 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
+const Motion = motion;
+
 /** ---------------- THEME (from your provided code vibe) ---------------- */
 const THEME = {
   deep: "#0B1220",
@@ -917,7 +919,7 @@ function SupervisionParallax() {
   ];
 
   return (
-    <div ref={wrapRef} className="mt-10">
+    <div ref={wrapRef} className="relative mt-10">
       <div className="relative overflow-hidden rounded-[44px] ring-1 ring-white/10"
         style={{
           background: "linear-gradient(180deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.03) 100%)",
@@ -1207,7 +1209,8 @@ function GlobalExposure() {
   );
 }
 
-function ExposureCard({ title, icon: Icon, color }) {
+function ExposureCard({ title, icon, color }) {
+  const Icon = icon;
   return (
     <motion.div
       whileHover={{ y: -4, scale: 1.01 }}
@@ -1224,7 +1227,8 @@ function ExposureCard({ title, icon: Icon, color }) {
   );
 }
 
-function MiniBullet({ icon: Icon, text, color }) {
+function MiniBullet({ icon, text, color }) {
+  const Icon = icon;
   return (
     <div className="flex items-start gap-3">
       <IconBadge color={color}>
@@ -1238,7 +1242,7 @@ function MiniBullet({ icon: Icon, text, color }) {
 /** ---------------- main page ---------------- */
 export default function RealExperiencePage() {
   const reduce = useReducedMotion();
-  const meaning = useInViewOnce(0.2);
+  const { ref: meaningRef } = useInViewOnce(0.2);
 
   return (
     <div
@@ -1389,7 +1393,7 @@ export default function RealExperiencePage() {
 
       {/* MEANING */}
       <section id="meaning" className="relative" style={{ background: THEME.deep }}>
-        <div ref={meaning.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={meaningRef} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Not Simulation."
             accent="Not Case Studies."

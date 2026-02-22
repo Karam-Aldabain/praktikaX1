@@ -33,6 +33,8 @@ import {
   X,
 } from "lucide-react";
 
+const Motion = motion;
+
 /* =========================
    THEME
 ========================= */
@@ -84,12 +86,12 @@ const vFadeUp = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT } },
 };
 
-const vFade = {
+const _vFade = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT } },
 };
 
-const vStagger = {
+const _vStagger = {
   hidden: {},
   show: { transition: { staggerChildren: 0.06, delayChildren: 0.02 } },
 };
@@ -153,6 +155,7 @@ function useInViewOnce(threshold = 0.2, rootMargin = "0px 0px -10% 0px") {
 
   return { ref, inView };
 }
+const _useInViewOnce = useInViewOnce;
 
 function useLockBodyScroll(locked) {
   useEffect(() => {
@@ -173,10 +176,7 @@ function AnimatedNumber({ value, suffix, durationMs = 900 }) {
   const [n, setN] = useState(reduce ? value : 0);
 
   useEffect(() => {
-    if (reduce) {
-      setN(value);
-      return;
-    }
+    if (reduce) return;
     let raf = 0;
     const start = performance.now();
     const from = 0;
@@ -192,9 +192,11 @@ function AnimatedNumber({ value, suffix, durationMs = 900 }) {
     return () => cancelAnimationFrame(raf);
   }, [value, durationMs, reduce]);
 
+  const display = reduce ? value : n;
+
   return (
     <span>
-      {n.toLocaleString()}
+      {display.toLocaleString()}
       {suffix}
     </span>
   );
@@ -629,6 +631,9 @@ function getProgramCover(trackKey = "", title = "", index = 0) {
   for (let i = 0; i < trackKey.length; i += 1) {
     base = (base * 31 + trackKey.charCodeAt(i)) % PROGRAM_COVERS.length;
   }
+  for (let i = 0; i < title.length; i += 1) {
+    base = (base * 31 + title.charCodeAt(i)) % PROGRAM_COVERS.length;
+  }
   return PROGRAM_COVERS[(base + index) % PROGRAM_COVERS.length];
 }
 
@@ -740,9 +745,12 @@ function ApplyProgramModal({
 
   useEffect(() => {
     if (!open) return;
-    setStep(0);
-    setFormStep(0);
-    setMethod("Stripe");
+    const timer = window.setTimeout(() => {
+      setStep(0);
+      setFormStep(0);
+      setMethod("Stripe");
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [open, selectedProgram]);
 
   useEffect(() => {
@@ -1464,8 +1472,8 @@ export default function AIForRealWorldCareersPage() {
   const steps = FORM_STEPS;
   const [step, setStep] = useState(0);
 
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
+  const [_submitted, setSubmitted] = useState(false);
+  const [_submitting, setSubmitting] = useState(false);
   const [isApplyModalOpen, setIsApplyModalOpen] = useState(false);
   const [selectedProgramTitle, setSelectedProgramTitle] = useState("");
   const [selectedTrackLabel, setSelectedTrackLabel] = useState(track.label);
@@ -1497,7 +1505,7 @@ export default function AIForRealWorldCareersPage() {
   // Step 5
   const [consent, setConsent] = useState(false);
 
-  const progress = Math.round(((step + 1) / steps.length) * 100);
+  const _progress = Math.round(((step + 1) / steps.length) * 100);
 
   const canNext = useMemo(() => {
     if (step === 0) return fullName.trim() && email.trim() && phone.trim() && roleTitle.trim();
@@ -1554,7 +1562,7 @@ export default function AIForRealWorldCareersPage() {
     setIsApplyModalOpen(true);
   }, [track.label, trackKeyFromLabel]);
 
-  const applyDiagnosticRecommendation = useCallback((reco) => {
+  const _applyDiagnosticRecommendation = useCallback((reco) => {
     const normalized = normalizeTrackLabel(reco);
     const next = new Set([normalized]);
     setInterestTracks(next);
@@ -1563,7 +1571,7 @@ export default function AIForRealWorldCareersPage() {
     document.querySelector("#apply")?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [trackKeyFromLabel]);
 
-  const resetAndSubmit = useCallback(() => {
+  const _resetAndSubmit = useCallback(() => {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
@@ -1573,12 +1581,12 @@ export default function AIForRealWorldCareersPage() {
     }, 650);
   }, []);
 
-  const goNext = useCallback(() => {
+  const _goNext = useCallback(() => {
     if (!canNext) return;
     setStep((s) => Math.min(steps.length - 1, s + 1));
   }, [canNext, steps.length]);
 
-  const goBack = useCallback(() => {
+  const _goBack = useCallback(() => {
     setStep((s) => Math.max(0, s - 1));
   }, []);
 

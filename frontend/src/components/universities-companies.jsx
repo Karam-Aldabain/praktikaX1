@@ -35,6 +35,8 @@ import {
   X,
 } from "lucide-react";
 
+const Motion = motion;
+
 /**
  * OrganizationsLanding.jsx
  * - Uses the SAME color system as your provided code (THEME).
@@ -230,7 +232,7 @@ function NodeGraph() {
     ["u", "n"],
   ];
 
-  const nodeById = useMemo(() => Object.fromEntries(nodes.map((n) => [n.id, n])), []);
+  const nodeById = Object.fromEntries(nodes.map((n) => [n.id, n]));
 
   return (
     <div
@@ -401,7 +403,8 @@ function GlassCard({ children, className }) {
   );
 }
 
-function MiniFeature({ icon: Icon, title, desc, color }) {
+function MiniFeature({ icon, title, desc, color }) {
+  const Icon = icon;
   return (
     <motion.div
       whileHover={{ y: -2, scale: 1.01 }}
@@ -869,21 +872,24 @@ function ApplyFlowModal({ open, offer, onClose }) {
 
   useEffect(() => {
     if (!open) return;
-    setStep(0);
-    setPaymentMethod("Stripe");
-    setErrors({});
-    setForm({
-      fullName: "",
-      email: "",
-      phone: "",
-      country: "",
-      persona: "University Student",
-      academicYear: "Final Year",
-      specialization: "",
-      preferredCategory: selectedOffer.type || "Engineering & Technology",
-      startTimeline: "Within 1 Month",
-      selectedProgram: selectedOffer.title,
-    });
+    const timer = window.setTimeout(() => {
+      setStep(0);
+      setPaymentMethod("Stripe");
+      setErrors({});
+      setForm({
+        fullName: "",
+        email: "",
+        phone: "",
+        country: "",
+        persona: "University Student",
+        academicYear: "Final Year",
+        specialization: "",
+        preferredCategory: selectedOffer.type || "Engineering & Technology",
+        startTimeline: "Within 1 Month",
+        selectedProgram: selectedOffer.title,
+      });
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [open, selectedOffer.title, selectedOffer.type]);
 
   useEffect(() => {
@@ -1347,7 +1353,6 @@ function PartnershipForm() {
     // Hook this to your API
     // await fetch("/api/partnership", { method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(submission) });
     // For now:
-    // eslint-disable-next-line no-console
     console.log("PARTNERSHIP_SUBMISSION", submission);
 
     await new Promise((r) => setTimeout(r, reduce ? 250 : 650));
@@ -1387,7 +1392,9 @@ function PartnershipForm() {
               onClick={() => {
                 try {
                   localStorage.setItem("org_partnership_form_v1", JSON.stringify(form));
-                } catch {}
+                } catch {
+                  // ignore draft persistence errors
+                }
               }}
               className="inline-flex items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 ring-1 ring-white/10 transition hover:bg-white/10"
             >
@@ -1764,12 +1771,12 @@ function PartnershipForm() {
 
 /** ---------- Main Page ---------- */
 export default function OrganizationsLanding() {
-  const heroRef = useInViewOnce(0.2);
-  const uniRef = useInViewOnce(0.2);
-  const compRef = useInViewOnce(0.2);
-  const expertsRef = useInViewOnce(0.2);
-  const deliveryRef = useInViewOnce(0.2);
-  const whyRef = useInViewOnce(0.2);
+  const { ref: heroRefEl, inView: heroInView } = useInViewOnce(0.2);
+  const { ref: uniRefEl } = useInViewOnce(0.2);
+  const { ref: compRefEl } = useInViewOnce(0.2);
+  const { ref: expertsRefEl } = useInViewOnce(0.2);
+  const { ref: deliveryRefEl } = useInViewOnce(0.2);
+  const { ref: whyRefEl } = useInViewOnce(0.2);
   const [isApplyOpen, setIsApplyOpen] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState(DEFAULT_APPLY_OFFER);
 
@@ -1813,10 +1820,10 @@ export default function OrganizationsLanding() {
 
       {/* HERO */}
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={heroRef.ref} className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-14 pt-8 lg:grid-cols-2 lg:pb-20 lg:pt-12">
+        <div ref={heroRefEl} className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 px-5 pb-14 pt-8 lg:grid-cols-2 lg:pb-20 lg:pt-12">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
-            animate={heroRef.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
             <h1 className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
@@ -1862,7 +1869,7 @@ export default function OrganizationsLanding() {
 
           <motion.div
             initial={{ opacity: 0, y: 18 }}
-            animate={heroRef.inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
+            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             transition={{ duration: 0.75, ease: "easeOut", delay: 0.05 }}
             className="relative"
           >
@@ -1873,7 +1880,7 @@ export default function OrganizationsLanding() {
 
       {/* FOR UNIVERSITIES */}
       <section id="universities" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
-        <div ref={uniRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={uniRefEl} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Academic Excellence Meets"
             accentText="Industry Execution"
@@ -2073,7 +2080,7 @@ export default function OrganizationsLanding() {
 
       {/* FOR COMPANIES */}
       <section id="companies" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={compRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={compRefEl} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Upskilling Organizations"
             accentText="for the AI-Driven Economy"
@@ -2155,7 +2162,7 @@ export default function OrganizationsLanding() {
 
       {/* EXPERT NETWORK */}
       <section id="experts" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
-        <div ref={expertsRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={expertsRefEl} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Delivered by Practitioners,"
             accentText="Not Just Trainers"
@@ -2225,7 +2232,7 @@ export default function OrganizationsLanding() {
 
       {/* DELIVERY MODEL */}
       <section id="delivery" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={deliveryRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={deliveryRefEl} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="Flexible Delivery."
             accentText="Structured Execution."
@@ -2277,7 +2284,7 @@ export default function OrganizationsLanding() {
 
       {/* WHY PARTNER */}
       <section id="why" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
-        <div ref={whyRef.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
+        <div ref={whyRefEl} className="mx-auto max-w-7xl px-5 py-14 sm:py-18">
           <SectionTitle
             title="A Strategic Talent"
             accentText="Development Partner."

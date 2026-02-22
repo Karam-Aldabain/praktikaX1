@@ -1,21 +1,24 @@
-import React, { useMemo, useState } from "react";
+﻿import React, { useMemo, useState } from "react";
 import {
   AnimatePresence,
   motion,
   useReducedMotion,
   useScroll,
   useSpring,
-  useTransform,
 } from "framer-motion";
+
+const Motion = motion;
 import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
+  Sparkles,
+  Send,
+  CheckCircle2,
+  Star,
   Users,
   GraduationCap,
   Zap,
-  Handshake,
-  LineChart,
   Linkedin,
 } from "lucide-react";
 import { useLocalTheme } from "../hooks/use-local-theme";
@@ -70,13 +73,6 @@ const SOLUTIONS = [
     href: "/for-individuals/ai-for-real-world-careers",
   },
   {
-    title: "Life Training",
-    desc: "Build communication, leadership, and workplace habits that support long-term professional growth.",
-    img: IMAGES.solution4,
-    tag1: "Soft skills",
-    tag2: "Professional growth",
-  },
-  {
     title: "1-to-1 Career Mentorship",
     desc: "1-to-1 and group mentoring aligned with real career paths.",
     img: IMAGES.solution3,
@@ -113,22 +109,6 @@ const BENEFITS = [
     tag1: "Applied AI",
     tag2: "Operational impact",
     href: "/for-organizations/ai",
-  },
-  {
-    icon: Handshake,
-    title: "Partnerships",
-    desc: "Strategic collaborations with institutions, companies, and ecosystems to scale outcomes.",
-    img: "/partner.webp",
-    tag1: "Strategic",
-    tag2: "Long-term",
-  },
-  {
-    icon: LineChart,
-    title: "Innovation & Workforce Tools",
-    desc: "Frameworks and tools for workforce planning, capability mapping, and innovation delivery.",
-    img: "/growth.avif",
-    tag1: "Innovation",
-    tag2: "Workforce tools",
   },
 ];
 
@@ -247,18 +227,15 @@ const HOW_IT_WORKS = [
 ];
 
 const LOGOS = [
-  { name: "intel", light: "#C51F5D" },
-  { name: "IBM", light: "#1F2A37" },
-  { name: "Oracle", light: "#C51F5D" },
-  { name: "SAP", light: "#1F2A37" },
-  { name: "Salesforce", light: "#243447" },
-  { name: "Adobe", light: "#C51F5D" },
-  { name: "PwC", light: "#243447" },
-  { name: "Cisco", light: "#C51F5D" },
-  { name: "Accenture", light: "#C51F5D" },
-  { name: "Deloitte", light: "#1F2A37" },
-  { name: "EY", light: "#1F2A37" },
-  { name: "SIEMENS", light: "#2AA6B8" },
+  { key: "intel", alt: "Intel", src: "/logos/intel.png", sizeClass: "h-6 sm:h-7", boxClass: "w-[120px]", scale: 1 },
+  { key: "ibm", alt: "IBM", src: "/logos/ibm.png", sizeClass: "h-6 sm:h-7", boxClass: "w-[120px]", scale: 1 },
+  { key: "oracle", alt: "Oracle", src: "/logos/oracle.png", sizeClass: "h-5 sm:h-6", boxClass: "w-[120px]", scale: 1.08 },
+  { key: "adobe", alt: "Adobe", src: "/logos/adobe.png", sizeClass: "h-6 sm:h-7", boxClass: "w-[120px]", scale: 1 },
+  { key: "pwc", alt: "PwC", src: "/logos/pwc.png", sizeClass: "h-8 sm:h-9", boxClass: "w-[110px]", scale: 1.35 },
+  { key: "cisco", alt: "Cisco", src: "/logos/cisco.png", sizeClass: "h-5 sm:h-6", boxClass: "w-[120px]", scale: 1.05 },
+  { key: "deloitte", alt: "Deloitte", src: "/logos/deloitte.png", sizeClass: "h-5 sm:h-6", boxClass: "w-[120px]", scale: 1 },
+  { key: "ey", alt: "EY", src: "/logos/ey.png", sizeClass: "h-8 sm:h-9", boxClass: "w-[100px]", scale: 1.25 },
+  { key: "sap", alt: "SAP", src: "/logos/sap.png", sizeClass: "h-6 sm:h-7", boxClass: "w-[100px]", scale: 1.9 },
 ];
 
 /* -----------------------------------------------------------
@@ -467,6 +444,18 @@ function Header({ eyebrow, title, subtitle }) {
 function SuccessStories({ items }) {
   const reduce = useReducedMotion();
   const railItems = [...items, ...items];
+  const storyPhotos = [
+    "https://randomuser.me/api/portraits/women/44.jpg",
+    "https://randomuser.me/api/portraits/men/32.jpg",
+    "https://randomuser.me/api/portraits/men/75.jpg",
+    "https://randomuser.me/api/portraits/women/68.jpg",
+    "https://randomuser.me/api/portraits/men/22.jpg",
+    "https://randomuser.me/api/portraits/women/12.jpg",
+    "https://randomuser.me/api/portraits/men/47.jpg",
+    "https://randomuser.me/api/portraits/women/29.jpg",
+    "https://randomuser.me/api/portraits/men/64.jpg",
+    "https://randomuser.me/api/portraits/women/53.jpg",
+  ];
 
   const initials = (name = "") =>
     name
@@ -483,37 +472,372 @@ function SuccessStories({ items }) {
         animate={reduce ? undefined : { x: ["0%", "-50%"] }}
         transition={reduce ? undefined : { duration: 34, repeat: Infinity, ease: "linear" }}
       >
-        {railItems.map((story, idx) => (
-          <article
-            key={`${story.name}-${idx}`}
-            className="group relative w-[320px] shrink-0 overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[color:var(--card)] p-6 shadow-[var(--shadow-md)] backdrop-blur transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75 sm:w-[360px]"
-          >
-            <div className="absolute left-0 top-0 h-full w-1.5 bg-[color:var(--accent)]" />
-            <div className="ml-2 text-base font-bold leading-relaxed text-[color:var(--text)]">
-              {story.quote}
-            </div>
+        {railItems.map((story, idx) => {
+          const photoSrc = story.photo || storyPhotos[idx % storyPhotos.length];
+          return (
+            <article
+              key={`${story.name}-${idx}`}
+              className="group relative w-[340px] shrink-0 overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[color:var(--card)] shadow-[var(--shadow-md)] backdrop-blur transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75 sm:w-[400px]"
+            >
+              <div className="absolute left-0 top-0 h-full w-1.5 bg-[color:var(--accent)]" />
 
-            <div className="ml-2 mt-6 flex items-center gap-3">
-              {story.avatar ? (
+              <div className="relative h-56 w-full overflow-hidden">
                 <img
-                  src={story.avatar}
-                  alt={story.name}
-                  className="h-12 w-12 rounded-full border border-[#C51F5D]/25 object-cover"
+                  src={photoSrc}
+                  alt={`${story.name} story cover`}
+                  className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
                 />
-              ) : (
-                <div className="grid h-12 w-12 place-items-center rounded-full border border-[#C51F5D]/25 bg-[#C51F5D]/10 text-xs font-extrabold text-[#C51F5D]">
-                  {initials(story.name)}
-                </div>
-              )}
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.00)_55%,rgba(0,0,0,0.22)_100%)]" />
+              </div>
 
-              <div>
-                <div className="text-sm font-extrabold text-[color:var(--text)]">{story.name}</div>
-                <div className="text-xs font-semibold text-[color:var(--muted)]">{story.role}</div>
+              <div className="p-6">
+                <div className="ml-2 text-base font-bold leading-relaxed text-[color:var(--text)]">
+                  {story.quote}
+                </div>
+
+                <div className="ml-2 mt-6 flex items-center gap-3">
+                  {story.avatar ? (
+                    <img
+                      src={story.avatar}
+                      alt={story.name}
+                      className="h-12 w-12 rounded-full border border-[#C51F5D]/25 object-cover"
+                    />
+                  ) : (
+                    <div className="grid h-12 w-12 place-items-center rounded-full border border-[#C51F5D]/25 bg-[#C51F5D]/10 text-xs font-extrabold text-[#C51F5D]">
+                      {initials(story.name)}
+                    </div>
+                  )}
+
+                  <div>
+                    <div className="text-sm font-extrabold text-[color:var(--text)]">{story.name}</div>
+                    <div className="text-xs font-semibold text-[color:var(--muted)]">{story.role}</div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </motion.div>
+    </div>
+  );
+}
+
+function LearningHeroLikeRef({ theme, reduce, rotatingWords, rotatingWordIndex }) {
+  const isDark = theme === "dark";
+  const primarySolution = SOLUTIONS[0] || {};
+  const mentorSolution = SOLUTIONS.find((s) => s.title?.toLowerCase().includes("mentorship")) || SOLUTIONS[SOLUTIONS.length - 1] || {};
+
+  return (
+    <div className="relative overflow-hidden rounded-[34px]" style={{ boxShadow: "var(--shadow-lg)" }}>
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(1200px 800px at 18% 25%, rgba(197,31,93,0.18), transparent 62%)," +
+            "radial-gradient(1100px 800px at 78% 30%, rgba(36,52,71,0.35), transparent 58%)," +
+            "linear-gradient(135deg, rgba(6,12,22,0.98), rgba(11,24,41,0.96) 55%, rgba(9,18,33,0.98))",
+        }}
+      />
+
+      <div
+        className="absolute inset-y-0 right-0 hidden w-[48%] md:block"
+        style={{
+          background: "linear-gradient(135deg, rgba(197,31,93,0.92), rgba(36,52,71,0.92))",
+          clipPath: "polygon(26% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          opacity: 0.92,
+        }}
+      />
+
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.10] mix-blend-overlay"
+        style={{ backgroundImage: `url("${PAPER_GRAIN_DATA_URI}")`, backgroundSize: "340px 340px" }}
+      />
+
+      <div className="relative grid gap-10 p-6 sm:p-10 md:grid-cols-[1.05fr_.95fr] md:items-center md:p-12">
+        <div>
+          <div className="flex flex-wrap items-center gap-3">
+            <span
+              className="inline-flex items-center rounded-full px-4 py-2 text-xs font-extrabold text-white"
+              style={{
+                background: "linear-gradient(135deg, rgba(197,31,93,1), rgba(165,22,78,1))",
+                boxShadow: "0 14px 34px rgba(197,31,93,0.28)",
+              }}
+            >
+              {primarySolution.tag1 || "Career start"}
+            </span>
+
+            <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-xs font-extrabold text-white/80">
+              {primarySolution.tag2 || "Industry-ready"}
+            </span>
+
+            <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-xs font-extrabold text-white/80">
+              <Sparkles size={14} />
+              Proof of work
+            </span>
+          </div>
+
+          <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl md:text-6xl">
+            Real{" "}
+            <span className="text-[color:var(--accent)]">
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={rotatingWords[rotatingWordIndex]}
+                  className="inline-flex"
+                  initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: -10 }}
+                  transition={reduce ? { duration: 0 } : { duration: 0.28, ease: "easeOut" }}
+                >
+                  {rotatingWords[rotatingWordIndex]}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+            .
+          </h1>
+
+          <p className="mt-5 max-w-[60ch] text-base font-medium leading-relaxed text-white/78 sm:text-lg">
+            Structured industry-driven programs connecting education, AI, and global expertise.
+          </p>
+          <p className="max-w-[60ch] text-base font-medium leading-relaxed text-white/78 sm:text-lg">
+            Built to turn potential into measurable performance.
+          </p>
+
+          <div className="mt-8">
+           
+          </div>
+        </div>
+
+        <div className="relative mx-auto w-full max-w-[520px]">
+          <div className="relative mx-auto aspect-square w-full max-w-[480px]">
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                background:
+                  "conic-gradient(from 200deg, rgba(197,31,93,1), rgba(197,31,93,1) 24%, rgba(255,255,255,0.14) 24%, rgba(255,255,255,0.14) 64%, rgba(197,31,93,1) 64%, rgba(197,31,93,1))",
+                padding: 10,
+                boxShadow: "0 40px 120px rgba(0,0,0,0.45)",
+              }}
+            >
+              <div
+                className="h-full w-full rounded-full"
+                style={{
+                  background: "conic-gradient(from 80deg, rgba(255,255,255,0.18), rgba(255,255,255,0.10), rgba(255,255,255,0.18))",
+                  padding: 10,
+                }}
+              >
+                <div className="relative h-full w-full overflow-hidden rounded-full">
+                  <img
+                    src={primarySolution.img || IMAGES.solution1}
+                    alt="Students"
+                    className="h-full w-full object-cover"
+                    loading="eager"
+                  />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.10),transparent_55%)]" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.00)_35%,rgba(0,0,0,0.45)_100%)]" />
+                </div>
               </div>
             </div>
-          </article>
-        ))}
-      </motion.div>
+
+            <motion.div
+              className="absolute right-0 top-[18%] rounded-2xl border bg-white px-4 py-3 shadow-[0_20px_70px_rgba(0,0,0,0.25)]"
+              initial={reduce ? false : { opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45, ease: "easeOut" }}
+              style={{ borderColor: "rgba(15,23,42,0.10)" }}
+            >
+              <div className="text-xs font-extrabold text-[#243447]/70">Your goal</div>
+              <div className="mt-1 text-sm font-extrabold text-[#0B1220]">Portfolio-ready outputs</div>
+            </motion.div>
+
+            <motion.div
+              className="absolute left-2 bottom-[18%] rounded-2xl border bg-white px-4 py-3 shadow-[0_20px_70px_rgba(0,0,0,0.25)]"
+              initial={reduce ? false : { opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
+              style={{ borderColor: "rgba(15,23,42,0.10)" }}
+            >
+              <div className="text-xs font-extrabold text-[#243447]/70">{mentorSolution.title || "Career Mentorship"}</div>
+              <div className="mt-1 text-sm font-extrabold text-[#0B1220]">Weekly feedback loops</div>
+              <div className="mt-2 flex items-center gap-1 text-[color:var(--accent)]">
+                <Star size={14} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
+                <Star size={14} fill="currentColor" />
+              </div>
+            </motion.div>
+          </div>
+
+          {!isDark ? null : (
+            <div className="mt-4 text-center text-xs font-semibold text-white/50 md:hidden">
+              Tip: choose a pathway and start building proof of work.
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ReviewForm({ theme }) {
+  const isDark = theme === "dark";
+  const reduce = useReducedMotion();
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+  const [quote, setQuote] = useState("");
+  const [rating, setRating] = useState(5);
+  const [sent, setSent] = useState(false);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    setSent(true);
+    setName("");
+    setRole("");
+    setQuote("");
+    setRating(5);
+    window.setTimeout(() => setSent(false), 2600);
+  };
+
+  return (
+    <div className="mt-10">
+      <div className="mx-auto max-w-4xl">
+        <div className="mb-4 flex justify-center">
+          <Pill className="gap-2">
+            <Send size={14} />
+            Submit a Review
+          </Pill>
+        </div>
+
+        <div
+          className="relative overflow-hidden rounded-[28px] border border-[color:var(--border)] bg-[color:var(--card)] p-5 sm:p-7"
+          style={{ boxShadow: "var(--shadow-lg)" }}
+        >
+          <div
+            className="pointer-events-none absolute inset-0 opacity-90"
+            style={{
+              background: isDark
+                ? "radial-gradient(700px 260px at 20% 10%, rgba(197,31,93,0.18), transparent 60%), radial-gradient(700px 260px at 80% 10%, rgba(36,52,71,0.22), transparent 60%)"
+                : "radial-gradient(700px 260px at 20% 10%, rgba(197,31,93,0.10), transparent 60%), radial-gradient(700px 260px at 80% 10%, rgba(36,52,71,0.08), transparent 60%)",
+            }}
+          />
+
+          {!isDark ? (
+            <div
+              className="pointer-events-none absolute inset-0 opacity-[0.12] mix-blend-multiply"
+              style={{ backgroundImage: `url("${PAPER_GRAIN_DATA_URI}")`, backgroundSize: "320px 320px" }}
+            />
+          ) : null}
+
+          <form onSubmit={onSubmit} className="relative grid gap-4">
+            <div className="grid gap-4 md:grid-cols-2">
+              <label className="grid gap-2">
+                <span className="text-xs font-extrabold tracking-wide text-[color:var(--muted)]">Your name</span>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={[
+                    "w-full rounded-2xl border px-4 py-3 text-sm font-semibold outline-none",
+                    isDark
+                      ? "border-white/10 bg-white/10 text-white placeholder:text-white/45"
+                      : "border-black/10 bg-[rgba(255,255,255,0.55)] text-[color:var(--text)] placeholder:text-black/35",
+                  ].join(" ")}
+                  placeholder="Name"
+                />
+              </label>
+
+              <label className="grid gap-2">
+                <span className="text-xs font-extrabold tracking-wide text-[color:var(--muted)]">Role / relationship</span>
+                <input
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  className={[
+                    "w-full rounded-2xl border px-4 py-3 text-sm font-semibold outline-none",
+                    isDark
+                      ? "border-white/10 bg-white/10 text-white placeholder:text-white/45"
+                      : "border-black/10 bg-[rgba(255,255,255,0.55)] text-[color:var(--text)] placeholder:text-black/35",
+                  ].join(" ")}
+                  placeholder="e.g., Program Participant"
+                />
+              </label>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-[color:var(--border)] bg-[rgba(255,255,255,0.10)] px-4 py-3">
+              <div className="text-xs font-extrabold text-[color:var(--muted)]">Rating</div>
+              <div className="flex items-center gap-1">
+                {Array.from({ length: 5 }).map((_, i) => {
+                  const v = i + 1;
+                  const active = v <= rating;
+                  return (
+                    <button
+                      type="button"
+                      key={v}
+                      onClick={() => setRating(v)}
+                      className="grid h-9 w-9 place-items-center rounded-xl border"
+                      style={{
+                        borderColor: active ? "rgba(197,31,93,0.35)" : "rgba(15,23,42,0.10)",
+                        background: active ? "rgba(197,31,93,0.12)" : "rgba(255,255,255,0.12)",
+                      }}
+                      aria-label={`Set rating ${v}`}
+                    >
+                      <Star size={16} className={active ? "text-[color:var(--accent)]" : "text-[color:var(--muted)]"} fill={active ? "currentColor" : "none"} />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <label className="grid gap-2">
+              <span className="text-xs font-extrabold tracking-wide text-[color:var(--muted)]">Your feedback</span>
+              <textarea
+                value={quote}
+                onChange={(e) => setQuote(e.target.value)}
+                rows={4}
+                className={[
+                  "w-full resize-none rounded-2xl border px-4 py-3 text-sm font-semibold outline-none",
+                  isDark
+                    ? "border-white/10 bg-white/10 text-white placeholder:text-white/45"
+                    : "border-black/10 bg-[rgba(255,255,255,0.55)] text-[color:var(--text)] placeholder:text-black/35",
+                ].join(" ")}
+                placeholder="Write your review..."
+              />
+            </label>
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-xs font-semibold text-[color:var(--muted)]">
+              </div>
+
+              <motion.button
+                type="submit"
+                whileHover={reduce ? undefined : { y: -2 }}
+                whileTap={reduce ? undefined : { scale: 0.98 }}
+                transition={SPRING}
+                className="inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-extrabold text-white"
+                style={{
+                  background: "linear-gradient(135deg, rgba(197,31,93,1), rgba(165,22,78,1))",
+                  boxShadow: "0 18px 45px rgba(197,31,93,0.28)",
+                }}
+              >
+                Submit <Send size={16} />
+              </motion.button>
+            </div>
+
+            <AnimatePresence>
+              {sent ? (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: 10, filter: "blur(6px)" }}
+                  className="mt-2 flex items-center justify-center gap-2 rounded-2xl border border-[rgba(197,31,93,0.25)] bg-[rgba(197,31,93,0.12)] px-4 py-3 text-sm font-extrabold text-[color:var(--text)]"
+                >
+                  <CheckCircle2 size={18} />
+                  Thanks - your review was received!
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
@@ -845,47 +1169,10 @@ function StatTile({ variant, value, label }) {
 
 function LogoStrip({ theme }) {
   const isDark = theme === "dark";
-
-  // match the screenshot layout: 2 rows (top longer, bottom shorter)
   const rows = [
-    ["intel", "IBM", "Oracle", "SAP", "Adobe", "pwc", "Cisco"],
-    ["Accenture", "pwc", "Deloitte", "EY", "Cisco"],
+    [LOGOS[0], LOGOS[1], LOGOS[2], LOGOS[3], LOGOS[4], LOGOS[5], LOGOS[6], LOGOS[7], LOGOS[8]],
+    [LOGOS[8], LOGOS[7], LOGOS[6], LOGOS[5], LOGOS[4], LOGOS[3], LOGOS[2], LOGOS[1], LOGOS[0]],
   ];
-
-  // muted brand-ish colors like the screenshot
-  const lightColor = (name) => {
-    const n = name.toLowerCase();
-    if (["intel", "oracle", "adobe", "cisco", "accenture"].includes(n))
-      return "rgba(197,31,93,0.78)"; // pink accent
-    if (n === "sap") return "rgba(36,52,71,0.70)";
-    if (n === "ibm") return "rgba(31,42,55,0.78)";
-    if (n === "pwc") return "rgba(36,52,71,0.72)";
-    if (n === "deloitte") return "rgba(31,42,55,0.70)";
-    if (n === "ey") return "rgba(31,42,55,0.60)";
-    return "rgba(36,52,71,0.62)";
-  };
-
-  const darkColor = () => "rgba(255,255,255,0.88)";
-
-  const styleFor = (name, rowIndex) => {
-    const n = name.toLowerCase();
-
-    return {
-      color: isDark ? darkColor() : lightColor(name),
-      opacity: isDark ? 0.92 : 0.92,
-      letterSpacing: "0.2px",
-      fontWeight: 700,
-      // slightly smaller on 2nd row like the screenshot
-      fontSize: rowIndex === 0 ? "15px" : "14px",
-      lineHeight: 1,
-      // printed effect on paper
-      textShadow: isDark
-        ? "0 1px 0 rgba(0,0,0,0.35)"
-        : "0 1px 0 rgba(255,255,255,0.55)",
-      // Accenture in screenshot feels lighter/italic
-      fontStyle: n === "accenture" ? "italic" : "normal",
-    };
-  };
 
   return (
     <div className="mt-7">
@@ -937,10 +1224,26 @@ function LogoStrip({ theme }) {
                   rowIndex === 0 ? "gap-x-10 gap-y-3" : "gap-x-9 gap-y-3",
                 ].join(" ")}
               >
-                {[...row, ...row].map((name, i) => (
-                  <span key={`${rowIndex}-${name}-${i}`} style={styleFor(name, rowIndex)}>
-                    {name}
-                  </span>
+                {[...row, ...row].map((logo, i) => (
+                  <div
+                    key={`${rowIndex}-${logo.key}-${i}`}
+                    className={`flex h-12 ${logo.boxClass || "w-[120px]"} items-center justify-center overflow-hidden px-1 py-1`}
+                  >
+                    <img
+                      src={logo.src}
+                      alt={logo.alt}
+                      className={`${logo.sizeClass} w-auto object-contain`}
+                      style={{
+                        filter: isDark
+                          ? "brightness(1.14) contrast(1.08) drop-shadow(0 1px 2px rgba(0,0,0,0.45))"
+                          : "none",
+                        opacity: 1,
+                        transform: `scale(${logo.scale || 1})`,
+                        transformOrigin: "center",
+                      }}
+                      loading="lazy"
+                    />
+                  </div>
                 ))}
               </div>
             </div>
@@ -1215,45 +1518,34 @@ function ExpertCard({ person }) {
 export default function LandingPage() {
   const reduce = useReducedMotion();
   const { theme } = useLocalTheme();
-  const [orgIndex, setOrgIndex] = useState(0);
-  const [orgVisible, setOrgVisible] = useState(3);
+  const rotatingWords = ["outcomes", "projects", "experience"];
+  const [rotatingWordIndex, setRotatingWordIndex] = useState(0);
   const [expertIndex, setExpertIndex] = useState(0);
   const [expertVisible, setExpertVisible] = useState(4);
 
-  const { scrollYProgress, scrollY } = useScroll();
+  const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, {
     stiffness: 160,
     damping: 22,
     mass: 0.7,
   });
 
-  const heroTextY = useTransform(scrollY, [0, 480], [0, reduce ? 0 : -24]);
-  const heroArtY = useTransform(scrollY, [0, 480], [0, reduce ? 0 : -10]);
-  const heroNetworkScale = useTransform(scrollY, [0, 480], [1, reduce ? 1 : 0.96]);
-  const heroNetworkOpacity = useTransform(scrollY, [0, 480], [1, reduce ? 1 : 0.9]);
-  const heroWords = ["Experience", "Projects", "Outcomes", "Capability", "Impact"];
-  const [heroWordIndex, setHeroWordIndex] = useState(0);
-  const [heroPulseTick, setHeroPulseTick] = useState(0);
   React.useEffect(() => {
     if (reduce) return;
     const id = window.setInterval(() => {
-      setHeroWordIndex((prev) => (prev + 1) % heroWords.length);
-      setHeroPulseTick((prev) => prev + 1);
-    }, 2500);
+      setRotatingWordIndex((prev) => (prev + 1) % rotatingWords.length);
+    }, 2300);
     return () => window.clearInterval(id);
-  }, [reduce, heroWords.length]);
+  }, [reduce, rotatingWords.length]);
 
   React.useEffect(() => {
     const onResize = () => {
       const w = window.innerWidth;
       if (w < 720) {
-        setOrgVisible(1);
         setExpertVisible(1);
       } else if (w < 1100) {
-        setOrgVisible(2);
         setExpertVisible(2);
       } else {
-        setOrgVisible(3);
         setExpertVisible(4);
       }
     };
@@ -1261,18 +1553,6 @@ export default function LandingPage() {
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
-
-  const orgMaxStart = Math.max(0, BENEFITS.length - orgVisible);
-  React.useEffect(() => {
-    setOrgIndex((prev) => Math.min(prev, orgMaxStart));
-  }, [orgMaxStart]);
-
-  const goOrgLeft = () => {
-    setOrgIndex((prev) => (prev <= 0 ? orgMaxStart : prev - 1));
-  };
-  const goOrgRight = () => {
-    setOrgIndex((prev) => (prev >= orgMaxStart ? 0 : prev + 1));
-  };
 
   const expertMaxStart = Math.max(0, EXPERTS.length - expertVisible);
   React.useEffect(() => {
@@ -1484,94 +1764,13 @@ export default function LandingPage() {
 
       <main className="overflow-x-clip pb-16">
         {/* HERO */}
-        <section className="mx-auto max-w-6xl px-4 pt-1 sm:pt-2">
-          <GlassCard className="relative overflow-hidden p-4 sm:p-6 md:p-10">
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(6,12,22,0.98), rgba(11,24,41,0.96) 55%, rgba(9,18,33,0.98))",
-              }}
-            />
-            <div
-              className="absolute inset-0 opacity-95"
-              style={{
-                background:
-                  "radial-gradient(900px 600px at 16% 14%, rgba(197,31,93,0.16), transparent 66%)," +
-                  "radial-gradient(900px 620px at 84% 22%, rgba(82,214,149,0.16), transparent 65%)," +
-                  "radial-gradient(1200px 900px at 60% 86%, rgba(147,230,184,0.08), transparent 75%)",
-              }}
-            />
-
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={heroPulseTick}
-                className="pointer-events-none absolute inset-0"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 0.16, 0] }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-                style={{
-                  background:
-                    "radial-gradient(500px 260px at 66% 40%, rgba(197,31,93,0.22), transparent 70%)",
-                }}
-              />
-            </AnimatePresence>
-
-            <div className="relative grid gap-10 lg:grid-cols-[1.08fr_.92fr] lg:items-center">
-              <motion.div style={{ y: heroTextY }}>
-                <h1 className="mt-2 text-4xl font-light tracking-tight text-white sm:text-5xl md:text-6xl">
-                  <span className="block">Real</span>
-                  <span className="block h-[1.2em] text-[color:var(--accent)]">
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={heroWords[heroWordIndex]}
-                        className="inline-flex font-semibold"
-                        initial={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={reduce ? { opacity: 1, y: 0 } : { opacity: 0, y: -8 }}
-                        transition={reduce ? { duration: 0 } : { duration: 0.3, ease: "easeOut" }}
-                      >
-                        {heroWords[heroWordIndex]}
-                      </motion.span>
-                    </AnimatePresence>
-                  </span>
-                </h1>
-
-                <p className="mt-6 max-w-[56ch] text-base font-medium leading-relaxed text-white/78 sm:text-lg">
-                  Structured industry-driven programs connecting education, AI, and global expertise.
-                </p>
-                <p className="max-w-[56ch] text-base font-medium leading-relaxed text-white/78 sm:text-lg">
-                  Built to turn potential into measurable performance.
-                </p>
-
-                <div className="mt-7 flex flex-wrap gap-3">
-                  <motion.a
-                    href="#method"
-                    onClick={(e) => (e.preventDefault(), smoothScrollTo("method"))}
-                    className="inline-flex w-full items-center justify-center rounded-full border border-[rgba(197,31,93,0.55)] bg-[rgba(197,31,93,0.88)] px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(197,31,93,0.42)] sm:w-auto"
-                    whileHover={reduce ? undefined : { y: -2 }}
-                    whileTap={reduce ? undefined : { scale: 0.98 }}
-                  >
-                    Explore Programs
-                  </motion.a>
-                  <motion.a
-                    href="#solutions"
-                    onClick={(e) => (e.preventDefault(), smoothScrollTo("solutions"))}
-                    className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-[rgba(197,31,93,0.52)] hover:shadow-[0_0_16px_rgba(197,31,93,0.34)] sm:w-auto"
-                    whileHover={reduce ? undefined : { y: -2 }}
-                    whileTap={reduce ? undefined : { scale: 0.98 }}
-                  >
-                    For Organizations
-                  </motion.a>
-                </div>
-              </motion.div>
-
-              <motion.div style={{ scale: heroNetworkScale, opacity: heroNetworkOpacity }}>
-                <HeroEcosystem y={heroArtY} pulseKey={heroPulseTick} reduce={reduce} />
-              </motion.div>
-            </div>
-          </GlassCard>
+        <section className="mx-auto max-w-6xl px-4 pt-2">
+          <LearningHeroLikeRef
+            theme={theme}
+            reduce={reduce}
+            rotatingWords={rotatingWords}
+            rotatingWordIndex={rotatingWordIndex}
+          />
         </section>
 
         {/* METHOD / STATS */}
@@ -1625,9 +1824,11 @@ export default function LandingPage() {
           </MotionItem>
 
           <MotionItem>
-          <div className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-5 flex flex-wrap justify-center gap-5">
             {SOLUTIONS.map((s) => (
-              <PillarCard key={s.title} theme={theme} item={s} />
+              <div key={s.title} className="w-full max-w-[420px] md:w-[48%] lg:w-[31%]">
+                <PillarCard theme={theme} item={s} />
+              </div>
             ))}
           </div>
           </MotionItem>
@@ -1687,34 +1888,12 @@ export default function LandingPage() {
 
           <MotionItem variant="scaleIn">
           <div className="relative mt-10">
-            <button
-              type="button"
-              onClick={goOrgLeft}
-              className="absolute left-1 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-2xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_12px_26px_rgba(197,31,93,0.30)] transition-transform duration-150 sm:-left-5 sm:h-14 sm:w-14 sm:rounded-3xl sm:shadow-[0_16px_40px_rgba(197,31,93,0.34)] sm:hover:-translate-y-[52%] sm:hover:brightness-105 lg:-left-20"
-              aria-label="Scroll organizations cards left"
-            >
-              <ChevronLeft className="h-4 w-4 text-white sm:h-5 sm:w-5" />
-            </button>
-
-            <button
-              type="button"
-              onClick={goOrgRight}
-              className="absolute right-1 top-1/2 z-10 grid h-10 w-10 -translate-y-1/2 place-items-center rounded-2xl border border-[rgba(197,31,93,0.35)] bg-[linear-gradient(135deg,rgba(197,31,93,1),rgba(165,22,78,1))] shadow-[0_12px_26px_rgba(197,31,93,0.30)] transition-transform duration-150 sm:-right-5 sm:h-14 sm:w-14 sm:rounded-3xl sm:shadow-[0_16px_40px_rgba(197,31,93,0.34)] sm:hover:-translate-y-[52%] sm:hover:brightness-105 lg:-right-20"
-              aria-label="Scroll organizations cards right"
-            >
-              <ChevronRight className="h-4 w-4 text-white sm:h-5 sm:w-5" />
-            </button>
-
-            <div className="overflow-hidden px-2 sm:px-10">
-              <motion.div
-                className="flex"
-                animate={{ x: `-${(orgIndex * 100) / orgVisible}%` }}
-                transition={SPRING}
-              >
+            <div className="px-2 sm:px-4">
+              <div className="flex flex-wrap justify-center gap-4">
                 {BENEFITS.map((b) => {
                   const Icon = b.icon;
                   return (
-                    <div key={b.title} className="shrink-0 px-2" style={{ flex: `0 0 ${100 / orgVisible}%` }}>
+                    <div key={b.title} className="w-full max-w-[420px] md:w-[48%] lg:w-[31%]">
                       <motion.div
                         className="group relative h-full overflow-hidden rounded-[22px] border border-[color:var(--border)] bg-[color:var(--card)] transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75"
                         style={{ boxShadow: "var(--shadow-md)" }}
@@ -1784,7 +1963,7 @@ export default function LandingPage() {
                     </div>
                   );
                 })}
-              </motion.div>
+              </div>
             </div>
           </div>
           </MotionItem>
@@ -1837,6 +2016,7 @@ export default function LandingPage() {
           </MotionItem>
           <MotionItem variant="scaleIn">
           <SuccessStories items={SUCCESS_STORIES} />
+          <ReviewForm theme={theme} />
           </MotionItem>
           </MotionSection>
         </section>

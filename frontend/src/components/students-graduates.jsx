@@ -39,6 +39,7 @@ import {
   HeartPulse,
   X,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 /**
  * IMPORTANT:
@@ -67,7 +68,7 @@ const ACCENT_RGB = "201,29,103";
 const accent = (a) => `rgba(${ACCENT_RGB}, ${a})`;
 
 const IMAGES = {
-  heroMain: "https://images.unsplash.com/photo-1664575602554-2087b04935a5?auto=format&fit=crop&w=1200&q=80",
+  heroMain: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1200&q=80",
   germany: "/munich-08.webp",
 };
 
@@ -1630,7 +1631,7 @@ function Timeline() {
 }
 
 /* -------------------- Impact Panel (Upgraded) -------------------- */
-function ImpactPanel({ inView }) {
+function ImpactPanel({ inView, animateNumbers = true }) {
   const stats = [
     { label: "Interns Trained", value: 1200, suffix: "+", hint: "Structured internship execution", icon: GraduationCap, color: THEME.accent },
     { label: "Built Job-Ready Portfolios", value: 87, suffix: "%", hint: "Portfolio-ready professional outputs", icon: FileCheck2, color: THEME.accent4 },
@@ -1671,7 +1672,14 @@ function ImpactPanel({ inView }) {
                       </div>
 
                       <div className="mt-3 text-4xl font-semibold text-white">
-                        {inView ? <AnimatedNumber value={s.value} suffix={s.suffix} /> : <span>0</span>}
+                        {animateNumbers ? (
+                          inView ? <AnimatedNumber value={s.value} suffix={s.suffix} /> : <span>0</span>
+                        ) : (
+                          <span>
+                            {s.value.toLocaleString()}
+                            {s.suffix}
+                          </span>
+                        )}
                       </div>
                       <div className="mt-1 text-sm text-white/70">{s.hint}</div>
                     </div>
@@ -1894,6 +1902,7 @@ function Bullet({ icon: Icon, text, color }) {
 
 /* -------------------- Main Page -------------------- */
 export default function StudentsGraduatesLanding() {
+  const { i18n } = useTranslation();
   const [activeCat, setActiveCat] = useState(categories[0].key);
   const [persona, setPersona] = useState("University Student");
   const [year, setYear] = useState("Final Year");
@@ -1903,6 +1912,7 @@ export default function StudentsGraduatesLanding() {
 
   const cat = useMemo(() => categories.find((c) => c.key === activeCat) || categories[0], [activeCat]);
   const impact = useInViewOnce(0.25);
+  const animateImpactNumbers = (i18n.resolvedLanguage || i18n.language || "en") === "en";
 
   const [openProgram, setOpenProgram] = useState(null);
   const [applyProgram, setApplyProgram] = useState(null);
@@ -1934,7 +1944,7 @@ export default function StudentsGraduatesLanding() {
 
       {/* HERO */}
       <section id="overview" className="relative" style={{ background: DARK_SECTION_BG }}>
-        <div ref={heroRef} className="mx-auto max-w-7xl px-5 pt-6 pb-14 lg:pt-10 lg:pb-20">
+        <div ref={heroRef} className="relative mx-auto max-w-7xl px-5 pt-6 pb-14 lg:pt-10 lg:pb-20">
           <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2">
             <motion.div variants={stagger} initial="hidden" animate="show">
               <motion.h1 variants={fadeUp} className="mt-2 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
@@ -1997,7 +2007,7 @@ Turn theory into market-ready skills through hands-on projects.             </mo
       <section id="impact" className="relative" style={{ background: DARK_SECTION_BG }}>
         <div ref={impact.ref} className="mx-auto max-w-7xl px-5 py-14 sm:py-20">
           <SectionHeader title="Impact & Numbers" subtitle={null} dark />
-          <ImpactPanel inView={impact.inView} />
+          <ImpactPanel inView={impact.inView} animateNumbers={animateImpactNumbers} />
         </div>
       </section>
 

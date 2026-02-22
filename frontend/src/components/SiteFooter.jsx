@@ -1,9 +1,11 @@
 import React from "react";
 import { Facebook, Instagram, Linkedin, Mail } from "lucide-react";
 import { useLocalTheme } from "../hooks/use-local-theme";
+import { useTranslation } from "react-i18next";
 
 export default function SiteFooter() {
   const { theme } = useLocalTheme();
+  const { t } = useTranslation();
   const isDark = theme === "dark";
 
   return (
@@ -22,7 +24,7 @@ export default function SiteFooter() {
               isDark ? "text-[#E2E2D2]/85" : "text-[#243447]/85",
             ].join(" ")}
           >
-            Join us in exploring real-world projects, mentorship, and career opportunities.
+            {t("footer.aboutText")}
           </p>
 
           <div className="mt-4 flex items-center gap-2">
@@ -44,26 +46,26 @@ export default function SiteFooter() {
           </div>
         </div>
 
-        <FooterCol title="Participate">
-          <FooterLink href="/contact" dark={isDark}>Become a Partner</FooterLink>
-          <FooterLink href="/contact" dark={isDark}>Become a Co-Host</FooterLink>
+        <FooterCol title={t("footer.participate")}>
+          <FooterLink href="/contact" dark={isDark}>{t("footer.becomePartner")}</FooterLink>
+          <FooterLink href="/contact" dark={isDark}>{t("footer.becomeCoHost")}</FooterLink>
           <FooterLink href="/contact" accent dark={isDark}>
-            Become an Expert
+            {t("footer.becomeExpert")}
           </FooterLink>
         </FooterCol>
 
         <div>
-          <h4 className="text-2xl font-extrabold leading-tight">Connect</h4>
+          <h4 className="text-2xl font-extrabold leading-tight">{t("footer.connect")}</h4>
           <div className="mt-3 flex flex-col gap-2.5">
-            <FooterLink href="/contact" dark={isDark}>Contact Us</FooterLink>
-            <FooterLink href="/contact" dark={isDark}>FAQ</FooterLink>
+            <FooterLink href="/contact" dark={isDark}>{t("footer.contactUs")}</FooterLink>
+            <FooterLink href="/contact" dark={isDark}>{t("footer.faq")}</FooterLink>
           </div>
         </div>
 
-        <FooterCol title="Quick Links">
-          <FooterLink href="/#method" dark={isDark}>Our Partners</FooterLink>
-          <FooterLink href="/#experts" dark={isDark}>Our Experts</FooterLink>
-          <FooterLink href="/#stories" dark={isDark}>Success Stories</FooterLink>
+        <FooterCol title={t("footer.quickLinks")}>
+          <FooterLink href="/#method" dark={isDark}>{t("footer.ourPartners")}</FooterLink>
+          <FooterLink href="/#experts" dark={isDark}>{t("footer.ourExperts")}</FooterLink>
+          <FooterLink href="/#stories" dark={isDark}>{t("footer.successStories")}</FooterLink>
         </FooterCol>
 
         <div
@@ -73,8 +75,8 @@ export default function SiteFooter() {
           ].join(" ")}
         >
           <FooterLink href="/impressum" dark={isDark}>Impressum</FooterLink>
-          <FooterLink href="/terms-of-use" dark={isDark}>Terms of Use</FooterLink>
-          <FooterLink href="/privacy-policy" dark={isDark}>Privacy Policy</FooterLink>
+          <FooterLink href="/terms-of-use" dark={isDark}>{t("footer.termsOfUse")}</FooterLink>
+          <FooterLink href="/privacy-policy" dark={isDark}>{t("footer.privacyPolicy")}</FooterLink>
           <span className={["text-[15px] font-medium", isDark ? "text-[#E2E2D2]/65" : "text-[#243447]/65"].join(" ")}>
             {new Date().getFullYear()}
           </span>
