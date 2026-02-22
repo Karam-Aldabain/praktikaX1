@@ -465,59 +465,61 @@ function SuccessStories({ items }) {
       .map((x) => x[0]?.toUpperCase())
       .join("");
 
+  const renderCard = (story, idx, widthClass = "w-[340px] sm:w-[400px]") => {
+    const photoSrc = story.photo || storyPhotos[idx % storyPhotos.length];
+    return (
+      <article
+        key={`${story.name}-${idx}`}
+        className={`group relative shrink-0 overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[color:var(--card)] shadow-[var(--shadow-md)] backdrop-blur transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75 ${widthClass}`}
+      >
+        <div className="absolute left-0 top-0 h-full w-1.5 bg-[color:var(--accent)]" />
+
+        <div className="relative h-56 w-full overflow-hidden">
+          <img
+            src={photoSrc}
+            alt={`${story.name} story cover`}
+            className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.00)_55%,rgba(0,0,0,0.22)_100%)]" />
+        </div>
+
+        <div className="p-6">
+          <div className="ml-2 text-base font-bold leading-relaxed text-[color:var(--text)]">
+            {story.quote}
+          </div>
+
+          <div className="ml-2 mt-6 flex items-center gap-3">
+            {story.avatar ? (
+              <img
+                src={story.avatar}
+                alt={story.name}
+                className="h-12 w-12 rounded-full border border-[#C51F5D]/25 object-cover"
+              />
+            ) : (
+              <div className="grid h-12 w-12 place-items-center rounded-full border border-[#C51F5D]/25 bg-[#C51F5D]/10 text-xs font-extrabold text-[#C51F5D]">
+                {initials(story.name)}
+              </div>
+            )}
+
+            <div>
+              <div className="text-sm font-extrabold text-[color:var(--text)]">{story.name}</div>
+              <div className="text-xs font-semibold text-[color:var(--muted)]">{story.role}</div>
+            </div>
+          </div>
+        </div>
+      </article>
+    );
+  };
+
   return (
-    <div className="mt-10 overflow-hidden">
+    <div className="mt-10 overflow-hidden" dir="ltr">
       <motion.div
         className="flex w-max gap-5 pr-5"
         animate={reduce ? undefined : { x: ["0%", "-50%"] }}
         transition={reduce ? undefined : { duration: 34, repeat: Infinity, ease: "linear" }}
       >
-        {railItems.map((story, idx) => {
-          const photoSrc = story.photo || storyPhotos[idx % storyPhotos.length];
-          return (
-            <article
-              key={`${story.name}-${idx}`}
-              className="group relative w-[340px] shrink-0 overflow-hidden rounded-[24px] border border-[color:var(--border)] bg-[color:var(--card)] shadow-[var(--shadow-md)] backdrop-blur transition-all duration-200 hover:border-[#C51F5D] hover:ring-2 hover:ring-[#C51F5D]/75 sm:w-[400px]"
-            >
-              <div className="absolute left-0 top-0 h-full w-1.5 bg-[color:var(--accent)]" />
-
-              <div className="relative h-56 w-full overflow-hidden">
-                <img
-                  src={photoSrc}
-                  alt={`${story.name} story cover`}
-                  className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.00)_55%,rgba(0,0,0,0.22)_100%)]" />
-              </div>
-
-              <div className="p-6">
-                <div className="ml-2 text-base font-bold leading-relaxed text-[color:var(--text)]">
-                  {story.quote}
-                </div>
-
-                <div className="ml-2 mt-6 flex items-center gap-3">
-                  {story.avatar ? (
-                    <img
-                      src={story.avatar}
-                      alt={story.name}
-                      className="h-12 w-12 rounded-full border border-[#C51F5D]/25 object-cover"
-                    />
-                  ) : (
-                    <div className="grid h-12 w-12 place-items-center rounded-full border border-[#C51F5D]/25 bg-[#C51F5D]/10 text-xs font-extrabold text-[#C51F5D]">
-                      {initials(story.name)}
-                    </div>
-                  )}
-
-                  <div>
-                    <div className="text-sm font-extrabold text-[color:var(--text)]">{story.name}</div>
-                    <div className="text-xs font-semibold text-[color:var(--muted)]">{story.role}</div>
-                  </div>
-                </div>
-              </div>
-            </article>
-          );
-        })}
+        {railItems.map((story, idx) => renderCard(story, idx))}
       </motion.div>
     </div>
   );
