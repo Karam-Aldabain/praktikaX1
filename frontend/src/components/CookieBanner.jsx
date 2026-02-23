@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 const KEY = "px_cookie_consent";
 
 export default function CookieBanner() {
-  const { t } = useTranslation();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -23,9 +21,9 @@ export default function CookieBanner() {
     <div className="fixed bottom-3 left-3 right-3 z-[95] sm:left-auto sm:right-6 sm:max-w-md">
       <div className="rounded-2xl border border-white/10 bg-[#141D26]/96 p-4 text-[#E2E2D2] shadow-[0_20px_50px_rgba(0,0,0,0.30)] backdrop-blur">
         <p className="text-sm leading-relaxed text-[#E2E2D2]/85">
-          {t("cookie.textPrefix")}{" "}
+          We use cookies to improve your experience. See our{" "}
           <a href="/privacy-policy" className="font-bold text-[#C51F5D] underline underline-offset-2">
-            {t("cookie.privacyPolicy")}
+            Privacy Policy
           </a>
           .
         </p>
@@ -35,13 +33,13 @@ export default function CookieBanner() {
             onClick={accept}
             className="rounded-xl bg-[#F5C451] px-4 py-2 text-sm font-extrabold text-[#141D26] hover:bg-[#FFD36D]"
           >
-            {t("cookie.accept")}
+            Accept
           </button>
           <a
             href="/privacy-policy"
             className="rounded-xl border border-white/15 px-4 py-2 text-sm font-bold text-[#E2E2D2]/90 hover:bg-white/5"
           >
-            {t("cookie.manage")}
+            Manage
           </a>
         </div>
       </div>

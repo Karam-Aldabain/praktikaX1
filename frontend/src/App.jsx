@@ -24,32 +24,20 @@ import SiteFooter from "./components/SiteFooter";
 import ImpressumPage from "./components/legal/ImpressumPage";
 import TermsOfUsePage from "./components/legal/TermsOfUsePage";
 import PrivacyPolicyPage from "./components/legal/PrivacyPolicyPage";
+import FaqPage from "./components/faq";
 import { Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { applyGoogleTranslate } from "./lib/googleTranslate";
 import "./App.css";
 
 export default function App() {
-  const { i18n } = useTranslation();
-
   useEffect(() => {
-    const lang = i18n.resolvedLanguage || i18n.language || "en";
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
-  }, [i18n, i18n.language, i18n.resolvedLanguage]);
-
-  useEffect(() => {
-    const lang = i18n.resolvedLanguage || i18n.language || "en";
-    applyGoogleTranslate(lang).catch(() => {
-      // Keep app functional even if external translate script is blocked.
-    });
-  }, [i18n, i18n.language, i18n.resolvedLanguage]);
+    document.documentElement.lang = "en";
+    document.documentElement.dir = "ltr";
+  }, []);
 
   return (
-    <div className="flex min-h-screen flex-col" dir={i18n.resolvedLanguage === "ar" ? "rtl" : "ltr"}>
-      <div id="google_translate_element" style={{ display: "none" }} aria-hidden="true" />
-      <Navbar dir={i18n.resolvedLanguage === "ar" ? "rtl" : "ltr"} />
+    <div className="flex min-h-screen flex-col" dir="ltr">
+      <Navbar dir="ltr" />
       <main className="flex-1">
         <Routes>
           <Route path="/" element={<LandingPage />} />
@@ -77,6 +65,7 @@ export default function App() {
           <Route path="/impressum" element={<ImpressumPage />} />
           <Route path="/terms-of-use" element={<TermsOfUsePage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/faq" element={<FaqPage />} />
           <Route path="/insights/impact-outcomes" element={<InsightsImpactOutcomesPage />} />
           <Route path="/insights/career-outcomes" element={<InsightsImpactOutcomesPage />} />
           <Route path="/insights/real-experience" element={<InsightsRealExperiencePage />} />

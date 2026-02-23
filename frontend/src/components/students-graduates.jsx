@@ -39,7 +39,6 @@ import {
   HeartPulse,
   X,
 } from "lucide-react";
-import { useTranslation } from "react-i18next";
 
 /**
  * IMPORTANT:
@@ -1902,20 +1901,21 @@ function Bullet({ icon: Icon, text, color }) {
 
 /* -------------------- Main Page -------------------- */
 export default function StudentsGraduatesLanding() {
-  const { i18n } = useTranslation();
   const [activeCat, setActiveCat] = useState(categories[0].key);
-  const [persona, setPersona] = useState("University Student");
-  const [year, setYear] = useState("Final Year");
-  const [cv, setCv] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [questionForm, setQuestionForm] = useState({
+    fullName: "",
+    email: "",
+    program: "",
+    message: "",
+  });
 
   const cat = useMemo(() => categories.find((c) => c.key === activeCat) || categories[0], [activeCat]);
   const impact = useInViewOnce(0.25);
-  const animateImpactNumbers = (i18n.resolvedLanguage || i18n.language || "en") === "en";
+  const animateImpactNumbers = true;
 
   const [openProgram, setOpenProgram] = useState(null);
-  const [applyProgram, setApplyProgram] = useState(null);
 
   const sliderRef = useRef(null);
   const scrollSlider = (dir) => {
@@ -1929,6 +1929,24 @@ export default function StudentsGraduatesLanding() {
   const heroRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroY = useTransform(scrollYProgress, [0, 1], [0, 18]);
+
+  const scrollToApply = (programName = "") => {
+    if (programName) {
+      setQuestionForm((prev) => ({ ...prev, program: programName }));
+    }
+    document.getElementById("apply")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const submitQuestions = (e) => {
+    e.preventDefault();
+    setSubmitting(true);
+    setSubmitted(false);
+    window.setTimeout(() => {
+      setSubmitting(false);
+      setSubmitted(true);
+      setQuestionForm({ fullName: "", email: "", program: "", message: "" });
+    }, 650);
+  };
 
   return (
     <div
@@ -2189,6 +2207,90 @@ Turn theory into market-ready skills through hands-on projects.             </mo
         </div>
       </section>
 
+      {/* APPLY / QUESTIONS FORM */}
+      <section id="apply" className="relative" style={{ background: THEME.sand, color: THEME.deep }}>
+        <div className="mx-auto max-w-7xl px-5 py-14 sm:py-20">
+          <SectionHeader
+            title="Have Questions About Programs?"
+            subtitle="Share your question and we will help you choose the right internship track."
+          />
+
+          <motion.div
+            initial={{ opacity: 0, y: 14, filter: "blur(10px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: EASE }}
+            className="mx-auto mt-8 max-w-3xl rounded-[34px] bg-white/60 p-6 ring-1 ring-[#0B1220]/10 backdrop-blur sm:p-8"
+            style={{ boxShadow: "0 22px 80px rgba(0,0,0,0.12)" }}
+          >
+            <form onSubmit={submitQuestions} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <label className="grid gap-2">
+                <span className="text-xs font-semibold tracking-widest text-[#0B1220]/65">FULL NAME</span>
+                <input
+                  value={questionForm.fullName}
+                  onChange={(e) => setQuestionForm((p) => ({ ...p, fullName: e.target.value }))}
+                  className="w-full rounded-2xl bg-white/80 px-4 py-3 text-sm text-[#0B1220] outline-none ring-1 ring-[#0B1220]/10 transition focus:ring-2 focus:ring-[rgba(201,29,103,0.28)]"
+                  placeholder="Your name"
+                  required
+                />
+              </label>
+
+              <label className="grid gap-2">
+                <span className="text-xs font-semibold tracking-widest text-[#0B1220]/65">EMAIL</span>
+                <input
+                  type="email"
+                  value={questionForm.email}
+                  onChange={(e) => setQuestionForm((p) => ({ ...p, email: e.target.value }))}
+                  className="w-full rounded-2xl bg-white/80 px-4 py-3 text-sm text-[#0B1220] outline-none ring-1 ring-[#0B1220]/10 transition focus:ring-2 focus:ring-[rgba(201,29,103,0.28)]"
+                  placeholder="name@email.com"
+                  required
+                />
+              </label>
+
+              <label className="grid gap-2 sm:col-span-2">
+                <span className="text-xs font-semibold tracking-widest text-[#0B1220]/65">PROGRAM OF INTEREST</span>
+                <input
+                  value={questionForm.program}
+                  onChange={(e) => setQuestionForm((p) => ({ ...p, program: e.target.value }))}
+                  className="w-full rounded-2xl bg-white/80 px-4 py-3 text-sm text-[#0B1220] outline-none ring-1 ring-[#0B1220]/10 transition focus:ring-2 focus:ring-[rgba(201,29,103,0.28)]"
+                  placeholder="Example: AI & Machine Learning Internship"
+                />
+              </label>
+
+              <label className="grid gap-2 sm:col-span-2">
+                <span className="text-xs font-semibold tracking-widest text-[#0B1220]/65">YOUR QUESTION</span>
+                <textarea
+                  rows={4}
+                  value={questionForm.message}
+                  onChange={(e) => setQuestionForm((p) => ({ ...p, message: e.target.value }))}
+                  className="w-full resize-none rounded-2xl bg-white/80 px-4 py-3 text-sm text-[#0B1220] outline-none ring-1 ring-[#0B1220]/10 transition focus:ring-2 focus:ring-[rgba(201,29,103,0.28)]"
+                  placeholder="Tell us what you want to know about the programs."
+                  required
+                />
+              </label>
+
+              <div className="sm:col-span-2 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <p className="text-xs text-[#0B1220]/60">We usually reply within 24-48 hours.</p>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition hover:brightness-105 disabled:opacity-70"
+                  style={{ background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)` }}
+                >
+                  {submitting ? "Sending..." : "Send Question"} <ArrowRight className="h-4 w-4" {...iconStrongProps} />
+                </button>
+              </div>
+            </form>
+
+            {submitted ? (
+              <div className="mt-4 rounded-2xl bg-emerald-500/15 px-4 py-3 text-sm font-medium text-emerald-900 ring-1 ring-emerald-600/20">
+                Thanks. Your question was submitted successfully.
+              </div>
+            ) : null}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Sticky Apply Button */}
       <a
         href="#apply"
@@ -2205,10 +2307,10 @@ Turn theory into market-ready skills through hands-on projects.             </mo
         onClose={() => setOpenProgram(null)}
         onApply={(p) => {
           setOpenProgram(null);
-          setApplyProgram(p);
+          scrollToApply(p?.name || "");
         }}
       />
-      <ApplyFlowModal open={!!applyProgram} program={applyProgram} onClose={() => setApplyProgram(null)} />
+      <ApplyFlowModal open={false} program={null} onClose={() => {}} />
 
       <style>{css}</style>
     </div>

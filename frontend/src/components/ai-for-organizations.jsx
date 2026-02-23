@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   Sparkles,
@@ -850,10 +849,7 @@ function OutcomesDeliverablesGrid({ inView, reduce }) {
  *  MAIN PAGE
  *  ======================= */
 export default function AIForOrganizationsLanding() {
-  const { i18n } = useTranslation();
   const reduce = useReducedMotion();
-  const lang = i18n.resolvedLanguage || i18n.language || "en";
-  const pageDir = lang === "ar" ? "rtl" : "ltr";
 
   const [activeCat, setActiveCat] = useState(programCategories[0].key);
   const active = useMemo(
@@ -892,8 +888,8 @@ export default function AIForOrganizationsLanding() {
   return (
     <div
       className="min-h-screen overflow-x-hidden"
-      dir={pageDir}
-      lang={lang}
+      dir="ltr"
+      lang="en"
       style={{
         background: THEME.deep,
         color: "white",

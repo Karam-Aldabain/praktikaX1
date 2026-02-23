@@ -1,185 +1,164 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useLocalTheme } from "../../hooks/use-local-theme";
+﻿import React, { useState } from "react";
 
-/**
- * Screenshot-match layout:
- * - Dark navy background with soft shapes + pink corner accent
- * - Left sidebar: dark nav card + light nav card (as in screenshot)
- * - Right: big cream panel (TMG) with nested dark provider board and row-table
- * - Disclaimer: left dark shell with cream inset + right dark accordion items
- *
- * Palette:
- *  - Pink:  #C51F5D
- *  - Slate: #243447
- *  - Navy:  #141D26
- *  - Cream: #E2E2D2
- */
+const LEGAL_SECTIONS = [
+  {
+    id: "liability-content",
+    title: "Liability for Content",
+    text:
+      "The contents of our pages have been created with the utmost care. However, we cannot guarantee the accuracy, completeness and timeliness of the content. As a service provider, we are responsible for our own content on these pages according to Â§ 7 para. 1 TMG under general law.",
+  },
+  {
+    id: "liability-links",
+    title: "Liability for Links",
+    text:
+      "Our offer contains links to external websites of third parties, on whose contents we have no influence. Therefore, we cannot assume any liability for these external contents. The respective provider or operator of the pages is always responsible for the contents of the linked pages.",
+  },
+  {
+    id: "copyright",
+    title: "Copyright",
+    text:
+      "The content and works created by the site operators on these pages are subject to German copyright law. Duplication, processing, distribution and any kind of exploitation outside the limits of copyright require the written consent of the respective author or creator.",
+  },
+];
 
 export default function ImpressumPage() {
-  const { theme } = useLocalTheme();
-  const sections = useMemo(
-    () => [
-      {
-        id: "tmg",
-        label:
-          "Information in accordance with Ãƒâ€šÃ‚Â§ 5 TMG (German Telemedia Act)",
-      },
-      { id: "service-provider", label: "Service Provider" },
-      {
-        id: "rstv",
-        label: "Responsible for Content according to Ãƒâ€šÃ‚Â§ 55 Abs. 2 RStV",
-      },
-      { id: "disclaimer", label: "Disclaimer" },
-    ],
-    []
-  );
-
-  const [activeId, setActiveId] = useState(sections[0].id);
-
-  // Scroll-spy that respects sticky top spacing
-  useEffect(() => {
-    const els = sections.map((s) => document.getElementById(s.id)).filter(Boolean);
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target?.id) setActiveId(visible.target.id);
-      },
-      {
-        root: null,
-        rootMargin: "-90px 0px -55% 0px",
-        threshold: [0.05, 0.2, 0.4, 0.6],
-      }
-    );
-
-    els.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
-  }, [sections]);
-
-  const scrollTo = (id) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const [openId, setOpenId] = useState(LEGAL_SECTIONS[0].id);
 
   return (
-    <div className="ixRoot" data-theme-mode={theme}>
+    <div className="impressum-page" id="top">
       <style>{styles}</style>
-      <style>{theme === "light" ? IX_LIGHT_OVERRIDES : ""}</style>
 
-      {/* BACKDROP (screenshot-like) */}
-      <div className="ixBg" aria-hidden="true">
-        <div className="ixBgNoise" />
-        <div className="ixShape ixShapeA" />
-        <div className="ixShape ixShapeB" />
-      </div>
-
-      {/* HERO (no topbar, screenshot style) */}
-      <header className="ixHero">
-        <div className="ixHeroInner">
-          <h1 className="ixH1">Impressum</h1>
-          <div className="ixUnderline" />
-        </div>
+      <header className="impressum-hero">
+        <p className="impressum-kicker">Legal Information</p>
+        <h1>Impressum</h1>
+        <p className="impressum-subtitle">Information according to Â§ 5 TMG</p>
       </header>
 
-      {/* MAIN GRID */}
-      <main className="ixGrid">
-        {/* SIDEBAR */}
-        <aside className="ixSidebar">
-          <SideNavCard
-            title="ON THIS PAGE"
-            sections={sections}
-            activeId={activeId}
-            onClick={scrollTo}
-            variant="dark"
-          />
-
-          {/* second nav card like the screenshot (light/cream) */}
-          <SideNavCard
-            title="ON THIS PAGE"
-            sections={sections}
-            activeId={activeId}
-            onClick={scrollTo}
-            variant="light"
-          />
+      <main className="impressum-layout">
+        <aside className="impressum-sidebar">
+          <div className="impressum-nav-card">
+            <p className="impressum-nav-title">On this page</p>
+            <a href="#company-info">Company Information</a>
+            <a href="#contact-info">Contact Information</a>
+            <a href="#register-info">Commercial Register</a>
+            <a href="#tax-info">VAT and Tax</a>
+            <a href="#responsible-content">Responsible for Content</a>
+            <a href="#disclaimer">Disclaimer</a>
+          </div>
         </aside>
 
-        {/* CONTENT */}
-        <section className="ixContent">
-          {/* TMG panel with nested provider board (matches screenshot structure) */}
-          <CreamPanel
-            id="tmg"
-            title="Information in accordance with Ãƒâ€šÃ‚Â§ 5 TMG (German Telemedia Act)"
-          >
-            <ProviderBoard
-              id="service-provider"
-              name="Praktix"
-              sub="Operated by HOPn UG (haftungsbeschrÃƒÆ’Ã‚Â¤nkt)"
-            />
-          </CreamPanel>
-
-          {/* Responsible person (kept, styled to match) */}
-          <CreamPanel
-            id="rstv"
-            title="Responsible for Content according to Ãƒâ€šÃ‚Â§ 55 Abs. 2 RStV"
-          >
-            <div className="ixInsetNote">
-              <div className="ixInsetIcon">
-                <IconUser />
-              </div>
-              <div>
-                <div className="ixInsetMuted">[Insert Full Name]</div>
-                <div className="ixInsetMuted">[Insert Address]</div>
-              </div>
-            </div>
-          </CreamPanel>
-
-          {/* DISCLAIMER section: left dark shell + right dark accordion list */}
-          <section id="disclaimer" className="ixDisclaimerGrid">
-            <div className="ixDarkShell">
-              <div className="ixDarkShellTitle">Disclaimer</div>
-
-              <div className="ixCreamInset">
-                <div className="ixCreamInsetHead">
-                  <span className="ixInsetPinkBadge">
-                    <IconShield />
-                  </span>
-                  <div className="ixCreamInsetHeadText">Liability for Content</div>
-                </div>
-
-                <ul className="ixBullet">
-                  <li>Liability for Content</li>
-                  <li>Liability for Links</li>
-                  <li>Copyright</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="ixAccStack">
-              <DarkAccordion
-                items={[
-                  {
-                    title: "Liability for Content",
-                    icon: <IconShield />,
-                    content:
-                      "As a service provider, we are responsible for our own content on these pages according to general laws. However, we are not obligated to monitor transmitted or stored third-party information or to investigate circumstances indicating illegal activity.",
-                  },
-                  {
-                    title: "Liability for Links",
-                    icon: <IconLink />,
-                    content:
-                      "Our website may contain links to external websites of third parties. We have no influence on the contents of those websites. Therefore, we cannot assume any liability for external content.",
-                  },
-                  {
-                    title: "Copyright",
-                    icon: <IconCopyright />,
-                    content:
-                      "The content and works created by the site operators on these pages are subject to copyright law. Reproduction, editing, distribution, or any form of commercialization beyond the scope of copyright law requires written consent.",
-                  },
-                ]}
+        <section className="impressum-content">
+          <section className="impressum-card" id="company-info">
+            <h2>Company Information</h2>
+            <div className="impressum-grid two-col">
+              <InfoRow label="Company" value="HOPN UG (limited liability)" />
+              <InfoRow
+                label="Represented by"
+                value="Managing Director: Prof. Dr.-Ing. Ahmed Ebada"
               />
+              <InfoRow
+                label="Address"
+                value={
+                  <>
+                    Weichter Str. 1
+                    <br />
+                    86807 Buchloe
+                    <br />
+                    Germany
+                  </>
+                }
+              />
+            </div>
+          </section>
+
+          <section className="impressum-card" id="contact-info">
+            <h2>Contact Information</h2>
+            <div className="impressum-grid two-col">
+              <InfoRow
+                label="Email"
+                value={
+                  <a href="mailto:info@praktix.hopn.eu">
+info@praktix.hopn.eu</a>
+                }
+              />
+              <InfoRow
+                label="Phone"
+                value={<a href="tel:+491794170592">+49 179 4170592</a>}
+              />
+              <InfoRow
+                label="Website"
+                value={
+                  <a
+                    href="https://www.praktix.com"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    www.praktix.com
+                  </a>
+                }
+              />
+            </div>
+          </section>
+
+          <section className="impressum-card" id="register-info">
+            <h2>Entry in the Commercial Register</h2>
+            <div className="impressum-grid two-col">
+              <InfoRow
+                label="Register Court"
+                value="Local Court Kempten (AllgÃ¤u)"
+              />
+              <InfoRow label="Registration Number" value="HRB 17191" />
+            </div>
+          </section>
+
+          <section className="impressum-card" id="tax-info">
+            <h2>VAT Number and Tax Number</h2>
+            <div className="impressum-grid two-col">
+              <InfoRow
+                label="VAT identification number according to Â§ 27a UStG"
+                value="DE365178670"
+              />
+              <InfoRow label="Tax Number" value="125/128/70641" />
+            </div>
+          </section>
+
+          <section className="impressum-card" id="responsible-content">
+            <h2>Responsible for Content</h2>
+            <div className="impressum-grid one-col">
+              <InfoRow
+                label="Responsible for content according to Â§ 55 para. 2 RStV"
+                value="Prof. Dr.-Ing. Ahmed Ebada"
+              />
+            </div>
+          </section>
+
+          <section className="impressum-card" id="disclaimer">
+            <h2>Disclaimer</h2>
+            <div className="impressum-accordion">
+              {LEGAL_SECTIONS.map((item) => {
+                const isOpen = openId === item.id;
+                return (
+                  <article
+                    key={item.id}
+                    className={`impressum-acc-item ${isOpen ? "open" : ""}`}
+                  >
+                    <button
+                      className="impressum-acc-trigger"
+                      onClick={() => setOpenId(isOpen ? "" : item.id)}
+                      aria-expanded={isOpen}
+                      aria-controls={`${item.id}-panel`}
+                    >
+                      <span>{item.title}</span>
+                      <span className="impressum-acc-icon">
+                        {isOpen ? "-" : "+"}
+                      </span>
+                    </button>
+                    <div id={`${item.id}-panel`} className="impressum-acc-panel">
+                      <p>{item.text}</p>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </section>
         </section>
@@ -188,950 +167,264 @@ export default function ImpressumPage() {
   );
 }
 
-/* ---------------- Sidebar Nav ---------------- */
-
-function SideNavCard({ title, sections, activeId, onClick, variant }) {
+function InfoRow({ label, value }) {
   return (
-    <div className={`ixNavCard ${variant}`}>
-      <div className="ixNavTitle">{title}</div>
-
-      <div className="ixNavLinks">
-        {sections.map((s) => {
-          const isActive = s.id === activeId;
-          return (
-            <button
-              key={s.id}
-              className={`ixNavLink ${isActive ? "active" : ""}`}
-              onClick={() => onClick(s.id)}
-            >
-              <span className="ixDot" aria-hidden="true" />
-              <span className="ixNavText">{s.label}</span>
-            </button>
-          );
-        })}
-      </div>
+    <div className="impressum-info-row">
+      <p className="impressum-label">{label}</p>
+      <div className="impressum-value">{value}</div>
     </div>
   );
 }
-
-/* ---------------- Cream Panel (big card) ---------------- */
-
-function CreamPanel({ id, title, children }) {
-  return (
-    <section id={id} className="ixCreamPanel">
-      <div className="ixCreamTitle">{title}</div>
-      <div className="ixCreamBody">{children}</div>
-    </section>
-  );
-}
-
-/* ---------------- Provider board (nested dark card) ---------------- */
-
-function ProviderBoard({ id, name, sub }) {
-  return (
-    <section id={id} className="ixProviderWrap">
-      <div className="ixProviderBoard">
-        <div className="ixProviderTop">
-          <div className="ixProviderTopTitle">Service Provider</div>
-        </div>
-
-        <div className="ixProviderPinkBar">
-          <div className="ixProviderName">{name}</div>
-          <div className="ixProviderSub">{sub}</div>
-        </div>
-
-        <div className="ixProviderTable">
-          <ProviderRow
-            icon={<IconPin />}
-            label="Registered Office:"
-            value="[Insert Full Legal Address Here]"
-            tone="pink"
-          />
-
-          <ProviderRow
-            icon={<IconBuilding />}
-            label="Commercial Register:"
-            value={
-              <>
-                <div>Registered at: [Insert Register Court]</div>
-                <div>Registration Number: [Insert HRB Number]</div>
-              </>
-            }
-            tone="slate"
-          />
-
-          <ProviderRow
-            icon={<IconUser />}
-            label="Managing Director:"
-            value="[Insert Full Legal Name]"
-            tone="slate"
-          />
-
-          <ProviderRow
-            icon={<IconTag />}
-            label="VAT Identification Number:"
-            value="[Insert VAT ID if applicable]"
-            tone="pink"
-          />
-
-          <ProviderRow
-            icon={<IconPhone />}
-            label="Contact:"
-            value={
-              <>
-                <div>Phone: [Insert Phone Number]</div>
-                <div>Email: [Insert Official Email Address]</div>
-              </>
-            }
-            tone="pink"
-          />
-
-          <ProviderRow
-            icon={<IconGlobe />}
-            label="Website:"
-            value="www.Praktix.com"
-            tone="slate"
-            last
-          />
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ProviderRow({ icon, label, value, tone = "slate", last = false }) {
-  return (
-    <div className={`ixRow ${last ? "last" : ""}`}>
-      <div className={`ixRowIcon ${tone}`}>{icon}</div>
-      <div className="ixRowLabel">{label}</div>
-      <div className="ixRowValue">{value}</div>
-    </div>
-  );
-}
-
-/* ---------------- Dark Accordion (screenshot-like) ---------------- */
-
-function DarkAccordion({ items }) {
-  const [openIndex, setOpenIndex] = useState(0);
-
-  return (
-    <div className="ixDarkAccordion">
-      {items.map((it, idx) => {
-        const open = idx === openIndex;
-        return (
-          <div key={it.title} className={`ixDarkAccItem ${open ? "open" : ""}`}>
-            <button
-              className="ixDarkAccBtn"
-              onClick={() => setOpenIndex(open ? -1 : idx)}
-              aria-expanded={open}
-            >
-              <div className="ixDarkAccLeft">
-                <span className="ixDarkAccIcon">{it.icon}</span>
-                <span className="ixDarkAccTitle">{it.title}</span>
-              </div>
-
-              <span className="ixDarkAccChevron" aria-hidden="true">
-                <IconChevron />
-              </span>
-            </button>
-
-            <div className="ixDarkAccPanel">
-              <div className="ixDarkAccPanelInner">{it.content}</div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-/* ---------------- Icons ---------------- */
-
-function Svg({ children, size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      {children}
-    </svg>
-  );
-}
-
-function IconChevron() {
-  return (
-    <Svg>
-      <path
-        d="M7 10l5 5 5-5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </Svg>
-  );
-}
-
-function IconShield() {
-  return (
-    <Svg>
-      <path
-        d="M12 2l8 4v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6l8-4z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 12l2 2 4-5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </Svg>
-  );
-}
-
-function IconPin() {
-  return (
-    <Svg>
-      <path
-        d="M12 22s7-4.5 7-12a7 7 0 10-14 0c0 7.5 7 12 7 12z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M12 10.5a2.2 2.2 0 110-4.4 2.2 2.2 0 010 4.4z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-    </Svg>
-  );
-}
-
-function IconBuilding() {
-  return (
-    <Svg>
-      <path
-        d="M4 21V5a2 2 0 012-2h8a2 2 0 012 2v16"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M18 21V9h2a2 2 0 012 2v10"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M8 7h4M8 11h4M8 15h4"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </Svg>
-  );
-}
-
-function IconUser() {
-  return (
-    <Svg>
-      <path
-        d="M12 12a4 4 0 100-8 4 4 0 000 8z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M4 21a8 8 0 0116 0"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </Svg>
-  );
-}
-
-function IconTag() {
-  return (
-    <Svg>
-      <path
-        d="M3 12l9 9 9-9-9-9H7L3 7v5z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M7.5 7.5h.01"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
-    </Svg>
-  );
-}
-
-function IconPhone() {
-  return (
-    <Svg>
-      <path
-        d="M22 16.9v3a2 2 0 01-2.2 2A19.8 19.8 0 012 6.2 2 2 0 014 4h3a2 2 0 012 1.7c.1.8.3 1.6.6 2.3a2 2 0 01-.5 2.1L8 11a16 16 0 007 7l.9-1.1a2 2 0 012.1-.5c.7.3 1.5.5 2.3.6a2 2 0 011.7 1.9z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-    </Svg>
-  );
-}
-
-function IconGlobe() {
-  return (
-    <Svg>
-      <path
-        d="M12 22a10 10 0 100-20 10 10 0 000 20z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path d="M2 12h20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M12 2a15 15 0 010 20" stroke="currentColor" strokeWidth="2" />
-      <path d="M12 2a15 15 0 000 20" stroke="currentColor" strokeWidth="2" />
-    </Svg>
-  );
-}
-
-function IconLink() {
-  return (
-    <Svg>
-      <path
-        d="M10 13a5 5 0 007 0l2-2a5 5 0 00-7-7l-1 1"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M14 11a5 5 0 01-7 0l-2 2a5 5 0 007 7l1-1"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </Svg>
-  );
-}
-
-function IconCopyright() {
-  return (
-    <Svg>
-      <path
-        d="M12 22a10 10 0 100-20 10 10 0 000 20z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M14.5 9.5a3 3 0 10.1 5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </Svg>
-  );
-}
-
-/* ---------------- CSS ---------------- */
 
 const styles = `
-:root{
-  --pink:#C51F5D;
-  --slate:#243447;
-  --navy:#141D26;
-  --cream:#E2E2D2;
-
-  --white: rgba(255,255,255,.92);
-  --white2: rgba(255,255,255,.72);
-  --line: rgba(255,255,255,.10);
-
-  --shadow: 0 22px 70px rgba(0,0,0,.38);
-  --shadow2: 0 14px 36px rgba(0,0,0,.26);
-
-  --rXL: 28px;
-  --rLG: 22px;
-  --rMD: 18px;
-}
-
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
-body{
-  margin:0;
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-  background: #0b1220;
-}
-
-/* Root */
-.ixRoot{
+.impressum-page {
   min-height: 100vh;
-  position: relative;
-  padding: 18px 0 60px;
+  background: linear-gradient(90deg, #06153d 0%, #03113a 35%, #010a2a 65%, #00061f 100%);
+  color: #222b38;
+  padding: 36px 20px 64px;
 }
 
-/* Background (like screenshot) */
-.ixBg{
-  position: fixed;
-  inset: 0;
-  z-index: -5;
-  background:
-    radial-gradient(1400px 900px at 20% 10%, rgba(36,52,71,.85), transparent 55%),
-    radial-gradient(1200px 800px at 80% 20%, rgba(20,29,38,.92), transparent 55%),
-    linear-gradient(180deg, #0a1322 0%, #0b1526 55%, #0a1322 100%);
-}
-.ixBgNoise{
-  position:absolute; inset:0;
-  opacity:.08;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
-  background-size: 240px 240px;
-}
-
-.ixShape{
-  position:absolute;
-  inset:auto;
-  filter: blur(0px);
-  opacity: .45;
-  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,0));
-  border: 1px solid rgba(255,255,255,.05);
-}
-.ixShapeA{
-  width: 620px; height: 380px;
-  right: -140px; top: 120px;
-  border-radius: 60px;
-  transform: rotate(10deg);
-}
-.ixShapeB{
-  width: 700px; height: 520px;
-  right: -220px; top: 420px;
-  border-radius: 80px;
-  transform: rotate(-8deg);
-  opacity: .25;
-}
-
-.ixPinkCorner{
-  position:absolute;
-  width: 380px; height: 380px;
-  left: -190px; top: 640px;
-  background: radial-gradient(circle at 70% 30%, rgba(197,31,93,.95), rgba(197,31,93,0) 70%);
-  opacity: .65;
-}
-
-/* Hero */
-.ixHero{
-  max-width: 1160px;
+.impressum-hero,
+.impressum-layout {
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 12px 18px 10px;
-}
-.ixHeroInner{
-  display:flex;
-  flex-direction:column;
-  gap: 10px;
-}
-.ixH1{
-  margin:0;
-  color: var(--white);
-  font-size: 54px;
-  letter-spacing: .2px;
-  line-height: 1;
-  text-shadow: 0 16px 36px rgba(0,0,0,.45);
-}
-.ixUnderline{
-  width: 340px;
-  height: 3px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--pink), rgba(197,31,93,0));
 }
 
-/* Layout grid */
-.ixGrid{
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 14px 18px 0;
-  display:grid;
-  grid-template-columns: 300px 1fr;
-  gap: 22px;
-  align-items:start;
+.impressum-hero {
+  margin-bottom: 22px;
 }
 
-/* Sidebar */
-.ixSidebar{
-  display:flex;
-  flex-direction:column;
-  gap: 18px;
+.impressum-kicker {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #c51f5d;
 }
 
-/* Nav cards */
-.ixNavCard{
-  border-radius: var(--rXL);
+.impressum-hero h1 {
+  margin: 0;
+  font-size: clamp(2.1rem, 4vw, 3.3rem);
+  line-height: 1.05;
+  color: #101b2f;
+}
+
+.impressum-subtitle {
+  margin: 12px 0 0;
+  font-size: 1.04rem;
+  color: #5f6877;
+  font-weight: 600;
+}
+
+.impressum-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.impressum-sidebar {
+  position: sticky;
+  top: 92px;
+}
+
+.impressum-nav-card {
+  border-radius: 22px;
+  background: linear-gradient(160deg, #102449, #0f1c32 56%, #162c4f);
+  box-shadow: 0 18px 40px rgba(15, 25, 44, 0.24);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 16px;
-  box-shadow: var(--shadow2);
-}
-.ixNavCard.dark{
-  background: linear-gradient(180deg, rgba(36,52,71,.72), rgba(20,29,38,.72));
-  border: 1px solid rgba(255,255,255,.12);
-}
-.ixNavCard.light{
-  background: linear-gradient(180deg, rgba(226,226,210,.92), rgba(226,226,210,.78));
-  border: 1px solid rgba(255,255,255,.35);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.ixNavTitle{
-  font-size: 12px;
-  letter-spacing: .18em;
-  font-weight: 900;
-  margin-bottom: 12px;
-  color: rgba(255,255,255,.72);
-}
-.ixNavCard.light .ixNavTitle{
-  color: rgba(20,29,38,.62);
-}
-
-.ixNavLinks{
-  display:flex;
-  flex-direction:column;
-  gap: 10px;
-}
-
-.ixNavLink{
-  width:100%;
-  border: 0;
-  text-align:left;
-  display:flex;
-  gap: 10px;
-  padding: 12px 12px;
-  border-radius: 16px;
-  cursor:pointer;
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.86);
-  border: 1px solid rgba(255,255,255,.06);
-  transition: transform .15s ease, background .15s ease, border-color .15s ease;
-}
-.ixNavCard.light .ixNavLink{
-  background: rgba(20,29,38,.06);
-  color: rgba(20,29,38,.84);
-  border-color: rgba(20,29,38,.06);
-}
-.ixNavLink:hover{ transform: translateY(-1px); }
-.ixNavLink.active{
-  background: linear-gradient(135deg, rgba(197,31,93,.95), rgba(197,31,93,.62));
-  border-color: rgba(255,255,255,.16);
-  color: #fff;
-}
-.ixNavCard.light .ixNavLink.active{
-  border-color: rgba(255,255,255,.30);
-}
-.ixDot{
-  width: 8px; height: 8px;
-  border-radius: 999px;
-  background: rgba(255,255,255,.62);
-  margin-top: 7px;
-  flex: 0 0 auto;
-}
-.ixNavCard.light .ixDot{ background: rgba(20,29,38,.35); }
-.ixNavLink.active .ixDot{ background: rgba(255,255,255,.92); }
-.ixNavText{
-  font-size: 14px;
-  line-height: 1.25;
+.impressum-nav-title {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.74);
   font-weight: 700;
 }
 
-/* Content stack */
-.ixContent{
-  display:flex;
-  flex-direction:column;
-  gap: 22px;
-}
-
-/* Cream panel (big) */
-.ixCreamPanel{
-  border-radius: var(--rXL);
-  padding: 18px 18px 16px;
-  background:
-    radial-gradient(900px 420px at 15% 0%, rgba(255,255,255,.45), transparent 60%),
-    linear-gradient(180deg, rgba(226,226,210,.92) 0%, rgba(226,226,210,.82) 100%);
-  border: 1px solid rgba(255,255,255,.35);
-  box-shadow: var(--shadow);
-  overflow:hidden;
-  scroll-margin-top: 90px;
-}
-.ixCreamTitle{
-  color: rgba(20,29,38,.88);
-  font-weight: 900;
-  font-size: 24px;
-  letter-spacing: .1px;
-  margin-bottom: 14px;
-}
-.ixCreamBody{
-  padding: 8px 0 2px;
-}
-
-/* Provider board wrap */
-.ixProviderWrap{
-  border-radius: var(--rXL);
-}
-.ixProviderBoard{
-  border-radius: var(--rXL);
-  overflow:hidden;
-  background: linear-gradient(180deg, rgba(20,29,38,.92), rgba(20,29,38,.86));
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow: 0 18px 44px rgba(0,0,0,.30);
-}
-.ixProviderTop{
-  padding: 14px 16px;
-  background: linear-gradient(180deg, rgba(36,52,71,.65), rgba(36,52,71,.35));
-  border-bottom: 1px solid rgba(255,255,255,.08);
-}
-.ixProviderTopTitle{
-  color: rgba(255,255,255,.92);
-  font-weight: 900;
-  font-size: 20px;
-}
-.ixProviderPinkBar{
-  padding: 18px 16px;
-  background: linear-gradient(135deg, rgba(197,31,93,.98), rgba(197,31,93,.70));
-  border-bottom: 1px solid rgba(255,255,255,.10);
-}
-.ixProviderName{
-  color:#fff;
-  font-weight: 950;
-  font-size: 24px;
-  line-height: 1.05;
-}
-.ixProviderSub{
-  margin-top: 6px;
-  color: rgba(255,255,255,.92);
-  font-weight: 650;
-  opacity: .95;
-}
-
-/* provider table */
-.ixProviderTable{
-  margin: 14px;
-  border-radius: var(--rLG);
-  background: linear-gradient(180deg, rgba(226,226,210,.92), rgba(226,226,210,.86));
-  border: 1px solid rgba(255,255,255,.22);
-  overflow:hidden;
-}
-.ixRow{
-  display:grid;
-  grid-template-columns: 46px 220px 1fr;
-  align-items:center;
-  gap: 12px;
-  padding: 14px 14px;
-  border-bottom: 1px solid rgba(20,29,38,.10);
-}
-.ixRow.last{ border-bottom: 0; }
-.ixRowIcon{
-  width: 38px; height: 38px;
-  border-radius: 12px;
-  display:grid;
-  place-items:center;
-  border: 1px solid rgba(20,29,38,.10);
-  color: #fff;
-}
-.ixRowIcon.pink{
-  background: linear-gradient(135deg, rgba(197,31,93,.95), rgba(197,31,93,.72));
-}
-.ixRowIcon.slate{
-  background: linear-gradient(135deg, rgba(36,52,71,.95), rgba(36,52,71,.72));
-}
-
-.ixRowLabel{
-  font-weight: 900;
-  color: rgba(20,29,38,.86);
-}
-.ixRowValue{
-  color: rgba(20,29,38,.76);
-  font-weight: 650;
-  display:flex;
-  flex-direction:column;
-  gap: 6px;
-}
-
-/* RStV inset */
-.ixInsetNote{
-  border-radius: var(--rLG);
-  background: rgba(20,29,38,.06);
-  border: 1px solid rgba(20,29,38,.08);
-  padding: 14px;
-  display:flex;
-  gap: 12px;
-  align-items:flex-start;
-}
-.ixInsetIcon{
-  width: 44px; height: 44px;
-  border-radius: 14px;
-  display:grid;
-  place-items:center;
-  background: rgba(197,31,93,.14);
-  border: 1px solid rgba(20,29,38,.08);
-  color: rgba(20,29,38,.85);
-}
-.ixInsetTitle{
-  font-weight: 950;
-  color: rgba(20,29,38,.88);
-}
-.ixInsetMuted{
-  color: rgba(20,29,38,.70);
-  margin-top: 4px;
-  font-weight: 650;
-}
-
-/* Disclaimer grid (like screenshot) */
-.ixDisclaimerGrid{
-  display:grid;
-  grid-template-columns: 320px 1fr;
-  gap: 18px;
-  scroll-margin-top: 90px;
-}
-
-/* Left dark shell */
-.ixDarkShell{
-  border-radius: var(--rXL);
-  background: linear-gradient(180deg, rgba(36,52,71,.74), rgba(20,29,38,.78));
-  border: 1px solid rgba(255,255,255,.12);
-  box-shadow: var(--shadow2);
-  padding: 16px;
-}
-.ixDarkShellTitle{
-  color: rgba(255,255,255,.92);
-  font-weight: 950;
-  font-size: 22px;
-  margin-bottom: 14px;
-}
-
-.ixCreamInset{
-  border-radius: var(--rLG);
-  background: linear-gradient(180deg, rgba(226,226,210,.92), rgba(226,226,210,.84));
-  border: 1px solid rgba(255,255,255,.22);
-  padding: 14px;
-}
-.ixCreamInsetHead{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  margin-bottom: 10px;
-}
-.ixInsetPinkBadge{
-  width: 38px; height: 38px;
-  border-radius: 12px;
-  display:grid;
-  place-items:center;
-  background: linear-gradient(135deg, rgba(197,31,93,.95), rgba(197,31,93,.70));
-  color:#fff;
-}
-.ixCreamInsetHeadText{
-  font-weight: 950;
-  color: rgba(20,29,38,.86);
-}
-.ixBullet{
-  margin: 0;
-  padding-left: 18px;
-  color: rgba(20,29,38,.74);
-  font-weight: 650;
-  display:flex;
-  flex-direction:column;
-  gap: 10px;
-}
-
-/* Right accordion stack */
-.ixAccStack{
-  display:flex;
-  flex-direction:column;
-  gap: 14px;
-}
-
-/* Dark accordion items */
-.ixDarkAccordion{
-  display:flex;
-  flex-direction:column;
-  gap: 14px;
-}
-.ixDarkAccItem{
-  border-radius: var(--rXL);
-  overflow:hidden;
-  background: linear-gradient(180deg, rgba(36,52,71,.60), rgba(20,29,38,.72));
-  border: 1px solid rgba(255,255,255,.10);
-  box-shadow: var(--shadow2);
-}
-.ixDarkAccBtn{
-  width:100%;
-  border:0;
-  background: transparent;
-  padding: 16px 16px;
-  display:flex;
-  align-items:flex-start;
-  justify-content:space-between;
-  gap: 14px;
-  cursor:pointer;
-}
-.ixDarkAccLeft{
-  display:flex;
-  gap: 12px;
-  align-items:center;
-}
-.ixDarkAccIcon{
-  width: 40px; height: 40px;
-  border-radius: 14px;
-  display:grid;
-  place-items:center;
-  background: linear-gradient(135deg, rgba(197,31,93,.95), rgba(197,31,93,.70));
-  border: 1px solid rgba(255,255,255,.10);
-  color:#fff;
-  flex: 0 0 auto;
-}
-.ixDarkAccTitle{
-  color: rgba(255,255,255,.92);
-  font-weight: 950;
-  font-size: 18px;
-}
-.ixDarkAccChevron{
-  width: 40px; height: 40px;
-  border-radius: 14px;
-  display:grid;
-  place-items:center;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.10);
-  color: rgba(255,255,255,.82);
-  transition: transform .2s ease;
-  flex: 0 0 auto;
-}
-.ixDarkAccItem.open .ixDarkAccChevron{
-  transform: rotate(180deg);
-}
-
-/* panel animation without clipping */
-.ixDarkAccPanel{
-  display:grid;
-  grid-template-rows: 0fr;
-  overflow: hidden;
-  transition: grid-template-rows .25s ease;
-}
-.ixDarkAccItem.open .ixDarkAccPanel{
-  grid-template-rows: 1fr;
-}
-.ixDarkAccPanelInner{
-  min-height: 0;
-  overflow:hidden;
-  padding: 0 16px 0;
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: padding .25s ease, opacity .2s ease, transform .2s ease;
-  color: rgba(255,255,255,.70);
-  line-height: 1.65;
+.impressum-nav-card a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.93);
   font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  border-radius: 12px;
+  padding: 9px 10px;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-.ixDarkAccItem.open .ixDarkAccPanelInner{
+
+.impressum-nav-card a:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.impressum-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.impressum-card {
+  border-radius: 26px;
+  border: 1px solid rgba(17, 29, 48, 0.08);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 248, 245, 0.93));
+  box-shadow: 0 16px 36px rgba(25, 37, 56, 0.1);
+  padding: 20px;
+}
+
+.impressum-card h2 {
+  margin: 0 0 14px;
+  color: #14243e;
+  font-size: clamp(1.12rem, 1.9vw, 1.55rem);
+}
+
+.impressum-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.impressum-grid.two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.impressum-grid.one-col {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.impressum-info-row {
+  border-radius: 16px;
+  border: 1px solid rgba(17, 29, 48, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 12px 14px;
+}
+
+.impressum-label {
+  margin: 0;
+  color: #5e6774;
+  font-size: 0.86rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.impressum-value {
+  margin-top: 5px;
+  color: #1c2635;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.impressum-value a {
+  color: #c51f5d;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.impressum-value a:hover {
+  text-decoration: underline;
+}
+
+.impressum-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.impressum-acc-item {
+  border-radius: 16px;
+  border: 1px solid rgba(17, 29, 48, 0.1);
+  background: #fff;
+  overflow: hidden;
+}
+
+.impressum-acc-trigger {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  padding: 14px 16px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #1b2638;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.impressum-acc-icon {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid rgba(17, 29, 48, 0.15);
+  color: #c51f5d;
+}
+
+.impressum-acc-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.28s ease;
+}
+
+.impressum-acc-panel p {
+  margin: 0;
   padding: 0 16px 16px;
-  opacity: 1;
-  transform: translateY(0);
+  color: #4a5566;
+  font-size: 0.98rem;
+  line-height: 1.65;
 }
 
-/* Responsive */
-@media (max-width: 980px){
-  .ixGrid{ grid-template-columns: 1fr; }
-  .ixH1{ font-size: 44px; }
-  .ixDisclaimerGrid{ grid-template-columns: 1fr; }
-  .ixRow{ grid-template-columns: 46px 1fr; }
-  .ixRowValue{ grid-column: 2 / -1; }
+.impressum-acc-item.open .impressum-acc-panel {
+  max-height: 260px;
 }
 
-@media (max-width: 768px){
-  .ixRoot{
-    padding: 10px 0 32px;
+@media (max-width: 980px) {
+  .impressum-layout {
+    grid-template-columns: 1fr;
   }
 
-  .ixHero{
-    padding: 10px 12px 8px;
+  .impressum-sidebar {
+    position: static;
   }
 
-  .ixGrid{
-    padding: 10px 12px 0;
-    gap: 14px;
+  .impressum-nav-card {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
   }
 
-  .ixSidebar{
-    gap: 12px;
+  .impressum-nav-title {
+    width: 100%;
   }
 
-  .ixNavCard{
-    border-radius: 20px;
-    padding: 12px;
+  .impressum-nav-card a {
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .impressum-page {
+    padding: 20px 12px 40px;
   }
 
-  .ixNavCard.light{
-    display: none;
-  }
-
-  .ixNavLinks{
-    gap: 8px;
-    max-height: 42vh;
-    overflow: auto;
-    padding-right: 2px;
-  }
-
-  .ixNavLink{
-    padding: 9px 10px;
-    border-radius: 12px;
-  }
-
-  .ixCreamPanel{
-    border-radius: 20px;
-    padding: 14px 12px 12px;
-  }
-
-  .ixCreamTitle{
-    font-size: 21px;
-    margin-bottom: 10px;
-  }
-
-  .ixDarkShell{
-    border-radius: 20px;
-    padding: 12px;
-  }
-
-  .ixDarkShellTitle{
-    font-size: 19px;
-  }
-
-  .ixDarkAccItem{
+  .impressum-card {
     border-radius: 18px;
+    padding: 14px;
   }
 
-  .ixDarkAccBtn{
-    padding: 12px;
+  .impressum-grid.two-col {
+    grid-template-columns: 1fr;
   }
-
-  .ixDarkAccTitle{
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 520px){
-  .ixH1{ font-size: 34px; line-height: 1.08; }
-  .ixUnderline{ width: 100%; max-width: 240px; }
-  .ixCreamTitle{ font-size: 19px; }
-  .ixNavText, .ixRowValue, .ixBullet, .ixInsetMuted, .ixDarkAccPanelInner{ font-size: 14px; }
-  .ixDot{ margin-top: 6px; }
 }
 `;
 
-
-
-const IX_LIGHT_OVERRIDES = `
-.ixRoot[data-theme-mode="light"] .ixBg{
-  background: linear-gradient(180deg, #f4f7fb 0%, #edf2f8 55%, #f5f8fc 100%);
-}
-.ixRoot[data-theme-mode="light"] .ixH1,
-.ixRoot[data-theme-mode="light"] .ixDarkShellTitle,
-.ixRoot[data-theme-mode="light"] .ixProviderTopTitle,
-.ixRoot[data-theme-mode="light"] .ixDarkAccTitle,
-.ixRoot[data-theme-mode="light"] .ixDarkAccPanelInner{
-  color: rgba(20,29,38,.9);
-}
-.ixRoot[data-theme-mode="light"] .ixNavCard.dark,
-.ixRoot[data-theme-mode="light"] .ixDarkShell,
-.ixRoot[data-theme-mode="light"] .ixDarkAccItem,
-.ixRoot[data-theme-mode="light"] .ixProviderBoard{
-  background: linear-gradient(180deg, rgba(233,239,247,.96), rgba(218,227,238,.96));
-  border-color: rgba(36,52,71,.14);
-}
-`;

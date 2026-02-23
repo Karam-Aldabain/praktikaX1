@@ -32,7 +32,6 @@ import {
   Wrench,
 } from "lucide-react";
 import { useLocalTheme } from "../hooks/use-local-theme";
-import { useTranslation } from "react-i18next";
 import "./Navbar.css";
 
 const COLORS = {
@@ -218,32 +217,6 @@ function Chevron({ open }) {
   );
 }
 
-function ThemeIcon({ theme }) {
-  return theme === "dark" ? (
-    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M12 3v2m0 14v2M5.6 5.6l1.4 1.4m10 10 1.4 1.4M3 12h2m14 0h2M5.6 18.4l1.4-1.4m10-10 1.4-1.4M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ) : (
-    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 1 0 9.8 9.8Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 function MenuIcon({ open }) {
   return open ? (
     <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true">
@@ -296,65 +269,6 @@ const ICONS_BY_TITLE = {
   "Volunteer as an Expert": UserPlus,
 };
 
-const NAV_DESC_OVERRIDES = {
-  ar: {
-    individuals: {
-      "0.0": "تدريبات عملية مدمجة بالصناعة، ومسارات مهنية، وتعلّم قائم على ملف إنجاز.",
-      "0.1": "تطبيقات عملية للذكاء الاصطناعي عبر الأعمال والرعاية الصحية والهندسة والبيانات والتسويق وغيرها.",
-      "1.0": "وصول مباشر إلى خبراء الصناعة وأساتذة الجامعات.",
-    },
-    organizations: {
-      "0.0": "برامج صناعية مشتركة مدمجة ضمن الهياكل الأكاديمية.",
-      "0.1": "برامج تعريف مهني لطلاب المدارس الثانوية وأبناء الموظفين.",
-      "1.0": "أطر ذكاء اصطناعي تطبيقية مصممة لقطاعات الصناعة واحتياجات المؤسسات.",
-    },
-    insights: {
-      "0.0": "نتائج قائمة على البيانات، ونمو قابل للقياس، وتقدّم مهني.",
-      "0.1": "أمثلة تعلّم قائمة على حالات واقعية وتنفيذ مشاريع عملية.",
-      "1.0": "قصص خريجين ونتائج وآراء من المتعلمين والشركاء.",
-      "1.1": "كيف يصنع نظامنا قدرة عملية وقيمة طويلة الأمد.",
-    },
-    about: {
-      "0.0": "نبني أنظمة منهجية تُغلق الفجوة بين التعليم والصناعة.",
-      "0.1": "نهج قائم على النظام يجمع بين المشاريع والإرشاد والنتائج القابلة للقياس.",
-      "0.2": "منظومة مترابطة تدمج الخبراء والمؤسسات والصناعة.",
-      "0.3": "شراكات مؤسسية ونماذج استضافة مشتركة وشبكة تعاون أوروبية.",
-    },
-  },
-  de: {
-    individuals: {
-      "0.0": "Industrieintegrierte Praktika, Karrierepfade und portfoliobasiertes Lernen.",
-      "0.1": "Praktische KI-Anwendungen in Wirtschaft, Gesundheit, Technik, Daten, Marketing und mehr.",
-      "1.0": "Direkter Zugang zu Branchenexpert:innen und Hochschulprofessor:innen.",
-    },
-    organizations: {
-      "0.0": "Gemeinsam durchgefuehrte Industrieprogramme, die in akademische Strukturen integriert sind.",
-      "0.1": "Programme zur fruehen Berufsorientierung fuer Schueler:innen und Kinder von Mitarbeitenden.",
-      "1.0": "Angewandte KI-Frameworks, zugeschnitten auf Branchen und institutionelle Anforderungen.",
-    },
-    insights: {
-      "0.0": "Datengestuetzte Ergebnisse, messbares Wachstum und beruflicher Fortschritt.",
-      "0.1": "Fallbasierte Lernbeispiele und praktische Projektumsetzung.",
-      "1.0": "Absolventenwege, Ergebnisse und Feedback von Lernenden und Partnern.",
-      "1.1": "Wie unser Modell praktische Faehigkeiten und langfristigen Mehrwert schafft.",
-    },
-    about: {
-      "0.0": "Wir bauen strukturierte Systeme, die die Luecke zwischen Bildung und Industrie schliessen.",
-      "0.1": "Ein systembasierter Ansatz mit Projekten, Mentoring und messbaren Ergebnissen.",
-      "0.2": "Ein vernetztes Umfeld, das Expert:innen, Institutionen und Industrie verbindet.",
-      "0.3": "Institutionelle Kooperationen, Co-Hosting-Modelle und europaeische Netzwerkpartnerschaften.",
-    },
-  },
-};
-
-function getNavDescOverride(lang, groupId, colIdx, itemIdx) {
-  const langMap = NAV_DESC_OVERRIDES[lang];
-  if (!langMap) return null;
-  const groupMap = langMap[groupId];
-  if (!groupMap) return null;
-  return groupMap[`${colIdx}.${itemIdx}`] || null;
-}
-
 function ItemIcon({ title, active = false, className = "" }) {
   const Icon = ICONS_BY_TITLE[title];
   return (
@@ -365,47 +279,16 @@ function ItemIcon({ title, active = false, className = "" }) {
 }
 
 export default function Navbar({ dir = "ltr" }) {
-  const { t, i18n } = useTranslation();
   const [openId, setOpenId] = useState(null);
   const [previewByGroup, setPreviewByGroup] = useState({});
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { theme, toggle: toggleTheme } = useLocalTheme();
+  const { theme } = useLocalTheme();
   const brandLogoSrc = "/navbar-logo-dark.png";
   const navRef = useRef(null);
   const closeTimer = useRef(null);
   const previewTimer = useRef(null);
-  const navItems = useMemo(
-    () =>
-      NAV.map((group) => ({
-        ...group,
-        label: t(`nav.groups.${group.id}.label`, { defaultValue: group.label }),
-        columns: group.columns.map((col, colIdx) => ({
-          ...col,
-          title: t(`nav.groups.${group.id}.columns.${colIdx}.title`, { defaultValue: col.title }),
-          items: col.items.map((it, itemIdx) => ({
-            ...it,
-            label: t(`nav.groups.${group.id}.columns.${colIdx}.items.${itemIdx}.label`, { defaultValue: it.label }),
-            desc:
-              getNavDescOverride(i18n.resolvedLanguage || i18n.language, group.id, colIdx, itemIdx)
-              || t(`nav.groups.${group.id}.columns.${colIdx}.items.${itemIdx}.desc`, { defaultValue: it.desc }),
-            children: (it.children || []).map((sub, subIdx) => ({
-              ...sub,
-              label: t(`nav.groups.${group.id}.columns.${colIdx}.items.${itemIdx}.children.${subIdx}.label`, { defaultValue: sub.label }),
-              desc: t(`nav.groups.${group.id}.columns.${colIdx}.items.${itemIdx}.children.${subIdx}.desc`, { defaultValue: sub.desc }),
-            })),
-          })),
-        })),
-        promo: {
-          ...group.promo,
-          eyebrow: t(`nav.groups.${group.id}.promo.eyebrow`, { defaultValue: group.promo.eyebrow }),
-          title: t(`nav.groups.${group.id}.promo.title`, { defaultValue: group.promo.title }),
-          text: t(`nav.groups.${group.id}.promo.text`, { defaultValue: group.promo.text }),
-          cta: t(`nav.groups.${group.id}.promo.cta`, { defaultValue: group.promo.cta }),
-        },
-      })),
-    [t, i18n.language, i18n.resolvedLanguage]
-  );
+  const navItems = useMemo(() => NAV, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -620,15 +503,15 @@ export default function Navbar({ dir = "ltr" }) {
                                     ))}
                                   </div>
                                 ) : null}
-                                <div className="px-promoCta">{t("navbar.learnMore")}</div>
+                                <div className="px-promoCta">Learn more</div>
                               </>
                             ) : (
                               <>
-                                <div className="px-promoTitle">{t("navbar.hoverItem")}</div>
+                                <div className="px-promoTitle">Hover an item</div>
                                 <div className="px-promoText">
-                                  {t("navbar.hoverItemText")}
+                                  Select a menu item to preview details and navigate.
                                 </div>
-                                <div className="px-promoCta">{t("navbar.previewPanel")}</div>
+                                <div className="px-promoCta">Preview panel</div>
                               </>
                             )}
                           </div>
@@ -644,36 +527,12 @@ export default function Navbar({ dir = "ltr" }) {
           {/* RIGHT: Actions pinned to the far right */}
           <div className="px-right">
             <div className="px-actions">
-              <button
-                className="px-themeBtn"
-                type="button"
-                onClick={toggleTheme}
-                aria-label={theme === "dark" ? t("navbar.switchToLight") : t("navbar.switchToDark")}
-                aria-pressed={theme === "dark"}
-              >
-                <ThemeIcon theme={theme} />
-              </button>
-
-              <label className="px-langSelect notranslate" aria-label={t("common.language")} translate="no">
-                <Globe size={16} />
-                <select
-                  className="notranslate"
-                  translate="no"
-                  value={i18n.resolvedLanguage || "en"}
-                  onChange={(e) => i18n.changeLanguage(e.target.value)}
-                >
-                  <option value="en">{t("common.languages.en")}</option>
-                  <option value="de">{t("common.languages.de")}</option>
-                  <option value="ar">{t("common.languages.ar")}</option>
-                </select>
-              </label>
-
               <a className="px-cta" href="/portal" onClick={onNavLink}>
-                {t("navbar.loginPortal")}
+                Login Portal
               </a>
             </div>
 
-            <button className="px-mobileBtn" type="button" aria-label={t("navbar.toggleMenu")} onClick={toggleMobile}>
+            <button className="px-mobileBtn" type="button" aria-label="Toggle menu" onClick={toggleMobile}>
               <MenuIcon open={mobileOpen} />
             </button>
           </div>
@@ -684,32 +543,8 @@ export default function Navbar({ dir = "ltr" }) {
           <div className="px-mobilePanel">
             <div className="px-mobileInner">
             <div className="px-mobileActions">
-              <button
-                className="px-themeBtn mobile"
-                type="button"
-                onClick={toggleTheme}
-                aria-label={theme === "dark" ? t("navbar.switchToLight") : t("navbar.switchToDark")}
-                aria-pressed={theme === "dark"}
-              >
-                <ThemeIcon theme={theme} />
-              </button>
-
-              <label className="px-langSelect mobile notranslate" aria-label={t("common.language")} translate="no">
-                <Globe size={16} />
-                <select
-                  className="notranslate"
-                  translate="no"
-                  value={i18n.resolvedLanguage || "en"}
-                  onChange={(e) => i18n.changeLanguage(e.target.value)}
-                >
-                  <option value="en">{t("common.languages.en")}</option>
-                  <option value="de">{t("common.languages.de")}</option>
-                  <option value="ar">{t("common.languages.ar")}</option>
-                </select>
-              </label>
-
               <a className="px-cta mobile" href="/portal" onClick={onNavLink}>
-                {t("navbar.loginPortal")}
+                Login Portal
               </a>
               </div>
 
@@ -770,7 +605,7 @@ export default function Navbar({ dir = "ltr" }) {
                                 </div>
                               ) : null}
                               <a className="px-promoCta" href={activePreview.href || group.promo.href} onClick={onNavLink}>
-                                {t("navbar.learnMore")}
+                                Learn more
                               </a>
                             </div>
                           ) : null}
@@ -783,11 +618,11 @@ export default function Navbar({ dir = "ltr" }) {
 
               <div className="px-mobileFooter">
                 <a className="px-mutedLink" href="/contact" onClick={onNavLink}>
-                  {t("navbar.contact")}
+                  Contact
                 </a>
                 <span className="px-dot">|</span>
                 <a className="px-mutedLink" href="/about/mission-vision" onClick={onNavLink}>
-                  {t("navbar.aboutPraktix")}
+                  About Praktix
                 </a>
               </div>
             </div>
@@ -797,6 +632,8 @@ export default function Navbar({ dir = "ltr" }) {
     </header>
   );
 }
+
+
 
 
 

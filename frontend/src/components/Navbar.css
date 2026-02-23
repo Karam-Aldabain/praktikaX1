@@ -24,7 +24,7 @@
 .px-container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 10px clamp(20px, 3vw, 56px);
+  padding: 3px clamp(6px, 1.4vw, 36px);
 
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -38,6 +38,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0;
+  margin-left: -48px;
   overflow: visible;
   text-decoration: none;
   font-weight: 900;
@@ -52,7 +53,7 @@
   width: 168px;
   max-width: none;
   object-fit: cover;
-  object-position: center;
+  object-position: left center;
   background: transparent;
   border: 0;
   box-shadow: none;
@@ -658,7 +659,7 @@
   }
 
   .px-container {
-    padding: 8px 14px;
+    padding: 8px 8px;
   }
 
   .px-mobileInner {
@@ -699,6 +700,10 @@
   .px-brandLogo {
     height: 48px;
     width: 126px;
+  }
+
+  .px-brand {
+    margin-left: -10px;
   }
 
   .px-brandLogo.darkAsset {

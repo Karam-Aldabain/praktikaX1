@@ -6,33 +6,3 @@
 .app-content {
   padding: 2rem;
 }
-/* Hide Google Translate default UI/chrome while keeping translation active */
-.skiptranslate,
-.goog-te-gadget,
-#google_translate_element {
-  display: none !important;
-}
-
-.goog-te-banner-frame.skiptranslate {
-  display: none !important;
-}
-
-.goog-logo-link,
-.goog-te-gadget-icon,
-.goog-te-spinner-pos,
-#goog-gt-tt,
-.goog-text-highlight,
-iframe.goog-te-banner-frame,
-iframe.goog-te-menu-frame,
-.goog-te-balloon-frame,
-.VIpgJd-ZVi9od-ORHb,
-.VIpgJd-ZVi9od-l4eHX-hSRGPd,
-.VIpgJd-ZVi9od-aZ2wEe-wOHMyf,
-.VIpgJd-yAWNEb-L7lbkb {
-  display: none !important;
-  visibility: hidden !important;
-}
-
-body {
-  top: 0 !important;
-}

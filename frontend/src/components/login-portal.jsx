@@ -10,6 +10,7 @@ const COLORS = {
 };
 
 export default function LoginPortalPage() {
+  void motion;
   const reduce = useReducedMotion();
   const [mode, setMode] = useState("login");
   const [email, setEmail] = useState("");

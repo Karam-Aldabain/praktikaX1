@@ -1217,7 +1217,16 @@ export default function SchoolsEarlyTalentLanding() {
               <div
                 className="absolute inset-0"
                 style={{
-                  background: "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)",
+                  backgroundImage: "url('/adas.jpg')",
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: "linear-gradient(180deg, rgba(3,17,58,0.58) 0%, rgba(1,10,42,0.55) 100%)",
                 }}
               />
               <div className="pointer-events-none absolute -left-20 -top-16 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(34,211,238,0.12)" }} />
