@@ -1240,69 +1240,62 @@ function FormWizard() {
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
                 >
-                  <div className="grid grid-cols-1 gap-6">
-                    <div>
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <Field label="Type of collaboration interested in" required hint="Multi-select">
-                          <MultiSelect
-                            value={partnership.collab}
-                            onChange={(v) => setPartnership({ ...partnership, collab: v })}
-                            options={[
-                              "Internship Programs (3–6 months)",
-                              "AI Training Programs",
-                              "Industrial Courses Integration",
-                              "Executive Workshops",
-                              "Tailored Corporate Programs",
-                              "Co-Hosted Programs",
-                              "Strategic Alliance",
-                              "Hiring Initiatives",
-                              "Research Collaboration",
-                            ]}
-                          />
-                        </Field>
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                    <Field label="Type of collaboration interested in" required hint="Multi-select" className="sm:col-span-2">
+                      <MultiSelect
+                        value={partnership.collab}
+                        onChange={(v) => setPartnership({ ...partnership, collab: v })}
+                        options={[
+                          "Internship Programs (3–6 months)",
+                          "AI Training Programs",
+                          "Industrial Courses Integration",
+                          "Executive Workshops",
+                          "Tailored Corporate Programs",
+                          "Co-Hosted Programs",
+                          "Strategic Alliance",
+                          "Hiring Initiatives",
+                          "Research Collaboration",
+                        ]}
+                      />
+                    </Field>
 
-                        <div className="space-y-4">
-                          <Field label="Preferred delivery mode">
-                            <Select
-                              value={partnership.deliveryMode}
-                              onChange={(v) => setPartnership({ ...partnership, deliveryMode: v })}
-                              options={["Online", "Hybrid", "Onsite"]}
-                              icon={Compass}
-                              iconColor={THEME.accent}
-                            />
-                          </Field>
+                    <Field label="Preferred delivery mode">
+                      <Select
+                        value={partnership.deliveryMode}
+                        onChange={(v) => setPartnership({ ...partnership, deliveryMode: v })}
+                        options={["Online", "Hybrid", "Onsite"]}
+                        icon={Compass}
+                        iconColor={THEME.accent}
+                      />
+                    </Field>
 
-                          <Field label="Estimated number of participants">
-                            <Select
-                              value={partnership.participants}
-                              onChange={(v) => setPartnership({ ...partnership, participants: v })}
-                              options={["10–25", "25–50", "50–100", "100+"]}
-                              icon={Users}
-                              iconColor={THEME.accent3}
-                            />
-                          </Field>
-                        </div>
+                    <Field label="Estimated number of participants">
+                      <Select
+                        value={partnership.participants}
+                        onChange={(v) => setPartnership({ ...partnership, participants: v })}
+                        options={["10–25", "25–50", "50–100", "100+"]}
+                        icon={Users}
+                        iconColor={THEME.accent3}
+                      />
+                    </Field>
 
-                        <Field label="Expected start timeline">
-                          <Select
-                            value={partnership.startTimeline}
-                            onChange={(v) => setPartnership({ ...partnership, startTimeline: v })}
-                            options={["Immediately", "Within 1 Month", "Within 3 Months", "Within 6 Months"]}
-                            icon={Calendar}
-                            iconColor={THEME.accent4}
-                          />
-                        </Field>
+                    <Field label="Expected start timeline">
+                      <Select
+                        value={partnership.startTimeline}
+                        onChange={(v) => setPartnership({ ...partnership, startTimeline: v })}
+                        options={["Immediately", "Within 1 Month", "Within 3 Months", "Within 6 Months"]}
+                        icon={Calendar}
+                        iconColor={THEME.accent4}
+                      />
+                    </Field>
 
-                        <Field label="Primary objectives (outcomes you aim to achieve)">
-                          <Textarea
-                            value={partnership.objectives}
-                            onChange={(e) => setPartnership({ ...partnership, objectives: e.target.value })}
-                            placeholder="What outcomes are you aiming to achieve?"
-                          />
-                        </Field>
-                      </div>
-                    </div>
-
+                    <Field label="Primary objectives (outcomes you aim to achieve)" className="sm:col-span-2">
+                      <Textarea
+                        value={partnership.objectives}
+                        onChange={(e) => setPartnership({ ...partnership, objectives: e.target.value })}
+                        placeholder="What outcomes are you aiming to achieve?"
+                      />
+                    </Field>
                   </div>
                 </motion.div>
               ) : null}
