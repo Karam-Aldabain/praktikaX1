@@ -17,7 +17,6 @@ import {
   Globe2,
   GraduationCap,
   Handshake,
-  LineChart,
   MapPin,
   Shield,
   Sparkles,
@@ -908,12 +907,12 @@ function FormWizard() {
     deliveryMode: "Online",
     participants: "10–25",
     startTimeline: "Within 1 Month",
-    duration: "3 Months",
     objectives: "",
   });
 
   const [expert, setExpert] = useState({
     expertise: [],
+    expertiseOther: "",
     years: "5–10",
     organization: "",
     roleType: "Industry Professional",
@@ -955,6 +954,14 @@ function FormWizard() {
   }, [isExpert]);
 
   const pct = Math.round(((step + 1) / steps.length) * 100);
+  const orgPlaceholderByType = {
+    "University / Educational Institution": "University / Faculty / Institution",
+    "Company / Organization": "Company / Organization",
+    "Government / Public Sector": "Ministry / Agency / Public Entity",
+    "Industry Expert / University Professor": "University / Company / Lab",
+  };
+  const orgNamePlaceholder =
+    orgPlaceholderByType[applicantType] || "Organization / Institution";
 
   function next() {
     setStep((s) => Math.min(steps.length - 1, s + 1));
@@ -981,11 +988,11 @@ function FormWizard() {
       deliveryMode: "Online",
       participants: "10–25",
       startTimeline: "Within 1 Month",
-      duration: "3 Months",
       objectives: "",
     });
     setExpert({
       expertise: [],
+      expertiseOther: "",
       years: "5–10",
       organization: "",
       roleType: "Industry Professional",
@@ -1122,9 +1129,7 @@ function FormWizard() {
                         "Industry Expert / University Professor",
                       ]}
                     />
-                    <div className="mt-4 text-sm text-[#0B1220]/70">
-                      Conditional sections will appear based on your selection.
-                    </div>
+                 
                   </FormCard>
 
                 </motion.div>
@@ -1184,7 +1189,7 @@ function FormWizard() {
                       <Input
                         icon={Building2}
                         iconColor={THEME.accent}
-                        placeholder="University / Company / Entity"
+                        placeholder={orgNamePlaceholder}
                         value={basic.orgName}
                         onChange={(e) => setBasic({ ...basic, orgName: e.target.value })}
                       />
@@ -1288,17 +1293,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Program duration preference">
-                          <Select
-                            value={partnership.duration}
-                            onChange={(v) => setPartnership({ ...partnership, duration: v })}
-                            options={["1–2 Weeks", "1 Month", "3 Months", "3–6 Months", "Custom"]}
-                            icon={LineChart}
-                            iconColor={THEME.accent2}
-                          />
-                        </Field>
-
-                        <Field label="Primary objectives (outcomes you aim to achieve)" required>
+                        <Field label="Primary objectives (outcomes you aim to achieve)">
                           <Textarea
                             value={partnership.objectives}
                             onChange={(e) => setPartnership({ ...partnership, objectives: e.target.value })}
@@ -1320,13 +1315,19 @@ function FormWizard() {
                   exit={{ opacity: 0, y: 10 }}
                   transition={{ duration: 0.35, ease: "easeOut" }}
                 >
-                  <div className="grid grid-cols-1 gap-6">
-                    <div>
-                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <Field label="Primary area of expertise" required hint="Multi-select">
+                  <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                        <Field label="Primary area of expertise" required hint="Multi-select" className="sm:col-span-2">
                           <MultiSelect
                             value={expert.expertise}
-                            onChange={(v) => setExpert({ ...expert, expertise: v })}
+                            onChange={(v) =>
+                              setExpert({
+                                ...expert,
+                                expertise: v,
+                                expertiseOther: v.includes("Other (Specify)") ? expert.expertiseOther : "",
+                              })
+                            }
+                            otherValue={expert.expertiseOther}
+                            onOtherValueChange={(v) => setExpert({ ...expert, expertiseOther: v })}
                             options={[
                               "Software Development",
                               "AI & Machine Learning",
@@ -1348,35 +1349,23 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <div className="space-y-4">
-                          <Field label="Years of professional experience">
-                            <Select
-                              value={expert.years}
-                              onChange={(v) => setExpert({ ...expert, years: v })}
-                              options={["3–5", "5–10", "10–15", "15+"]}
-                              icon={BadgeCheck}
-                              iconColor={THEME.accent3}
-                            />
-                          </Field>
+                        <Field label="Years of professional experience">
+                          <Select
+                            value={expert.years}
+                            onChange={(v) => setExpert({ ...expert, years: v })}
+                            options={["3–5", "5–10", "10–15", "15+"]}
+                            icon={BadgeCheck}
+                            iconColor={THEME.accent3}
+                          />
+                        </Field>
 
-                          <Field label="Role type">
-                            <Select
-                              value={expert.roleType}
-                              onChange={(v) => setExpert({ ...expert, roleType: v })}
-                              options={["Industry Professional", "University Professor", "Consultant", "Executive", "Founder", "Other"]}
-                              icon={Briefcase}
-                              iconColor={THEME.accent4}
-                            />
-                          </Field>
-                        </div>
-
-                        <Field label="Current organization">
-                          <Input
-                            icon={Building2}
-                            iconColor={THEME.accent}
-                            placeholder="Company / University name"
-                            value={expert.organization}
-                            onChange={(e) => setExpert({ ...expert, organization: e.target.value })}
+                        <Field label="Role type">
+                          <Select
+                            value={expert.roleType}
+                            onChange={(v) => setExpert({ ...expert, roleType: v })}
+                            options={["Industry Professional", "University Professor", "Consultant", "Executive", "Founder", "Other"]}
+                            icon={Briefcase}
+                            iconColor={THEME.accent4}
                           />
                         </Field>
 
@@ -1390,7 +1379,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Preferred engagement type" required hint="Multi-select">
+                        <Field label="Preferred engagement type" required hint="Multi-select" className="sm:col-span-2">
                           <MultiSelect
                             value={expert.engagement}
                             onChange={(v) => setExpert({ ...expert, engagement: v })}
@@ -1426,7 +1415,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Type of content available" hint="Optional">
+                        <Field label="Type of content available" hint="Optional" className="sm:col-span-2">
                           <MultiSelect
                             value={expert.contentTypes}
                             onChange={(v) => setExpert({ ...expert, contentTypes: v })}
@@ -1441,7 +1430,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Key projects (short description)">
+                        <Field label="Key projects (short description)" className="sm:col-span-2">
                           <Textarea
                             value={expert.projectsDesc}
                             onChange={(e) => setExpert({ ...expert, projectsDesc: e.target.value })}
@@ -1459,22 +1448,19 @@ function FormWizard() {
                           />
                         </Field>
 
-	                        <Field label="Preferred collaboration model">
-	                          <Select
-	                            value={expert.compensation}
-	                            onChange={(v) => setExpert({ ...expert, compensation: v })}
-	                            options={["Per Program", "Per Hour"]}
-	                            icon={Handshake}
-	                            iconColor={THEME.accent4}
-	                          />
-	                        </Field>
+                        <Field label="Preferred collaboration model">
+                          <Select
+                            value={expert.compensation}
+                            onChange={(v) => setExpert({ ...expert, compensation: v })}
+                            options={["Per Program", "Per Hour"]}
+                            icon={Handshake}
+                            iconColor={THEME.accent4}
+                          />
+                        </Field>
 
-                        <Field label="Uploads (optional)">
+                        <Field label="Uploads (optional)" className="sm:col-span-2">
                           <FileRow />
                         </Field>
-                      </div>
-                    </div>
-
                   </div>
                 </motion.div>
               ) : null}
@@ -1489,7 +1475,7 @@ function FormWizard() {
                   className="grid grid-cols-1 gap-6"
                 >
                   <div className="space-y-4">
-                    <Field label="Why do you want to collaborate with Praktix?" required>
+                    <Field label="Why do you want to collaborate with Praktix?">
                       <Textarea
                         value={alignment.why}
                         onChange={(e) => setAlignment({ ...alignment, why: e.target.value })}
@@ -1497,7 +1483,7 @@ function FormWizard() {
                       />
                     </Field>
 
-                    <Field label="What impact do you want to create?" required>
+                    <Field label="What impact do you want to create?">
                       <Textarea
                         value={alignment.impact}
                         onChange={(e) => setAlignment({ ...alignment, impact: e.target.value })}
@@ -1574,9 +1560,7 @@ function FormWizard() {
                         </div>
                       </div>
 
-                      <div className="mt-5 text-xs text-[#0B1220]/60">
-                        After submission: confirmation message and (optional) confirmation email.
-                      </div>
+                    
                     </div>
                   </div>
 
@@ -1693,9 +1677,9 @@ function MiniKV({ k, v }) {
   );
 }
 
-function Field({ label, required, hint, children }) {
+function Field({ label, required, hint, children, className }) {
   return (
-    <label className="group block">
+    <label className={cx("group block", className)}>
       <div className="mb-2 flex items-center justify-between">
         <div className="text-sm font-semibold text-[#0B1220]">
           {label} {required ? <span style={{ color: THEME.pink }}>*</span> : null}
@@ -1820,7 +1804,15 @@ function RadioGroup({ value, onChange, options }) {
   );
 }
 
-function MultiSelect({ value, onChange, options }) {
+function MultiSelect({
+  value,
+  onChange,
+  options,
+  otherValue = "",
+  onOtherValueChange = () => null,
+  otherOptionLabel = "Other (Specify)",
+}) {
+  const showOtherInput = value.includes(otherOptionLabel);
   return (
     <div className="rounded-3xl bg-white/60 p-4 ring-1 ring-[#0B1220]/10">
       <div className="flex flex-wrap gap-2">
@@ -1845,6 +1837,17 @@ function MultiSelect({ value, onChange, options }) {
           );
         })}
       </div>
+      {showOtherInput ? (
+        <div className="mt-3">
+          <input
+            type="text"
+            value={otherValue}
+            onChange={(e) => onOtherValueChange(e.target.value)}
+            placeholder="Please specify"
+            className="w-full rounded-xl px-3 py-2 text-xs outline-none ring-1 transition bg-white/70 text-[#0B1220] placeholder:text-[#0B1220]/40 ring-[#0B1220]/10 hover:ring-[#0B1220]/20 focus:ring-2 focus:ring-[rgba(34,211,238,0.35)]"
+          />
+        </div>
+      ) : null}
       {value.length ? (
         <div className="mt-3 text-xs text-[#0B1220]/55">
           Selected: <span className="font-semibold text-[#0B1220]/75">{value.length}</span>
