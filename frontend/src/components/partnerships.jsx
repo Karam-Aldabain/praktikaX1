@@ -888,6 +888,8 @@ function WhyPartner() {
 function FormWizard() {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [referenceId, setReferenceId] = useState("");
+  const [validationErrors, setValidationErrors] = useState([]);
 
   const [applicantType, setApplicantType] = useState("University / Educational Institution");
 
@@ -939,6 +941,10 @@ function FormWizard() {
     contact: false,
     consent: false,
   });
+  const [uploads, setUploads] = useState({
+    photo: null,
+    cv: null,
+  });
 
   const isExpert = applicantType === "Industry Expert / University Professor";
 
@@ -963,12 +969,91 @@ function FormWizard() {
   const orgNamePlaceholder =
     orgPlaceholderByType[applicantType] || "Organization / Institution";
 
+  const isNonEmpty = (value) => String(value ?? "").trim().length > 0;
+  const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value ?? "").trim());
+  const isUrl = (value) => /^https?:\/\/\S+$/i.test(String(value ?? "").trim());
+
+  function getStepErrors(currentStep = step) {
+    const key = steps[currentStep]?.key;
+    if (!key) return ["Invalid step."];
+
+    if (key === "type") {
+      return isNonEmpty(applicantType) ? [] : ["Please select an applicant type."];
+    }
+
+    if (key === "basic") {
+      const errors = [];
+      if (!isNonEmpty(basic.fullName)) errors.push("Full Name is required.");
+      if (!isEmail(basic.email)) errors.push("Email Address must be a valid email.");
+      if (!isNonEmpty(basic.phone)) errors.push("Phone Number is required.");
+      if (!isNonEmpty(basic.country)) errors.push("Country of Residence is required.");
+      if (!isNonEmpty(basic.orgName)) errors.push("Organization Name is required.");
+      if (!isNonEmpty(basic.position)) errors.push("Current Position / Title is required.");
+      if (!isUrl(basic.linkedin)) errors.push("LinkedIn Profile URL must start with http:// or https://");
+      return errors;
+    }
+
+    if (key === "partnership") {
+      const errors = [];
+      if (partnership.collab.length === 0) errors.push("Select at least one collaboration type.");
+      if (!isNonEmpty(partnership.deliveryMode)) errors.push("Preferred delivery mode is required.");
+      if (!isNonEmpty(partnership.participants)) errors.push("Estimated number of participants is required.");
+      if (!isNonEmpty(partnership.startTimeline)) errors.push("Expected start timeline is required.");
+      return errors;
+    }
+
+    if (key === "expert") {
+      const errors = [];
+      if (expert.expertise.length === 0) errors.push("Select at least one primary area of expertise.");
+      if (expert.engagement.length === 0) errors.push("Select at least one preferred engagement type.");
+      if (!isNonEmpty(expert.years)) errors.push("Years of professional experience is required.");
+      if (!isNonEmpty(expert.roleType)) errors.push("Role type is required.");
+      if (!isNonEmpty(expert.availability)) errors.push("Weekly availability is required.");
+      if (!isNonEmpty(expert.delivery)) errors.push("Delivery preference is required.");
+      if (!isNonEmpty(expert.hasMaterial)) errors.push("Training material selection is required.");
+      if (!isNonEmpty(expert.projectsDesc)) errors.push("Key projects description is required.");
+      if (!isUrl(expert.portfolio)) errors.push("Portfolio URL must start with http:// or https://");
+      if (!isNonEmpty(expert.compensation)) errors.push("Preferred collaboration model is required.");
+      if (!uploads.photo) errors.push("Upload Professional Photo is required.");
+      if (!uploads.cv) errors.push("Upload CV (PDF) is required.");
+      return errors;
+    }
+
+    if (key === "alignment") {
+      const errors = [];
+      if (!alignment.confirm) errors.push("You must confirm the information is accurate.");
+      if (!alignment.contact) errors.push("You must agree to be contacted.");
+      if (!alignment.consent) errors.push("You must consent to data processing.");
+      return errors;
+    }
+
+    return [];
+  }
+
   function next() {
+    const errors = getStepErrors(step);
+    if (errors.length) {
+      setValidationErrors(errors);
+      return;
+    }
+    setValidationErrors([]);
     setStep((s) => Math.min(steps.length - 1, s + 1));
   }
   function back() {
+    setValidationErrors([]);
     setStep((s) => Math.max(0, s - 1));
   }
+
+  useEffect(() => {
+    if (!validationErrors.length) return;
+    const errors = getStepErrors(step);
+    setValidationErrors((prev) => {
+      if (prev.length === errors.length && prev.every((v, i) => v === errors[i])) {
+        return prev;
+      }
+      return errors;
+    });
+  }, [validationErrors, step, applicantType, basic, partnership, expert, uploads, alignment]);
 
   function resetForm() {
     setStep(0);
@@ -1011,6 +1096,10 @@ function FormWizard() {
       compensation: "Per Program",
       longTerm: true,
     });
+    setUploads({
+      photo: null,
+      cv: null,
+    });
     setAlignment({
       why: "",
       impact: "",
@@ -1022,6 +1111,9 @@ function FormWizard() {
 
   function submit() {
     // hook your API here
+    const ref = String(Math.floor(100000 + Math.random() * 900000));
+    setReferenceId(ref);
+    setValidationErrors([]);
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 9000);
     resetForm();
@@ -1031,23 +1123,6 @@ function FormWizard() {
     <div className="mt-10">
       <div className="relative overflow-hidden rounded-[42px] p-[1px]" style={{ background: "#FFFFFF", boxShadow: "0 26px 90px rgba(0,0,0,0.18)" }}>
         <div className="relative rounded-[40px] bg-white/55 p-6 sm:p-8 ring-1 ring-[#0B1220]/10 backdrop-blur">
-          <AnimatePresence>
-            {submitted ? (
-              <motion.div
-                initial={{ opacity: 0, x: 24, y: 24, scale: 0.96 }}
-                animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 24, y: 24, scale: 0.96 }}
-                className="fixed bottom-4 left-1/2 z-[95] hidden w-[min(92vw,560px)] -translate-x-1/2 sm:block"
-              >
-                <div className="rounded-2xl border border-[#C51F5D]/40 bg-gradient-to-r from-[#0B1220]/95 via-[#1A2340]/95 to-[#0B1220]/95 p-4 text-white shadow-[0_18px_55px_rgba(197,31,93,0.35)] backdrop-blur">
-                  <p className="text-sm leading-relaxed text-white/95">
-                    Thank you. Your form was submitted successfully. Our team will review it and contact you within 3-5 business days.
-                  </p>
-                </div>
-              </motion.div>
-            ) : null}
-          </AnimatePresence>
-
           {/* header */}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
@@ -1085,7 +1160,20 @@ function FormWizard() {
                 <button
                   key={s.key}
                   type="button"
-                  onClick={() => setStep(idx)}
+                  onClick={() => {
+                    if (idx <= step) {
+                      setStep(idx);
+                      setValidationErrors([]);
+                      return;
+                    }
+                    const errors = getStepErrors(step);
+                    if (errors.length) {
+                      setValidationErrors(errors);
+                      return;
+                    }
+                    setValidationErrors([]);
+                    setStep(idx);
+                  }}
                   className="rounded-full px-4 py-2 text-xs font-semibold ring-1 transition"
                   style={{
                     background: active
@@ -1165,7 +1253,7 @@ function FormWizard() {
                       />
                     </Field>
 
-                    <Field label="Phone Number">
+                    <Field label="Phone Number" required>
                       <Input
                         icon={Phone}
                         iconColor={THEME.accent3}
@@ -1175,7 +1263,7 @@ function FormWizard() {
                       />
                     </Field>
 
-                    <Field label="Country of Residence">
+                    <Field label="Country of Residence" required>
                       <Input
                         icon={MapPin}
                         iconColor={THEME.accent4}
@@ -1185,7 +1273,7 @@ function FormWizard() {
                       />
                     </Field>
 
-                    <Field label="Organization Name (if applicable)">
+                    <Field label="Organization Name" required>
                       <Input
                         icon={Building2}
                         iconColor={THEME.accent}
@@ -1195,7 +1283,7 @@ function FormWizard() {
                       />
                     </Field>
 
-                    <Field label="Current Position / Title">
+                    <Field label="Current Position / Title" required>
                       <Input
                         icon={Briefcase}
                         iconColor={THEME.accent3}
@@ -1207,8 +1295,7 @@ function FormWizard() {
 
                     <Field
                       label="LinkedIn Profile URL"
-                      required={isExpert}
-                      hint={isExpert ? "Required for experts" : "Optional"}
+                      required
                     >
                       <Input
                         icon={LinkIcon}
@@ -1423,7 +1510,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Key projects (short description)" className="sm:col-span-2">
+                        <Field label="Key projects (short description)" required className="sm:col-span-2">
                           <Textarea
                             value={expert.projectsDesc}
                             onChange={(e) => setExpert({ ...expert, projectsDesc: e.target.value })}
@@ -1431,7 +1518,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Portfolio / personal website URL">
+                        <Field label="Portfolio / personal website URL" required>
                           <Input
                             icon={Globe2}
                             iconColor={THEME.accent3}
@@ -1441,7 +1528,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Preferred collaboration model">
+                        <Field label="Preferred collaboration model" required>
                           <Select
                             value={expert.compensation}
                             onChange={(v) => setExpert({ ...expert, compensation: v })}
@@ -1451,8 +1538,11 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Uploads (optional)" className="sm:col-span-2">
-                          <FileRow />
+                        <Field label="Uploads" required className="sm:col-span-2">
+                          <FileRow
+                            uploads={uploads}
+                            onChange={(nextUploads) => setUploads(nextUploads)}
+                          />
                         </Field>
                   </div>
                 </motion.div>
@@ -1581,6 +1671,37 @@ function FormWizard() {
               <ChevronLeft className="h-4 w-4" {...iconStrongProps} />
               Back
             </button>
+
+            {submitted ? (
+              <div
+                className="rounded-2xl px-4 py-3 text-sm ring-1 sm:max-w-[680px]"
+                style={{
+                  background: "linear-gradient(90deg, #1B2746 0%, #243258 100%)",
+                  borderColor: "rgba(197,31,93,0.35)",
+                  color: "rgba(255,255,255,0.95)",
+                }}
+              >
+                Thank you. Your form was submitted successfully. Reference ID: {referenceId}. Our team will review it and contact you within 3-5 business days.
+              </div>
+            ) : validationErrors.length ? (
+              <div
+                className="rounded-2xl px-4 py-3 text-sm ring-1 sm:max-w-[560px]"
+                style={{
+                  background: "rgba(201,29,103,0.08)",
+                  borderColor: "rgba(201,29,103,0.35)",
+                  color: "rgba(11,18,32,0.86)",
+                }}
+              >
+                <div className="font-semibold" style={{ color: THEME.pink }}>
+                  Please fix the following:
+                </div>
+                <div className="mt-1">
+                  {validationErrors.map((err) => (
+                    <div key={err}>- {err}</div>
+                  ))}
+                </div>
+              </div>
+            ) : null}
 
             <button
               type="button"
@@ -1852,20 +1973,38 @@ function MultiSelect({
   );
 }
 
-function FileRow() {
+function FileRow({ uploads, onChange }) {
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-      <FilePicker label="Upload Professional Photo" />
-      <FilePicker label="Upload CV (PDF)" />
+      <FilePicker
+        label="Upload Professional Photo"
+        required
+        file={uploads.photo}
+        accept="image/*"
+        onFileChange={(file) => onChange({ ...uploads, photo: file })}
+      />
+      <FilePicker
+        label="Upload CV (PDF)"
+        required
+        file={uploads.cv}
+        accept=".pdf,application/pdf"
+        onFileChange={(file) => onChange({ ...uploads, cv: file })}
+      />
     </div>
   );
 }
 
-function FilePicker({ label }) {
+function FilePicker({ label, file, onFileChange, accept, required = false }) {
   const id = `file_${useId().replace(/:/g, "")}`;
   return (
     <div className="relative">
-      <input id={id} type="file" className="hidden" onChange={() => null} />
+      <input
+        id={id}
+        type="file"
+        accept={accept}
+        className="hidden"
+        onChange={(e) => onFileChange(e.target.files?.[0] || null)}
+      />
       <label
         htmlFor={id}
         className="group relative flex min-h-[132px] cursor-pointer flex-col items-start justify-between rounded-2xl bg-white/60 px-4 py-4 ring-1 ring-[#0B1220]/10 transition hover:ring-[#0B1220]/20"
@@ -1882,7 +2021,10 @@ function FilePicker({ label }) {
           </span>
           <div>
             <div className="text-sm font-semibold text-[#0B1220]">{label}</div>
-            <div className="text-xs text-[#0B1220]/55">Optional</div>
+            <div className="text-xs text-[#0B1220]/55">{required ? "Required" : "Optional"}</div>
+            {file ? (
+              <div className="mt-1 text-xs font-semibold text-[#0B1220]/75">{file.name}</div>
+            ) : null}
           </div>
         </div>
 

@@ -105,7 +105,7 @@ info@praktix.hopn.eu</a>
             <div className="impressum-grid two-col">
               <InfoRow
                 label="Register Court"
-                value="Local Court Kempten (AllgÃ¤u)"
+                value="Local Court Kempten (Allgäu)"
               />
               <InfoRow label="Registration Number" value="HRB 17191" />
             </div>

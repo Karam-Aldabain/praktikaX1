@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+﻿import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 
 const Motion = motion;
@@ -100,7 +100,7 @@ const PILLARS = [
     key: "projects",
     title: "Real Projects",
     desc:
-      "Structured challenges with production-level expectations and tangible deliverables.",
+      "Participants work on structured, real-world challenges designed with industry experts and European academic partners.",
     bullets: ["Defined milestones", "Portfolio-ready output", "Real constraints"],
     icon: Blocks,
     accent: THEME.accent,
@@ -110,7 +110,7 @@ const PILLARS = [
     key: "supervision",
     title: "Expert Supervision",
     desc:
-      "Guided by industry professionals and university experts with weekly reviews.",
+      "Every program is guided by industry professionals and university experts.",
     bullets: ["Practical feedback", "Professional standards", "Strategic guidance"],
     icon: Users,
     accent: THEME.accent2,
@@ -120,7 +120,7 @@ const PILLARS = [
     key: "system",
     title: "Structured System",
     desc:
-      "A defined execution framework — timelines, KPIs, tracking, and validation.",
+      "Programs follow a defined execution framework — not informal learning..",
     bullets: ["Clear timelines", "Measurable KPIs", "Performance tracking"],
     icon: Layers,
     accent: THEME.accent3,
@@ -130,7 +130,7 @@ const PILLARS = [
     key: "outcomes",
     title: "Verified Outcomes",
     desc:
-      "Impact measured beyond participation: readiness, reports, and tracked movement.",
+      "We measure impact beyond participation..",
     bullets: ["Performance reports", "Career readiness", "Impact tracking"],
     icon: BadgeCheck,
     accent: THEME.accent4,
@@ -346,14 +346,12 @@ export default function ValueModelPage() {
               transition={{ duration: 0.7, ease: "easeOut" }}
               className="lg:col-span-6"
             >
-              <div className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold tracking-widest ring-1 ring-white/10 bg-white/5">
-                <Sparkles className="h-4 w-4" style={{ color: THEME.accent }} {...iconStrongProps} />
-                VALUE MODEL
-              </div>
+        
 
               <h1 className="mt-5 text-balance text-4xl font-semibold leading-[1.05] sm:text-5xl lg:text-6xl">
-                A career system built for{" "}
-                <span style={{ color: THEME.pink }}>evidence</span>.
+              A Structured System.
+Not Random {" "}
+                <span style={{ color: THEME.pink }}>Training</span>.
               </h1>
 
               <p className="mt-5 max-w-xl text-balance text-base text-white/70 sm:text-lg">
@@ -361,9 +359,7 @@ export default function ValueModelPage() {
               </p>
 
               <div className="mt-6 flex flex-wrap items-center gap-2">
-                <span className="text-xs font-semibold tracking-widest text-white/55">
-                  MODE:
-                </span>
+               
                 <AnimatePresence mode="popLayout">
                   <motion.span
                     key={HERO_WORDS[wordIdx]}
@@ -384,13 +380,12 @@ export default function ValueModelPage() {
                 </AnimatePresence>
 
                 <span className="text-xs text-white/60">
-                  Designed for measurable value — not theoretical exposure.
-                </span>
+From skill development to verified outcomes — every step is engineered.                </span>
               </div>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-                <PrimaryButton href="#process">See the full flow</PrimaryButton>
-                <GhostButton href="#pillars">Explore pillars</GhostButton>
+                <PrimaryButton href="#process">See How It Works</PrimaryButton>
+                <GhostButton href="#pillars">Explore Programs</GhostButton>
               </div>
 
               <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -449,7 +444,6 @@ export default function ValueModelPage() {
         <div ref={philosophyRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="light"
-            eyebrow="MODEL PHILOSOPHY"
             title="Experience is the foundation"
             subtitle="Education builds knowledge. We build applied capability. Real experience must lead — everything else supports it."
           />
@@ -533,10 +527,7 @@ export default function ValueModelPage() {
         <div ref={pillarsRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="dark"
-            eyebrow="SYSTEM DESIGN"
             title="The four pillars of career acceleration"
-            subtitle="Open a pillar to reveal what the system enforces in practice."
-            highlight="(accordion)"
           />
 
           <div className="mt-10 space-y-4">
@@ -679,9 +670,7 @@ export default function ValueModelPage() {
         <div ref={processRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="light"
-            eyebrow="EXECUTION FLOW"
-            title="A step flow you can click through"
-            subtitle="Each stage expands with a short explanation — designed as a clear, repeatable framework."
+            title="From Entry to Outcome"
           />
 
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12">
@@ -693,7 +682,7 @@ export default function ValueModelPage() {
               className="lg:col-span-5"
             >
               <div
-                className="relative overflow-hidden rounded-[40px] p-6 ring-1"
+                className="relative overflow-hidden rounded-[40px] p-5 ring-1"
                 style={{
                   background:
                     "radial-gradient(900px circle at 20% 20%, rgba(11,18,32,0.06), transparent 55%), rgba(255,255,255,0.75)",
@@ -702,19 +691,8 @@ export default function ValueModelPage() {
                 }}
               >
                 <div className="flex items-center justify-between">
-                  <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">
-                    STAGES
-                  </div>
-                  <span
-                    className="rounded-full px-3 py-1 text-xs font-semibold ring-1"
-                    style={{
-                      background: "rgba(11,18,32,0.06)",
-                      borderColor: "rgba(11,18,32,0.10)",
-                      color: "rgba(11,18,32,0.72)",
-                    }}
-                  >
-                    Click to expand
-                  </span>
+                 
+                  
                 </div>
 
                 <div className="mt-6 space-y-3">
@@ -727,7 +705,7 @@ export default function ValueModelPage() {
                         type="button"
                         onClick={() => setActiveStep(s.key)}
                         className={cx(
-                          "group relative w-full overflow-hidden rounded-[28px] p-4 text-left ring-1 transition",
+                          "group relative w-full overflow-hidden rounded-[28px] p-3 sm:p-4 text-left ring-1 transition",
                           active ? "ring-[#0B1220]/16" : "ring-[#0B1220]/10 hover:bg-[#0B1220]/[0.03]"
                         )}
                         style={{
@@ -754,9 +732,6 @@ export default function ValueModelPage() {
                               <span className="text-xs font-semibold text-[#0B1220]/45">
                                 {String(i + 1).padStart(2, "0")}
                               </span>
-                            </div>
-                            <div className="mt-1 text-xs text-[#0B1220]/60" style={clamp(1)}>
-                              {s.detail}
                             </div>
                           </div>
                         </div>
@@ -792,7 +767,7 @@ export default function ValueModelPage() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.99 }}
                   transition={{ duration: 0.45, ease: "easeOut" }}
-                  className="relative overflow-hidden rounded-[40px] p-7 ring-1"
+                  className="relative overflow-hidden rounded-[40px] p-6 ring-1"
                   style={{
                     background:
                       "radial-gradient(900px circle at 20% 20%, rgba(11,18,32,0.06), transparent 55%), rgba(255,255,255,0.75)",
@@ -812,9 +787,7 @@ export default function ValueModelPage() {
                         <activeS.icon className="h-6 w-6" style={{ color: activeS.color }} {...iconStrongProps} />
                       </span>
                       <div>
-                        <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">
-                          EXPANDED STAGE
-                        </div>
+                      
                         <div className="mt-1 text-2xl font-semibold text-[#0B1220]">
                           {activeS.title}
                         </div>
@@ -824,24 +797,10 @@ export default function ValueModelPage() {
                       </div>
                     </div>
 
-                    <div
-                      className="rounded-3xl p-4 ring-1"
-                      style={{
-                        background: "rgba(11,18,32,0.04)",
-                        borderColor: "rgba(11,18,32,0.10)",
-                      }}
-                    >
-                      <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">
-                        OUTPUT SIGNAL
-                      </div>
-                      <div className="mt-2 text-sm font-semibold text-[#0B1220]">
-                        Clear deliverable + evaluation checkpoint
-                      </div>
-                    </div>
                   </div>
 
                   {/* stakeholders (reframed) */}
-                  <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
                     {STAKEHOLDERS.map((s) => {
                       const Icon = s.icon;
                       return (
@@ -886,10 +845,8 @@ export default function ValueModelPage() {
         <div ref={evidenceRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="dark"
-            eyebrow="MEASUREMENT"
             title="Measured. Not assumed."
             subtitle="We track completion, performance, progression, and career movement as evidence — not vibes."
-            highlight="(gauges)"
           />
 
           <div className="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12">
@@ -909,16 +866,10 @@ export default function ValueModelPage() {
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="text-xs font-semibold tracking-widest text-white/60">
-                      KPI PANEL
-                    </div>
-                    <div className="mt-1 text-lg font-semibold text-white">
-                      System Signals
-                    </div>
+                    
+                 
                   </div>
-                  <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                    Mock UI
-                  </span>
+                  
                 </div>
 
                 <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -936,12 +887,7 @@ export default function ValueModelPage() {
 
                 <div className="mt-6 rounded-[34px] bg-white/5 p-5 ring-1 ring-white/10">
                   <div className="flex items-center justify-between">
-                    <div className="text-xs font-semibold tracking-widest text-white/60">
-                      STANDARDS
-                    </div>
-                    <div className="text-xs font-semibold text-white/60">
-                      Alignment layer
-                    </div>
+                   
                   </div>
 
                   <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-white/10">
@@ -962,9 +908,7 @@ export default function ValueModelPage() {
                     </div>
                   </div>
 
-                  <div className="mt-4 text-xs font-semibold tracking-widest text-white/60">
-                    Professional. Structured. Outcome-driven.
-                  </div>
+                
                 </div>
 
                 <div
@@ -1018,7 +962,6 @@ export default function ValueModelPage() {
         <div ref={differenceRef} className="mx-auto max-w-7xl px-5 py-16 sm:py-20">
           <HeaderBlock
             tone="light"
-            eyebrow="DIFFERENTIATOR"
             title="What makes the model different?"
             subtitle="We replace weak signals with structured execution, supervision, and verified outcomes."
           />
@@ -1062,7 +1005,7 @@ export default function ValueModelPage() {
                     Start Your Journey <ArrowRight className="h-4 w-4" {...iconStrongProps} />
                   </a>
                   <a
-                    href="#pillars"
+                    href="/about/partnerships"
                     className="inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/20 transition hover:bg-white/15"
                   >
                     Partner With Us <ArrowRight className="h-4 w-4" {...iconStrongProps} />
@@ -1207,15 +1150,17 @@ function SignalCard({ icon, title, desc, color }) {
 
 function SystemConsole({
   reduce,
-  tabs,
-  tab,
-  setTab,
   activePillar,
-  setActivePillar,
   activeStep,
-  setActiveStep,
 }) {
-  const activeTab = tabs.find((t) => t.key === tab) || tabs[0];
+  const activeP = PILLARS.find((p) => p.key === activePillar) || PILLARS[0];
+  const activeS = PROCESS_STEPS.find((s) => s.key === activeStep) || PROCESS_STEPS[0];
+  const nodes = [
+    { key: "n1", label: PHILOSOPHY_LAYERS[0].label, icon: PHILOSOPHY_LAYERS[0].icon, color: PHILOSOPHY_LAYERS[0].color, x: 8, y: 14 },
+    { key: "n2", label: PHILOSOPHY_LAYERS[1].label, icon: PHILOSOPHY_LAYERS[1].icon, color: PHILOSOPHY_LAYERS[1].color, x: 52, y: 11 },
+    { key: "n3", label: PHILOSOPHY_LAYERS[2].label, icon: PHILOSOPHY_LAYERS[2].icon, color: PHILOSOPHY_LAYERS[2].color, x: 8, y: 50 },
+    { key: "n4", label: PHILOSOPHY_LAYERS[3].label, icon: PHILOSOPHY_LAYERS[3].icon, color: PHILOSOPHY_LAYERS[3].color, x: 52, y: 47 },
+  ];
 
   return (
     <div
@@ -1227,209 +1172,81 @@ function SystemConsole({
       }}
     >
       <div className="absolute inset-0 console-grid opacity-[0.22]" />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(180deg, rgba(11,18,32,0.10) 0%, rgba(11,18,32,0.45) 65%, rgba(11,18,32,0.72) 100%), url('/ai-real-world-careers.webp')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.75,
+        }}
+      />
       <div className="relative p-6 sm:p-8">
         <div className="flex items-center justify-between">
-          <div className="text-xs font-semibold tracking-widest text-white/60">
-            SYSTEM CONSOLE
+        
+         
+        </div>
+
+        <div className="mt-4 relative overflow-hidden rounded-[30px] bg-white/5 ring-1 ring-white/10 p-3 sm:p-4">
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0B1220]/10 to-[#0B1220]/45" />
+          <svg viewBox="0 0 100 75" className="absolute inset-0 h-full w-full">
+            <defs>
+              <linearGradient id="netA" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor={THEME.accent2} />
+                <stop offset="100%" stopColor={THEME.accent} />
+              </linearGradient>
+              <linearGradient id="netB" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor={THEME.accent3} />
+                <stop offset="100%" stopColor={THEME.accent4} />
+              </linearGradient>
+            </defs>
+            <motion.path d="M 18 18 C 33 14, 46 14, 57 14" stroke="url(#netA)" strokeWidth="0.45" fill="none" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.2, ease: "easeOut" }} />
+            <motion.path d="M 18 18 C 17 30, 16 41, 18 53" stroke="url(#netA)" strokeWidth="0.45" fill="none" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.25, delay: 0.1, ease: "easeOut" }} />
+            <motion.path d="M 57 14 C 60 27, 61 37, 58 49" stroke="url(#netB)" strokeWidth="0.45" fill="none" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.2, delay: 0.2, ease: "easeOut" }} />
+            <motion.path d="M 18 53 C 34 58, 47 56, 58 49" stroke="url(#netB)" strokeWidth="0.45" fill="none" strokeLinecap="round" initial={{ pathLength: 0 }} animate={{ pathLength: 1 }} transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }} />
+          </svg>
+
+          <div className="relative h-[260px] sm:h-[300px]">
+            {nodes.map((n, idx) => {
+              const Icon = n.icon;
+              return (
+                <motion.div
+                  key={n.key}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={reduce ? { opacity: 1, y: 0 } : { opacity: [0.94, 1, 0.94], y: [0, -3, 0] }}
+                  transition={{ duration: 3.2 + idx * 0.35, delay: idx * 0.08, repeat: reduce ? 0 : Infinity, ease: "easeInOut" }}
+                  className="absolute w-[42%] min-w-[130px] rounded-2xl bg-[rgba(26,38,67,0.78)] px-3 py-2.5 ring-1 backdrop-blur-md"
+                  style={{
+                    left: `${n.x}%`,
+                    top: `${n.y}%`,
+                    transform: "translate(0%, 0%)",
+                    borderColor: "rgba(255,255,255,0.16)",
+                    boxShadow: "0 22px 55px rgba(0,0,0,0.35)",
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className="inline-flex h-8 w-8 items-center justify-center rounded-xl ring-1" style={{ background: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.20)" }}>
+                      <Icon className="h-4 w-4" style={{ color: n.color }} {...iconStrongProps} />
+                    </span>
+                    <div className="text-[clamp(0.8rem,1vw,0.98rem)] font-semibold leading-tight text-white">{n.label}</div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
-          <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-            Interactive
-          </span>
         </div>
 
-        {/* Tabs */}
-        <div className="mt-6 flex flex-wrap gap-2">
-          {tabs.map((t) => {
-            const Icon = t.icon;
-            const active = t.key === tab;
-            return (
-              <button
-                key={t.key}
-                type="button"
-                onClick={() => setTab(t.key)}
-                className={cx(
-                  "group inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold ring-1 transition",
-                  active ? "text-white" : "text-white/70 hover:bg-white/5"
-                )}
-                style={{
-                  background: active ? `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.72)} 85%)` : "rgba(255,255,255,0.05)",
-                  borderColor: active ? "rgba(201,29,103,0.30)" : "rgba(255,255,255,0.12)",
-                }}
-              >
-                <Icon className="h-4 w-4" style={{ color: active ? "white" : THEME.accent }} {...iconStrongProps} />
-                {t.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Content */}
-        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-12">
-          <div className="lg:col-span-7">
-            <div className="rounded-[34px] bg-white/5 p-5 ring-1 ring-white/10">
-              <div className="flex items-center justify-between">
-                <div className="text-xs font-semibold tracking-widest text-white/60">
-                  VIEW
-                </div>
-                <div className="text-xs font-semibold text-white/60">
-                  {activeTab.label.toUpperCase()}
-                </div>
-              </div>
-
-              <div className="mt-4">
-                <AnimatePresence mode="popLayout">
-                  {tab === "pillars" ? (
-                    <motion.div
-                      key="pillars"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.35, ease: "easeOut" }}
-                      className="space-y-3"
-                    >
-                      {PILLARS.map((p) => {
-                        const Icon = p.icon;
-                        const active = p.key === activePillar;
-                        return (
-                          <button
-                            key={p.key}
-                            type="button"
-                            onClick={() => setActivePillar(p.key)}
-                            className={cx(
-                              "w-full rounded-3xl p-4 text-left ring-1 transition",
-                              active ? "bg-white/10 ring-white/14" : "bg-white/5 ring-white/10 hover:bg-white/7"
-                            )}
-                          >
-                            <div className="flex items-start gap-3">
-                              <IconBadge color={p.accent}>
-                                <Icon className="h-5 w-5" {...iconStrongProps} />
-                              </IconBadge>
-                              <div className="min-w-0">
-                                <div className="flex items-center justify-between gap-3">
-                                  <div className="text-sm font-semibold text-white">{p.title}</div>
-                                  <span className="text-xs text-white/55">{p.bullets.length} signals</span>
-                                </div>
-                                <div className="mt-1 text-xs text-white/60" style={clamp(2)}>
-                                  {p.desc}
-                                </div>
-                              </div>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </motion.div>
-                  ) : null}
-
-                  {tab === "flow" ? (
-                    <motion.div
-                      key="flow"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.35, ease: "easeOut" }}
-                      className="space-y-3"
-                    >
-                      {PROCESS_STEPS.map((s, idx) => {
-                        const Icon = s.icon;
-                        const active = s.key === activeStep;
-                        return (
-                          <button
-                            key={s.key}
-                            type="button"
-                            onClick={() => setActiveStep(s.key)}
-                            className={cx(
-                              "w-full rounded-3xl p-4 text-left ring-1 transition",
-                              active ? "bg-white/10 ring-white/14" : "bg-white/5 ring-white/10 hover:bg-white/7"
-                            )}
-                          >
-                            <div className="flex items-start gap-3">
-                              <span
-                                className="inline-flex h-11 w-11 items-center justify-center rounded-2xl ring-1"
-                                style={{
-                                  background: "rgba(255,255,255,0.06)",
-                                  borderColor: "rgba(255,255,255,0.12)",
-                                }}
-                              >
-                                <Icon className="h-5 w-5" style={{ color: s.color }} {...iconStrongProps} />
-                              </span>
-                              <div className="min-w-0">
-                                <div className="flex items-center justify-between gap-3">
-                                  <div className="text-sm font-semibold text-white">{s.title}</div>
-                                  <span className="text-xs text-white/55">
-                                    {String(idx + 1).padStart(2, "0")}
-                                  </span>
-                                </div>
-                                <div className="mt-1 text-xs text-white/60" style={clamp(2)}>
-                                  {s.detail}
-                                </div>
-                              </div>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </motion.div>
-                  ) : null}
-
-                  {tab === "kpis" ? (
-                    <motion.div
-                      key="kpis"
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 8 }}
-                      transition={{ duration: 0.35, ease: "easeOut" }}
-                      className="grid grid-cols-1 gap-3 sm:grid-cols-2"
-                    >
-                      {METRICS.map((m) => (
-                        <div key={m.label} className="rounded-3xl bg-white/5 p-4 ring-1 ring-white/10">
-                          <div className="flex items-start justify-between gap-3">
-                            <div className="flex items-center gap-3">
-                              <IconBadge color={m.color}>
-                                <m.icon className="h-5 w-5" {...iconStrongProps} />
-                              </IconBadge>
-                              <div>
-                                <div className="text-sm font-semibold text-white">{m.label}</div>
-                                <div className="mt-1 text-xs text-white/60">Tracked signal</div>
-                              </div>
-                            </div>
-                            <div className="text-lg font-semibold text-white">
-                              {m.value}
-                              {m.suffix}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
-              </div>
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {METRICS.map((m) => (
+            <div key={m.label} className="rounded-2xl bg-white/8 p-3 ring-1 ring-white/10 backdrop-blur-sm">
+              <div className="text-xs text-white/60" style={clamp(1)}>{m.label}</div>
+              <div className="mt-1 text-sm font-semibold text-white">{m.value}{m.suffix}</div>
             </div>
-          </div>
-
-          {/* Right: “pulse” visualization */}
-          <div className="lg:col-span-5">
-            <div className="relative overflow-hidden rounded-[34px] bg-white/5 p-5 ring-1 ring-white/10">
-              <div className="flex items-center justify-between">
-                <div className="text-xs font-semibold tracking-widest text-white/60">
-                  SYSTEM PULSE
-                </div>
-                <span className="text-xs font-semibold text-white/60">Signal density</span>
-              </div>
-
-              <div className="mt-4 overflow-hidden rounded-2xl ring-1 ring-white/10">
-                <PulseViz reduce={reduce} />
-              </div>
-
-              <div className="mt-4 text-sm text-white/70">
-                The model enforces structure through milestones, reviews, and measured outputs.
-              </div>
-
-              <div
-                className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full blur-3xl"
-                style={{ background: "rgba(201,29,103,0.10)" }}
-              />
-            </div>
-          </div>
+          ))}
         </div>
+
+       
       </div>
     </div>
   );
@@ -1700,15 +1517,11 @@ function CompareDock({ inView }) {
       <div className="p-6 sm:p-8">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">
-              COMPARISON DOCK
-            </div>
+          
             <div className="mt-1 text-2xl font-semibold text-[#0B1220]">
               Weak signals vs strong proof
             </div>
-            <div className="mt-2 text-sm text-[#0B1220]/70">
-              Toggle the view to see what the model replaces.
-            </div>
+         
           </div>
 
           <div
@@ -1768,9 +1581,7 @@ function CompareDock({ inView }) {
                   }}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">
-                      COMMON PATTERN
-                    </div>
+                   
                     <XCircle className="h-5 w-5" style={{ color: THEME.pink }} {...iconStrongProps} />
                   </div>
                   <div className="mt-2 text-lg font-semibold text-[#0B1220]">
@@ -1819,9 +1630,7 @@ function CompareDock({ inView }) {
                   }}
                 >
                   <div className="flex items-center justify-between">
-                    <div className="text-xs font-semibold tracking-widest text-[#0B1220]/55">
-                      DESIGNED MODEL
-                    </div>
+                  
                     <CheckCircle2 className="h-5 w-5" style={{ color: THEME.accent3 }} {...iconStrongProps} />
                   </div>
                   <div className="mt-2 text-lg font-semibold text-[#0B1220]">

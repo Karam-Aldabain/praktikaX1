@@ -46,13 +46,13 @@ const PAPER_GRAIN_DATA_URI =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E";
 
 const IMAGES = {
-  solution1: "/students.jpg",
-  solution2: "/1740855125000.png",
+  solution1: "/landing-students-graduates.png",
+  solution2: "/landing-students-ai.png",
   solution3:
-    "/2874103474.jpg",
+    "/landing-mentorship.png",
   solution4: "/life.jpg",
   solution5:
-    "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
+    "/landing-universities-companies.png",
   about:
     "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
 };
