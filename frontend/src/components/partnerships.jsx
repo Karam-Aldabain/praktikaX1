@@ -77,6 +77,15 @@ function clampStyle(lines) {
   };
 }
 
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result || ""));
+    reader.onerror = () => reject(new Error("Failed to read file."));
+    reader.readAsDataURL(file);
+  });
+}
+
 /** ---------------- VIEWPORT HOOK ---------------- */
 function useInViewOnce(threshold = 0.2) {
   const ref = useRef(null);
@@ -886,9 +895,12 @@ function WhyPartner() {
 
 /** ---------------- MULTI-STEP FORM (wizard) ---------------- */
 function FormWizard() {
+  const REQUIRED_FIELDS_MESSAGE = "Please fill all required fields.";
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [referenceId, setReferenceId] = useState("");
+  const referenceCounterRef = useRef(0);
   const [validationErrors, setValidationErrors] = useState([]);
 
   const [applicantType, setApplicantType] = useState("University / Educational Institution");
@@ -906,31 +918,34 @@ function FormWizard() {
 
   const [partnership, setPartnership] = useState({
     collab: [],
-    deliveryMode: "Online",
-    participants: "10–25",
-    startTimeline: "Within 1 Month",
+    collabOther: "",
+    deliveryMode: "",
+    participants: "",
+    startTimeline: "",
     objectives: "",
   });
 
   const [expert, setExpert] = useState({
     expertise: [],
     expertiseOther: "",
-    years: "5–10",
+    years: "",
     organization: "",
-    roleType: "Industry Professional",
-    availability: "4–8 Hours",
+    roleType: "",
+    availability: "",
     engagement: [],
-    delivery: "Online",
+    engagementOther: "",
+    delivery: "",
     travel: false,
-    hasMaterial: "Partially",
+    hasMaterial: "",
     contentTypes: [],
+    contentTypesOther: "",
     coDesign: true,
     ledProjects: true,
     projectsDesc: "",
     references: true,
     portfolio: "",
     scholar: "",
-    compensation: "Per Program",
+    compensation: "",
     longTerm: true,
   });
 
@@ -996,6 +1011,9 @@ function FormWizard() {
     if (key === "partnership") {
       const errors = [];
       if (partnership.collab.length === 0) errors.push("Select at least one collaboration type.");
+      if (partnership.collab.includes("Other (Specify)") && !isNonEmpty(partnership.collabOther)) {
+        errors.push("Please specify the other collaboration type.");
+      }
       if (!isNonEmpty(partnership.deliveryMode)) errors.push("Preferred delivery mode is required.");
       if (!isNonEmpty(partnership.participants)) errors.push("Estimated number of participants is required.");
       if (!isNonEmpty(partnership.startTimeline)) errors.push("Expected start timeline is required.");
@@ -1006,6 +1024,12 @@ function FormWizard() {
       const errors = [];
       if (expert.expertise.length === 0) errors.push("Select at least one primary area of expertise.");
       if (expert.engagement.length === 0) errors.push("Select at least one preferred engagement type.");
+      if (expert.engagement.includes("Other (Specify)") && !isNonEmpty(expert.engagementOther)) {
+        errors.push("Please specify the other preferred engagement type.");
+      }
+      if (expert.contentTypes.includes("Other (Specify)") && !isNonEmpty(expert.contentTypesOther)) {
+        errors.push("Please specify the other content type.");
+      }
       if (!isNonEmpty(expert.years)) errors.push("Years of professional experience is required.");
       if (!isNonEmpty(expert.roleType)) errors.push("Role type is required.");
       if (!isNonEmpty(expert.availability)) errors.push("Weekly availability is required.");
@@ -1014,8 +1038,7 @@ function FormWizard() {
       if (!isNonEmpty(expert.projectsDesc)) errors.push("Key projects description is required.");
       if (!isUrl(expert.portfolio)) errors.push("Portfolio URL must start with http:// or https://");
       if (!isNonEmpty(expert.compensation)) errors.push("Preferred collaboration model is required.");
-      if (!uploads.photo) errors.push("Upload Professional Photo is required.");
-      if (!uploads.cv) errors.push("Upload CV (PDF) is required.");
+      if (!uploads.photo?.dataUrl) errors.push("Upload Professional Photo is required.");
       return errors;
     }
 
@@ -1033,7 +1056,7 @@ function FormWizard() {
   function next() {
     const errors = getStepErrors(step);
     if (errors.length) {
-      setValidationErrors(errors);
+      setValidationErrors([REQUIRED_FIELDS_MESSAGE]);
       return;
     }
     setValidationErrors([]);
@@ -1047,16 +1070,16 @@ function FormWizard() {
   useEffect(() => {
     if (!validationErrors.length) return;
     const errors = getStepErrors(step);
-    setValidationErrors((prev) => {
-      if (prev.length === errors.length && prev.every((v, i) => v === errors[i])) {
-        return prev;
-      }
-      return errors;
-    });
-  }, [validationErrors, step, applicantType, basic, partnership, expert, uploads, alignment]);
+    if (!errors.length) {
+      setValidationErrors([]);
+    } else {
+      setValidationErrors([REQUIRED_FIELDS_MESSAGE]);
+    }
+  }, [validationErrors, step, applicantType, basic, partnership, expert, uploads, alignment, REQUIRED_FIELDS_MESSAGE]);
 
   function resetForm() {
     setStep(0);
+    setIsSubmitting(false);
     setApplicantType("University / Educational Institution");
     setBasic({
       fullName: "",
@@ -1070,30 +1093,33 @@ function FormWizard() {
     });
     setPartnership({
       collab: [],
-      deliveryMode: "Online",
-      participants: "10–25",
-      startTimeline: "Within 1 Month",
+      collabOther: "",
+      deliveryMode: "",
+      participants: "",
+      startTimeline: "",
       objectives: "",
     });
     setExpert({
       expertise: [],
       expertiseOther: "",
-      years: "5–10",
+      years: "",
       organization: "",
-      roleType: "Industry Professional",
-      availability: "4–8 Hours",
+      roleType: "",
+      availability: "",
       engagement: [],
-      delivery: "Online",
+      engagementOther: "",
+      delivery: "",
       travel: false,
-      hasMaterial: "Partially",
+      hasMaterial: "",
       contentTypes: [],
+      contentTypesOther: "",
       coDesign: true,
       ledProjects: true,
       projectsDesc: "",
       references: true,
       portfolio: "",
       scholar: "",
-      compensation: "Per Program",
+      compensation: "",
       longTerm: true,
     });
     setUploads({
@@ -1109,14 +1135,22 @@ function FormWizard() {
     });
   }
 
-  function submit() {
-    // hook your API here
-    const ref = String(Math.floor(100000 + Math.random() * 900000));
-    setReferenceId(ref);
+  async function submit() {
+    const errors = getStepErrors(step);
+    if (errors.length) {
+      setValidationErrors([REQUIRED_FIELDS_MESSAGE]);
+      return;
+    }
+
+    setIsSubmitting(true);
     setValidationErrors([]);
+
+    referenceCounterRef.current += 1;
+    setReferenceId(String(referenceCounterRef.current));
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 9000);
     resetForm();
+    setIsSubmitting(false);
   }
 
   return (
@@ -1168,7 +1202,7 @@ function FormWizard() {
                     }
                     const errors = getStepErrors(step);
                     if (errors.length) {
-                      setValidationErrors(errors);
+                      setValidationErrors([REQUIRED_FIELDS_MESSAGE]);
                       return;
                     }
                     setValidationErrors([]);
@@ -1329,24 +1363,33 @@ function FormWizard() {
                 >
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <Field label="Type of collaboration interested in" required hint="Multi-select" className="sm:col-span-2">
-                      <MultiSelect
-                        value={partnership.collab}
-                        onChange={(v) => setPartnership({ ...partnership, collab: v })}
-                        options={[
-                          "Internship Programs (3–6 months)",
-                          "AI Training Programs",
+                          <MultiSelect
+                            value={partnership.collab}
+                            onChange={(v) =>
+                              setPartnership({
+                                ...partnership,
+                                collab: v,
+                                collabOther: v.includes("Other (Specify)") ? partnership.collabOther : "",
+                              })
+                            }
+                            otherValue={partnership.collabOther}
+                            onOtherValueChange={(v) => setPartnership({ ...partnership, collabOther: v })}
+                            options={[
+                              "Internship Programs (3–6 months)",
+                              "AI Training Programs",
                           "Industrial Courses Integration",
                           "Executive Workshops",
                           "Tailored Corporate Programs",
                           "Co-Hosted Programs",
-                          "Strategic Alliance",
-                          "Hiring Initiatives",
-                          "Research Collaboration",
-                        ]}
-                      />
+                              "Strategic Alliance",
+                              "Hiring Initiatives",
+                              "Research Collaboration",
+                              "Other (Specify)",
+                            ]}
+                          />
                     </Field>
 
-                    <Field label="Preferred delivery mode">
+                    <Field label="Preferred delivery mode" required>
                       <Select
                         value={partnership.deliveryMode}
                         onChange={(v) => setPartnership({ ...partnership, deliveryMode: v })}
@@ -1356,7 +1399,7 @@ function FormWizard() {
                       />
                     </Field>
 
-                    <Field label="Estimated number of participants">
+                    <Field label="Estimated number of participants" required>
                       <Select
                         value={partnership.participants}
                         onChange={(v) => setPartnership({ ...partnership, participants: v })}
@@ -1366,7 +1409,7 @@ function FormWizard() {
                       />
                     </Field>
 
-                    <Field label="Expected start timeline">
+                    <Field label="Expected start timeline" required>
                       <Select
                         value={partnership.startTimeline}
                         onChange={(v) => setPartnership({ ...partnership, startTimeline: v })}
@@ -1429,7 +1472,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Years of professional experience">
+                        <Field label="Years of professional experience" required>
                           <Select
                             value={expert.years}
                             onChange={(v) => setExpert({ ...expert, years: v })}
@@ -1439,7 +1482,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Role type">
+                        <Field label="Role type" required>
                           <Select
                             value={expert.roleType}
                             onChange={(v) => setExpert({ ...expert, roleType: v })}
@@ -1449,7 +1492,7 @@ function FormWizard() {
                           />
                         </Field>
 
-                        <Field label="Weekly availability (hours)">
+                        <Field label="Weekly availability (hours)" required>
                           <Select
                             value={expert.availability}
                             onChange={(v) => setExpert({ ...expert, availability: v })}
@@ -1462,7 +1505,15 @@ function FormWizard() {
                         <Field label="Preferred engagement type" required hint="Multi-select" className="sm:col-span-2">
                           <MultiSelect
                             value={expert.engagement}
-                            onChange={(v) => setExpert({ ...expert, engagement: v })}
+                            onChange={(v) =>
+                              setExpert({
+                                ...expert,
+                                engagement: v,
+                                engagementOther: v.includes("Other (Specify)") ? expert.engagementOther : "",
+                              })
+                            }
+                            otherValue={expert.engagementOther}
+                            onOtherValueChange={(v) => setExpert({ ...expert, engagementOther: v })}
                             options={[
                               "Internship Supervision",
                               "1-to-1 Mentorship",
@@ -1471,6 +1522,7 @@ function FormWizard() {
                               "Curriculum Co-Design",
                               "Advisory Board",
                               "Research Supervision",
+                              "Other (Specify)",
                             ]}
                           />
                         </Field>
@@ -1498,7 +1550,15 @@ function FormWizard() {
                         <Field label="Type of content available" hint="Optional" className="sm:col-span-2">
                           <MultiSelect
                             value={expert.contentTypes}
-                            onChange={(v) => setExpert({ ...expert, contentTypes: v })}
+                            onChange={(v) =>
+                              setExpert({
+                                ...expert,
+                                contentTypes: v,
+                                contentTypesOther: v.includes("Other (Specify)") ? expert.contentTypesOther : "",
+                              })
+                            }
+                            otherValue={expert.contentTypesOther}
+                            onOtherValueChange={(v) => setExpert({ ...expert, contentTypesOther: v })}
                             options={[
                               "Course Curriculum",
                               "Slides & Workshops",
@@ -1506,6 +1566,7 @@ function FormWizard() {
                               "Real Industry Projects",
                               "Recorded Sessions",
                               "AI Labs / Technical Modules",
+                              "Other (Specify)",
                             ]}
                           />
                         </Field>
@@ -1633,7 +1694,18 @@ function FormWizard() {
                             </>
                           ) : (
                             <>
-                              Collaboration: <span className="font-semibold">{partnership.collab.join(", ") || "—"}</span>
+                              Collaboration:{" "}
+                              <span className="font-semibold">
+                                {partnership.collab.length
+                                  ? partnership.collab
+                                      .map((item) =>
+                                        item === "Other (Specify)" && partnership.collabOther
+                                          ? `Other: ${partnership.collabOther}`
+                                          : item
+                                      )
+                                      .join(", ")
+                                  : "—"}
+                              </span>
                               <br />
                               Delivery: <span className="font-semibold">{partnership.deliveryMode}</span>
                               <br />
@@ -1693,12 +1765,7 @@ function FormWizard() {
                 }}
               >
                 <div className="font-semibold" style={{ color: THEME.pink }}>
-                  Please fix the following:
-                </div>
-                <div className="mt-1">
-                  {validationErrors.map((err) => (
-                    <div key={err}>- {err}</div>
-                  ))}
+                  {validationErrors[0]}
                 </div>
               </div>
             ) : null}
@@ -1706,12 +1773,13 @@ function FormWizard() {
             <button
               type="button"
               onClick={step === steps.length - 1 ? submit : next}
-              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95"
+              disabled={isSubmitting}
+              className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 disabled:opacity-70"
               style={{
                 background: `linear-gradient(135deg, ${THEME.pink} 0%, ${accent(0.78)} 80%)`,
               }}
             >
-              {step === steps.length - 1 ? "Submit" : "Continue"}
+              {isSubmitting ? "Submitting..." : step === steps.length - 1 ? "Submit" : "Continue"}
               <ChevronRight className="h-4 w-4" {...iconStrongProps} />
             </button>
           </div>
@@ -1850,7 +1918,7 @@ function Textarea(props) {
   );
 }
 
-function Select({ value, onChange, options, icon: Icon, iconColor = THEME.accent }) {
+function Select({ value, onChange, options, icon: Icon, iconColor = THEME.accent, placeholder = "Select" }) {
   const hasIcon = !!Icon;
   return (
     <div className="relative">
@@ -1869,6 +1937,9 @@ function Select({ value, onChange, options, icon: Icon, iconColor = THEME.accent
           hasIcon ? "pl-11" : ""
         )}
       >
+        <option value="" disabled>
+          {placeholder}
+        </option>
         {options.map((o) => (
           <option key={o} value={o}>
             {o}
@@ -1985,7 +2056,6 @@ function FileRow({ uploads, onChange }) {
       />
       <FilePicker
         label="Upload CV (PDF)"
-        required
         file={uploads.cv}
         accept=".pdf,application/pdf"
         onFileChange={(file) => onChange({ ...uploads, cv: file })}
@@ -2003,7 +2073,24 @@ function FilePicker({ label, file, onFileChange, accept, required = false }) {
         type="file"
         accept={accept}
         className="hidden"
-        onChange={(e) => onFileChange(e.target.files?.[0] || null)}
+        onChange={async (e) => {
+          const next = e.target.files?.[0] || null;
+          if (!next) {
+            onFileChange(null);
+            return;
+          }
+          try {
+            const dataUrl = await readFileAsDataUrl(next);
+            onFileChange({
+              name: next.name,
+              size: next.size,
+              type: next.type,
+              dataUrl,
+            });
+          } catch {
+            onFileChange(null);
+          }
+        }}
       />
       <label
         htmlFor={id}
