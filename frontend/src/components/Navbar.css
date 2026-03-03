@@ -801,8 +801,13 @@
 }
 
 .px-header.dark .px-mega {
-  background: color-mix(in srgb, var(--px-sand) 92%, white 8%);
-  border-color: color-mix(in srgb, var(--px-deep) 14%, transparent);
+  background: linear-gradient(
+    180deg,
+    rgba(20, 29, 38, 0.97) 0%,
+    rgba(20, 29, 38, 0.93) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.45);
 }
 
 .px-header.dark .px-megaTop {
@@ -814,12 +819,18 @@
 }
 
 .px-header.dark .px-linkCard {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
 }
 
 .px-header.dark .px-linkCard:hover {
-  background: rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(197, 31, 93, 0.42);
+}
+
+.px-header.dark .px-linkCard.active {
+  border-color: rgba(197, 31, 93, 0.58);
+  box-shadow: 0 0 0 2px rgba(197, 31, 93, 0.24);
 }
 
 .px-header.dark .px-linkLabel {
