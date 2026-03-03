@@ -466,6 +466,56 @@ export default function Navbar({ dir = "ltr" }) {
                           ))}
                         </div>
 
+                                                <a
+                          className="px-promo"
+                          href={activePreview?.href || "#"}
+                          onClick={(e) => {
+                            if (!activePreview?.href) {
+                              e.preventDefault();
+                              return;
+                            }
+                            onNavLink();
+                          }}
+                        >
+                          <div
+                            className="px-promoBody"
+                            key={`${group.id}-${activePreview?.href || "empty"}`}
+                          >
+                            {activePreview ? (
+                              <>
+                                <ItemIcon title={activePreview.iconTitle} active className="promo" />
+                                <div className="px-promoTitle">{activePreview.title}</div>
+                                <div className="px-promoText">{activePreview.text}</div>
+                                {activePreview.children?.length ? (
+                                  <div className="px-promoSubList">
+                                    {activePreview.children.map((sub, subIdx) => (
+                                      <a
+                                        key={sub.href}
+                                        className="px-promoSubLink"
+                                        href={sub.href}
+                                        onClick={onNavLink}
+                                        style={{ animationDelay: `${subIdx * 0.04}s` }}
+                                      >
+                                        <ItemIcon title={sub.label} className="sub" />
+                                        <span>{sub.label}</span>
+                                        <span className="px-promoSubArrow">-&gt;</span>
+                                      </a>
+                                    ))}
+                                  </div>
+                                ) : null}
+                                <div className="px-promoCta">Learn more</div>
+                              </>
+                            ) : (
+                              <>
+                                <div className="px-promoTitle">Hover an item</div>
+                                <div className="px-promoText">
+                                  Select a menu item to preview details and navigate.
+                                </div>
+                                <div className="px-promoCta">Preview panel</div>
+                              </>
+                            )}
+                          </div>
+                        </a>
                       </div>
                     </div>
                   )}
@@ -538,6 +588,27 @@ export default function Navbar({ dir = "ltr" }) {
                             </div>
                           ))}
 
+                          {activePreview ? (
+                            <div className="px-accPreview">
+                              <ItemIcon title={activePreview.iconTitle} active className="promo" />
+                              <div className="px-promoTitle">{activePreview.title}</div>
+                              <div className="px-promoText">{activePreview.text}</div>
+                              {activePreview.children?.length ? (
+                                <div className="px-promoSubList">
+                                  {activePreview.children.map((sub) => (
+                                    <a key={sub.href} className="px-promoSubLink" href={sub.href} onClick={onNavLink}>
+                                      <ItemIcon title={sub.label} className="sub" />
+                                      <span>{sub.label}</span>
+                                      <span className="px-promoSubArrow">-&gt;</span>
+                                    </a>
+                                  ))}
+                                </div>
+                              ) : null}
+                              <a className="px-promoCta" href={activePreview.href || group.promo.href} onClick={onNavLink}>
+                                Learn more
+                              </a>
+                            </div>
+                          ) : null}
                         </div>
                       )}
                     </div>
@@ -561,11 +632,3 @@ export default function Navbar({ dir = "ltr" }) {
     </header>
   );
 }
-
-
-
-
-
-
-
-
